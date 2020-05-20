@@ -1,0 +1,39 @@
+//
+//  VideoConference.pch
+//  VideoConference
+//
+//  Created by SRS on 2020/5/7.
+//  Copyright © 2020 agora. All rights reserved.
+//
+
+#ifndef VideoConference_pch
+#define VideoConference_pch
+
+#ifdef __OBJC__
+
+#import "UIColor+Addition.h"
+#import "UIView+Constraint.h"
+#import "AlertViewUtil.h"
+#import "UIView+Toast.h"
+#import "VCManager.h"
+
+#define kScreenHeight [UIScreen mainScreen].bounds.size.height
+#define kScreenWidth [UIScreen mainScreen].bounds.size.width
+#define WEAK(object) __weak typeof(object) weak##object = object
+#define IsPad (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
+
+#define NoNullString(x) ((x == nil) ? @"" : x)
+#define NoNullArray(x) ((x == nil) ? ([NSArray array]) : x)
+
+// Localized
+#define Localized(des) NSLocalizedString(des, nil)
+
+#ifdef DEBUG
+#define AgoraLog(fmt, ...) NSLog((@"%s [Line %d] " fmt), __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__);
+#else
+#define AgoraLog(...)
+#endif
+
+#endif
+
+#endif /* VideoConference_pch */

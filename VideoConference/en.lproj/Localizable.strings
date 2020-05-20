@@ -1,0 +1,30 @@
+/*
+  Localizable.strings
+  VideoConference
+
+  Created by SRS on 2020/5/8.
+  Copyright © 2020 agora. All rights reserved.
+*/
+
+Audio = "音频";
+Video = "视频";
+Member = "成员";
+IM = "聊天";
+More = "更多";
+
+Invitation = "邀请";
+AllMute = "全体静音";
+MuteAudio = "静音";
+MuteVideo = "关闭视频";
+SetHost = "设为主持人";
+WhiteBoardControl = "共享白板控制";
+RemoveRoom = "移出房间";
+ApplyWhiteBoard = "申请共享白板控制";
+Set = "设置";
+Cancel = "取消";
+
+OKText = "OK";
+UploadLogSuccessText = "upload log successed";
+
+UserNameVerifyEmptyText = "room name and user name can not empty";
+UserNameVerifyText = "room name and user name must be within 20 characters";

@@ -1,0 +1,504 @@
+//
+//  RoomManager.m
+//  AgoraEdu
+//
+//  Created by SRS on 2020/5/5.
+//  Copyright © 2020 agora. All rights reserved.
+//
+
+#import "RoomManager.h"
+#import "RTCManager.h"
+#import "RTMManager.h"
+#import "HttpManager.h"
+#import "LogManager.h"
+#import "URL.h"
+#import "EduConfigModel.h"
+#import "JsonParseUtil.h"
+#import "VideoSessionModel.h"
+
+@interface RoomManager()<RTMManagerDelegate, RTCManagerDelegate>
+
+@property (nonatomic, strong) RTCManager *rtcManager;
+@property (nonatomic, strong) RTMManager *rtmManager;
+@property (nonatomic, strong) NSMutableArray<VideoSessionModel*> *rtcVideoSessionModels;
+
+@property (nonatomic, strong) BaseConfigModel *baseConfigModel;
+@property (nonatomic, assign) SceneType sceneType;
+
+@end
+
+@implementation RoomManager
+
+- (instancetype)init {
+    NSAssert(1 == 0, @"inti must use: initWithSceneType");
+    return self;
+}
+
+- (instancetype)initWithSceneType:(SceneType)type appId:(NSString *)appId authorization:(NSString *)authorization configModel:(BaseConfigModel *)configModel {
+    if (self = [super init]) {
+        self.coUserModels = [NSArray array];
+        self.rtcVideoSessionModels = [NSMutableArray array];
+        self.sceneType = type;
+        self.baseConfigModel = configModel;
+        [HttpManager saveHttpHeader2:authorization];
+        [HttpManager saveSceneType:type];
+    }
+    return self;
+}
+
+#pragma mark entry room start
+- (void)entryEduSaaSRoomWithParams:(EduSaaSEntryParams *)params successBolck:(void (^)(void))successBlock failBlock:(void (^ _Nullable) (NSError *error))failBlock {
+    
+//    self.baseConfigModel.userName = params.userName;
+//    self.baseConfigModel.password = params.password;
+//
+//    [self enterRoomProcess:params successBolck:successBlock failBlock:failBlock];
+}
+
+- (void)enterRoomProcess:(EntryParams *)params configApiVersion:(NSString*)configApiVersion entryApiVersion:(NSString*)entryApiVersion roomInfoApiVersion:(NSString*)roomInfoApiVersion successBolck:(void (^)(id roomInfoModel))successBlock failBlock:(void (^ _Nullable) (NSError *error))failBlock {
+    
+    WEAK(self);
+    [self getConfigWithApiVersion:configApiVersion successBolck:^{
+        [weakself getEntryInfoWithParams:params apiVersion:entryApiVersion successBolck:^{
+            [weakself getRoomInfoWithApiversion:roomInfoApiVersion successBlock:successBlock failBlock:failBlock];
+        } failBlock:failBlock];
+    } failBlock:failBlock];
+}
+#pragma mark entry room end
+
+- (void)initMediaWithClientRole:(ClientRole)role successBolck:(void (^)(void))successBlock failBlock:(void (^ _Nullable) (NSInteger errorCode))failBlock {
+    
+    // gcd group
+    WEAK(self);
+    [self setupRTMWithSuccessBolck:^{
+        [weakself setupRTCWithClientRole:role successBolck:^{
+            if(successBlock != nil){
+               successBlock();
+            }
+        } failBlock:^(NSInteger errorCode) {
+            if(failBlock != nil){
+               failBlock(errorCode);
+            }
+        }];
+    } failBlock:^(NSInteger errorCode) {
+        if(failBlock != nil){
+           failBlock(errorCode);
+        }
+    }];
+}
+
+- (void)sendMessageWithText:(NSString *)message apiversion:(NSString *)apiversion successBolck:(void (^ _Nullable) (void))successBlock completeFailBlock:(void (^ _Nullable) (NSError *error))failBlock {
+    
+    NSString *appId = self.baseConfigModel.appId;
+    NSString *roomId = self.baseConfigModel.roomId;
+    
+    WEAK(self);
+    [HttpManager sendMessageWithType:MessageTypeText appId:appId roomId:roomId message:message apiVersion:apiversion successBolck:^{
+        
+        if(successBlock != nil){
+           successBlock();
+        }
+    } completeFailBlock:^(NSError * _Nonnull error) {
+        if(failBlock != nil){
+           failBlock([weakself httpErrorMessage:error]);
+        }
+    }];
+}
+
+- (void)addVideoCanvasWithUId:(NSUInteger)uid inView:(UIView *)view {
+    
+    VideoSessionModel *currentSessionModel;
+    VideoSessionModel *removeSessionModel;
+    for (VideoSessionModel *videoSessionModel in self.rtcVideoSessionModels) {
+        // view rerender
+        if(videoSessionModel.videoCanvas.view == view){
+            videoSessionModel.videoCanvas.view = nil;
+            if(videoSessionModel.uid == self.baseConfigModel.uid) {
+                [self.rtcManager setupLocalVideo:videoSessionModel.videoCanvas];
+            } else {
+                [self.rtcManager setupRemoteVideo:videoSessionModel.videoCanvas];
+            }
+            removeSessionModel = videoSessionModel;
+
+        } else if(videoSessionModel.uid == uid){
+            videoSessionModel.videoCanvas.view = nil;
+            if(videoSessionModel.uid == self.baseConfigModel.uid) {
+                [self.rtcManager setupLocalVideo:videoSessionModel.videoCanvas];
+            } else {
+                [self.rtcManager setupRemoteVideo:videoSessionModel.videoCanvas];
+            }
+            currentSessionModel = videoSessionModel;
+        }
+    }
+    if(removeSessionModel != nil){
+        [self.rtcVideoSessionModels removeObject:removeSessionModel];
+    }
+    if(currentSessionModel != nil){
+        [self.rtcVideoSessionModels removeObject:currentSessionModel];
+    }
+    
+    AgoraRtcVideoCanvas *videoCanvas = [[AgoraRtcVideoCanvas alloc] init];
+    videoCanvas.uid = uid;
+    videoCanvas.view = view;
+    videoCanvas.renderMode = AgoraVideoRenderModeHidden;
+    if(uid == self.baseConfigModel.uid) {
+        [self.rtcManager setupLocalVideo: videoCanvas];
+    } else {
+        [self.rtcManager setupRemoteVideo: videoCanvas];
+    }
+    
+    VideoSessionModel *videoSessionModel = [VideoSessionModel new];
+    videoSessionModel.uid = uid;
+    videoSessionModel.videoCanvas = videoCanvas;
+    [self.rtcVideoSessionModels addObject:videoSessionModel];
+    
+    // low stream
+//    if(self.baseConfigModel.sceneType == 1) {
+//        if(uid != self.baseConfigModel.uid) {
+//            [self.rtcManager setRemoteVideoStream:uid type:AgoraVideoStreamTypeLow];
+//        }
+//    }
+    
+    // role
+    if(uid == self.baseConfigModel.uid) {
+        [self.rtcManager setClientRole:AgoraClientRoleBroadcaster];
+    }
+}
+
+- (void)removeVideoCanvasWithUId:(NSUInteger)uid {
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"uid == %d", uid];
+    NSArray<VideoSessionModel *> *filteredArray = [self.rtcVideoSessionModels filteredArrayUsingPredicate:predicate];
+    if(filteredArray > 0) {
+        VideoSessionModel *model = filteredArray.firstObject;
+        model.videoCanvas.view = nil;
+        if(uid == self.baseConfigModel.uid) {
+            [self.rtcManager setupLocalVideo:model.videoCanvas];
+            [self.rtcManager setClientRole:AgoraClientRoleAudience];
+        } else {
+            [self.rtcManager setupRemoteVideo:model.videoCanvas];
+        }
+        [self.rtcVideoSessionModels removeObject:model];
+    }
+}
+
+- (void)updateUserInfoWithValue:(BOOL)enable enableSignalType:(EnableSignalType)type apiversion:(NSString *)apiversion successBolck:(void (^)(void))successBlock failBlock:(void (^ _Nullable) (NSError *error))failBlock {
+    
+    WEAK(self);
+    
+    NSString *appId = self.baseConfigModel.appId;
+    NSString *roomId = self.baseConfigModel.roomId;
+    NSString *userId = self.baseConfigModel.userId;
+    [HttpManager updateUserInfoWithValue:enable enableSignalType:type appId:appId roomId:roomId userId:userId apiVersion:apiversion completeSuccessBlock:^{
+        
+        // 更新数据
+        if(type == EnableSignalTypeChat){
+            weakself.ownModel.enableChat = enable;
+            for (EduUserModel *model in weakself.coUserModels) {
+                if(model.uid == weakself.ownModel.uid){
+                    model.enableChat = enable;
+                    break;
+                }
+            }
+        } else if(type == EnableSignalTypeAudio){
+            weakself.ownModel.enableAudio = enable;
+            [weakself muteLocalAudioStream:@(!enable)];
+            for (EduUserModel *model in weakself.coUserModels) {
+                if(model.uid == weakself.ownModel.uid){
+                    model.enableAudio = enable;
+                    break;
+                }
+            }
+        } else if(type == EnableSignalTypeVideo){
+            weakself.ownModel.enableVideo = enable;
+            [weakself muteLocalVideoStream:@(!enable)];
+            for (EduUserModel *model in weakself.coUserModels) {
+                if(model.uid == weakself.ownModel.uid){
+                    model.enableVideo = enable;
+                    break;
+                }
+            }
+        }
+        if(successBlock != nil){
+           successBlock();
+        }
+    } completeFailBlock:^(NSError * _Nonnull error) {
+        if(failBlock != nil){
+           failBlock([weakself httpErrorMessage:error]);
+        }
+    }];
+}
+
+- (void)sendCoVideoWithType:(SignalLinkState)linkState userIds:(NSArray<NSString *> *)userIds apiversion:(NSString *)apiversion successBolck:(void (^ _Nullable) (void))successBlock completeFailBlock:(void (^ _Nullable) (NSError *error))failBlock {
+    
+    if(linkState == SignalLinkStateIdle) {
+        return;
+    }
+    
+    NSString *appId = self.baseConfigModel.appId;
+    NSString *roomId = self.baseConfigModel.roomId;
+    WEAK(self);
+    [HttpManager sendCoVideoWithType:linkState appId:appId roomId:roomId userIds:userIds apiVersion:apiversion successBolck:^{
+        if(successBlock != nil) {
+            successBlock();
+        }
+    } completeFailBlock:^(NSError * _Nonnull error) {
+        if(failBlock != nil) {
+            failBlock([weakself httpErrorMessage:error]);
+        }
+    }];
+}
+
+- (void)uploadLogWithApiversion:(NSString *)apiversion successBlock:(void (^ _Nullable) (NSString *uploadSerialNumber))successBlock failBlock:(void (^ _Nullable) (NSError *error))failBlock {
+    
+    NSString *appId = self.baseConfigModel.appId;
+    NSString *roomId = self.baseConfigModel.roomId;
+    WEAK(self);
+    [LogManager uploadLogWithAppId:appId roomId:roomId apiVersion:apiversion completeSuccessBlock:^(NSString * _Nonnull uploadSerialNumber) {
+        if(successBlock != nil){
+           successBlock(uploadSerialNumber);
+        }
+    } completeFailBlock:^(NSError * _Nonnull error) {
+        if(failBlock != nil){
+           failBlock([weakself httpErrorMessage:error]);
+        }
+    }];
+}
+
+- (void)getWhiteInfoWithApiversion:(NSString *)apiversion successBlock:(void (^ _Nullable) (WhiteInfoModel * model))successBlock failBlock:(void (^ _Nullable) (NSError *error))failBlock {
+    
+    NSString *appId = self.baseConfigModel.appId;
+    NSString *roomId = self.baseConfigModel.roomId;
+    WEAK(self);
+    [HttpManager getWhiteInfoWithAppId:appId roomId:roomId apiVersion:apiversion completeSuccessBlock:^(WhiteInfoModel * _Nonnull model) {
+        if(successBlock != nil){
+           successBlock(model);
+        }
+    } completeFailBlock:^(NSError * _Nonnull error) {
+        if(failBlock != nil){
+           failBlock([weakself httpErrorMessage:error]);
+        }
+    }];
+}
+
+- (void)getReplayInfoWithRecordId:(NSString*)recordId apiversion:(NSString *)apiversion successBlock:(void (^ _Nullable) (ReplayInfoModel * model))successBlock failBlock:(void (^ _Nullable) (NSError *error))failBlock {
+    
+    NSString *appId = self.baseConfigModel.appId;
+    NSString *roomId = self.baseConfigModel.roomId;
+    WEAK(self);
+    [HttpManager getReplayInfoWithAppId:appId roomId:roomId recordId:recordId apiVersion:apiversion completeSuccessBlock:^(ReplayInfoModel * _Nonnull model) {
+        
+        model.boardId = self.baseConfigModel.boardId;
+        model.boardToken = self.baseConfigModel.boardToken;
+        if(successBlock != nil){
+           successBlock(model);
+        }
+        
+    } completeFailBlock:^(NSError * _Nonnull error) {
+        if(failBlock != nil){
+           failBlock([weakself httpErrorMessage:error]);
+        }
+    }];
+}
+
+- (void)leftRoomWithApiversion:(NSString *)apiversion successBolck:(void (^ _Nullable)(void))successBlock failBlock:(void (^ _Nullable) (NSError *error))failBlock {
+    
+    NSString *appId = self.baseConfigModel.appId;
+    NSString *roomId = self.baseConfigModel.roomId;
+    WEAK(self);
+    [HttpManager leftRoomWithAppId:appId roomId:roomId apiVersion:apiversion  successBolck:^{
+        if(successBlock != nil){
+           successBlock();
+        }
+    } completeFailBlock:^(NSError * _Nonnull error) {
+        if(failBlock != nil){
+           failBlock([weakself httpErrorMessage:error]);
+        }
+    }];
+}
+
+- (void)releaseResource {
+    
+    for (VideoSessionModel *model in self.rtcVideoSessionModels){
+        model.videoCanvas.view = nil;
+        if(model.uid == self.baseConfigModel.uid) {
+            [self.rtcManager setupLocalVideo:model.videoCanvas];
+        } else {
+            [self.rtcManager setupRemoteVideo:model.videoCanvas];
+        }
+    }
+    [self.rtcVideoSessionModels removeAllObjects];
+    
+    [self.rtmManager releaseSignalResources];
+    [self.rtcManager releaseRTCResources];
+    
+    self.hostModel = nil;
+    self.ownModel = nil;
+    self.roomModel = nil;
+    self.shareScreenInfoModel = nil;
+    
+    self.coUserModels = [NSArray array];
+    self.rtcVideoSessionModels = [NSMutableArray array];
+}
+
+- (void)dealloc {
+    [self releaseResource];
+}
+
+#pragma mark EnterClassProcess
+- (void)getConfigWithApiVersion:(NSString*)apiVersion successBolck:(void (^)(void))successBlock failBlock:(void (^ _Nullable) (NSError *error))failBlock {
+    
+    if(self.baseConfigModel.multiLanguage != nil){
+        if(successBlock != nil){
+           successBlock();
+        }
+        return;
+    }
+
+    WEAK(self);
+    [HttpManager getConfigWithApiVersion:apiVersion successBolck:^(ConfigAllInfoModel * _Nonnull model) {
+        
+        self.baseConfigModel.multiLanguage = model.configInfoModel.multiLanguage;
+        if(successBlock != nil){
+            successBlock();
+        }
+        
+    } completeFailBlock:^(NSError * _Nonnull error) {
+        if(failBlock != nil) {
+            failBlock([weakself httpErrorMessage:error]);
+        }
+    }];
+}
+
+- (void)getEntryInfoWithParams:(EntryParams *)params apiVersion:(NSString *)apiVersion successBolck:(void (^)(void))successBlock failBlock:(void (^ _Nullable) (NSError *error))failBlock {
+
+    WEAK(self);
+    [HttpManager enterRoomWithParams:params appId:self.baseConfigModel.appId apiVersion:apiVersion successBolck:^(EnterRoomInfoModel * _Nonnull model) {
+        
+        if(weakself.sceneType == SceneTypeEducation || weakself.sceneType == SceneTypeConference){
+            weakself.baseConfigModel.userToken = model.userToken;
+            weakself.baseConfigModel.roomId = model.roomId;
+        } else {
+            weakself.baseConfigModel.userToken = model.user.userToken;
+            weakself.baseConfigModel.roomId = model.room.roomId;
+        }
+
+        if(successBlock != nil){
+            successBlock();
+        }
+        
+    } completeFailBlock:^(NSError * _Nonnull error) {
+        if(failBlock != nil) {
+            failBlock([weakself httpErrorMessage:error]);
+        }
+    }];
+}
+
+- (void)getRoomInfoWithApiversion:(NSString *)apiversion successBlock:(void (^)(id roomInfoModel))successBlock failBlock:(void (^ _Nullable) (NSError *error))failBlock {
+    
+    NSString *appId = self.baseConfigModel.appId;
+    NSString *roomId = self.baseConfigModel.roomId;
+
+    WEAK(self);
+    [HttpManager getRoomInfoWithAppId:appId roomId:roomId apiVersion:apiversion completeSuccessBlock:^(id _Nonnull responseModel) {
+        if(successBlock != nil){
+            successBlock(responseModel);
+        }
+    } completeFailBlock:^(NSError * _Nonnull error) {
+       if(failBlock != nil) {
+           failBlock([weakself httpErrorMessage:error]);
+       }
+    }];
+}
+
+- (void)updateRoomInfoWithValue:(BOOL)enable enableSignalType:(ConfEnableRoomSignalType)type apiversion:(NSString *)apiversion successBolck:(void (^)(void))successBlock failBlock:(void (^ _Nullable) (NSError *error))failBlock {
+    
+    WEAK(self);
+    
+    NSString *appId = self.baseConfigModel.appId;
+    NSString *roomId = self.baseConfigModel.roomId;
+    [HttpManager updateRoomInfoWithValue:enable enableSignalType:type appId:appId roomId:roomId apiVersion:APIVersion1 completeSuccessBlock:^{
+        if(successBlock != nil){
+            successBlock();
+        }
+    } completeFailBlock:^(NSError * _Nonnull error) {
+        if(failBlock != nil){
+           failBlock([weakself httpErrorMessage:error]);
+        }
+    }];
+}
+
+#pragma mark Private init Media
+- (void)setupRTMWithSuccessBolck:(void (^)(void))successBlock failBlock:(void (^ _Nullable) (NSInteger errorCode))failBlock{
+
+    NSString *appid = self.baseConfigModel.appId;
+    NSString *appToken = self.baseConfigModel.rtmToken;
+    NSString *uid = @(self.baseConfigModel.uid).stringValue;
+
+    self.rtmManager = [RTMManager new];
+    [self.rtmManager initSignalWithAppid:appid appToken:appToken userId:uid dataSourceDelegate:self completeSuccessBlock:^{
+        
+        if(successBlock != nil){
+           successBlock();
+        }
+    } completeFailBlock:^(NSInteger errorCode) {
+        if(failBlock != nil){
+           failBlock(errorCode);
+        }
+    }];
+}
+- (void)setupRTCWithClientRole:(ClientRole)role successBolck:(void (^)(void))successBlock failBlock:(void (^ _Nullable) (NSInteger errorCode))failBlock {
+    
+    AgoraClientRole agoraClientRole = AgoraClientRoleAudience;
+    if (role == ClientRoleAudience) {
+        agoraClientRole = AgoraClientRoleAudience;
+    } else if(role == ClientRoleBroadcaster) {
+        agoraClientRole = AgoraClientRoleBroadcaster;
+    }
+    
+    BaseConfigModel *configModel = self.baseConfigModel;
+    [self.rtcManager initEngineKitWithAppid:configModel.appId clientRole:agoraClientRole dataSourceDelegate:self];
+    
+    int errorCode = [self.rtcManager joinChannelByToken:configModel.rtcToken channelId:configModel.channelName info:nil uid:configModel.uid joinSuccess:^(NSString * _Nonnull channel, NSUInteger uid, NSInteger elapsed) {
+        if(successBlock != nil){
+           successBlock();
+        }
+    }];
+    if(errorCode < 0){
+        if(failBlock != nil){
+           failBlock(errorCode);
+        }
+    }
+}
+
+#pragma mark Private mute media
+- (void)muteLocalAudioStream:(NSNumber *)mute {
+    [self.rtcManager muteLocalAudioStream:mute.boolValue];
+}
+- (void)muteLocalVideoStream:(NSNumber *)mute {
+    [self.rtcManager muteLocalVideoStream:mute.boolValue];
+}
+
+#pragma mark Private Http Describe
+- (NSError *)httpErrorMessage:(NSError *)error {
+    
+    NSInteger errorCode = error.code;
+    
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    NSArray<NSString*> *allLanguages = [defaults objectForKey:@"AppleLanguages"];
+    NSString *preferredLang = [allLanguages objectAtIndex:0];
+    NSString *msg = @"";
+    if([preferredLang containsString:@"zh-Hans"]) {
+        msg = [self.baseConfigModel.multiLanguage.cn valueForKey:@(errorCode).stringValue];
+    } else {
+        msg = [self.baseConfigModel.multiLanguage.en valueForKey:@(errorCode).stringValue];
+    }
+    if(msg == nil || msg.length == 0) {
+        msg = error.localizedDescription;
+    }
+    
+    NSError *localError = LocalError(errorCode, msg);
+    return localError;
+}
+
+
+@end
