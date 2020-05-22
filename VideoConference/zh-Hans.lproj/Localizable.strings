@@ -28,3 +28,6 @@ UploadLogSuccessText = "日志上报成功";
 
 UserNameVerifyEmptyText = "房间名、用户名不能为空";
 UserNameVerifyText = "房间名、用户名最多为20个字符";
+
+ColorPickerText = " 选择颜色";
+JoinMediaFailedText = "加入媒体失败";

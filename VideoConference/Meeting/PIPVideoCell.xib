@@ -18,33 +18,114 @@
                 <subviews>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="6rl-FV-MGv">
                         <rect key="frame" x="0.0" y="0.0" width="300" height="500"/>
+                        <subviews>
+                            <imageView hidden="YES" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="yUV-mK-g03">
+                                <rect key="frame" x="114" y="214" width="72" height="72"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="72" id="N5l-tx-VQC"/>
+                                    <constraint firstAttribute="width" constant="72" id="VLy-Zv-KHz"/>
+                                </constraints>
+                            </imageView>
+                        </subviews>
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <color key="tintColor" red="0.5450980392" green="0.57254901960000004" blue="0.66274509800000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstItem="yUV-mK-g03" firstAttribute="centerY" secondItem="6rl-FV-MGv" secondAttribute="centerY" id="93F-xn-iFF"/>
+                            <constraint firstItem="yUV-mK-g03" firstAttribute="centerX" secondItem="6rl-FV-MGv" secondAttribute="centerX" id="Lst-PX-NAV"/>
+                        </constraints>
                     </view>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="XXk-EW-KnL">
                         <rect key="frame" x="195" y="20" width="90" height="90"/>
-                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstAttribute="height" constant="90" id="JNm-YY-K14"/>
                             <constraint firstAttribute="width" constant="90" id="Kz7-QV-0fA"/>
                         </constraints>
                     </view>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="vP8-IB-Met">
+                        <rect key="frame" x="0.0" y="130" width="300" height="240"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                    </view>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="00O-1d-Kux" customClass="EEWhiteboardTool">
+                        <rect key="frame" x="15" y="396" width="214" height="46"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="214" id="ge0-pH-6Fc"/>
+                            <constraint firstAttribute="height" constant="46" id="kRB-xh-eiF"/>
+                        </constraints>
+                    </view>
+                    <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="4Ql-oX-1kf" customClass="EEColorShowView">
+                        <rect key="frame" x="30" y="270" width="220" height="124"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="124" id="1Tv-CE-tqG"/>
+                            <constraint firstAttribute="width" constant="220" id="uU4-Sk-8Dr"/>
+                        </constraints>
+                    </view>
+                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="k8S-e4-wRe">
+                        <rect key="frame" x="185" y="400" width="100" height="30"/>
+                        <color key="backgroundColor" red="0.30196078431372547" green="0.63137254901960782" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="30" id="BIP-Ec-QvF"/>
+                            <constraint firstAttribute="width" constant="100" id="eiq-qr-W6h"/>
+                        </constraints>
+                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                        <state key="normal" title="申请白板互动">
+                            <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        </state>
+                        <connections>
+                            <action selector="appleBoard:" destination="gTV-IL-0wX" eventType="touchUpInside" id="8v3-DL-f6Q"/>
+                        </connections>
+                    </button>
+                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="uCj-MA-KbF">
+                        <rect key="frame" x="185" y="400" width="100" height="30"/>
+                        <color key="backgroundColor" red="0.30196078430000001" green="0.63137254899999995" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="30" id="VTg-uX-3uw"/>
+                            <constraint firstAttribute="width" constant="100" id="mR4-Xa-AUa"/>
+                        </constraints>
+                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                        <state key="normal" title="结束白板互动">
+                            <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        </state>
+                        <connections>
+                            <action selector="endBoard:" destination="gTV-IL-0wX" eventType="touchUpInside" id="hzZ-43-l5Z"/>
+                        </connections>
+                    </button>
                 </subviews>
             </view>
             <color key="backgroundColor" red="0.32156862745098036" green="0.32549019607843138" blue="0.32549019607843138" alpha="1" colorSpace="calibratedRGB"/>
             <constraints>
+                <constraint firstAttribute="bottom" secondItem="vP8-IB-Met" secondAttribute="bottom" constant="130" id="4hV-YR-hYY"/>
+                <constraint firstItem="vP8-IB-Met" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" constant="130" id="B0M-0e-vRn"/>
+                <constraint firstAttribute="trailing" secondItem="k8S-e4-wRe" secondAttribute="trailing" constant="15" id="FlC-rq-ZMK"/>
                 <constraint firstAttribute="trailing" secondItem="6rl-FV-MGv" secondAttribute="trailing" id="JMJ-Bh-y9G"/>
+                <constraint firstItem="00O-1d-Kux" firstAttribute="top" secondItem="4Ql-oX-1kf" secondAttribute="bottom" constant="2" id="QnI-jM-KYN"/>
+                <constraint firstAttribute="trailing" secondItem="uCj-MA-KbF" secondAttribute="trailing" constant="15" id="Xa5-vx-LcK"/>
+                <constraint firstItem="00O-1d-Kux" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" constant="15" id="YhG-HD-nSn"/>
                 <constraint firstAttribute="bottom" secondItem="6rl-FV-MGv" secondAttribute="bottom" id="ag1-CI-qbj"/>
+                <constraint firstItem="k8S-e4-wRe" firstAttribute="top" secondItem="vP8-IB-Met" secondAttribute="bottom" constant="30" id="gRj-pt-bbb"/>
+                <constraint firstItem="4Ql-oX-1kf" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" constant="30" id="i9b-iC-A8y"/>
+                <constraint firstAttribute="trailing" secondItem="vP8-IB-Met" secondAttribute="trailing" id="im4-mN-Iyf"/>
                 <constraint firstItem="XXk-EW-KnL" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" constant="20" id="jGZ-5s-udk"/>
+                <constraint firstItem="uCj-MA-KbF" firstAttribute="top" secondItem="vP8-IB-Met" secondAttribute="bottom" constant="30" id="mt3-ub-URL"/>
                 <constraint firstAttribute="trailing" secondItem="XXk-EW-KnL" secondAttribute="trailing" constant="15" id="ocN-QO-T7t"/>
+                <constraint firstItem="vP8-IB-Met" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" id="rJE-vT-Hgd"/>
                 <constraint firstItem="6rl-FV-MGv" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" id="wyI-4w-B94"/>
+                <constraint firstItem="00O-1d-Kux" firstAttribute="top" secondItem="vP8-IB-Met" secondAttribute="bottom" constant="26" id="yhm-gY-RLX"/>
                 <constraint firstItem="6rl-FV-MGv" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" id="zME-gI-OqQ"/>
             </constraints>
             <connections>
+                <outlet property="applyBtn" destination="k8S-e4-wRe" id="dsc-Ca-7E5"/>
+                <outlet property="endBtn" destination="uCj-MA-KbF" id="sdl-ee-9bi"/>
+                <outlet property="imgView" destination="yUV-mK-g03" id="WNQ-RJ-YpZ"/>
                 <outlet property="localView" destination="XXk-EW-KnL" id="yKA-ev-xeR"/>
                 <outlet property="remoteView" destination="6rl-FV-MGv" id="NbU-CX-QGA"/>
+                <outlet property="shareView" destination="vP8-IB-Met" id="Ezf-YS-yg2"/>
+                <outlet property="whiteboardColor" destination="4Ql-oX-1kf" id="3Yc-yh-kAV"/>
+                <outlet property="whiteboardTool" destination="00O-1d-Kux" id="1YN-HJ-wvP"/>
             </connections>
-            <point key="canvasLocation" x="139" y="81"/>
+            <point key="canvasLocation" x="137.68115942028987" y="80.357142857142847"/>
         </collectionViewCell>
     </objects>
 </document>

@@ -34,6 +34,12 @@
     return self;
 }
 
+// init media
+- (void)initMediaWithClientRole:(ClientRole)role successBolck:(void (^)(void))successBlock failBlock:(void (^ _Nullable) (NSInteger errorCode))failBlock {
+    
+    [self.roomManager initMediaWithClientRole:role successBolck:successBlock failBlock:failBlock];
+}
+
 - (void)entryEduRoomWithParams:(EduEntryParams *)params successBolck:(void (^ )(void))successBlock failBlock:(void (^ _Nullable) (NSError *error))failBlock {
     
     EduConfigModel.shareInstance.userName = params.userName;
@@ -66,6 +72,44 @@
     } failBlock:failBlock];
 }
 
+//  update users info
+- (void)updateUserInfoWithValue:(BOOL)enable enableSignalType:(EnableSignalType)type successBolck:(void (^)(void))successBlock failBlock:(void (^ _Nullable) (NSError *error))failBlock {
+    
+    NSString *userId = EduConfigModel.shareInstance.userId;
+    
+    WEAK(self);
+    [self.roomManager updateUserInfoWithUserId:userId value:enable enableSignalType:type apiversion:APIVersion1 successBolck:^{
+        // 更新数据
+        if(type == EnableSignalTypeChat){
+            weakself.ownModel.enableChat = enable;
+            for (EduUserModel *model in weakself.coStudentModels) {
+                if(model.uid == weakself.ownModel.uid){
+                    model.enableChat = enable;
+                    break;
+                }
+            }
+        } else if(type == EnableSignalTypeAudio){
+            weakself.ownModel.enableAudio = enable;
+            [weakself.roomManager muteLocalAudioStream:@(!enable)];
+            for (EduUserModel *model in weakself.coStudentModels) {
+                if(model.uid == weakself.ownModel.uid){
+                    model.enableAudio = enable;
+                    break;
+                }
+            }
+        } else if(type == EnableSignalTypeVideo){
+            weakself.ownModel.enableVideo = enable;
+            [weakself.roomManager muteLocalVideoStream:@(!enable)];
+            for (EduUserModel *model in weakself.coStudentModels) {
+                if(model.uid == weakself.ownModel.uid){
+                    model.enableVideo = enable;
+                    break;
+                }
+            }
+        }
+    } failBlock:failBlock];
+}
+
 - (void)uploadLogWithSuccessBlock:(void (^ _Nullable) (NSString *uploadSerialNumber))successBlock failBlock:(void (^ _Nullable) (NSError *error))failBlock {
    [self.roomManager uploadLogWithApiversion:APIVersion1 successBlock:successBlock failBlock:failBlock];
 }
@@ -77,6 +121,19 @@
 
 - (void)leftRoomWithSuccessBolck:(void (^ _Nullable)(void))successBlock failBlock:(void (^ _Nullable) (NSError *error))failBlock {
     [self.roomManager leftRoomWithApiversion:APIVersion1 successBolck:successBlock failBlock:failBlock];
+}
+
+- (void)getWhiteInfoWithSuccessBlock:(void (^ _Nullable) (WhiteInfoModel * model))successBlock failBlock:(void (^ _Nullable) (NSError *error))failBlock {
+    
+    [self.roomManager getWhiteInfoWithApiversion:APIVersion1 successBlock:successBlock failBlock:failBlock];
+}
+
+- (NSInteger)submitRating:(NSInteger)rating {
+    return [self.roomManager submitRating:rating];
+}
+
+- (NSInteger)switchCamera {
+    return [self.roomManager switchCamera];
 }
 
 - (void)releaseResource {
@@ -100,6 +157,7 @@
     EduConfigModel.shareInstance.roomName = roomInfoModel.room.roomName;
     EduConfigModel.shareInstance.sceneType = roomInfoModel.room.type;
     EduConfigModel.shareInstance.rtmToken = roomInfoModel.localUser.rtmToken;
+    EduConfigModel.shareInstance.rtcToken = roomInfoModel.localUser.rtcToken;
     EduConfigModel.shareInstance.channelName = roomInfoModel.room.channelName;
     
     self.roomModel = roomInfoModel.room;
@@ -118,5 +176,15 @@
     self.coStudentModels =  [NSArray arrayWithArray:array];
 }
 
+// Canvas
+- (void)addVideoCanvasWithUId:(NSUInteger)uid inView:(UIView *)view {
+    [self.roomManager addVideoCanvasWithUId:uid inView:view];
+}
+- (void)removeVideoCanvasWithUId:(NSUInteger)uid {
+    [self.roomManager removeVideoCanvasWithUId:uid];
+}
+- (void)removeVideoCanvasWithView:(UIView *)view {
+    [self.roomManager removeVideoCanvasWithView:view];
+}
 
 @end

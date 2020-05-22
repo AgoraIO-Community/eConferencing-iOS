@@ -26,6 +26,14 @@
     self.view.backgroundColor = [UIColor colorWithHexString:@"F8F9FB"];
     
 //    self.automaticallyAdjustsScrollViewInsets = NO;
+    
+    UIActivityIndicatorView *activityIndicator = [[UIActivityIndicatorView alloc]initWithActivityIndicatorStyle:(UIActivityIndicatorViewStyleWhiteLarge)];
+    activityIndicator.frame= CGRectMake((kScreenWidth -100)/2, (kScreenHeight - 100)/2 - 100, 100, 100);
+    activityIndicator.color = [UIColor grayColor];
+    activityIndicator.backgroundColor = [UIColor clearColor];
+    activityIndicator.hidesWhenStopped = YES;
+    [self.view addSubview:activityIndicator];
+    self.activityIndicator = activityIndicator;
 }
 
 - (void)viewWillAppear:(BOOL)animated {

@@ -7,12 +7,212 @@
 //
 
 #import "PIPVideoCell.h"
+#import "UIImage+Circle.h"
+#import "EEWhiteboardTool.h"
+#import "EEColorShowView.h"
+
+@interface PIPVideoCell ()<WhiteToolDelegate>
+
+@property (weak, nonatomic) IBOutlet UIView *remoteView;
+@property (weak, nonatomic) IBOutlet UIView *localView;
+@property (weak, nonatomic) IBOutlet UIImageView *imgView;
+
+@property (weak, nonatomic) IBOutlet UIView *shareView;
+@property (weak, nonatomic) IBOutlet UIButton *applyBtn;
+@property (weak, nonatomic) IBOutlet UIButton *endBtn;
+
+@property (weak, nonatomic) IBOutlet EEWhiteboardTool *whiteboardTool;
+@property (weak, nonatomic) IBOutlet EEColorShowView *whiteboardColor;
+
+@end
 
 @implementation PIPVideoCell
 
 - (void)awakeFromNib {
     [super awakeFromNib];
-    // Initialization code
+
+    UIImage *image = [UIImage generateImageWithSize:CGSizeMake(32, 32)];
+    image = [UIImage circleImageWithOriginalImage:image];
+    self.imgView.image = image;
+    
+    UIView *boardView = [WhiteManager createWhiteBoardView];
+    boardView.hidden = YES;
+    [self.shareView addSubview:boardView];
+    [boardView equalTo:self.shareView];
+    self.boardView = boardView;
+
+    self.whiteboardTool.backgroundColor = UIColor.clearColor;
+    [self.whiteboardTool setDirectionPortrait: NO];
+    self.whiteboardTool.delegate = self;
+    
+    [self.whiteboardColor setSelectColor:^(NSString * _Nullable colorString) {
+        NSArray *colorArray = [UIColor convertColorToRGB:[UIColor colorWithHexString:colorString]];
+        [AgoraRoomManager.shareManager.whiteManager setWhiteStrokeColor:colorArray];
+    }];
+}
+
+- (void)removeVideoCanvas {
+    ConferenceManager *manager = AgoraRoomManager.shareManager.conferenceManager;
+    [manager removeVideoCanvasWithView:self.localView];
+    [manager removeVideoCanvasWithView:self.remoteView];
+    [manager removeVideoCanvasWithView:self.shareView];
+}
+
+- (void)setUser:(ConfUserModel *)userModel shareBoardModel:(ConfShareBoardUserModel *)boardModel {
+
+    [self removeVideoCanvas];
+
+    self.shareView.hidden = NO;
+    self.boardView.hidden = NO;
+    self.remoteView.hidden = YES;
+    self.imgView.hidden = YES;
+    self.whiteboardTool.hidden = YES;
+    self.whiteboardColor.hidden = YES;
+    
+    if(boardModel.uid == userModel.uid) {
+        self.applyBtn.hidden = YES;
+        self.endBtn.hidden = NO;
+        self.whiteboardTool.hidden = NO;
+    } else {
+        // has apply
+        if(userModel.grantBoard) {
+            self.whiteboardTool.hidden = NO;
+            self.applyBtn.hidden = YES;
+            self.endBtn.hidden = YES;
+        } else {
+            self.applyBtn.hidden = NO;
+            self.endBtn.hidden = YES;
+        }
+    }
+    
+    ConferenceManager *manager = AgoraRoomManager.shareManager.conferenceManager;
+    if(userModel.enableVideo) {
+        self.localView.hidden = NO;
+        [manager addVideoCanvasWithUId:userModel.uid inView:self.localView];
+    } else {
+        self.localView.hidden = YES;
+    }
+}
+
+- (void)setUser:(ConfUserModel *)userModel shareScreenModel:(ConfShareScreenUserModel *)screenModel {
+    [self removeVideoCanvas];
+    
+    self.shareView.hidden = NO;
+    self.boardView.hidden = YES;
+    self.remoteView.hidden = YES;
+    self.imgView.hidden = YES;
+    
+    self.whiteboardTool.hidden = YES;
+    self.whiteboardColor.hidden = YES;
+    self.applyBtn.hidden = YES;
+    self.endBtn.hidden = YES;
+    
+    ConferenceManager *manager = AgoraRoomManager.shareManager.conferenceManager;
+    if(userModel.enableVideo) {
+        self.localView.hidden = NO;
+        [manager addVideoCanvasWithUId:userModel.uid inView:self.localView];
+    } else {
+        self.localView.hidden = YES;
+    }
+    
+     [manager addVideoCanvasWithUId:screenModel.screenId inView:self.shareView];
+}
+
+- (void)setUser:(ConfUserModel *)userModel remoteUser:(ConfUserModel *)remoteUserModel {
+
+    [self removeVideoCanvas];
+    
+    self.shareView.hidden = YES;
+    self.boardView.hidden = YES;
+    self.imgView.hidden = YES;
+    
+    self.whiteboardTool.hidden = YES;
+    self.whiteboardColor.hidden = YES;
+    self.applyBtn.hidden = YES;
+    self.endBtn.hidden = YES;
+    
+    ConferenceManager *manager = AgoraRoomManager.shareManager.conferenceManager;
+    if(userModel.enableVideo) {
+        self.localView.hidden = NO;
+        [manager addVideoCanvasWithUId:userModel.uid inView:self.localView];
+    } else {
+        self.localView.hidden = YES;
+    }
+    
+    if(remoteUserModel.enableVideo) {
+        self.imgView.hidden = YES;
+        self.remoteView.hidden = NO;
+        [manager addVideoCanvasWithUId:remoteUserModel.uid inView:self.remoteView];
+    } else {
+        self.imgView.hidden = NO;
+        self.remoteView.hidden = YES;
+    }
+}
+
+- (void)setOneUserModel:(ConfUserModel *)userModel {
+    
+    [self removeVideoCanvas];
+    
+    self.shareView.hidden = YES;
+    self.localView.hidden = YES;
+    
+    self.whiteboardTool.hidden = YES;
+    self.whiteboardColor.hidden = YES;
+    self.applyBtn.hidden = YES;
+    self.endBtn.hidden = YES;
+    
+    ConferenceManager *manager = AgoraRoomManager.shareManager.conferenceManager;
+    if(userModel.enableVideo) {
+        self.imgView.hidden = YES;
+        self.remoteView.hidden = NO;
+        [manager addVideoCanvasWithUId:userModel.uid inView:self.remoteView];
+    } else {
+        self.imgView.hidden = NO;
+        self.remoteView.hidden = YES;
+    }
+}
+
+- (void)updateLocalView {
+    ConferenceManager *manager = AgoraRoomManager.shareManager.conferenceManager;
+    BOOL enableVideo = manager.ownModel.enableVideo;
+    if(enableVideo) {
+        self.localView.hidden = NO;
+        [manager addVideoCanvasWithUId:manager.ownModel.uid inView:self.localView];
+    } else {
+        self.localView.hidden = YES;
+        [manager removeVideoCanvasWithView:self.localView];
+    }
+}
+
+- (IBAction)appleBoard:(id)sender {
+    // 申请
+    
+}
+
+- (IBAction)endBoard:(id)sender {
+    // 
+    
+}
+
+#pragma mark WhiteToolDelegate
+- (void)selectWhiteTool:(ToolType)index {
+    
+    NSArray<NSString *> *applianceNameArray = @[WhiteApplianceSelector, WhiteAppliancePencil, WhiteApplianceText, WhiteApplianceEraser];
+    if(index < applianceNameArray.count) {
+        NSString *applianceName = [applianceNameArray objectAtIndex:index];
+        if(applianceName != nil) {
+            WhiteManager *manager = AgoraRoomManager.shareManager.whiteManager;
+            [manager setWhiteApplianceName:applianceName];
+        }
+    }
+    
+    BOOL bHidden = self.whiteboardColor.hidden;
+    // select color
+    if (index == 4) {
+        self.whiteboardColor.hidden = !bHidden;
+    } else if (!bHidden) {
+        self.whiteboardColor.hidden = YES;
+    }
 }
 
 @end

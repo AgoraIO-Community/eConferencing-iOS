@@ -30,7 +30,7 @@
     self.delegate = rtmDelegate;
     
     self.agoraRtmKit = [[AgoraRtmKit alloc] initWithAppId:appId delegate:self];
-    NSString *logFilePath = [NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES)[0] stringByAppendingPathComponent:@"/AgoraEducation/agoraRTM.log"];
+    NSString *logFilePath = [NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES)[0] stringByAppendingPathComponent:@"/Agora/agoraRTM.log"];
     [self.agoraRtmKit setLogFile:logFilePath];
     [self.agoraRtmKit setLogFileSize:512];
     [self.agoraRtmKit setLogFilters:AgoraRtmLogFilterInfo];

@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import <CocoaLumberjack/CocoaLumberjack.h>
+#import "RoomEnum.h"
 
 #ifdef DEBUG
 static const DDLogLevel ddLogLevel = DDLogLevelVerbose;
@@ -25,7 +26,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface LogManager : NSObject
 
-+ (void)uploadLogWithAppId:(NSString *)appId roomId:(NSString *)roomId apiVersion:(NSString*)apiVersion completeSuccessBlock:(void (^ _Nullable) (NSString *uploadSerialNumber))successBlock completeFailBlock:(void (^ _Nullable) (NSError *error))failBlock;
++ (void)uploadLogWithSceneType:(SceneType)sceneType appId:(NSString *)appId roomId:(NSString *)roomId apiVersion:(NSString*)apiVersion completeSuccessBlock:(void (^ _Nullable) (NSString *uploadSerialNumber))successBlock completeFailBlock:(void (^ _Nullable) (NSError *error))failBlock;
 
 @end
 

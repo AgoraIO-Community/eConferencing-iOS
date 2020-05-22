@@ -34,6 +34,11 @@
 #define AgoraLog(...)
 #endif
 
+
+
+#define NOTICENAME_LOCAL_VIDEO_CHANGED @"NOTICENAME_LOCAL_VIDEO_CHANGED"
+#define NOTICENAME_LOCAL_NAME_CHANGED @"NOTICENAME_LOCAL_NAME_CHANGED"
+
 #endif
 
 #endif /* VideoConference_pch */

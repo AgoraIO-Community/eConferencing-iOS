@@ -12,7 +12,6 @@
 #import "UserDefaults.h"
 #import "MeetingVC.h"
 #import "AllMuteAlertVC.h"
-#import "ScoreAlertVC.h"
 #import <IQKeyboardManager/IQKeyboardManager.h>
 #import "AgoraRoomManager.h"
 
@@ -27,8 +26,6 @@
 @property (weak, nonatomic) IBOutlet UITextField *roomName;
 @property (weak, nonatomic) IBOutlet UITextField *roomPsd;
 @property (weak, nonatomic) IBOutlet UITextField *userName;
-
-@property (nonatomic, weak) UIActivityIndicatorView *activityIndicator;
 
 @end
 
@@ -63,14 +60,6 @@
 }
 
 - (void)initView {
-    
-    UIActivityIndicatorView *activityIndicator = [[UIActivityIndicatorView alloc]initWithActivityIndicatorStyle:(UIActivityIndicatorViewStyleWhiteLarge)];
-    self.activityIndicator.frame= CGRectMake((kScreenWidth -100)/2, (kScreenHeight - 100)/2, 100, 100);
-    self.activityIndicator.color = [UIColor grayColor];
-    self.activityIndicator.backgroundColor = [UIColor whiteColor];
-    self.activityIndicator.hidesWhenStopped = YES;
-    [self.view addSubview:activityIndicator];
-    self.activityIndicator = activityIndicator;
 
     self.textFieldBgView.layer.borderWidth = 1;
     self.textFieldBgView.layer.borderColor = [UIColor colorWithHexString:@"E9EFF4"].CGColor;
@@ -89,8 +78,7 @@
 //    AllMuteAlertVC *vc = [[AllMuteAlertVC alloc] initWithNibName:@"AllMuteAlertVC" bundle:nil];
 //    [VCManager presentToVC:vc];
 //    
-//    ScoreAlertVC *vc = [[ScoreAlertVC alloc] initWithNibName:@"ScoreAlertVC" bundle:nil];
-//    [VCManager presentToVC:vc];
+
 }
 
 - (IBAction)onSwitchCamera:(id)sender {
@@ -107,8 +95,8 @@
     [self.view endEditing:YES];
     self.tipView.hidden = YES;
     
-    self.roomName.text = @"哈哈2";
-    self.roomPsd.text = @"1234";
+    self.roomName.text = @"543212";
+    self.roomPsd.text = @"123452";
     
     NSString *userName = self.userName.text;
     NSString *roomPsd = self.roomPsd.text;

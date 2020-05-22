@@ -21,6 +21,7 @@
 #import "ConferenceEntryParams.h"
 #import "BaseConfigModel.h"
 #import "RoomEnum.h"
+#import "ConfUserListInfoModel.h"
 
 #define WEAK(object) __weak typeof(object) weak##object = object
 
@@ -45,7 +46,7 @@ NS_ASSUME_NONNULL_BEGIN
 // entry room
 - (void)enterRoomProcess:(EntryParams *)params configApiVersion:(NSString*)configApiVersion entryApiVersion:(NSString*)entryApiVersion roomInfoApiVersion:(NSString*)roomInfoApiVersion successBolck:(void (^)(id roomInfoModel))successBlock failBlock:(void (^ _Nullable) (NSError *error))failBlock;
 
-// 初始化媒体
+// init media
 - (void)initMediaWithClientRole:(ClientRole)role successBolck:(void (^)(void))successBlock failBlock:(void (^ _Nullable) (NSInteger errorCode))failBlock;
 
 // get room info
@@ -57,8 +58,10 @@ NS_ASSUME_NONNULL_BEGIN
 // send message
 - (void)sendMessageWithText:(NSString *)message apiversion:(NSString *)apiversion successBolck:(void (^ _Nullable) (void))successBlock completeFailBlock:(void (^ _Nullable) (NSError *error))failBlock;
 
+- (void)getUserListWithNextId:(NSString *)nextId count:(NSInteger)count apiversion:(NSString *)apiversion successBlock:(void (^)(ConfUserListInfoModel *userListModel))successBlock failBlock:(void (^ _Nullable) (NSError *error))failBlock;
+
 //  update users info
-- (void)updateUserInfoWithValue:(BOOL)enable enableSignalType:(EnableSignalType)type apiversion:(NSString *)apiversion successBolck:(void (^)(void))successBlock failBlock:(void (^ _Nullable) (NSError *error))failBlock;
+- (void)updateUserInfoWithUserId:(NSString*)userId  value:(BOOL)enable enableSignalType:(EnableSignalType)type apiversion:(NSString *)apiversion successBolck:(void (^)(void))successBlock failBlock:(void (^ _Nullable) (NSError *error))failBlock;
 
 // apply/cancel/reject colink
 - (void)sendCoVideoWithType:(SignalLinkState)linkState userIds:(NSArray<NSString *> *)userIds apiversion:(NSString *)apiversion successBolck:(void (^ _Nullable) (void))successBlock completeFailBlock:(void (^ _Nullable) (NSError *error))failBlock;
@@ -75,9 +78,16 @@ NS_ASSUME_NONNULL_BEGIN
 // left room
 - (void)leftRoomWithApiversion:(NSString *)apiversion successBolck:(void (^ _Nullable)(void))successBlock failBlock:(void (^ _Nullable) (NSError *error))failBlock;
 
+- (int)submitRating:(NSInteger)rating;
+- (int)switchCamera;
+
 // Canvas
 - (void)addVideoCanvasWithUId:(NSUInteger)uid inView:(UIView *)view;
 - (void)removeVideoCanvasWithUId:(NSUInteger)uid;
+- (void)removeVideoCanvasWithView:(UIView *)view;
+
+- (void)muteLocalAudioStream:(NSNumber *)mute;
+- (void)muteLocalVideoStream:(NSNumber *)mute;
 
 - (void)releaseResource;
 

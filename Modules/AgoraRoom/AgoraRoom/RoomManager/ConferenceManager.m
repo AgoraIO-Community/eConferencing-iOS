@@ -33,6 +33,12 @@
     return self;
 }
 
+// init media
+- (void)initMediaWithClientRole:(ClientRole)role successBolck:(void (^)(void))successBlock failBlock:(void (^ _Nullable) (NSInteger errorCode))failBlock {
+    
+    [self.roomManager initMediaWithClientRole:role successBolck:successBlock failBlock:failBlock];
+}
+
 - (void)entryConfRoomWithParams:(ConferenceEntryParams *)params successBolck:(void (^ )(void))successBlock failBlock:(void (^ _Nullable) (NSError *error))failBlock {
     
     ConfConfigModel.shareInstance.userName = params.userName;
@@ -98,6 +104,75 @@
     } failBlock:failBlock];
 }
 
+// get user list info
+- (void)getUserListWithSuccessBlock:(void (^)(void))successBlock failBlock:(void (^ _Nullable) (NSError *error))failBlock {
+    
+    WEAK(self);
+    [self getUserListWithNextId:@"0" userModelList:@[] successBlock:^(NSArray<ConfUserModel *> *models) {
+        
+        NSMutableArray<ConfUserModel *> *allUserListModel = [NSMutableArray arrayWithObject:weakself.ownModel];
+        for(ConfUserModel *userModel in self.roomModel.hosts) {
+            if(userModel.uid != weakself.ownModel.uid){
+                [allUserListModel addObject:userModel];
+            }
+        }
+        [allUserListModel addObjectsFromArray:models];
+        weakself.userListModels = [NSArray arrayWithArray:allUserListModel];
+        if (successBlock != nil) {
+            successBlock();
+        }
+    } failBlock:failBlock];
+}
+- (void)getUserListWithNextId:(NSString *)nextId userModelList:(NSArray<ConfUserModel*>*)userModelList successBlock:(void (^)(NSArray<ConfUserModel*> *models))successBlock failBlock:(void (^ _Nullable) (NSError *error))failBlock {
+    
+    WEAK(self);
+    [self.roomManager getUserListWithNextId:nextId count:100 apiversion:APIVersion1 successBlock:^(ConfUserListInfoModel * _Nonnull userListInfoModel) {
+    
+        NSMutableArray<ConfUserModel*> *userList = [NSMutableArray array];
+        [userList addObjectsFromArray:userModelList];
+        [userList addObjectsFromArray:userListInfoModel.list];
+        
+        if(userListInfoModel.total > userList.count){
+            [weakself getUserListWithNextId:userListInfoModel.nextId userModelList:userList successBlock:successBlock failBlock:failBlock];
+        } else {
+            successBlock(userList);
+        }
+        
+    } failBlock:failBlock];
+}
+
+//  update users info
+- (void)updateUserInfoWithUserId:(NSString*)userId value:(BOOL)enable enableSignalType:(EnableSignalType)type successBolck:(void (^)(void))successBlock failBlock:(void (^ _Nullable) (NSError *error))failBlock {
+    
+    WEAK(self);
+    [self.roomManager updateUserInfoWithUserId:userId value:enable enableSignalType:type apiversion:APIVersion1 successBolck:^{
+        
+        for(ConfUserModel *model in weakself.userListModels) {
+            if([model.userId isEqualToString:userId]){
+                // 更新数据
+                if(type == EnableSignalTypeChat){
+                    model.enableChat = enable;
+                } else if(type == EnableSignalTypeAudio){
+                    model.enableAudio = enable;
+                    if([model.userId isEqualToString:weakself.ownModel.userId]) {
+                       [weakself.roomManager muteLocalAudioStream:@(!enable)];
+                    }
+                } else if(type == EnableSignalTypeVideo){
+                    model.enableVideo = enable;
+                    if([model.userId isEqualToString:weakself.ownModel.userId]) {
+                       [weakself.roomManager muteLocalVideoStream:@(!enable)];
+                    }
+                }
+                break;
+            }
+        }
+        if (successBlock != nil) {
+            successBlock();
+        }
+        
+    } failBlock:failBlock];
+}
+
 // send message
 - (void)sendMessageWithText:(NSString *)message successBolck:(void (^ _Nullable) (void))successBlock completeFailBlock:(void (^ _Nullable) (NSError *error))failBlock {
     [self.roomManager sendMessageWithText:message apiversion:APIVersion1 successBolck:successBlock completeFailBlock:failBlock];
@@ -105,6 +180,19 @@
 
 - (void)leftRoomWithSuccessBolck:(void (^ _Nullable)(void))successBlock failBlock:(void (^ _Nullable) (NSError *error))failBlock {
     [self.roomManager leftRoomWithApiversion:APIVersion1 successBolck:successBlock failBlock:failBlock];
+}
+
+- (void)getWhiteInfoWithSuccessBlock:(void (^ _Nullable) (WhiteInfoModel * model))successBlock failBlock:(void (^ _Nullable) (NSError *error))failBlock {
+    
+    [self.roomManager getWhiteInfoWithApiversion:APIVersion1 successBlock:successBlock failBlock:failBlock];
+}
+
+- (NSInteger)submitRating:(NSInteger)rating {
+    return [self.roomManager submitRating:rating];
+}
+
+- (NSInteger)switchCamera {
+    return [self.roomManager switchCamera];
 }
 
 - (void)releaseResource {
@@ -121,10 +209,22 @@
     ConfConfigModel.shareInstance.userId = roomInfoModel.localUser.userId;
     ConfConfigModel.shareInstance.roomName = roomInfoModel.room.roomName;
     ConfConfigModel.shareInstance.rtmToken = roomInfoModel.localUser.rtmToken;
+    ConfConfigModel.shareInstance.rtcToken = roomInfoModel.localUser.rtcToken;
     ConfConfigModel.shareInstance.channelName = roomInfoModel.room.channelName;
     
     self.roomModel = roomInfoModel.room;
     self.ownModel = roomInfoModel.localUser;
+}
+
+// Canvas
+- (void)addVideoCanvasWithUId:(NSUInteger)uid inView:(UIView *)view {
+    [self.roomManager addVideoCanvasWithUId:uid inView:view];
+}
+- (void)removeVideoCanvasWithUId:(NSUInteger)uid {
+    [self.roomManager removeVideoCanvasWithUId:uid];
+}
+- (void)removeVideoCanvasWithView:(UIView *)view {
+    [self.roomManager removeVideoCanvasWithView:view];
 }
 
 @end

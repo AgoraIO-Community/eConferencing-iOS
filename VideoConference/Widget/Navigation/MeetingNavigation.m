@@ -8,6 +8,7 @@
 
 #import "MeetingNavigation.h"
 #import "AgoraRoomManager.h"
+#import "ScoreAlertVC.h"
 
 @interface MeetingNavigation() {
     dispatch_source_t timer;
@@ -47,7 +48,8 @@
 }
 
 - (IBAction)onSwitchCamera:(id)sender {
-    
+    ConferenceManager *manager = AgoraRoomManager.shareManager.conferenceManager;
+    [manager switchCamera];
 }
 
 - (IBAction)onLeftMeeting:(id)sender {
@@ -67,17 +69,15 @@
             }
         }
     }
-  
+    
     WEAK(self);
     
     UIAlertAction *left = [UIAlertAction actionWithTitle:@"退出会议" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
         
         [manager leftRoomWithSuccessBolck:^{
-            if(weakself.leftBlock == nil){
-                [VCManager popTopView];
-            } else {
-                weakself.leftBlock();
-            }
+            
+            [weakself showScoreAlert];
+            
         } failBlock:^(NSError * _Nonnull error) {
             [weakself showMsgToast:error.localizedDescription];
         }];
@@ -94,12 +94,8 @@
             
             [manager updateRoomInfoWithValue:0 enableSignalType:ConfEnableRoomSignalTypeState successBolck:^{
                 
-                if(weakself.leftBlock == nil){
-                    [VCManager popTopView];
-                } else {
-                    weakself.leftBlock();
-                }
-                
+                [weakself showScoreAlert];
+                            
             } failBlock:^(NSError * _Nonnull error) {
                 [weakself showMsgToast:error.localizedDescription];
             }];
@@ -119,6 +115,21 @@
         
         [VCManager presentToVC:alertController];
     }
+}
+
+- (void)showScoreAlert {
+    
+    WEAK(self);
+    
+    ScoreAlertVC *vc = [[ScoreAlertVC alloc] initWithNibName:@"ScoreAlertVC" bundle:nil];
+    vc.block = ^(){
+        if(weakself.leftBlock == nil){
+            [VCManager popTopView];
+        } else {
+            weakself.leftBlock();
+        }
+    };
+    [VCManager presentToVC:vc];
 }
 
 - (void)showMsgToast:(NSString *)title {
@@ -145,7 +156,7 @@
         NSInteger hours = weakself.timeCount / 3600;
         NSInteger minutes = (weakself.timeCount - (3600 * hours)) / 60;
         NSInteger seconds = weakself.timeCount % 60;
-        NSString *strTime = [NSString stringWithFormat:@"%.2ld:%.2ld:%.2ld", (long)hours, (long)minutes, seconds];
+        NSString *strTime = [NSString stringWithFormat:@"%.2ld:%.2ld:%.2ld", (long)hours, (long)minutes, (long)seconds];
         dispatch_async(dispatch_get_main_queue(), ^{
             weakself.time.text = strTime;
         });

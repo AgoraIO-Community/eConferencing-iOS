@@ -17,8 +17,6 @@ NS_ASSUME_NONNULL_BEGIN
 @property (weak, nonatomic) IBOutlet UICollectionViewFlowLayout *colorFlowLayout;
 @property (weak, nonatomic) IBOutlet UICollectionView *colorCollectionView;
 @property (nonatomic, copy) SelectColor selectColor;
-
-
 @end
 
 NS_ASSUME_NONNULL_END

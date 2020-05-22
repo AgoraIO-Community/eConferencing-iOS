@@ -21,6 +21,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, assign) NSInteger uid;
 @property (nonatomic, assign) NSInteger screenId;
 @property (nonatomic, assign) NSInteger grantBoard;
+@property (nonatomic, assign) NSInteger grantScreen;
 
 @property (nonatomic, strong) NSString *userUuid;
 @property (nonatomic, strong) NSString *rtcToken;

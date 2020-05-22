@@ -12,6 +12,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface ScoreAlertVC : UIViewController
 
+@property (copy, nonatomic) dispatch_block_t block;
+
 @end
 
 NS_ASSUME_NONNULL_END

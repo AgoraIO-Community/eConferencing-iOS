@@ -16,3 +16,8 @@ typedef NS_ENUM(NSInteger, SceneType) {
     SceneTypeEducation      = 1,
     SceneTypeConference     = 2,
 };
+
+typedef NS_ENUM(NSUInteger, ConfRoleType) {
+    ConfRoleTypeHost = 1,
+    ConfRoleTypeParticipant = 2,
+};

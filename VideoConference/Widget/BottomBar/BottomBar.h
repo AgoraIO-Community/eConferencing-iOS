@@ -13,7 +13,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface BottomBar : UIView
 
-- (void)updateViewWithAudio:(BOOL)audio video:(BOOL)video;
+- (void)updateView;
 
 @end
 

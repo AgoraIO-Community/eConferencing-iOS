@@ -233,6 +233,35 @@ static NSString *agoraUId;
     }];
 }
 
++ (void)getUserListWithRole:(ConfRoleType)role nextId:(NSString *)nextId count:(NSInteger)count appId:(NSString *)appId roomId:(NSString *)roomId apiVersion:(NSString *)apiVersion successBlock:(void (^)(ConfUserListInfoModel *userListModel))successBlock failBlock:(void (^ _Nullable) (NSError *error))failBlock {
+    
+    NSString *url = [NSString stringWithFormat:HTTP_USER_LIST_INFO, HTTP_BASE_URL, appId, roomId];
+    
+    NSMutableDictionary *params = [NSMutableDictionary dictionary];
+    params[@"role"] = @(role);
+    params[@"nextId"] = nextId;
+    params[@"count"] = @(count);
+    [HttpManager get:url params:params headers:nil apiVersion:apiVersion success:^(id responseObj) {
+        
+        ConfUserListModel *model = [ConfUserListModel yy_modelWithDictionary:responseObj];
+        if(model.code == 0) {
+            if(successBlock != nil){
+                successBlock(model.data);
+            }
+        } else {
+            if(failBlock != nil) {
+                NSError *error = LocalError(model.code, model.msg);
+                failBlock(error);
+            }
+        }
+        
+    } failure:^(NSError *error) {
+        if(failBlock != nil) {
+            failBlock(error);
+        }
+    }];
+}
+
 + (void)updateUserInfoWithValue:(BOOL)enable enableSignalType:(EnableSignalType)type appId:(NSString *)appId roomId:(NSString *)roomId userId:(NSString *)userId apiVersion:(NSString *)apiVersion completeSuccessBlock:(void (^ _Nullable) (void))successBlock completeFailBlock:(void (^ _Nullable) (NSError *error))failBlock {
     
     NSString *url = [NSString stringWithFormat:HTTP_UPDATE_USER_INFO, HTTP_BASE_URL, appId, roomId, userId];

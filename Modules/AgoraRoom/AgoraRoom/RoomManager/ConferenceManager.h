@@ -11,6 +11,9 @@
 #import "ConfRoomAllModel.h"
 #import "RoomEnum.h"
 #import "ConferenceEntryParams.h"
+#import "ConfUserListInfoModel.h"
+#import "WhiteInfoModel.h"
+#import <UIKit/UIKit.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -19,8 +22,12 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (nonatomic, strong) ConfRoomModel * _Nullable roomModel;
 @property (nonatomic, strong) ConfUserModel * _Nullable ownModel;
+@property (nonatomic, strong) NSArray<ConfUserModel *> *userListModels;
 
 - (instancetype)initWithSceneType:(SceneType)type appId:(NSString *)appId authorization:(NSString *)authorization;
+
+// init media
+- (void)initMediaWithClientRole:(ClientRole)role successBolck:(void (^)(void))successBlock failBlock:(void (^ _Nullable) (NSInteger errorCode))failBlock;
 
 // entry room
 - (void)entryConfRoomWithParams:(ConferenceEntryParams *)params successBolck:(void (^ )(void))successBlock failBlock:(void (^ _Nullable) (NSError *error))failBlock;
@@ -31,6 +38,12 @@ NS_ASSUME_NONNULL_BEGIN
 //  update room info
 - (void)updateRoomInfoWithValue:(BOOL)enable enableSignalType:(ConfEnableRoomSignalType)type successBolck:(void (^)(void))successBlock failBlock:(void (^ _Nullable) (NSError *error))failBlock;
 
+// get user list info
+- (void)getUserListWithSuccessBlock:(void (^)(void))successBlock failBlock:(void (^ _Nullable) (NSError *error))failBlock;
+
+//  update users info
+- (void)updateUserInfoWithUserId:(NSString*)userId value:(BOOL)enable enableSignalType:(EnableSignalType)type successBolck:(void (^)(void))successBlock failBlock:(void (^ _Nullable) (NSError *error))failBlock;
+
 // send message
 - (void)sendMessageWithText:(NSString *)message successBolck:(void (^ _Nullable) (void))successBlock completeFailBlock:(void (^ _Nullable) (NSError *error))failBlock;
 
@@ -39,6 +52,18 @@ NS_ASSUME_NONNULL_BEGIN
 
 // left room
 - (void)leftRoomWithSuccessBolck:(void (^ _Nullable)(void))successBlock failBlock:(void (^ _Nullable) (NSError *error))failBlock;
+
+// get white info
+- (void)getWhiteInfoWithSuccessBlock:(void (^ _Nullable) (WhiteInfoModel * model))successBlock failBlock:(void (^ _Nullable) (NSError *error))failBlock;
+
+- (NSInteger)submitRating:(NSInteger)rating;
+
+- (NSInteger)switchCamera;
+
+// Canvas
+- (void)addVideoCanvasWithUId:(NSUInteger)uid inView:(UIView *)view;
+- (void)removeVideoCanvasWithUId:(NSUInteger)uid;
+- (void)removeVideoCanvasWithView:(UIView *)view;
 
 - (void)releaseResource;
 @end

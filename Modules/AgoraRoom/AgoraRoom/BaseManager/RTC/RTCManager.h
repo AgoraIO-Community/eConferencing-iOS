@@ -30,6 +30,10 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (int)muteLocalAudioStream:(BOOL)enabled;
 
+- (NSString *)getCallId;
+- (int)rate:(NSString *)callId rating:(NSInteger)rating description:(NSString *)description;
+- (int)switchCamera;
+
 - (void)releaseRTCResources;
 
 @end

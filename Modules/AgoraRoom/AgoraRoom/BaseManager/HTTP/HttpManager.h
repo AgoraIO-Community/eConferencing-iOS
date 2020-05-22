@@ -20,6 +20,7 @@
 #import "EduEntryParams.h"
 #import "ConferenceEntryParams.h"
 #import "RoomEnum.h"
+#import "ConfUserListModel.h"
 
 typedef NS_ENUM(NSUInteger, MessageType) {
     MessageTypeText = 1,
@@ -43,7 +44,9 @@ NS_ASSUME_NONNULL_BEGIN
 
 + (void)updateRoomInfoWithValue:(BOOL)enable enableSignalType:(ConfEnableRoomSignalType)type appId:(NSString *)appId roomId:(NSString *)roomId apiVersion:(NSString *)apiVersion completeSuccessBlock:(void (^ _Nullable) (void))successBlock completeFailBlock:(void (^ _Nullable) (NSError *error))failBlock;
 
-+ (void)updateUserInfoWithValue:(BOOL)enable enableSignalType:(EnableSignalType)type appId:(NSString *)appId roomId:(NSString *)roomId userId:(NSString *)byUserId apiVersion:(NSString *)apiVersion  completeSuccessBlock:(void (^ _Nullable) (void))successBlock completeFailBlock:(void (^ _Nullable) (NSError *error))failBlock;
++ (void)getUserListWithRole:(ConfRoleType)role nextId:(NSString *)nextId count:(NSInteger)count appId:(NSString *)appId roomId:(NSString *)roomId apiVersion:(NSString *)apiVersion successBlock:(void (^)(ConfUserListInfoModel *userListModel))successBlock failBlock:(void (^ _Nullable) (NSError *error))failBlock;
+
++ (void)updateUserInfoWithValue:(BOOL)enable enableSignalType:(EnableSignalType)type appId:(NSString *)appId roomId:(NSString *)roomId userId:(NSString *)byUserId apiVersion:(NSString *)apiVersion completeSuccessBlock:(void (^ _Nullable) (void))successBlock completeFailBlock:(void (^ _Nullable) (NSError *error))failBlock;
 
 + (void)getRoomInfoWithAppId:(NSString *)appId roomId:(NSString *)roomId  apiVersion:(NSString *)apiVersion completeSuccessBlock:(void (^ _Nullable) (id responseModel))successBlock completeFailBlock:(void (^ _Nullable) (NSError *error))failBlock;
 

@@ -15,6 +15,8 @@
 @property (nonatomic, strong) AgoraRtcEngineKit * _Nullable rtcEngineKit;
 @property (nonatomic, assign) AgoraClientRole currentRole;
 
+@property (nonatomic, assign) BOOL frontCamera;
+
 @end
 
 @implementation RTCManager
@@ -24,9 +26,10 @@
     AgoraLogInfo(@"init rtcEngineKit appid:%@", appid);
     
     self.delegate = rtcDelegate;
+    self.frontCamera = YES;
     
     self.rtcEngineKit = [AgoraRtcEngineKit sharedEngineWithAppId:appid delegate:self];
-    NSString *logFilePath = [NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES)[0] stringByAppendingPathComponent:@"/AgoraEducation/agoraRTC.log"];
+    NSString *logFilePath = [NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES)[0] stringByAppendingPathComponent:@"/Agora/agoraRTC.log"];
     [self.rtcEngineKit setLogFile:logFilePath];
     [self.rtcEngineKit setLogFileSize:512];
     [self.rtcEngineKit setLogFilter:AgoraLogFilterInfo];
@@ -92,6 +95,23 @@
     return [self.rtcEngineKit muteLocalAudioStream:enabled];
 }
 
+- (NSString *)getCallId {
+    NSString *callid = [self.rtcEngineKit getCallId];
+    AgoraLogInfo(@"getCallId: %@", callid);
+    return callid;
+}
+- (int)rate:(NSString *)callId rating:(NSInteger)rating description:(NSString *)description {
+    AgoraLogInfo(@"rate callid: %@, rating:%ld, description:%@", callId, (long)rating, description);
+    int rate = [self.rtcEngineKit rate:callId rating:rating description:description];
+    return rate;
+}
+
+- (int)switchCamera {
+    self.frontCamera = !self.frontCamera;
+    AgoraLogInfo(@"switch camera: %d", self.frontCamera);
+    return [self.rtcEngineKit switchCamera];
+}
+
 - (void)releaseRTCResources {
     AgoraLogInfo(@"releaseRTCResources");
     [self.rtcEngineKit leaveChannel:nil];
@@ -99,7 +119,6 @@
 }
 
 -(void)dealloc {
-    self.rtcEngineKit = nil;
     [self releaseRTCResources];
 }
 

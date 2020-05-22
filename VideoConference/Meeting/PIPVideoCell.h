@@ -7,13 +7,20 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "AgoraRoomManager.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
 @interface PIPVideoCell : UICollectionViewCell
 
-@property (weak, nonatomic) IBOutlet UIView *remoteView;
-@property (weak, nonatomic) IBOutlet UIView *localView;
+@property (weak, nonatomic) UIView *boardView;
+
+- (void)setOneUserModel:(ConfUserModel *)userModel;
+- (void)setUser:(ConfUserModel *)userModel shareBoardModel:(ConfShareBoardUserModel *)boardModel;
+- (void)setUser:(ConfUserModel *)userModel shareScreenModel:(ConfShareScreenUserModel *)screenModel;
+- (void)setUser:(ConfUserModel *)userModel remoteUser:(ConfUserModel *)remoteUserModel;
+
+- (void)updateLocalView;
 
 @end
 

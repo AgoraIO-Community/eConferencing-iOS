@@ -86,10 +86,16 @@
     self.videoItem.isSelected = [UserDefaults getOpenCamera];
 }
 
+- (void)updateView {
+    ConferenceManager *manager =  AgoraRoomManager.shareManager.conferenceManager;
+    
+    self.audioItem.isSelected = manager.ownModel.enableAudio;
+    self.videoItem.isSelected = manager.ownModel.enableVideo;
+}
+
 - (void)updateViewWithAudio:(BOOL)audio video:(BOOL)video {
     self.audioItem.isSelected = audio;
     self.videoItem.isSelected = video;
-    
 }
 
 - (void)setMessageCount:(NSInteger)count {
@@ -97,12 +103,32 @@
 }
 
 - (void)onSelectBar:(BottomItem *)sender {
+    
+    ConferenceManager *manager =  AgoraRoomManager.shareManager.conferenceManager;
+    NSString *userId = manager.ownModel.userId;
+    
+    WEAK(self);
+    
     BOOL isSelected = sender.isSelected;
-    if(sender == self.audioItem) {
+    if(sender == self.audioItem || sender == self.videoItem) {
         sender.isSelected = !isSelected;
         
-    } else if(sender == self.videoItem) {
-        sender.isSelected = !isSelected;
+        EnableSignalType type = EnableSignalTypeAudio;
+        if(sender == self.videoItem) {
+            type = EnableSignalTypeVideo;
+        }
+        
+        [manager updateUserInfoWithUserId:userId value:sender.isSelected enableSignalType:type successBolck:^{
+            
+            if(type == EnableSignalTypeVideo) {
+                [NSNotificationCenter.defaultCenter postNotificationName:NOTICENAME_LOCAL_VIDEO_CHANGED object:nil];
+            }
+            
+        } failBlock:^(NSError * _Nonnull error) {
+            sender.isSelected = isSelected;
+            
+            [weakself showMsgToast:error.localizedDescription];
+        }];
         
     } else if(sender == self.memberItem) {
         
@@ -163,6 +189,16 @@
 
 - (void)onClickInvitation {
 
+}
+
+
+- (void)showMsgToast:(NSString *)title {
+    UIViewController *vc = [VCManager getTopVC];
+    if (vc != nil && title != nil && title.length > 0){
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [vc.view makeToast:title];
+        });
+    }
 }
 
 @end

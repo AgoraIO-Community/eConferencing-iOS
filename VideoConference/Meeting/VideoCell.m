@@ -8,11 +8,83 @@
 
 #import "VideoCell.h"
 
-@implementation VideoCell
+@interface VideoCell ()
 
+@property (weak, nonatomic) IBOutlet UIView *renderView;
+@property (weak, nonatomic) IBOutlet UIImageView *headImgView;
+
+@property (weak, nonatomic) IBOutlet UIImageView *hostView;
+@property (weak, nonatomic) IBOutlet UIImageView *shareView;
+@property (weak, nonatomic) IBOutlet UIImageView *audioView;
+@property (weak, nonatomic) IBOutlet UILabel *nameLabel;
+
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *hostWConstraint;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *shareWConstraint;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *audioWConstraint;
+
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *shareLConstraint;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *audioLConstraint;
+@end
+
+
+@implementation VideoCell
 - (void)awakeFromNib {
     [super awakeFromNib];
-    // Initialization code
+    
 }
 
+- (void)setShareBoardModel:(ConfShareBoardUserModel *)userModel {
+    
+}
+
+- (void)setShareScreenModel:(ConfShareScreenUserModel *)userModel {
+    
+}
+
+- (void)setUserModel:(ConfUserModel * _Nullable)userModel {
+    if(userModel == nil){
+        self.hidden = YES;
+        return;
+    }
+     self.hidden = NO;
+    
+    ConferenceManager *manager = AgoraRoomManager.shareManager.conferenceManager;
+    
+    if(userModel.enableVideo){
+        self.headImgView.hidden = YES;
+        [manager addVideoCanvasWithUId:userModel.uid inView:self.renderView];
+    } else {
+        self.headImgView.hidden = NO;
+        [manager removeVideoCanvasWithView:self.renderView];
+    }
+    
+    self.nameLabel.text = userModel.userName;
+    if(userModel.role == ConfRoleTypeHost) {
+        self.hostView.hidden = NO;
+        self.hostWConstraint.constant = 17;
+        self.shareLConstraint.constant = 3;
+    } else {
+        self.hostView.hidden = YES;
+        self.hostWConstraint.constant = 0;
+        self.shareLConstraint.constant = 0;
+    }
+    
+    if(userModel.grantBoard || userModel.grantScreen) {
+        self.shareView.hidden = NO;
+        self.shareWConstraint.constant = 17;
+        self.audioLConstraint.constant = 3;
+    } else {
+        self.shareView.hidden = YES;
+        self.shareWConstraint.constant = 0;
+        self.shareLConstraint.constant = 0;
+        self.audioLConstraint.constant = 0;
+    }
+    
+    self.audioView.hidden = NO;
+    if(userModel.enableAudio) {
+        self.audioView.image = [UIImage imageNamed:@"state-unmute"];
+    } else {
+        self.audioView.image = [UIImage imageNamed:@"state-mute"];
+    }
+}
 @end

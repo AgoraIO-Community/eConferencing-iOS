@@ -23,7 +23,10 @@ typedef NS_ENUM(NSInteger, ToolType) {
 NS_ASSUME_NONNULL_BEGIN
 
 @interface EEWhiteboardTool : UIView
+
 @property (nonatomic, weak) id <WhiteToolDelegate> delegate;
+- (void)setDirectionPortrait: (BOOL)portrait;
+
 @end
 
 NS_ASSUME_NONNULL_END

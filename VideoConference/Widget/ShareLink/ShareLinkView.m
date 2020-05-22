@@ -7,6 +7,9 @@
 //
 
 #import "ShareLinkView.h"
+#import "AgoraRoomManager.h"
+
+#define ITUNES_URL @"https://itunes.apple.com/cn/app/id1496783878"
 
 @interface ShareLinkView()<UIGestureRecognizerDelegate>
 
@@ -36,6 +39,14 @@
     tapRecognize.numberOfTapsRequired = 1;
     tapRecognize.delegate = self;
     [self.bgView addGestureRecognizer:tapRecognize];
+    
+    
+    ConferenceManager *manager = AgoraRoomManager.shareManager.conferenceManager;
+    
+    self.meetName.text = [NSString stringWithFormat:@"会员名：%@", manager.roomModel.roomName];
+    self.invitationName.text = [NSString stringWithFormat:@"邀请人：%@", manager.ownModel.userName];
+    self.psd.text = [NSString stringWithFormat:@"会议密码：%@", manager.roomModel.password];
+    self.link.text = ITUNES_URL;
 }
 
 #pragma UIGestureRecognizer Handles
@@ -72,11 +83,28 @@
 }
 
 - (IBAction)onCopyBtnClick:(id)sender {
+
+    UIPasteboard *pasteboard = [UIPasteboard generalPasteboard];
+    NSString *str = [NSString stringWithFormat:@"%@\n%@\n%@\n会议链接：%@", self.meetName.text, self.invitationName.text, self.psd.text, self.link.text];
+    pasteboard.string = str;
+    
+    [self hiddenShareLinkView];
     
     // show toast
+    [self showMsgToast:@"复制成功"];
 }
 
 - (IBAction)onCancelBtnClick:(id)sender {
     [self hiddenShareLinkView];
 }
+
+- (void)showMsgToast:(NSString *)title {
+    UIViewController *vc = [VCManager getTopVC];
+    if (vc != nil && title != nil && title.length > 0){
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [vc.view makeToast:title];
+        });
+    }
+}
+
 @end

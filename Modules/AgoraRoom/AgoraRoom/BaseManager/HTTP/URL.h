@@ -43,6 +43,10 @@
 // /edu/v1/apps/{appId}/room/{roomId}/user/{userId}
 #define HTTP_UPDATE_USER_INFO @"%@/v1/apps/%@/room/%@/user/%@"
 
+// http: get userlist info
+// /conf/v1/apps/{appId}/room/{roomId}/user/page
+#define HTTP_USER_LIST_INFO @"%@/v1/apps/%@/room/%@/user/page"
+
 // http: im
 // /edu/v1/apps/{appId}/room/{roomId}/chat
 #define HTTP_USER_INSTANT_MESSAGE @"%@/v1/apps/%@/room/%@/chat"

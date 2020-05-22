@@ -143,6 +143,12 @@
 		78F691922473B7CE000A0E71 /* BaseConfigModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 78F691902473B7CE000A0E71 /* BaseConfigModel.m */; };
 		78F691942473CC47000A0E71 /* RoomEnum.h in Headers */ = {isa = PBXBuildFile; fileRef = 78F691932473CC47000A0E71 /* RoomEnum.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		78F691952473CCBE000A0E71 /* AgoraRoom.h in Headers */ = {isa = PBXBuildFile; fileRef = 784D20C52463F18B0065985A /* AgoraRoom.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		78F6919824754B33000A0E71 /* ConfUserListInfoModel.h in Headers */ = {isa = PBXBuildFile; fileRef = 78F6919624754B32000A0E71 /* ConfUserListInfoModel.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		78F6919924754B33000A0E71 /* ConfUserListInfoModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 78F6919724754B32000A0E71 /* ConfUserListInfoModel.m */; };
+		78F6919C2475540B000A0E71 /* ConfUserListModel.h in Headers */ = {isa = PBXBuildFile; fileRef = 78F6919A2475540B000A0E71 /* ConfUserListModel.h */; };
+		78F6919D2475540B000A0E71 /* ConfUserListModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 78F6919B2475540B000A0E71 /* ConfUserListModel.m */; };
+		78F691A024762953000A0E71 /* WhiteInfoModel.h in Headers */ = {isa = PBXBuildFile; fileRef = 78F6919E24762953000A0E71 /* WhiteInfoModel.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		78F691A124762953000A0E71 /* WhiteInfoModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 78F6919F24762953000A0E71 /* WhiteInfoModel.m */; };
 		8DF822A71DC500B30717030D /* libPods-AgoraRoom.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3CF927425B6EBE6DE8B3DA33 /* libPods-AgoraRoom.a */; };
 /* End PBXBuildFile section */
 
@@ -287,6 +293,12 @@
 		78F6918F2473B7CE000A0E71 /* BaseConfigModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BaseConfigModel.h; sourceTree = "<group>"; };
 		78F691902473B7CE000A0E71 /* BaseConfigModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BaseConfigModel.m; sourceTree = "<group>"; };
 		78F691932473CC47000A0E71 /* RoomEnum.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RoomEnum.h; sourceTree = "<group>"; };
+		78F6919624754B32000A0E71 /* ConfUserListInfoModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ConfUserListInfoModel.h; sourceTree = "<group>"; };
+		78F6919724754B32000A0E71 /* ConfUserListInfoModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ConfUserListInfoModel.m; sourceTree = "<group>"; };
+		78F6919A2475540B000A0E71 /* ConfUserListModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ConfUserListModel.h; sourceTree = "<group>"; };
+		78F6919B2475540B000A0E71 /* ConfUserListModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ConfUserListModel.m; sourceTree = "<group>"; };
+		78F6919E24762953000A0E71 /* WhiteInfoModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WhiteInfoModel.h; sourceTree = "<group>"; };
+		78F6919F24762953000A0E71 /* WhiteInfoModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WhiteInfoModel.m; sourceTree = "<group>"; };
 		B1E9BFD487F126DABE18B29B /* Pods-AgoraRoom.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AgoraRoom.release.xcconfig"; path = "Target Support Files/Pods-AgoraRoom/Pods-AgoraRoom.release.xcconfig"; sourceTree = "<group>"; };
 		B3B3EBC3D9B2D09A31800247 /* Pods-AgoraRoom.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AgoraRoom.debug.xcconfig"; path = "Target Support Files/Pods-AgoraRoom/Pods-AgoraRoom.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -386,6 +398,8 @@
 				784D21122463F2F00065985A /* VideoSessionModel.h */,
 				784D21142463F2F00065985A /* VideoSessionModel.m */,
 				78F691932473CC47000A0E71 /* RoomEnum.h */,
+				78F6919E24762953000A0E71 /* WhiteInfoModel.h */,
+				78F6919F24762953000A0E71 /* WhiteInfoModel.m */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -540,6 +554,8 @@
 				784D21752463F2F00065985A /* ConfigModel.m */,
 				784D21782463F2F00065985A /* CommonModel.h */,
 				784D216A2463F2F00065985A /* CommonModel.m */,
+				78F6919A2475540B000A0E71 /* ConfUserListModel.h */,
+				78F6919B2475540B000A0E71 /* ConfUserListModel.m */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -632,6 +648,8 @@
 				78F6917A24738EDB000A0E71 /* ConfShareScreenUserModel.m */,
 				78F6917D24738F2E000A0E71 /* ConfShareBoardUserModel.h */,
 				78F6917E24738F2E000A0E71 /* ConfShareBoardUserModel.m */,
+				78F6919624754B32000A0E71 /* ConfUserListInfoModel.h */,
+				78F6919724754B32000A0E71 /* ConfUserListInfoModel.m */,
 			);
 			path = ConfRoomModel;
 			sourceTree = "<group>";
@@ -674,6 +692,8 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				78F691A024762953000A0E71 /* WhiteInfoModel.h in Headers */,
+				78F6919824754B33000A0E71 /* ConfUserListInfoModel.h in Headers */,
 				78F6917F24738F2E000A0E71 /* ConfShareBoardUserModel.h in Headers */,
 				78F6917B24738EDB000A0E71 /* ConfShareScreenUserModel.h in Headers */,
 				78F6917524738AF8000A0E71 /* ConfRoomModel.h in Headers */,
@@ -699,6 +719,7 @@
 				78F6916424737EBB000A0E71 /* EduRoomAllModel.h in Headers */,
 				784D21EC2463F2F00065985A /* ReplayModel.h in Headers */,
 				784D21972463F2F00065985A /* SignalShareScreenModel.h in Headers */,
+				78F6919C2475540B000A0E71 /* ConfUserListModel.h in Headers */,
 				784D21EF2463F2F00065985A /* BaseModel.h in Headers */,
 				784D218D2463F2F00065985A /* SignalReplayModel.h in Headers */,
 				784D21EB2463F2F00065985A /* MultiLanguageModel.h in Headers */,
@@ -878,6 +899,7 @@
 				784D21E42463F2F00065985A /* BaseModel.m in Sources */,
 				784D21FB2463F2F00065985A /* OSSManager.m in Sources */,
 				78F6917624738AF8000A0E71 /* ConfUserModel.m in Sources */,
+				78F6919D2475540B000A0E71 /* ConfUserListModel.m in Sources */,
 				784D21C02463F2F00065985A /* aeskey.c in Sources */,
 				784D21E22463F2F00065985A /* EnterRoomAllModel.m in Sources */,
 				784D21CC2463F2F00065985A /* prng.c in Sources */,
@@ -885,6 +907,7 @@
 				784D21F72463F2F00065985A /* RTMManager.m in Sources */,
 				78F691562472BB20000A0E71 /* ConferenceEntryParams.m in Sources */,
 				784D21FD2463F2F00065985A /* LogManager.m in Sources */,
+				78F6919924754B33000A0E71 /* ConfUserListInfoModel.m in Sources */,
 				784D21BA2463F2F00065985A /* ioapi_mem.c in Sources */,
 				784D21F12463F2F00065985A /* ConfigModel.m in Sources */,
 				784D21DC2463F2F00065985A /* HttpClient.m in Sources */,
@@ -899,6 +922,7 @@
 				78F6917824738AF8000A0E71 /* ConfRoomModel.m in Sources */,
 				784D21BB2463F2F00065985A /* minishared.c in Sources */,
 				784D21912463F2F00065985A /* SignalShareScreenModel.m in Sources */,
+				78F691A124762953000A0E71 /* WhiteInfoModel.m in Sources */,
 				784D21A52463F2F00065985A /* JsonParseUtil.m in Sources */,
 				784D21B22463F2F00065985A /* zip.c in Sources */,
 				78F691892473B0C1000A0E71 /* ConfConfigModel.m in Sources */,

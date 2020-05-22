@@ -35,21 +35,21 @@
                             <constraint firstAttribute="width" constant="72" id="FzM-0c-cFn"/>
                         </constraints>
                     </imageView>
-                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="state-unmute" translatesAutoresizingMaskIntoConstraints="NO" id="jFt-tq-QDZ">
+                    <imageView hidden="YES" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="state-unmute" translatesAutoresizingMaskIntoConstraints="NO" id="jFt-tq-QDZ">
                         <rect key="frame" x="53" y="280" width="17" height="17"/>
                         <constraints>
                             <constraint firstAttribute="height" constant="17" id="IGv-qG-Zfv"/>
                             <constraint firstAttribute="width" constant="17" id="OdG-ee-9G0"/>
                         </constraints>
                     </imageView>
-                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="state-share" translatesAutoresizingMaskIntoConstraints="NO" id="JxQ-pn-yKm">
+                    <imageView hidden="YES" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="state-share" translatesAutoresizingMaskIntoConstraints="NO" id="JxQ-pn-yKm">
                         <rect key="frame" x="31" y="280" width="17" height="17"/>
                         <constraints>
                             <constraint firstAttribute="width" constant="17" id="pTf-Op-kVF"/>
                             <constraint firstAttribute="height" constant="17" id="wPD-JS-9cu"/>
                         </constraints>
                     </imageView>
-                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="state-host" translatesAutoresizingMaskIntoConstraints="NO" id="ujI-8b-3fq">
+                    <imageView hidden="YES" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="state-host" translatesAutoresizingMaskIntoConstraints="NO" id="ujI-8b-3fq">
                         <rect key="frame" x="9" y="280" width="17" height="17"/>
                         <constraints>
                             <constraint firstAttribute="height" constant="17" id="iv0-PB-HwA"/>
@@ -90,12 +90,15 @@
             </constraints>
             <viewLayoutGuide key="safeArea" id="SEy-5g-ep8"/>
             <connections>
+                <outlet property="audioLConstraint" destination="DpY-b2-YA5" id="8bK-Fg-TbL"/>
                 <outlet property="audioView" destination="jFt-tq-QDZ" id="5mv-ZF-GWj"/>
                 <outlet property="audioWConstraint" destination="OdG-ee-9G0" id="g0o-HC-klt"/>
+                <outlet property="headImgView" destination="fOm-GC-sB1" id="WVm-SA-OKb"/>
                 <outlet property="hostView" destination="ujI-8b-3fq" id="led-pq-psL"/>
                 <outlet property="hostWConstraint" destination="py8-Rr-9g0" id="nNN-pS-UtI"/>
                 <outlet property="nameLabel" destination="JCK-8G-1mS" id="kn8-M7-IJ9"/>
                 <outlet property="renderView" destination="gw0-zF-BD7" id="87N-Ds-Egy"/>
+                <outlet property="shareLConstraint" destination="we3-Ey-Lyj" id="doU-Ju-0aS"/>
                 <outlet property="shareView" destination="JxQ-pn-yKm" id="CpF-yT-xME"/>
                 <outlet property="shareWConstraint" destination="pTf-Op-kVF" id="3h4-Ya-KSG"/>
             </connections>

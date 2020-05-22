@@ -13,6 +13,17 @@
 @property (weak, nonatomic) IBOutlet UIView *whiteboardTool;
 
 @property (weak, nonatomic) UIButton *selectButton;
+
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *topConstraint1;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *topConstraint2;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *topConstraint3;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *topConstraint4;
+
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *leftConstraint1;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *leftConstraint2;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *leftConstraint3;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *leftConstraint4;
+
 @end
 
 @implementation EEWhiteboardTool
@@ -47,6 +58,30 @@
     
     if (self.delegate && [self.delegate respondsToSelector:@selector(selectWhiteTool:)]) {
         [self.delegate selectWhiteTool:sender.tag - 200];
+    }
+}
+
+- (void)setDirectionPortrait: (BOOL)portrait {
+    if(portrait) {
+        self.topConstraint1.constant = 46;
+        self.topConstraint2.constant = 88;
+        self.topConstraint3.constant = 130;
+        self.topConstraint4.constant = 172;
+        
+        self.leftConstraint1.constant = 4;
+        self.leftConstraint2.constant = 4;
+        self.leftConstraint3.constant = 4;
+        self.leftConstraint4.constant = 4;
+    } else {
+        self.topConstraint1.constant = 4;
+        self.topConstraint2.constant = 4;
+        self.topConstraint3.constant = 4;
+        self.topConstraint4.constant = 4;
+        
+        self.leftConstraint1.constant = 46;
+        self.leftConstraint2.constant = 88;
+        self.leftConstraint3.constant = 130;
+        self.leftConstraint4.constant = 172;
     }
 }
 

@@ -8,10 +8,6 @@
 
 #import "WhiteModel.h"
 
-@implementation WhiteInfoModel
-
-@end
-
 @implementation WhiteModel
 
 @end

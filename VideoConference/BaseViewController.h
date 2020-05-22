@@ -12,6 +12,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface BaseViewController : UIViewController
 
+@property (nonatomic, weak) UIActivityIndicatorView *activityIndicator;
+
 - (void)showToast:(NSString *)title;
 
 @end

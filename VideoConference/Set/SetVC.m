@@ -15,6 +15,7 @@
 #import "CommonNavigation.h"
 #import "UserDefaults.h"
 #import "AgoraRoomManager.h"
+#import "ShareLinkView.h"
 
 @interface SetVC ()<UITableViewDelegate, UITableViewDataSource>
 
@@ -22,6 +23,9 @@
 @property (weak, nonatomic) IBOutlet CommonNavigation *nav;
 
 @property (weak, nonatomic) SetTextFieldCell *nameCell;
+@property (weak, nonatomic) SetSwitchCell *videoCell;
+@property (weak, nonatomic) SetSwitchCell *audioCell;
+@property (weak, nonatomic) SetCenterTextCell *logCell;
 
 @property (nonatomic, assign) BOOL isUploading;
 
@@ -64,9 +68,11 @@
     if(self.inMeeting) {
         if(indexPath.section == 0){
             
+            ConferenceManager *manager = AgoraRoomManager.shareManager.conferenceManager;
+            
             SetLabelCell *cell = [tableView dequeueReusableCellWithIdentifier:@"SetLabelCell"];
             cell.tipText.text = indexPath.row == 0 ? @"房间名" : @"密码";
-            cell.valueText.text = @"";
+            cell.valueText.text = indexPath.row == 0 ? manager.roomModel.roomName : manager.roomModel.password;
             return cell;
         } else if(indexPath.section == 1){
             return [self userInfoCell:indexPath.row];
@@ -95,15 +101,18 @@
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     
     if(self.inMeeting) {
-        if(indexPath.section == 3){
+        if(indexPath.section == 3) {
             // invitation
-        } else if(indexPath.section == 4){
+            ShareLinkView *vv = [ShareLinkView createViewWithXib];
+            [vv showShareLinkViewInView:self.view];
+            
+        } else if(indexPath.section == 4) {
             // upload log
-            [self uploadLog:indexPath];
+            [self uploadLog];
         }
     } else {
         if(indexPath.section == 2) {
-            [self uploadLog:indexPath];
+            [self uploadLog];
         }
     }
 }
@@ -172,18 +181,34 @@
 
 - (UITableViewCell *)userMediaCell:(NSInteger)row {
     SetSwitchCell *cell = [self.tableView dequeueReusableCellWithIdentifier:@"SetSwitchCell"];
+
+    WEAK(self);
     if(row == 0){
         cell.tipText.text = @"摄像头";
-        cell.switchBtn.on = [UserDefaults getOpenCamera];
+        if(self.inMeeting) {
+            ConferenceManager *manager = AgoraRoomManager.shareManager.conferenceManager;
+            cell.switchBtn.on = manager.ownModel.enableVideo;
+        } else {
+            cell.switchBtn.on = [UserDefaults getOpenCamera];
+        }
         cell.block = ^(BOOL on) {
-            [UserDefaults setOpenCamera:on];
+            [weakself updateUserWithType:EnableSignalTypeVideo value:on];
         };
+        self.videoCell = cell;
+        
     } else if(row == 1) {
         cell.tipText.text = @"麦克风";
-        cell.switchBtn.on = [UserDefaults getOpenMic];
+        if(self.inMeeting) {
+            ConferenceManager *manager = AgoraRoomManager.shareManager.conferenceManager;
+            cell.switchBtn.on = manager.ownModel.enableAudio;
+        } else {
+            cell.switchBtn.on = [UserDefaults getOpenMic];
+        }
         cell.block = ^(BOOL on) {
-            [UserDefaults setOpenMic:on];
+            [weakself updateUserWithType:EnableSignalTypeAudio value:on];
         };
+        self.audioCell = cell;
+        
     } else if(row == 2) {
         cell.tipText.text = @"美颜（敬请期待）";
         cell.switchBtn.on = NO;
@@ -214,6 +239,7 @@
     SetCenterTextCell *cell = [self.tableView dequeueReusableCellWithIdentifier:@"SetCenterTextCell"];
     cell.tipText.text = @"邀请他人入会";
     cell.tipText.textColor = [UIColor colorWithHexString:@"268CFF"];
+    cell.loading.hidden = YES;
     return cell;
 }
 
@@ -221,44 +247,83 @@
     SetCenterTextCell *cell = [self.tableView dequeueReusableCellWithIdentifier:@"SetCenterTextCell"];
     cell.tipText.text = @"上传日志";
     cell.tipText.textColor = [UIColor colorWithHexString:@"323C47"];
+    cell.loading.hidden = YES;
+    self.logCell = cell;
     return cell;
 }
 
 #pragma mark upload log
-- (void)uploadLog:(NSIndexPath *)indexPath {
+- (void)uploadLog {
     if(self.isUploading) {
         return;
     }
     
-    SetCenterTextCell *cell = (SetCenterTextCell*)[self.tableView cellForRowAtIndexPath:indexPath];
-    cell.loading.hidden = NO;
-    [cell.loading startAnimating];
-    cell.tipText.hidden = YES;
+    self.logCell.loading.hidden = NO;
+    [self.logCell.loading startAnimating];
+    self.logCell.tipText.hidden = YES;
     self.isUploading = YES;
     
     // upload log
     WEAK(self);
     [AgoraRoomManager.shareManager.conferenceManager uploadLogWithSuccessBlock:^(NSString * _Nonnull uploadSerialNumber) {
         
-        dispatch_async(dispatch_get_main_queue(), ^{
-            
-            cell.loading.hidden = YES;
-            [cell.loading stopAnimating];
-            cell.tipText.hidden = NO;
-            weakself.isUploading = NO;
-            
-            [AlertViewUtil showAlertWithController:[VCManager getTopVC] title:NSLocalizedString(@"UploadLogSuccessText", nil) message:uploadSerialNumber cancelText:nil sureText:NSLocalizedString(@"OKText", nil) cancelHandler:nil sureHandler:nil];
-        });
+        weakself.logCell.loading.hidden = YES;
+        [weakself.logCell.loading stopAnimating];
+        weakself.logCell.tipText.hidden = NO;
+        weakself.isUploading = NO;
+
+        [AlertViewUtil showAlertWithController:[VCManager getTopVC] title:NSLocalizedString(@"UploadLogSuccessText", nil) message:uploadSerialNumber cancelText:nil sureText:NSLocalizedString(@"OKText", nil) cancelHandler:nil sureHandler:nil];
         
     } failBlock:^(NSError * _Nonnull error) {
-        dispatch_async(dispatch_get_main_queue(), ^{
-            cell.loading.hidden = YES;
-            [cell.loading stopAnimating];
-            cell.tipText.hidden = NO;
-            weakself.isUploading = NO;
-            [weakself showToast:error.localizedDescription];
-        });
+        weakself.logCell.loading.hidden = YES;
+        [weakself.logCell.loading stopAnimating];
+        weakself.logCell.tipText.hidden = NO;
+        weakself.isUploading = NO;
+        [weakself showToast:error.localizedDescription];
     }];
+}
+
+- (void)updateUserWithType:(EnableSignalType)type value:(BOOL)value {
+    
+    if(!self.inMeeting) {
+        if(type == EnableSignalTypeAudio) {
+            [UserDefaults setOpenMic:value];
+        } else if(type == EnableSignalTypeVideo) {
+            [UserDefaults setOpenCamera:value];
+        }
+        return;
+    }
+    
+    ConferenceManager *manager = AgoraRoomManager.shareManager.conferenceManager;
+    NSString *userId = manager.ownModel.userId;
+    
+    WEAK(self);
+    [self setLoadingVisible:YES];
+    [manager updateUserInfoWithUserId:userId value:value enableSignalType:type successBolck:^{
+        
+        if(type == EnableSignalTypeVideo) {
+            [NSNotificationCenter.defaultCenter postNotificationName:NOTICENAME_LOCAL_VIDEO_CHANGED object:nil];
+        }
+        [weakself setLoadingVisible:NO];
+    } failBlock:^(NSError * _Nonnull error) {
+        if(type == EnableSignalTypeVideo) {
+            weakself.videoCell.switchBtn.on = !value;
+        } else if(type == EnableSignalTypeAudio) {
+            weakself.audioCell.switchBtn.on = !value;
+        }
+        [weakself showToast:error.localizedDescription];
+        [weakself setLoadingVisible:NO];
+    }];
+}
+
+- (void)setLoadingVisible:(BOOL)show {
+    if(show) {
+        [self.activityIndicator startAnimating];
+        self.tableView.userInteractionEnabled = NO;
+    } else {
+        [self.activityIndicator stopAnimating];
+        self.tableView.userInteractionEnabled = YES;
+    }
 }
 
 @end

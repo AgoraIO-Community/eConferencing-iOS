@@ -68,23 +68,39 @@
 
 - (void)initMediaWithClientRole:(ClientRole)role successBolck:(void (^)(void))successBlock failBlock:(void (^ _Nullable) (NSInteger errorCode))failBlock {
     
-    // gcd group
-    WEAK(self);
+    dispatch_group_t group = dispatch_group_create();
+    
+    __block NSInteger errCode = 0;
+
+    // init rtm
+    dispatch_group_enter(group);
     [self setupRTMWithSuccessBolck:^{
-        [weakself setupRTCWithClientRole:role successBolck:^{
+       dispatch_group_leave(group);
+    } failBlock:^(NSInteger errorCode) {
+        errCode = errorCode;
+        dispatch_group_leave(group);
+    }];
+    
+    // init rtc
+    dispatch_group_enter(group);
+    [self setupRTCWithClientRole:role successBolck:^{
+        dispatch_group_leave(group);
+    } failBlock:^(NSInteger errorCode) {
+        errCode = errorCode;
+        dispatch_group_leave(group);
+    }];
+
+    dispatch_group_notify(group, dispatch_get_main_queue(), ^{
+        if(errCode != 0) {
+            if(failBlock != nil){
+               failBlock(errCode);
+            }
+        } else {
             if(successBlock != nil){
                successBlock();
             }
-        } failBlock:^(NSInteger errorCode) {
-            if(failBlock != nil){
-               failBlock(errorCode);
-            }
-        }];
-    } failBlock:^(NSInteger errorCode) {
-        if(failBlock != nil){
-           failBlock(errorCode);
         }
-    }];
+    });
 }
 
 - (void)sendMessageWithText:(NSString *)message apiversion:(NSString *)apiversion successBolck:(void (^ _Nullable) (void))successBlock completeFailBlock:(void (^ _Nullable) (NSError *error))failBlock {
@@ -180,44 +196,43 @@
         [self.rtcVideoSessionModels removeObject:model];
     }
 }
+- (void)removeVideoCanvasWithView:(UIView *)view {
+    for (VideoSessionModel *model in self.rtcVideoSessionModels) {
+        if(model.videoCanvas.view == view) {
+            model.videoCanvas.view = nil;
+            if(model.uid == self.baseConfigModel.uid) {
+                [self.rtcManager setupLocalVideo:model.videoCanvas];
+                [self.rtcManager setClientRole:AgoraClientRoleAudience];
+            } else {
+                [self.rtcManager setupRemoteVideo:model.videoCanvas];
+            }
+            [self.rtcVideoSessionModels removeObject:model];
+            break;
+        }
+    }
+}
 
-- (void)updateUserInfoWithValue:(BOOL)enable enableSignalType:(EnableSignalType)type apiversion:(NSString *)apiversion successBolck:(void (^)(void))successBlock failBlock:(void (^ _Nullable) (NSError *error))failBlock {
+- (void)getUserListWithNextId:(NSString *)nextId count:(NSInteger)count apiversion:(NSString *)apiversion successBlock:(void (^)(ConfUserListInfoModel *userListModel))successBlock failBlock:(void (^ _Nullable) (NSError *error))failBlock {
     
     WEAK(self);
     
     NSString *appId = self.baseConfigModel.appId;
     NSString *roomId = self.baseConfigModel.roomId;
-    NSString *userId = self.baseConfigModel.userId;
-    [HttpManager updateUserInfoWithValue:enable enableSignalType:type appId:appId roomId:roomId userId:userId apiVersion:apiversion completeSuccessBlock:^{
+    [HttpManager getUserListWithRole:ConfRoleTypeParticipant nextId:nextId count:count appId:appId roomId:roomId apiVersion:apiversion successBlock:successBlock failBlock:^(NSError * _Nonnull error) {
         
-        // 更新数据
-        if(type == EnableSignalTypeChat){
-            weakself.ownModel.enableChat = enable;
-            for (EduUserModel *model in weakself.coUserModels) {
-                if(model.uid == weakself.ownModel.uid){
-                    model.enableChat = enable;
-                    break;
-                }
-            }
-        } else if(type == EnableSignalTypeAudio){
-            weakself.ownModel.enableAudio = enable;
-            [weakself muteLocalAudioStream:@(!enable)];
-            for (EduUserModel *model in weakself.coUserModels) {
-                if(model.uid == weakself.ownModel.uid){
-                    model.enableAudio = enable;
-                    break;
-                }
-            }
-        } else if(type == EnableSignalTypeVideo){
-            weakself.ownModel.enableVideo = enable;
-            [weakself muteLocalVideoStream:@(!enable)];
-            for (EduUserModel *model in weakself.coUserModels) {
-                if(model.uid == weakself.ownModel.uid){
-                    model.enableVideo = enable;
-                    break;
-                }
-            }
+        if(failBlock != nil){
+           failBlock([weakself httpErrorMessage:error]);
         }
+    }];
+}
+
+- (void)updateUserInfoWithUserId:(NSString*)userId  value:(BOOL)enable enableSignalType:(EnableSignalType)type apiversion:(NSString *)apiversion successBolck:(void (^)(void))successBlock failBlock:(void (^ _Nullable) (NSError *error))failBlock {
+    
+    WEAK(self);
+    
+    NSString *appId = self.baseConfigModel.appId;
+    NSString *roomId = self.baseConfigModel.roomId;
+    [HttpManager updateUserInfoWithValue:enable enableSignalType:type appId:appId roomId:roomId userId:userId apiVersion:apiversion completeSuccessBlock:^{
         if(successBlock != nil){
            successBlock();
         }
@@ -253,7 +268,8 @@
     NSString *appId = self.baseConfigModel.appId;
     NSString *roomId = self.baseConfigModel.roomId;
     WEAK(self);
-    [LogManager uploadLogWithAppId:appId roomId:roomId apiVersion:apiversion completeSuccessBlock:^(NSString * _Nonnull uploadSerialNumber) {
+    
+    [LogManager uploadLogWithSceneType:self.sceneType appId:appId roomId:roomId apiVersion:apiversion completeSuccessBlock:^(NSString * _Nonnull uploadSerialNumber) {
         if(successBlock != nil){
            successBlock(uploadSerialNumber);
         }
@@ -316,6 +332,15 @@
     }];
 }
 
+- (int)submitRating:(NSInteger)rating {
+    NSString *callId = [self.rtcManager getCallId];
+    return [self.rtcManager rate:callId rating:rating description:@""];
+}
+
+- (int)switchCamera {
+    return [self.rtcManager switchCamera];
+}
+
 - (void)releaseResource {
     
     for (VideoSessionModel *model in self.rtcVideoSessionModels){
@@ -357,7 +382,7 @@
     WEAK(self);
     [HttpManager getConfigWithApiVersion:apiVersion successBolck:^(ConfigAllInfoModel * _Nonnull model) {
         
-        self.baseConfigModel.multiLanguage = model.configInfoModel.multiLanguage;
+        weakself.baseConfigModel.multiLanguage = model.configInfoModel.multiLanguage;
         if(successBlock != nil){
             successBlock();
         }
@@ -456,21 +481,26 @@
     }
     
     BaseConfigModel *configModel = self.baseConfigModel;
-    [self.rtcManager initEngineKitWithAppid:configModel.appId clientRole:agoraClientRole dataSourceDelegate:self];
+    self.rtcManager = [RTCManager new];
+    [self.rtcManager initEngineKitWithAppid:configModel.appId clientRole:agoraClientRole dataSourceDelegate:nil];
     
     int errorCode = [self.rtcManager joinChannelByToken:configModel.rtcToken channelId:configModel.channelName info:nil uid:configModel.uid joinSuccess:^(NSString * _Nonnull channel, NSUInteger uid, NSInteger elapsed) {
+        
+        AgoraLogInfo(@"join rtc success");
+        
         if(successBlock != nil){
            successBlock();
         }
     }];
-    if(errorCode < 0){
+    if(errorCode != 0){
+        AgoraLogInfo(@"join rtc fail:%d", errorCode);
         if(failBlock != nil){
            failBlock(errorCode);
         }
     }
 }
 
-#pragma mark Private mute media
+#pragma mark mute media
 - (void)muteLocalAudioStream:(NSNumber *)mute {
     [self.rtcManager muteLocalAudioStream:mute.boolValue];
 }

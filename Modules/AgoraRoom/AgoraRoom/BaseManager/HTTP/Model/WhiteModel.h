@@ -8,16 +8,9 @@
 
 #import <Foundation/Foundation.h>
 #import "BaseModel.h"
+#import "WhiteInfoModel.h"
 
 NS_ASSUME_NONNULL_BEGIN
-
-@interface WhiteInfoModel : NSObject
-
-@property (nonatomic, strong) NSString *boardId;
-@property (nonatomic, strong) NSString *boardToken;
-
-@end
-
 
 @interface WhiteModel : BaseModel
 

@@ -37,7 +37,7 @@
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="6aM-Wz-uMY">
                             <rect key="frame" x="9" y="0.0" width="396" height="279"/>
                             <subviews>
-                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="会员名：Meeting" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="XjL-Dh-xVL">
+                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="会议名：Meeting" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="XjL-Dh-xVL">
                                     <rect key="frame" x="20" y="20" width="356" height="21"/>
                                     <constraints>
                                         <constraint firstAttribute="height" constant="21" id="fQn-Uy-9Jy"/>
@@ -146,7 +146,7 @@
                 <outlet property="animateView" destination="Mvu-VG-Pjl" id="rb2-MW-q8e"/>
                 <outlet property="bgView" destination="m6J-EZ-HA6" id="Lip-Fz-rj0"/>
                 <outlet property="invitationName" destination="1VQ-eN-PaU" id="h1G-NY-cDo"/>
-                <outlet property="link" destination="5Ur-jB-bJy" id="Jkg-8q-LL5"/>
+                <outlet property="link" destination="GaR-Ds-u2s" id="iMW-IF-9qY"/>
                 <outlet property="meetName" destination="XjL-Dh-xVL" id="Qy5-Bn-f0g"/>
                 <outlet property="psd" destination="wz9-CO-AKD" id="BmU-ig-eYP"/>
             </connections>

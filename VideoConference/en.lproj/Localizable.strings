@@ -28,3 +28,6 @@ UploadLogSuccessText = "upload log successed";
 
 UserNameVerifyEmptyText = "room name and user name can not empty";
 UserNameVerifyText = "room name and user name must be within 20 characters";
+
+ColorPickerText = " Color Picker";
+JoinMediaFailedText = "join media failed";

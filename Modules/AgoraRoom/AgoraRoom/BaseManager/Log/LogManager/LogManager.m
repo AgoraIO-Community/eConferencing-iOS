@@ -42,31 +42,44 @@ typedef NS_ENUM(NSInteger, ZipStateType) {
     [DDLog addLogger:fileLogger withLevel:ddLogLevel];
 }
 
-+ (void)uploadLogWithAppId:(NSString *)appId roomId:(NSString *)roomId apiVersion:(NSString*)apiVersion completeSuccessBlock:(void (^ _Nullable) (NSString *uploadSerialNumber))successBlock completeFailBlock:(void (^ _Nullable) (NSError *error))failBlock {
++ (void)uploadLogWithSceneType:(SceneType)sceneType appId:(NSString *)appId roomId:(NSString *)roomId apiVersion:(NSString*)apiVersion completeSuccessBlock:(void (^ _Nullable) (NSString *uploadSerialNumber))successBlock completeFailBlock:(void (^ _Nullable) (NSError *error))failBlock {
     
     NSString *logDirectoryPath = [NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES)[0] stringByAppendingPathComponent:@"/Agora"];
     NSString *zipName = [LogManager generateZipName];
     NSString *zipPath = [NSString stringWithFormat:@"%@/%@", logDirectoryPath, zipName];
-    NSInteger zipCode = [LogManager zipFilesWithSourceDirectory:logDirectoryPath toPath:zipPath];
+    
+    [LogManager zipFilesWithSourceDirectory:logDirectoryPath toPath:zipPath completeBlock:^(NSInteger zipCode) {
+        [LogManager checkZipCodeAndUploadWithSceneType:sceneType zipCode:zipCode zipPath:zipPath appId:appId roomId:roomId apiVersion:apiVersion completeSuccessBlock:successBlock completeFailBlock:failBlock];
+    }];
+}
+
++ (void)checkZipCodeAndUploadWithSceneType:(SceneType)sceneType zipCode:(ZipStateType)zipCode zipPath:(NSString *)zipPath appId:(NSString *)appId roomId:(NSString *)roomId apiVersion:(NSString*)apiVersion  completeSuccessBlock:(void (^ _Nullable) (NSString *uploadSerialNumber))successBlock completeFailBlock:(void (^ _Nullable) (NSError *error))failBlock {
+    
     switch (zipCode) {
         case ZipStateTypeOnNotFound:
             if(failBlock != nil) {
                 NSError *error = LocalError(LocalAgoraErrorCodeCommon, Localized(@"LogNotFoundText"));
-                failBlock(error);
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    failBlock(error);
+                });
             }
             return;
             break;
         case ZipStateTypeOnRemoveError:
             if(failBlock != nil) {
                 NSError *error = LocalError(LocalAgoraErrorCodeCommon, Localized(@"LogClearErrorText"));
-                failBlock(error);
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    failBlock(error);
+                });
             }
             return;
             break;
         case ZipStateTypeOnZipError:
             if(failBlock != nil) {
                 NSError *error = LocalError(LocalAgoraErrorCodeCommon, Localized(@"LogZipErrorText"));
-                failBlock(error);
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    failBlock(error);
+                });
             }
             return;
             break;
@@ -76,62 +89,74 @@ typedef NS_ENUM(NSInteger, ZipStateType) {
     if (zipCode != ZipStateTypeOK){
         if(failBlock != nil) {
             NSError *error = LocalError(LocalAgoraErrorCodeCommon, Localized(@"LogZipErrorText"));
-            failBlock(error);
+            dispatch_async(dispatch_get_main_queue(), ^{
+                failBlock(error);
+            });
         }
         return;
     }
 
     [HttpManager getLogInfoWithAppId:appId roomId:roomId apiVersion:apiVersion  completeSuccessBlock:^(LogParamsInfoModel * _Nonnull model) {
         
-        [OSSManager uploadOSSWithBucketName:model.bucketName objectKey:model.ossKey callbackBody:model.callbackBody callbackBodyType:model.callbackContentType endpoint:model.ossEndpoint fileURL:[NSURL URLWithString:zipPath] completeSuccessBlock:^(NSString * _Nonnull uploadSerialNumber) {
-            
+        [OSSManager uploadOSSWithSceneType:sceneType bucketName:model.bucketName objectKey:model.ossKey callbackBody:model.callbackBody callbackBodyType:model.callbackContentType endpoint:model.ossEndpoint fileURL:[NSURL URLWithString:zipPath] completeSuccessBlock:^(NSString * _Nonnull uploadSerialNumber) {
+        
             if(successBlock != nil) {
-                successBlock(uploadSerialNumber);
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    successBlock(uploadSerialNumber);
+                });
             }
-            
         } completeFailBlock:^(NSError * _Nonnull error) {
+            
+            
             if(failBlock != nil) {
-                failBlock(error);
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    failBlock(error);
+                });
             }
         }];
         
     } completeFailBlock:^(NSError * _Nonnull error) {
         if(failBlock != nil) {
-            failBlock(error);
+            dispatch_async(dispatch_get_main_queue(), ^{
+                failBlock(error);
+            });
         }
     }];
 }
 
-+ (NSInteger)zipFilesWithSourceDirectory:(NSString *)directoryPath toPath:(NSString *)zipPath {
++ (void)zipFilesWithSourceDirectory:(NSString *)directoryPath toPath:(NSString *)zipPath completeBlock:(void (^) (NSInteger zipCode))block {
     
-    NSFileManager *fileManager = [NSFileManager defaultManager];
-    BOOL isDirectoryExist = [fileManager fileExistsAtPath:directoryPath];
-    if(!isDirectoryExist) {
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         
-        [fileManager createDirectoryAtPath:directoryPath withIntermediateDirectories:YES attributes:nil error:nil];
-    }
-    
-    NSDirectoryEnumerator *direnum = [fileManager enumeratorAtPath:directoryPath];
-    NSString *filename;
-    while (filename = [direnum nextObject]) {
-        if ([[filename pathExtension] isEqualToString:@"zip"]) {
-            
-            NSString *logZipPath = [NSString stringWithFormat:@"%@/%@", directoryPath, filename];
-            
-            NSError *error;
-            BOOL rmvSuccess = [fileManager removeItemAtPath:logZipPath error:&error];
-            if (error || !rmvSuccess) {
-                return ZipStateTypeOnRemoveError;
-            }
-            break;
+        NSFileManager *fileManager = [NSFileManager defaultManager];
+        BOOL isDirectoryExist = [fileManager fileExistsAtPath:directoryPath];
+        if(!isDirectoryExist) {
+            [fileManager createDirectoryAtPath:directoryPath withIntermediateDirectories:YES attributes:nil error:nil];
         }
-    }
-    
-    BOOL zipSuccess = [SSZipArchive createZipFileAtPath:zipPath withContentsOfDirectory:directoryPath];
-    if(zipSuccess){
-        return ZipStateTypeOK;
-    }
-    return ZipStateTypeOnZipError;
+        
+        NSDirectoryEnumerator *direnum = [fileManager enumeratorAtPath:directoryPath];
+        NSString *filename;
+        while (filename = [direnum nextObject]) {
+            if ([[filename pathExtension] isEqualToString:@"zip"]) {
+                
+                NSString *logZipPath = [NSString stringWithFormat:@"%@/%@", directoryPath, filename];
+                
+                NSError *error;
+                BOOL rmvSuccess = [fileManager removeItemAtPath:logZipPath error:&error];
+                if (error || !rmvSuccess) {
+                    block(ZipStateTypeOnRemoveError);
+                    return;
+                }
+                break;
+            }
+        }
+        BOOL zipSuccess = [SSZipArchive createZipFileAtPath:zipPath withContentsOfDirectory:directoryPath];
+        if(zipSuccess){
+            block(ZipStateTypeOK);
+        } else {
+            block(ZipStateTypeOnZipError);
+        }
+    });
 }
 
 + (NSString *)generateZipName {

@@ -66,6 +66,7 @@
 		78784937246D321700455FA2 /* ShareLinkView.m in Sources */ = {isa = PBXBuildFile; fileRef = 78784936246D321700455FA2 /* ShareLinkView.m */; };
 		78784939246D322200455FA2 /* ShareLinkView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 78784938246D322200455FA2 /* ShareLinkView.xib */; };
 		7878493D246D770100455FA2 /* UIImage+Circle.m in Sources */ = {isa = PBXBuildFile; fileRef = 7878493C246D770100455FA2 /* UIImage+Circle.m */; };
+		78C08C9E2476AD2100728DCB /* AgoraFlowLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = 78C08C9D2476AD2100728DCB /* AgoraFlowLayout.m */; };
 		78F690FD246E71EA000A0E71 /* ScoreAlertVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 78F690F6246E71EA000A0E71 /* ScoreAlertVC.xib */; };
 		78F690FE246E71EA000A0E71 /* ScoreAlertVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 78F690F7246E71EA000A0E71 /* ScoreAlertVC.m */; };
 		78F690FF246E71EA000A0E71 /* AllMuteAlertVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 78F690FA246E71EA000A0E71 /* AllMuteAlertVC.xib */; };
@@ -197,6 +198,8 @@
 		78784938246D322200455FA2 /* ShareLinkView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ShareLinkView.xib; sourceTree = "<group>"; };
 		7878493B246D770100455FA2 /* UIImage+Circle.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UIImage+Circle.h"; sourceTree = "<group>"; };
 		7878493C246D770100455FA2 /* UIImage+Circle.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UIImage+Circle.m"; sourceTree = "<group>"; };
+		78C08C9C2476AD2100728DCB /* AgoraFlowLayout.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AgoraFlowLayout.h; sourceTree = "<group>"; };
+		78C08C9D2476AD2100728DCB /* AgoraFlowLayout.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AgoraFlowLayout.m; sourceTree = "<group>"; };
 		78F690F6246E71EA000A0E71 /* ScoreAlertVC.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ScoreAlertVC.xib; sourceTree = "<group>"; };
 		78F690F7246E71EA000A0E71 /* ScoreAlertVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ScoreAlertVC.m; sourceTree = "<group>"; };
 		78F690F8246E71EA000A0E71 /* ScoreAlertVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ScoreAlertVC.h; sourceTree = "<group>"; };
@@ -561,6 +564,8 @@
 				78F69106246E71FC000A0E71 /* MeetingVC.h */,
 				78F69105246E71FC000A0E71 /* MeetingVC.m */,
 				78F69107246E71FC000A0E71 /* MeetingVC.xib */,
+				78C08C9C2476AD2100728DCB /* AgoraFlowLayout.h */,
+				78C08C9D2476AD2100728DCB /* AgoraFlowLayout.m */,
 				78F69120246E874F000A0E71 /* PIPVideoCell.h */,
 				78F69121246E874F000A0E71 /* PIPVideoCell.m */,
 				78F69122246E874F000A0E71 /* PIPVideoCell.xib */,
@@ -793,6 +798,7 @@
 				7808B2A02468449700B320EB /* SetCenterTextCell.m in Sources */,
 				7878490B246BA6CE00455FA2 /* MemberVC.m in Sources */,
 				784D2296246424D20065985A /* EEColorShowView.m in Sources */,
+				78C08C9E2476AD2100728DCB /* AgoraFlowLayout.m in Sources */,
 				78F69123246E874F000A0E71 /* PIPVideoCell.m in Sources */,
 				7803561D246588D9001F9624 /* CommonNavigation.m in Sources */,
 				7878491C246BD86900455FA2 /* MessageSelfCell.m in Sources */,

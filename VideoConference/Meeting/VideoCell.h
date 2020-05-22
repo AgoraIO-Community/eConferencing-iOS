@@ -7,22 +7,15 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "AgoraRoomManager.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
 @interface VideoCell : UICollectionViewCell
 
-@property (weak, nonatomic) IBOutlet UIView *renderView;
-@property (weak, nonatomic) IBOutlet UIImageView *headImgView;
-
-@property (weak, nonatomic) IBOutlet UIImageView *hostView;
-@property (weak, nonatomic) IBOutlet UIImageView *shareView;
-@property (weak, nonatomic) IBOutlet UIView *audioView;
-@property (weak, nonatomic) IBOutlet UILabel *nameLabel;
-
-@property (weak, nonatomic) IBOutlet NSLayoutConstraint *hostWConstraint;
-@property (weak, nonatomic) IBOutlet NSLayoutConstraint *shareWConstraint;
-@property (weak, nonatomic) IBOutlet NSLayoutConstraint *audioWConstraint;
+- (void)setShareBoardModel:(ConfShareBoardUserModel *)userModel;
+- (void)setShareScreenModel:(ConfShareScreenUserModel *)userModel;
+- (void)setUserModel:(ConfUserModel * _Nullable)userModel;
 
 @end
 
