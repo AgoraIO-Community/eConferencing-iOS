@@ -11,7 +11,6 @@
 #import "SetVC.h"
 #import "UserDefaults.h"
 #import "MeetingVC.h"
-#import "AllMuteAlertVC.h"
 #import <IQKeyboardManager/IQKeyboardManager.h>
 #import "AgoraRoomManager.h"
 
@@ -73,12 +72,6 @@
     
     SetVC *vc = [[SetVC alloc] initWithNibName:@"SetVC" bundle:nil];
     [VCManager pushToVC:vc];
-    
-
-//    AllMuteAlertVC *vc = [[AllMuteAlertVC alloc] initWithNibName:@"AllMuteAlertVC" bundle:nil];
-//    [VCManager presentToVC:vc];
-//    
-
 }
 
 - (IBAction)onSwitchCamera:(id)sender {

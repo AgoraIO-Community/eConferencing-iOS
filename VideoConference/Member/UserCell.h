@@ -7,17 +7,13 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "AgoraRoomManager.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
 @interface UserCell : UITableViewCell
 
-@property (weak, nonatomic) IBOutlet UIImageView *imgView;
-@property (weak, nonatomic) IBOutlet UILabel *nameLabel;
-@property (weak, nonatomic) IBOutlet UIImageView *hostImgView;
-@property (weak, nonatomic) IBOutlet UIImageView *shareImgView;
-@property (weak, nonatomic) IBOutlet UIImageView *videoImgView;
-@property (weak, nonatomic) IBOutlet UIImageView *audioImgView;
+- (void)updateViewWithModel:(ConfUserModel *)userModel;
 
 @end
 

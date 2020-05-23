@@ -83,6 +83,7 @@
                 <outlet property="imgView" destination="IS1-fX-bCE" id="Bc6-br-Pmw"/>
                 <outlet property="nameLabel" destination="aH4-6x-Guo" id="YJH-wm-kyo"/>
                 <outlet property="shareImgView" destination="qAW-gX-yGE" id="2ZX-uT-1lA"/>
+                <outlet property="shareWConstraint" destination="nWe-OL-44m" id="RUL-lx-S09"/>
                 <outlet property="videoImgView" destination="CMY-gz-Uuc" id="ccM-SA-GgS"/>
             </connections>
             <point key="canvasLocation" x="137.68115942028987" y="87.723214285714278"/>

@@ -25,6 +25,8 @@
 
 // /edu/v1/apps/{appId}/room/exit
 #define HTTP_LEFT_ROOM @"%@/v1/apps/%@/room/%@/exit"
+// /conf/v1/apps/{appId}/room/{roomId}/user/{userId}/exit
+#define HTTP_CONF_LEFT_ROOM @"%@/v1/apps/%@/room/%@/user/%@/exit"
 
 // http: get or update global state
 // /edu/v1/apps/{appId}/room/{roomId}
@@ -42,6 +44,18 @@
 // http: update user info
 // /edu/v1/apps/{appId}/room/{roomId}/user/{userId}
 #define HTTP_UPDATE_USER_INFO @"%@/v1/apps/%@/room/%@/user/%@"
+
+// http: change host
+// /conf/v1/apps/{appId}/room/{roomId}/user/{userId}/host
+#define HTTP_CHANGE_HOST @"%@/v1/apps/%@/room/%@/user/%@/host"
+
+// http: change board
+// /conf/v1/apps/{appId}/room/{roomId}/user/{userId}/board
+#define HTTP_BOARD_STATE @"%@/v1/apps/%@/room/%@/user/%@/board"
+
+// http: audience apply
+// /conf/v1/apps/{appId}/room/{roomId}/user/{userId}/audience/apply
+#define HTTP_AUDIENCE_APPLY @"%@/v1/apps/%@/room/%@/user/%@/audience/apply"
 
 // http: get userlist info
 // /conf/v1/apps/{appId}/room/{roomId}/user/page

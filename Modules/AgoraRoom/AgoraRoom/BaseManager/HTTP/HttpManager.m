@@ -305,6 +305,81 @@ static NSString *agoraUId;
     }];
 }
 
++ (void)changeHostWithAppId:(NSString *)appId roomId:(NSString *)roomId userId:(NSString *)targetUserId apiVersion:(NSString *)apiVersion completeSuccessBlock:(void (^ _Nullable) (void))successBlock completeFailBlock:(void (^ _Nullable) (NSError *error))failBlock {
+    
+    NSString *url = [NSString stringWithFormat:HTTP_CHANGE_HOST, HTTP_BASE_URL, appId, roomId, targetUserId];
+    
+    [HttpManager post:url params:nil headers:nil apiVersion:apiVersion success:^(id responseObj) {
+        
+        CommonModel *model = [CommonModel yy_modelWithDictionary:responseObj];
+        if(model.code == 0) {
+            if(successBlock != nil) {
+                successBlock();
+            }
+        } else {
+            if(failBlock != nil) {
+                NSError *error = LocalError(model.code, model.msg);
+                failBlock(error);
+            }
+        }
+        
+    } failure:^(NSError *error) {
+        if(failBlock != nil) {
+            failBlock(error);
+        }
+    }];
+}
+
++ (void)whiteBoardStateWithValue:(NSInteger)value appId:(NSString *)appId roomId:(NSString *)roomId userId:(NSString *)userId apiVersion:(NSString *)apiVersion completeSuccessBlock:(void (^ _Nullable) (void))successBlock completeFailBlock:(void (^ _Nullable) (NSError *error))failBlock {
+    
+    NSString *url = [NSString stringWithFormat:HTTP_BOARD_STATE, HTTP_BASE_URL, appId, roomId, userId];
+    
+        [HttpManager post:url params:nil headers:nil apiVersion:apiVersion success:^(id responseObj) {
+        
+        CommonModel *model = [CommonModel yy_modelWithDictionary:responseObj];
+        if(model.code == 0) {
+            if(successBlock != nil) {
+                successBlock();
+            }
+        } else {
+            if(failBlock != nil) {
+                NSError *error = LocalError(model.code, model.msg);
+                failBlock(error);
+            }
+        }
+        
+    } failure:^(NSError *error) {
+        if(failBlock != nil) {
+            failBlock(error);
+        }
+    }];
+}
+
++ (void)audienceActionWithType:(EnableSignalType)type value:(NSInteger)value appId:(NSString *)appId roomId:(NSString *)roomId userId:(NSString *)userId apiVersion:(NSString *)apiVersion completeSuccessBlock:(void (^ _Nullable) (void))successBlock completeFailBlock:(void (^ _Nullable) (NSError *error))failBlock {
+    
+    NSString *url = [NSString stringWithFormat:HTTP_AUDIENCE_APPLY, HTTP_BASE_URL, appId, roomId, userId];
+    
+        [HttpManager post:url params:nil headers:nil apiVersion:apiVersion success:^(id responseObj) {
+        
+        CommonModel *model = [CommonModel yy_modelWithDictionary:responseObj];
+        if(model.code == 0) {
+            if(successBlock != nil) {
+                successBlock();
+            }
+        } else {
+            if(failBlock != nil) {
+                NSError *error = LocalError(model.code, model.msg);
+                failBlock(error);
+            }
+        }
+        
+    } failure:^(NSError *error) {
+        if(failBlock != nil) {
+            failBlock(error);
+        }
+    }];
+}
+
 + (void)getRoomInfoWithAppId:(NSString *)appId roomId:(NSString *)roomId apiVersion:(NSString *)apiVersion completeSuccessBlock:(void (^ _Nullable) (id responseModel))successBlock completeFailBlock:(void (^ _Nullable) (NSError *error))failBlock {
  
     NSString *url = [NSString stringWithFormat:HTTP_ROOM_INFO, HTTP_BASE_URL, appId, roomId];
@@ -345,14 +420,19 @@ static NSString *agoraUId;
     }];
 }
 
-+ (void)leftRoomWithAppId:(NSString *)appId roomId:(NSString *)roomId apiVersion:(NSString *)apiVersion successBolck:(void (^ _Nullable) (void))successBlock completeFailBlock:(void (^ _Nullable) (NSError *error))failBlock {
++ (void)leftRoomWithAppId:(NSString *)appId roomId:(NSString *)roomId userId:(NSString *)userId apiVersion:(NSString *)apiVersion successBolck:(void (^ _Nullable) (void))successBlock completeFailBlock:(void (^ _Nullable) (NSError *error))failBlock {
     
     if(appId == nil || roomId == nil) {
         return;
     }
     
-    NSString *url = [NSString stringWithFormat:HTTP_LEFT_ROOM, HTTP_BASE_URL, appId, roomId];
-
+    NSString *url = @"";
+    if(userId != nil) {
+        url = [NSString stringWithFormat:HTTP_CONF_LEFT_ROOM, HTTP_BASE_URL, appId, roomId, userId];
+    } else {
+        url = [NSString stringWithFormat:HTTP_LEFT_ROOM, HTTP_BASE_URL, appId, roomId];
+    }
+    
     [HttpManager post:url params:nil headers:nil apiVersion:apiVersion success:^(id responseObj) {
         
         CommonModel *model = [CommonModel yy_modelWithDictionary:responseObj];

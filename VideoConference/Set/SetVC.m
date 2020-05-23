@@ -27,7 +27,12 @@
 @property (weak, nonatomic) SetSwitchCell *audioCell;
 @property (weak, nonatomic) SetCenterTextCell *logCell;
 
+@property (weak, nonatomic) SetSwitchCell *muteCell;
+@property (weak, nonatomic) SetSwitchCell *allowUmmuteCell;
+
 @property (nonatomic, assign) BOOL isUploading;
+
+@property (nonatomic, assign) MuteAllAudioState currentState;
 
 @end
 
@@ -46,6 +51,9 @@
             [VCManager popTopView];
         };
     }
+    
+    ConferenceManager *manager = AgoraRoomManager.shareManager.conferenceManager;
+    self.currentState = manager.roomModel.muteAllAudio;
 
     self.tableView.tableFooterView = [[UIView alloc] init];
     
@@ -120,6 +128,9 @@
 - (NSInteger)tableView:(nonnull UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     
     if(self.isMemberSet) {
+       if(self.currentState == MuteAllAudioStateUnmute) {
+            return 1;
+        }
         return 2;
     }
     
@@ -174,6 +185,11 @@
         SetTextFieldCell *cell = [self.tableView dequeueReusableCellWithIdentifier:@"SetTextFieldCell"];
         cell.tipText.text = @"姓名";
         cell.textField.text = [UserDefaults getUserName];
+        if(self.inMeeting) {
+            cell.textField.enabled = NO;
+        } else {
+            cell.textField.enabled = YES;
+        }
         self.nameCell = cell;
         return cell;
     }
@@ -219,18 +235,23 @@
 
 - (UITableViewCell *)roomMediaCell:(NSInteger)row {
     SetSwitchCell *cell = [self.tableView dequeueReusableCellWithIdentifier:@"SetSwitchCell"];
-    if(row == 0){
+    
+    WEAK(self);
+    
+    if (row == 0) {
         cell.tipText.text = @"全体静音";
-//        cell.switchBtn.on = [UserDefaults getOpenCamera];
+        cell.switchBtn.on = self.currentState != MuteAllAudioStateUnmute ? YES : NO;
         cell.block = ^(BOOL on) {
-
+            [weakself updateRoomWithIndex:0 value:on];
         };
+        self.muteCell = cell;
     } else if(row == 1) {
         cell.tipText.text = @"允许成员自我解除静音";
-//        cell.switchBtn.on = [UserDefaults getOpenMic];
+        cell.switchBtn.on = self.currentState == MuteAllAudioStateAllowUnmute ? YES : NO;
         cell.block = ^(BOOL on) {
-
+            [weakself updateRoomWithIndex:1 value:on];
         };
+        self.allowUmmuteCell = cell;
     }
     return cell;
 }
@@ -311,6 +332,33 @@
         } else if(type == EnableSignalTypeAudio) {
             weakself.audioCell.switchBtn.on = !value;
         }
+        [weakself showToast:error.localizedDescription];
+        [weakself setLoadingVisible:NO];
+    }];
+}
+
+- (void)updateRoomWithIndex:(NSInteger)index value:(BOOL)on {
+    
+    ConferenceManager *manager = AgoraRoomManager.shareManager.conferenceManager;
+
+    if (index == 0) {
+        self.currentState = on ? MuteAllAudioStateNoAllowUnmute : MuteAllAudioStateUnmute;
+    } else {
+        self.currentState = on ? MuteAllAudioStateAllowUnmute : MuteAllAudioStateNoAllowUnmute;
+    }
+    [self.tableView reloadData];
+    
+    WEAK(self);
+    [self setLoadingVisible:YES];
+    [manager updateRoomInfoWithValue:self.currentState enableSignalType:ConfEnableRoomSignalTypeMuteAllChat successBolck:^{
+        
+        [weakself setLoadingVisible:NO];
+
+    } failBlock:^(NSError * _Nonnull error) {
+    
+        weakself.currentState = manager.roomModel.muteAllAudio;
+        [weakself.tableView reloadData];
+        
         [weakself showToast:error.localizedDescription];
         [weakself setLoadingVisible:NO];
     }];

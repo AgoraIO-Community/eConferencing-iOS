@@ -120,7 +120,8 @@
 }
 
 - (void)leftRoomWithSuccessBolck:(void (^ _Nullable)(void))successBlock failBlock:(void (^ _Nullable) (NSError *error))failBlock {
-    [self.roomManager leftRoomWithApiversion:APIVersion1 successBolck:successBlock failBlock:failBlock];
+    
+    [self.roomManager leftRoomWithUserId:self.ownModel.userId apiversion:APIVersion1 successBolck:successBlock failBlock:failBlock];
 }
 
 - (void)getWhiteInfoWithSuccessBlock:(void (^ _Nullable) (WhiteInfoModel * model))successBlock failBlock:(void (^ _Nullable) (NSError *error))failBlock {
@@ -138,7 +139,7 @@
 
 - (void)releaseResource {
     
-    [self.roomManager leftRoomWithApiversion:APIVersion1 successBolck:nil failBlock:nil];
+    [self.roomManager leftRoomWithUserId:self.ownModel.userId apiversion:APIVersion1 successBolck:nil failBlock:nil];
     [self.roomManager releaseResource];
     
     self.hostModel = nil;

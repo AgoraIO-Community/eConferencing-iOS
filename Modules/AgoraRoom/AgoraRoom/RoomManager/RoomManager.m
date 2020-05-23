@@ -243,6 +243,34 @@
     }];
 }
 
+- (void)changeHostWithUserId:(NSString *)targetUserId completeSuccessBlock:(void (^ _Nullable) (void))successBlock completeFailBlock:(void (^ _Nullable) (NSError *error))failBlock {
+    
+    NSString *appId = self.baseConfigModel.appId;
+    NSString *roomId = self.baseConfigModel.roomId;
+    
+    WEAK(self);
+    [HttpManager changeHostWithAppId:appId roomId:roomId userId:targetUserId apiVersion:APIVersion1 completeSuccessBlock:successBlock completeFailBlock:^(NSError * _Nonnull error) {
+        if(failBlock != nil){
+           failBlock([weakself httpErrorMessage:error]);
+        }
+    }];
+}
+
+//  update white state
+- (void)whiteBoardStateWithValue:(NSInteger)value userId:(NSString *)userId apiVersion:(NSString *)apiVersion completeSuccessBlock:(void (^ _Nullable) (void))successBlock completeFailBlock:(void (^ _Nullable) (NSError *error))failBlock {
+    
+    NSString *appId = self.baseConfigModel.appId;
+    NSString *roomId = self.baseConfigModel.roomId;
+    
+    WEAK(self);
+    
+    [HttpManager whiteBoardStateWithValue:value appId:appId roomId:roomId userId:userId apiVersion:apiVersion completeSuccessBlock:successBlock completeFailBlock:^(NSError * _Nonnull error) {
+        if(failBlock != nil){
+           failBlock([weakself httpErrorMessage:error]);
+        }
+    }];
+}
+
 - (void)sendCoVideoWithType:(SignalLinkState)linkState userIds:(NSArray<NSString *> *)userIds apiversion:(NSString *)apiversion successBolck:(void (^ _Nullable) (void))successBlock completeFailBlock:(void (^ _Nullable) (NSError *error))failBlock {
     
     if(linkState == SignalLinkStateIdle) {
@@ -257,6 +285,19 @@
             successBlock();
         }
     } completeFailBlock:^(NSError * _Nonnull error) {
+        if(failBlock != nil) {
+            failBlock([weakself httpErrorMessage:error]);
+        }
+    }];
+}
+
+- (void)audienceActionWithType:(EnableSignalType)type value:(NSInteger)value userId:(NSString *)userId apiVersion:(NSString *)apiVersion completeSuccessBlock:(void (^ _Nullable) (void))successBlock completeFailBlock:(void (^ _Nullable) (NSError *error))failBlock {
+    
+    NSString *appId = self.baseConfigModel.appId;
+    NSString *roomId = self.baseConfigModel.roomId;
+
+    WEAK(self);
+    [HttpManager audienceActionWithType:type value:value appId:appId roomId:roomId userId:userId apiVersion:apiVersion completeSuccessBlock:successBlock completeFailBlock:^(NSError * _Nonnull error) {
         if(failBlock != nil) {
             failBlock([weakself httpErrorMessage:error]);
         }
@@ -316,12 +357,12 @@
     }];
 }
 
-- (void)leftRoomWithApiversion:(NSString *)apiversion successBolck:(void (^ _Nullable)(void))successBlock failBlock:(void (^ _Nullable) (NSError *error))failBlock {
+- (void)leftRoomWithUserId:(NSString *)userId apiversion:(NSString *)apiversion successBolck:(void (^ _Nullable)(void))successBlock failBlock:(void (^ _Nullable) (NSError *error))failBlock {
     
     NSString *appId = self.baseConfigModel.appId;
     NSString *roomId = self.baseConfigModel.roomId;
     WEAK(self);
-    [HttpManager leftRoomWithAppId:appId roomId:roomId apiVersion:apiversion  successBolck:^{
+    [HttpManager leftRoomWithAppId:appId roomId:roomId userId:userId apiVersion:apiversion  successBolck:^{
         if(successBlock != nil){
            successBlock();
         }

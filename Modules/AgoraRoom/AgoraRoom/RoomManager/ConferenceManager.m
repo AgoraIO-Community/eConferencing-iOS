@@ -75,6 +75,11 @@
     } failBlock:failBlock];
 }
 
+- (void)audienceApplyWithType:(EnableSignalType)type completeSuccessBlock:(void (^ _Nullable) (void))successBlock completeFailBlock:(void (^ _Nullable) (NSError *error))failBlock {
+
+    [self.roomManager audienceActionWithType:type value:1 userId:self.ownModel.userId apiVersion:APIVersion1 completeSuccessBlock:successBlock completeFailBlock:failBlock];
+}
+
 - (void)uploadLogWithSuccessBlock:(void (^ _Nullable) (NSString *uploadSerialNumber))successBlock failBlock:(void (^ _Nullable) (NSError *error))failBlock {
     [self.roomManager uploadLogWithApiversion:APIVersion1 successBlock:successBlock failBlock:failBlock];
 }
@@ -173,13 +178,106 @@
     } failBlock:failBlock];
 }
 
+- (void)changeHostWithUserId:(NSString *)userId completeSuccessBlock:(void (^ _Nullable) (void))successBlock completeFailBlock:(void (^ _Nullable) (NSError *error))failBlock {
+    
+    WEAK(self);
+    [self.roomManager changeHostWithUserId:userId completeSuccessBlock:^{
+        
+        weakself.ownModel.role = ConfRoleTypeParticipant;
+        NSMutableArray<ConfUserModel *> *participantModels = [NSMutableArray array];
+        
+        ConfUserModel *targetModel;
+        for(ConfUserModel *model in weakself.userListModels) {
+            if([model.userId isEqualToString:userId]){
+                // 更新数据
+                model.role = ConfRoleTypeHost;
+                model.grantBoard = 1;
+                model.grantScreen = 1;
+
+                targetModel = model;
+                continue;
+            }
+            
+            // no self and no host
+            if(model.userId != weakself.ownModel.userId &&
+               model.role == ConfRoleTypeParticipant) {
+                [participantModels addObject:model];
+            }
+        }
+        
+        // reset hosts
+        NSMutableArray<ConfUserModel *> *hosts = [NSMutableArray array];
+        for (ConfUserModel *model in  weakself.roomModel.hosts) {
+            if(model.role == ConfRoleTypeHost) {
+                [hosts addObject:model];
+            }
+        }
+        if(targetModel) {
+            [hosts addObject:targetModel];
+        }
+        weakself.roomModel.hosts = [NSArray arrayWithArray:hosts];
+        
+        // reset all users
+        NSMutableArray<ConfUserModel *> *allUserListModels = [NSMutableArray arrayWithObject:weakself.ownModel];
+        [allUserListModels addObjectsFromArray:weakself.roomModel.hosts];
+        [allUserListModels addObjectsFromArray:participantModels];
+        weakself.userListModels = [NSArray arrayWithArray:allUserListModels];
+        
+        if (successBlock != nil) {
+            successBlock();
+        }
+    } completeFailBlock:failBlock];
+}
+
+//  update white state
+- (void)whiteBoardStateWithValue:(BOOL)enable userId:(NSString *)userId  completeSuccessBlock:(void (^ _Nullable) (void))successBlock completeFailBlock:(void (^ _Nullable) (NSError *error))failBlock {
+    
+    WEAK(self);
+    [self.roomManager whiteBoardStateWithValue:enable userId:userId apiVersion:APIVersion1 completeSuccessBlock:^{
+        
+        for(ConfUserModel *model in weakself.userListModels) {
+            if([model.userId isEqualToString:userId]){
+                model.grantBoard = enable;
+                break;
+            }
+        }
+        
+        if (successBlock != nil) {
+            successBlock();
+        }
+        
+    } completeFailBlock:failBlock];
+}
+
 // send message
 - (void)sendMessageWithText:(NSString *)message successBolck:(void (^ _Nullable) (void))successBlock completeFailBlock:(void (^ _Nullable) (NSError *error))failBlock {
     [self.roomManager sendMessageWithText:message apiversion:APIVersion1 successBolck:successBlock completeFailBlock:failBlock];
 }
 
-- (void)leftRoomWithSuccessBolck:(void (^ _Nullable)(void))successBlock failBlock:(void (^ _Nullable) (NSError *error))failBlock {
-    [self.roomManager leftRoomWithApiversion:APIVersion1 successBolck:successBlock failBlock:failBlock];
+- (void)leftRoomWithUserId:(NSString *)userId successBolck:(void (^ _Nullable)(void))successBlock failBlock:(void (^ _Nullable) (NSError *error))failBlock {
+    
+    WEAK(self);
+    [self.roomManager leftRoomWithUserId:userId apiversion:APIVersion1 successBolck:^{
+        
+        NSMutableArray<ConfUserModel *> *_userListModels = [NSMutableArray array];
+        
+        if(![userId isEqualToString: weakself.ownModel.userId]) {
+            
+            for(ConfUserModel *model in weakself.userListModels) {
+                if([model.userId isEqualToString:userId]){
+                    continue;
+                }
+                
+                [_userListModels addObject:model];
+            }
+        }
+        weakself.userListModels = [NSArray arrayWithArray:_userListModels];
+        
+        if (successBlock != nil) {
+            successBlock();
+        }
+        
+    } failBlock:failBlock];
 }
 
 - (void)getWhiteInfoWithSuccessBlock:(void (^ _Nullable) (WhiteInfoModel * model))successBlock failBlock:(void (^ _Nullable) (NSError *error))failBlock {
@@ -196,7 +294,7 @@
 }
 
 - (void)releaseResource {
-    [self.roomManager leftRoomWithApiversion:APIVersion1 successBolck:nil failBlock:nil];
+    [self.roomManager leftRoomWithUserId:self.ownModel.userId apiversion:APIVersion1 successBolck:nil failBlock:nil];
     [self.roomManager releaseResource];
     self.ownModel = nil;
     self.roomModel = nil;

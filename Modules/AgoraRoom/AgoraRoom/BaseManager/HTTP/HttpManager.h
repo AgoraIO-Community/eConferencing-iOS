@@ -48,9 +48,18 @@ NS_ASSUME_NONNULL_BEGIN
 
 + (void)updateUserInfoWithValue:(BOOL)enable enableSignalType:(EnableSignalType)type appId:(NSString *)appId roomId:(NSString *)roomId userId:(NSString *)byUserId apiVersion:(NSString *)apiVersion completeSuccessBlock:(void (^ _Nullable) (void))successBlock completeFailBlock:(void (^ _Nullable) (NSError *error))failBlock;
 
++ (void)changeHostWithAppId:(NSString *)appId roomId:(NSString *)roomId userId:(NSString *)userId apiVersion:(NSString *)apiVersion completeSuccessBlock:(void (^ _Nullable) (void))successBlock completeFailBlock:(void (^ _Nullable) (NSError *error))failBlock;
+
++ (void)whiteBoardStateWithValue:(NSInteger)value appId:(NSString *)appId roomId:(NSString *)roomId userId:(NSString *)targetUserId apiVersion:(NSString *)apiVersion completeSuccessBlock:(void (^ _Nullable) (void))successBlock completeFailBlock:(void (^ _Nullable) (NSError *error))failBlock;
+
+//+ (void)sendCoVideoWithType:(SignalLinkState)linkState appId:(NSString *)appId roomId:(NSString *)roomId userIds:(NSArray<NSString *> *)userIds apiVersion:(NSString *)apiVersion successBolck:(void (^ _Nullable) (void))successBlock completeFailBlock:(void (^ _Nullable) (NSError *error))failBlock;
+
+// value：1=申请 2=拒绝
++ (void)audienceActionWithType:(EnableSignalType)type value:(NSInteger)value appId:(NSString *)appId roomId:(NSString *)roomId userId:(NSString *)userId apiVersion:(NSString *)apiVersion completeSuccessBlock:(void (^ _Nullable) (void))successBlock completeFailBlock:(void (^ _Nullable) (NSError *error))failBlock;
+
 + (void)getRoomInfoWithAppId:(NSString *)appId roomId:(NSString *)roomId  apiVersion:(NSString *)apiVersion completeSuccessBlock:(void (^ _Nullable) (id responseModel))successBlock completeFailBlock:(void (^ _Nullable) (NSError *error))failBlock;
 
-+ (void)leftRoomWithAppId:(NSString *)appId roomId:(NSString *)roomId apiVersion:(NSString *)apiVersion successBolck:(void (^ _Nullable) (void))successBlock completeFailBlock:(void (^ _Nullable) (NSError *error))failBlock;
++ (void)leftRoomWithAppId:(NSString *)appId roomId:(NSString *)roomId userId:(NSString *)userId apiVersion:(NSString *)apiVersion successBolck:(void (^ _Nullable) (void))successBlock completeFailBlock:(void (^ _Nullable) (NSError *error))failBlock;
 
 // log
 + (void)getLogInfoWithAppId:(NSString *)appId roomId:(NSString *)roomId apiVersion:(NSString *)apiVersion completeSuccessBlock:(void (^ _Nullable) (LogParamsInfoModel * model))successBlock completeFailBlock:(void (^ _Nullable) (NSError *error))failBlock;

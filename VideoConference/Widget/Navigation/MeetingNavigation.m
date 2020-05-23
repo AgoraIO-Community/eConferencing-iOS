@@ -57,6 +57,7 @@
     ConferenceManager *manager = AgoraRoomManager.shareManager.conferenceManager;
     
     NSInteger uid = manager.ownModel.uid;
+    NSString *userId = manager.ownModel.userId;
     BOOL isHost = NO;
     
     // 判断
@@ -74,7 +75,7 @@
     
     UIAlertAction *left = [UIAlertAction actionWithTitle:@"退出会议" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
         
-        [manager leftRoomWithSuccessBolck:^{
+        [manager leftRoomWithUserId:userId successBolck:^{
             
             [weakself showScoreAlert];
             

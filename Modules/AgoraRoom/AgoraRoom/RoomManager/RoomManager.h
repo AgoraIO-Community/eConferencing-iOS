@@ -61,10 +61,19 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)getUserListWithNextId:(NSString *)nextId count:(NSInteger)count apiversion:(NSString *)apiversion successBlock:(void (^)(ConfUserListInfoModel *userListModel))successBlock failBlock:(void (^ _Nullable) (NSError *error))failBlock;
 
 //  update users info
-- (void)updateUserInfoWithUserId:(NSString*)userId  value:(BOOL)enable enableSignalType:(EnableSignalType)type apiversion:(NSString *)apiversion successBolck:(void (^)(void))successBlock failBlock:(void (^ _Nullable) (NSError *error))failBlock;
+- (void)updateUserInfoWithUserId:(NSString*)userId value:(BOOL)enable enableSignalType:(EnableSignalType)type apiversion:(NSString *)apiversion successBolck:(void (^)(void))successBlock failBlock:(void (^ _Nullable) (NSError *error))failBlock;
+
+//  update host
+- (void)changeHostWithUserId:(NSString *)targetUserId completeSuccessBlock:(void (^ _Nullable) (void))successBlock completeFailBlock:(void (^ _Nullable) (NSError *error))failBlock;
+
+//  update white state
+- (void)whiteBoardStateWithValue:(NSInteger)value userId:(NSString *)userId apiVersion:(NSString *)apiVersion completeSuccessBlock:(void (^ _Nullable) (void))successBlock completeFailBlock:(void (^ _Nullable) (NSError *error))failBlock;
 
 // apply/cancel/reject colink
 - (void)sendCoVideoWithType:(SignalLinkState)linkState userIds:(NSArray<NSString *> *)userIds apiversion:(NSString *)apiversion successBolck:(void (^ _Nullable) (void))successBlock completeFailBlock:(void (^ _Nullable) (NSError *error))failBlock;
+
+// value：1=申请 2=拒绝
+- (void)audienceActionWithType:(EnableSignalType)type value:(NSInteger)value userId:(NSString *)userId apiVersion:(NSString *)apiVersion completeSuccessBlock:(void (^ _Nullable) (void))successBlock completeFailBlock:(void (^ _Nullable) (NSError *error))failBlock;
 
 // upload log
 - (void)uploadLogWithApiversion:(NSString *)apiversion successBlock:(void (^ _Nullable) (NSString *uploadSerialNumber))successBlock failBlock:(void (^ _Nullable) (NSError *error))failBlock;
@@ -76,7 +85,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)getReplayInfoWithRecordId:(NSString*)recordId apiversion:(NSString *)apiversion successBlock:(void (^ _Nullable) (ReplayInfoModel * model))successBlock failBlock:(void (^ _Nullable) (NSError *error))failBlock;
 
 // left room
-- (void)leftRoomWithApiversion:(NSString *)apiversion successBolck:(void (^ _Nullable)(void))successBlock failBlock:(void (^ _Nullable) (NSError *error))failBlock;
+- (void)leftRoomWithUserId:(NSString *)userId apiversion:(NSString *)apiversion successBolck:(void (^ _Nullable)(void))successBlock failBlock:(void (^ _Nullable) (NSError *error))failBlock;
 
 - (int)submitRating:(NSInteger)rating;
 - (int)switchCamera;

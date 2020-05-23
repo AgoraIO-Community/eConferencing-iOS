@@ -53,3 +53,4 @@ typedef NS_ENUM(NSInteger, SignalLinkState) {
     SignalLinkStateTeaClose         = 5, // teacher close link
     SignalLinkStateStuClose         = 6, // student close link
 };
+

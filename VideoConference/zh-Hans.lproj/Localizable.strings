@@ -14,12 +14,20 @@ More = "更多";
 
 Invitation = "邀请";
 AllMute = "全体静音";
+AllUnmute = "解除全体静音";
+
 MuteAudio = "静音";
+UnMuteAudio = "解除静音";
 MuteVideo = "关闭视频";
+UnMuteVideo = "打开视频";
+
 SetHost = "设为主持人";
-WhiteBoardControl = "共享白板控制";
 RemoveRoom = "移出房间";
+
+WhiteBoardControl = "共享白板控制";
 ApplyWhiteBoard = "申请共享白板控制";
+CancelWhiteBoardControl = "取消共享白板控制";
+
 Set = "设置";
 Cancel = "取消";
 

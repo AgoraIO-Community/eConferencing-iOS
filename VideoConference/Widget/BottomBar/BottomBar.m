@@ -11,6 +11,9 @@
 #import "MessageVC.h"
 #import "SetVC.h"
 #import "UserDefaults.h"
+#import "ShareLinkView.h"
+#import "AgoraRoomManager.h"
+#import "AllMuteAlertVC.h"
 
 @interface BottomBar()
 @property (strong, nonatomic) IBOutlet BottomBar *bar;
@@ -157,20 +160,42 @@
     }];
     [alertController addAction:invitation];
     
-    if(1)// host
-    {
-        UIAlertAction *allMute = [UIAlertAction actionWithTitle:Localized(@"AllMute") style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+    ConferenceManager *manager = AgoraRoomManager.shareManager.conferenceManager;
+    if (manager.ownModel.role == ConfRoleTypeHost) {
+        
+        NSString *muteText = Localized(@"AllMute");
+        if (manager.roomModel.muteAllAudio != MuteAllAudioStateUnmute) {
+            muteText = Localized(@"AllUnmute");
+        }
+        
+        UIAlertAction *allMute = [UIAlertAction actionWithTitle:Localized(@"muteText") style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
             
+            if (manager.roomModel.muteAllAudio == MuteAllAudioStateUnmute) {
+                AllMuteAlertVC *vc = [[AllMuteAlertVC alloc] initWithNibName:@"AllMuteAlertVC" bundle:nil];
+                vc.block = ^(BOOL allowUnmute) {
+                    [weakself updateRoomWithState: allowUnmute ? MuteAllAudioStateAllowUnmute : MuteAllAudioStateNoAllowUnmute];
+                };
+                [VCManager presentToVC:vc];
+            } else {
+                [weakself updateRoomWithState:MuteAllAudioStateUnmute];
+            }
         }];
         [alertController addAction:allMute];
     }
     
-    if(1)// no white premission
-    {
-        UIAlertAction *applyWhiteBoard = [UIAlertAction actionWithTitle:Localized(@"ApplyWhiteBoard") style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+    if(NoNullString(manager.roomModel.createBoardUserId).length > 0 && manager.ownModel.role == ConfRoleTypeParticipant) {
+        
+        NSString *boardText = manager.ownModel.grantBoard ? Localized(@"CancelWhiteBoardControl") : Localized(@"ApplyWhiteBoard");
+        
+        UIAlertAction *whiteBoardControl = [UIAlertAction actionWithTitle:boardText style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
             
+            if(!manager.ownModel.grantBoard){
+                [weakself gotoApply:EnableSignalTypeGrantBoard];
+            } else {
+                [weakself updateWhiteBoardState];
+            }
         }];
-        [alertController addAction:applyWhiteBoard];
+        [alertController addAction:whiteBoardControl];
     }
     
     UIAlertAction *set = [UIAlertAction actionWithTitle:Localized(@"Set") style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
@@ -188,9 +213,10 @@
 }
 
 - (void)onClickInvitation {
-
+    UIViewController *vc = [VCManager getTopVC];
+    ShareLinkView *vv = [ShareLinkView createViewWithXib];
+    [vv showShareLinkViewInView:vc.view];
 }
-
 
 - (void)showMsgToast:(NSString *)title {
     UIViewController *vc = [VCManager getTopVC];
@@ -199,6 +225,41 @@
             [vc.view makeToast:title];
         });
     }
+}
+
+- (void)updateRoomWithState:(MuteAllAudioState)state {
+    
+    ConferenceManager *manager = AgoraRoomManager.shareManager.conferenceManager;
+    
+    WEAK(self);
+    [manager updateRoomInfoWithValue:state enableSignalType:ConfEnableRoomSignalTypeMuteAllChat successBolck:^{
+
+    } failBlock:^(NSError * _Nonnull error) {
+        [weakself showMsgToast:error.localizedDescription];
+    }];
+}
+
+- (void)gotoApply:(EnableSignalType)type {
+
+    WEAK(self);
+    ConferenceManager *manager = AgoraRoomManager.shareManager.conferenceManager;
+    [manager audienceApplyWithType:EnableSignalTypeGrantBoard completeSuccessBlock:^{
+
+    } completeFailBlock:^(NSError * _Nonnull error) {
+        [weakself showMsgToast:error.localizedDescription];
+    }];
+}
+
+- (void)updateWhiteBoardState {
+  
+    WEAK(self);
+    
+    ConferenceManager *manager = AgoraRoomManager.shareManager.conferenceManager;
+    [manager whiteBoardStateWithValue:!manager.ownModel.grantBoard userId:manager.ownModel.userId completeSuccessBlock:^{
+        
+    } completeFailBlock:^(NSError * _Nonnull error) {
+        [weakself showMsgToast:error.localizedDescription];
+    }];
 }
 
 @end

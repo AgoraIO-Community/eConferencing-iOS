@@ -64,13 +64,7 @@
 
     [conferenceManager getWhiteInfoWithSuccessBlock:^(WhiteInfoModel * _Nonnull model) {
         [whiteManager joinWhiteRoomWithBoardId:model.boardId boardToken:model.boardToken whiteWriteModel:conferenceManager.ownModel.grantBoard completeSuccessBlock:^{
-            
-            if(shareBoardModel != nil && shareBoardModel.uid == conferenceManager.ownModel.uid){
-                [whiteManager disableCameraTransform:NO];
-            } else {
-                [whiteManager disableCameraTransform:YES];
-            }
-            
+        
             [whiteManager disableWhiteDeviceInputs:!conferenceManager.ownModel.grantBoard];
             [whiteManager currentWhiteScene:^(NSInteger sceneCount, NSInteger sceneIndex) {
                 [whiteManager moveWhiteToContainer:sceneIndex];
@@ -173,11 +167,17 @@
     [self.bottomBar updateView];
     
     [self.allUserListModel addObject:manager.ownModel];
-    [self.allUserListModel addObjectsFromArray:manager.roomModel.hosts];
+    for(ConfUserModel *hostModel in manager.roomModel.hosts) {
+        if(hostModel.uid != manager.ownModel.uid){
+            [self.allUserListModel addObject:hostModel];
+        }
+    }
     [self.collectionView  reloadData];
 }
 
 - (void)addNotification {
+    [NSNotificationCenter.defaultCenter addObserver:self selector:@selector(onLocalVideoStateChange) name:NOTICENAME_LOCAL_VIDEO_CHANGED object:nil];
+    
     [NSNotificationCenter.defaultCenter addObserver:self selector:@selector(onLocalVideoStateChange) name:NOTICENAME_LOCAL_VIDEO_CHANGED object:nil];
 }
 
