@@ -54,7 +54,7 @@
     
     ConferenceManager *manager = AgoraRoomManager.shareManager.conferenceManager;
     self.currentState = manager.roomModel.muteAllAudio;
-
+    
     self.tableView.tableFooterView = [[UIView alloc] init];
     
     [self.tableView registerNib:[UINib nibWithNibName:@"SetSwitchCell" bundle:nil] forCellReuseIdentifier:@"SetSwitchCell"];
@@ -64,6 +64,18 @@
         [self.tableView registerNib:[UINib nibWithNibName:@"SetImageCell" bundle:nil] forCellReuseIdentifier:@"SetImageCell"];
         [self.tableView registerNib:[UINib nibWithNibName:@"SetTextFieldCell" bundle:nil] forCellReuseIdentifier:@"SetTextFieldCell"];
     }
+    
+    [self addNotification];
+}
+
+- (void)addNotification {
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateView) name:NOTICENAME_LOCAL_MEDIA_CHANGED object:nil];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateView) name:NOTICENAME_ROOM_INFO_CHANGED object:nil];
+}
+
+- (void)updateView {
+    [self.tableView reloadData];
 }
 
 #pragma mark UITableViewDelegate, UITableViewDataSource
@@ -89,7 +101,7 @@
         } else if(indexPath.section == 3){
             return [self invitationCell:indexPath.row];
         } else {
-           return [self updloadCell:indexPath.row];
+            return [self updloadCell:indexPath.row];
         }
     } else {
         if(indexPath.section == 0){
@@ -99,7 +111,7 @@
         } else if(indexPath.section == 1){
             return [self userMediaCell:indexPath.row];
         } else {
-           return [self updloadCell:indexPath.row];
+            return [self updloadCell:indexPath.row];
         }
     }
 }
@@ -128,7 +140,7 @@
 - (NSInteger)tableView:(nonnull UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     
     if(self.isMemberSet) {
-       if(self.currentState == MuteAllAudioStateUnmute) {
+        if(self.currentState == MuteAllAudioStateUnmute) {
             return 1;
         }
         return 2;
@@ -197,7 +209,7 @@
 
 - (UITableViewCell *)userMediaCell:(NSInteger)row {
     SetSwitchCell *cell = [self.tableView dequeueReusableCellWithIdentifier:@"SetSwitchCell"];
-
+    
     WEAK(self);
     if(row == 0){
         cell.tipText.text = @"摄像头";
@@ -208,7 +220,7 @@
             cell.switchBtn.on = [UserDefaults getOpenCamera];
         }
         cell.block = ^(BOOL on) {
-            [weakself updateUserWithType:EnableSignalTypeVideo value:on];
+            [weakself checkUpdateUserWithType:EnableSignalTypeVideo value:on];
         };
         self.videoCell = cell;
         
@@ -221,7 +233,7 @@
             cell.switchBtn.on = [UserDefaults getOpenMic];
         }
         cell.block = ^(BOOL on) {
-            [weakself updateUserWithType:EnableSignalTypeAudio value:on];
+            [weakself checkUpdateUserWithType:EnableSignalTypeAudio value:on];
         };
         self.audioCell = cell;
         
@@ -292,7 +304,7 @@
         [weakself.logCell.loading stopAnimating];
         weakself.logCell.tipText.hidden = NO;
         weakself.isUploading = NO;
-
+        
         [AlertViewUtil showAlertWithController:[VCManager getTopVC] title:NSLocalizedString(@"UploadLogSuccessText", nil) message:uploadSerialNumber cancelText:nil sureText:NSLocalizedString(@"OKText", nil) cancelHandler:nil sureHandler:nil];
         
     } failBlock:^(NSError * _Nonnull error) {
@@ -304,7 +316,7 @@
     }];
 }
 
-- (void)updateUserWithType:(EnableSignalType)type value:(BOOL)value {
+- (void)checkUpdateUserWithType:(EnableSignalType)type value:(BOOL)value {
     
     if(!self.inMeeting) {
         if(type == EnableSignalTypeAudio) {
@@ -316,15 +328,42 @@
     }
     
     ConferenceManager *manager = AgoraRoomManager.shareManager.conferenceManager;
-    NSString *userId = manager.ownModel.userId;
+    if(type == EnableSignalTypeAudio) {
+        if(manager.roomModel.muteAllAudio == MuteAllAudioStateNoAllowUnmute) {
+            [self gotoAlertApply:EnableSignalTypeAudio value:value];
+            return;
+        }
+    }
+    
+    [self updateUserWithType:type value:value];
+}
+
+- (void)gotoAlertApply:(EnableSignalType)type value:(BOOL)value {
+    UIViewController *vc = [VCManager getTopVC];
+    
+    // reset
+    self.audioCell.switchBtn.on = !value;
     
     WEAK(self);
+    [AlertViewUtil showAlertWithController:vc title:@"当前会议主持人设置为静音状态，是否申请打开麦克风？" cancelHandler:nil sureHandler:^(UIAlertAction * _Nullable action) {
+    
+        weakself.audioCell.switchBtn.on = value;
+        [weakself updateUserWithType:type value:value];
+    }];
+}
+
+- (void)updateUserWithType:(EnableSignalType)type value:(BOOL)value {
+    
+    WEAK(self);
+    ConferenceManager *manager = AgoraRoomManager.shareManager.conferenceManager;
+    NSString *userId = manager.ownModel.userId;
+
     [self setLoadingVisible:YES];
     [manager updateUserInfoWithUserId:userId value:value enableSignalType:type successBolck:^{
         
-        if(type == EnableSignalTypeVideo) {
-            [NSNotificationCenter.defaultCenter postNotificationName:NOTICENAME_LOCAL_VIDEO_CHANGED object:nil];
-        }
+        //        if(type == EnableSignalTypeVideo) {
+        //            [NSNotificationCenter.defaultCenter postNotificationName:NOTICENAME_LOCAL_MEDIA_CHANGED object:nil];
+        //        }
         [weakself setLoadingVisible:NO];
     } failBlock:^(NSError * _Nonnull error) {
         if(type == EnableSignalTypeVideo) {
@@ -340,7 +379,7 @@
 - (void)updateRoomWithIndex:(NSInteger)index value:(BOOL)on {
     
     ConferenceManager *manager = AgoraRoomManager.shareManager.conferenceManager;
-
+    
     if (index == 0) {
         self.currentState = on ? MuteAllAudioStateNoAllowUnmute : MuteAllAudioStateUnmute;
     } else {
@@ -353,9 +392,9 @@
     [manager updateRoomInfoWithValue:self.currentState enableSignalType:ConfEnableRoomSignalTypeMuteAllChat successBolck:^{
         
         [weakself setLoadingVisible:NO];
-
+        
     } failBlock:^(NSError * _Nonnull error) {
-    
+        
         weakself.currentState = manager.roomModel.muteAllAudio;
         [weakself.tableView reloadData];
         

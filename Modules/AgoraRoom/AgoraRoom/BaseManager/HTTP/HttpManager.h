@@ -42,7 +42,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 + (void)sendCoVideoWithType:(SignalLinkState)linkState appId:(NSString *)appId roomId:(NSString *)roomId userIds:(NSArray<NSString *> *)userIds apiVersion:(NSString *)apiVersion successBolck:(void (^ _Nullable) (void))successBlock completeFailBlock:(void (^ _Nullable) (NSError *error))failBlock;
 
-+ (void)updateRoomInfoWithValue:(BOOL)enable enableSignalType:(ConfEnableRoomSignalType)type appId:(NSString *)appId roomId:(NSString *)roomId apiVersion:(NSString *)apiVersion completeSuccessBlock:(void (^ _Nullable) (void))successBlock completeFailBlock:(void (^ _Nullable) (NSError *error))failBlock;
++ (void)updateRoomInfoWithValue:(NSInteger)value enableSignalType:(ConfEnableRoomSignalType)type appId:(NSString *)appId roomId:(NSString *)roomId apiVersion:(NSString *)apiVersion completeSuccessBlock:(void (^ _Nullable) (void))successBlock completeFailBlock:(void (^ _Nullable) (NSError *error))failBlock;
 
 + (void)getUserListWithRole:(ConfRoleType)role nextId:(NSString *)nextId count:(NSInteger)count appId:(NSString *)appId roomId:(NSString *)roomId apiVersion:(NSString *)apiVersion successBlock:(void (^)(ConfUserListInfoModel *userListModel))successBlock failBlock:(void (^ _Nullable) (NSError *error))failBlock;
 

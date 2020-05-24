@@ -22,7 +22,6 @@
 @property (nonatomic, strong) RTMManager *rtmManager;
 @property (nonatomic, strong) NSMutableArray<VideoSessionModel*> *rtcVideoSessionModels;
 
-@property (nonatomic, strong) BaseConfigModel *baseConfigModel;
 @property (nonatomic, assign) SceneType sceneType;
 
 @end
@@ -36,7 +35,6 @@
 
 - (instancetype)initWithSceneType:(SceneType)type appId:(NSString *)appId authorization:(NSString *)authorization configModel:(BaseConfigModel *)configModel {
     if (self = [super init]) {
-        self.coUserModels = [NSArray array];
         self.rtcVideoSessionModels = [NSMutableArray array];
         self.sceneType = type;
         self.baseConfigModel = configModel;
@@ -396,13 +394,7 @@
     
     [self.rtmManager releaseSignalResources];
     [self.rtcManager releaseRTCResources];
-    
-    self.hostModel = nil;
-    self.ownModel = nil;
-    self.roomModel = nil;
-    self.shareScreenInfoModel = nil;
-    
-    self.coUserModels = [NSArray array];
+
     self.rtcVideoSessionModels = [NSMutableArray array];
 }
 
@@ -476,13 +468,13 @@
     }];
 }
 
-- (void)updateRoomInfoWithValue:(BOOL)enable enableSignalType:(ConfEnableRoomSignalType)type apiversion:(NSString *)apiversion successBolck:(void (^)(void))successBlock failBlock:(void (^ _Nullable) (NSError *error))failBlock {
+- (void)updateRoomInfoWithValue:(NSInteger)value enableSignalType:(ConfEnableRoomSignalType)type apiversion:(NSString *)apiversion successBolck:(void (^)(void))successBlock failBlock:(void (^ _Nullable) (NSError *error))failBlock {
     
     WEAK(self);
     
     NSString *appId = self.baseConfigModel.appId;
     NSString *roomId = self.baseConfigModel.roomId;
-    [HttpManager updateRoomInfoWithValue:enable enableSignalType:type appId:appId roomId:roomId apiVersion:APIVersion1 completeSuccessBlock:^{
+    [HttpManager updateRoomInfoWithValue:value enableSignalType:type appId:appId roomId:roomId apiVersion:APIVersion1 completeSuccessBlock:^{
         if(successBlock != nil){
             successBlock();
         }
@@ -523,7 +515,7 @@
     
     BaseConfigModel *configModel = self.baseConfigModel;
     self.rtcManager = [RTCManager new];
-    [self.rtcManager initEngineKitWithAppid:configModel.appId clientRole:agoraClientRole dataSourceDelegate:nil];
+    [self.rtcManager initEngineKitWithAppid:configModel.appId clientRole:agoraClientRole dataSourceDelegate:self];
     
     int errorCode = [self.rtcManager joinChannelByToken:configModel.rtcToken channelId:configModel.channelName info:nil uid:configModel.uid joinSuccess:^(NSString * _Nonnull channel, NSUInteger uid, NSInteger elapsed) {
         

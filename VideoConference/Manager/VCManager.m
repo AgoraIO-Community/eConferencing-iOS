@@ -51,8 +51,10 @@ static VCManager *manager = nil;
 
 + (void)popRootView {
     UINavigationController *nvc = [VCManager getNavC];
-    if(nvc != nil){
-        [nvc popToRootViewControllerAnimated:YES];
+    if([nvc.visibleViewController isKindOfClass:[UIAlertController class]]) {
+        [nvc dismissViewControllerAnimated:NO completion:^{
+            [nvc popToRootViewControllerAnimated:YES];
+        }];
     }
 }
 

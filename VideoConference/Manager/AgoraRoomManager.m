@@ -27,6 +27,8 @@ static AgoraRoomManager *manager = nil;
         NSString *authorization = [KeyCenter authorization];
         self.conferenceManager =  [[ConferenceManager alloc]initWithSceneType:SceneTypeConference appId:appid authorization:authorization];
         self.whiteManager = [WhiteManager new];
+        
+        self.messageInfoModels = [NSMutableArray array];
     }
     return self;
 }
@@ -34,6 +36,7 @@ static AgoraRoomManager *manager = nil;
 + (void)releaseResource {
     [AgoraRoomManager.shareManager.conferenceManager releaseResource];
     [AgoraRoomManager.shareManager.whiteManager releaseWhiteResources];
+    AgoraRoomManager.shareManager.messageInfoModels = [NSMutableArray array];
 }
 
 @end

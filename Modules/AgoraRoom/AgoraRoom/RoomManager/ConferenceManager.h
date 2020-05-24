@@ -7,7 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "RoomManagerDelegate.h"
+#import "ConferenceDelegate.h"
 #import "ConfRoomAllModel.h"
 #import "RoomEnum.h"
 #import "ConferenceEntryParams.h"
@@ -18,7 +18,7 @@
 NS_ASSUME_NONNULL_BEGIN
 
 @interface ConferenceManager : NSObject
-@property (nonatomic, weak) id<RoomManagerDelegate> delegate;
+@property (nonatomic, weak) id<ConferenceDelegate> delegate;
 
 @property (nonatomic, strong) ConfRoomModel * _Nullable roomModel;
 @property (nonatomic, strong) ConfUserModel * _Nullable ownModel;
@@ -36,7 +36,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)getConfRoomInfoWithSuccessBlock:(void (^)(ConfRoomInfoModel *roomInfoModel))successBlock failBlock:(void (^ _Nullable) (NSError *error))failBlock;
 
 //  update room info
-- (void)updateRoomInfoWithValue:(BOOL)enable enableSignalType:(ConfEnableRoomSignalType)type successBolck:(void (^)(void))successBlock failBlock:(void (^ _Nullable) (NSError *error))failBlock;
+- (void)updateRoomInfoWithValue:(NSInteger)value enableSignalType:(ConfEnableRoomSignalType)type successBolck:(void (^)(void))successBlock failBlock:(void (^ _Nullable) (NSError *error))failBlock;
 
 // get user list info
 - (void)getUserListWithSuccessBlock:(void (^)(void))successBlock failBlock:(void (^ _Nullable) (NSError *error))failBlock;

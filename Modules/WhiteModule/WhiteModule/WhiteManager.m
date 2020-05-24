@@ -70,6 +70,10 @@ WhiteApplianceKey const WhiteApplianceEraser = @"eraser";
     }];
 }
 
+- (void)setWritable:(BOOL)writable completionHandler:(void (^ _Nullable)(BOOL isWritable, NSError * _Nullable error))completionHandler {
+    
+    [self.room setWritable:writable completionHandler:completionHandler];
+}
 
 - (void)disableCameraTransform:(BOOL)disableCameraTransform {
     [self.room disableCameraTransform:disableCameraTransform];

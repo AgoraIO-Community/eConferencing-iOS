@@ -22,6 +22,8 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)disableCameraTransform:(BOOL)disableCameraTransform;
 - (void)disableWhiteDeviceInputs:(BOOL)disable;
 
+- (void)setWritable:(BOOL)writable completionHandler:(void (^ _Nullable)(BOOL isWritable, NSError * _Nullable error))completionHandler;
+
 - (void)setWhiteStrokeColor:(NSArray<NSNumber *>*)strokeColor;
 - (void)setWhiteApplianceName:(NSString *)applianceName;
 

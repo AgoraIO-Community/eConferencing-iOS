@@ -101,10 +101,6 @@
     self.videoItem.isSelected = video;
 }
 
-- (void)setMessageCount:(NSInteger)count {
-    self.imItem.count = count;
-}
-
 - (void)onSelectBar:(BottomItem *)sender {
     
     ConferenceManager *manager =  AgoraRoomManager.shareManager.conferenceManager;
@@ -124,7 +120,7 @@
         [manager updateUserInfoWithUserId:userId value:sender.isSelected enableSignalType:type successBolck:^{
             
             if(type == EnableSignalTypeVideo) {
-                [NSNotificationCenter.defaultCenter postNotificationName:NOTICENAME_LOCAL_VIDEO_CHANGED object:nil];
+                [NSNotificationCenter.defaultCenter postNotificationName:NOTICENAME_LOCAL_MEDIA_CHANGED object:nil];
             }
             
         } failBlock:^(NSError * _Nonnull error) {
@@ -139,7 +135,7 @@
         [VCManager pushToVC:vc];
         
     } else if(sender == self.imItem) {
-        
+        self.imItem.count = 0;
         MessageVC *vc = [[MessageVC alloc] initWithNibName:@"MessageVC" bundle:nil];
         [VCManager pushToVC:vc];
         
@@ -260,6 +256,11 @@
     } completeFailBlock:^(NSError * _Nonnull error) {
         [weakself showMsgToast:error.localizedDescription];
     }];
+}
+
+- (void)addUnreadMsgCount {
+    NSInteger count = self.imItem.count + 1;
+    self.imItem.count = count;
 }
 
 @end

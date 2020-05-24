@@ -14,6 +14,8 @@ NS_ASSUME_NONNULL_BEGIN
 @interface PIPVideoCell : UICollectionViewCell
 
 @property (weak, nonatomic) UIView *boardView;
+@property (assign, nonatomic) BOOL showWhite;
+@property (assign, nonatomic) BOOL showScreen;
 
 - (void)setOneUserModel:(ConfUserModel *)userModel;
 - (void)setUser:(ConfUserModel *)userModel shareBoardModel:(ConfShareBoardUserModel *)boardModel;
@@ -21,6 +23,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)setUser:(ConfUserModel *)userModel remoteUser:(ConfUserModel *)remoteUserModel;
 
 - (void)updateLocalView;
+- (void)updateWhiteView;
 
 @end
 

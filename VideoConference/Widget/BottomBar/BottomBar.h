@@ -14,6 +14,7 @@ NS_ASSUME_NONNULL_BEGIN
 @interface BottomBar : UIView
 
 - (void)updateView;
+- (void)addUnreadMsgCount;
 
 @end
 

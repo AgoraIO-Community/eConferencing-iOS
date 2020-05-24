@@ -40,10 +40,24 @@
 
     self.tableView.tableFooterView = [[UIView alloc] init];
     [self.tableView registerNib:[UINib nibWithNibName:@"UserCell" bundle:nil] forCellReuseIdentifier:@"UserCell"];
+    
+    [self addNotification];
+}
+
+- (void)addNotification {
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateView) name:NOTICENAME_LOCAL_MEDIA_CHANGED object:nil];
+   
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateView) name:NOTICENAME_REMOTE_MEDIA_CHANGED object:nil];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateView) name:NOTICENAME_ROOM_INFO_CHANGED object:nil];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateView) name:NOTICENAME_SHARE_INFO_CHANGED object:nil];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateView) name:NOTICENAME_HOST_ROLE_CHANGED object:nil];
 }
 
 - (void)updateView {
-    
+
     [self setLoadingVisible:NO];
     
     self.allUserListModel = AgoraRoomManager.shareManager.conferenceManager.userListModels;
@@ -103,10 +117,9 @@
     
         [weakself setLoadingVisible:YES];
         [manager updateUserInfoWithUserId:userModel.userId value:!userModel.enableAudio enableSignalType:EnableSignalTypeAudio successBolck:^{
+            
             [weakself updateView];
-            if(indexPath.row == 0) {
-                [NSNotificationCenter.defaultCenter postNotificationName:NOTICENAME_LOCAL_VIDEO_CHANGED object:nil];
-            }
+//            [NSNotificationCenter.defaultCenter postNotificationName:indexPath.row == 0 ? NOTICENAME_LOCAL_MEDIA_CHANGED : NOTICENAME_REMOTE_MEDIA_CHANGED object:nil];
         } failBlock:^(NSError * _Nonnull error) {
             [weakself updateView];
             [weakself showToast:error.localizedDescription];
@@ -119,11 +132,9 @@
         
         [weakself setLoadingVisible:YES];
         [manager updateUserInfoWithUserId:userModel.userId value:!userModel.enableVideo enableSignalType:EnableSignalTypeVideo successBolck:^{
-            [weakself updateView];
             
-            if(indexPath.row == 0) {
-                [NSNotificationCenter.defaultCenter postNotificationName:NOTICENAME_LOCAL_VIDEO_CHANGED object:nil];
-            }
+            [weakself updateView];
+//            [NSNotificationCenter.defaultCenter postNotificationName:indexPath.row == 0 ? NOTICENAME_LOCAL_MEDIA_CHANGED : NOTICENAME_REMOTE_MEDIA_CHANGED object:nil];
             
         } failBlock:^(NSError * _Nonnull error) {
             [weakself updateView];

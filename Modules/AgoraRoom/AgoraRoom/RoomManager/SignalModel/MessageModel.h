@@ -18,6 +18,8 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, strong) NSString *userName;
 @property (nonatomic, strong) NSString *message;
 @property (nonatomic, assign) NSInteger timestamp;
+
+// plus
 @property (nonatomic, assign) BOOL isSelfSend;
 @property (nonatomic, assign) float cellHeight;
 

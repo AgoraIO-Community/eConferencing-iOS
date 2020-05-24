@@ -33,13 +33,7 @@ NS_ASSUME_NONNULL_BEGIN
 @interface RoomManager : NSObject
 
 @property (nonatomic, weak) id<RoomManagerDelegate> delegate;
-
-@property (nonatomic, strong) EduRoomModel * _Nullable roomModel;
-@property (nonatomic, strong) NSArray<EduUserModel*> *coUserModels;
-
-@property (nonatomic, strong) EduUserModel * _Nullable hostModel;
-@property (nonatomic, strong) EduUserModel * _Nullable ownModel;
-@property (nonatomic, strong) SignalShareScreenInfoModel * _Nullable shareScreenInfoModel;
+@property (nonatomic, strong) BaseConfigModel *baseConfigModel;
 
 - (instancetype)initWithSceneType:(SceneType)type appId:(NSString *)appId authorization:(NSString *)authorization configModel:(BaseConfigModel *)configModel;
 
@@ -53,7 +47,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)getRoomInfoWithApiversion:(NSString *)apiversion successBlock:(void (^)(id roomInfoModel))successBlock failBlock:(void (^ _Nullable) (NSError *error))failBlock;
 
 //  update room info
-- (void)updateRoomInfoWithValue:(BOOL)enable enableSignalType:(ConfEnableRoomSignalType)type apiversion:(NSString *)apiversion successBolck:(void (^)(void))successBlock failBlock:(void (^ _Nullable) (NSError *error))failBlock;
+- (void)updateRoomInfoWithValue:(NSInteger)value enableSignalType:(ConfEnableRoomSignalType)type apiversion:(NSString *)apiversion successBolck:(void (^)(void))successBlock failBlock:(void (^ _Nullable) (NSError *error))failBlock;
 
 // send message
 - (void)sendMessageWithText:(NSString *)message apiversion:(NSString *)apiversion successBolck:(void (^ _Nullable) (void))successBlock completeFailBlock:(void (^ _Nullable) (NSError *error))failBlock;

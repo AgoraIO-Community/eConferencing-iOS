@@ -9,8 +9,17 @@
 #import "ConferenceManager.h"
 #import "RoomManager.h"
 #import "ConfConfigModel.h"
+#import "JsonParseUtil.h"
+#import <YYModel.h>
 
-@interface ConferenceManager ()
+#import "ConfSignalChannelHostModel.h"
+
+#define CONF_MESSAGE_VERSION 1
+#define ConfNoNullString(x) ((x == nil) ? @"" : x)
+#define ConfNoNullNumber(x) ((x == nil) ? @(0) : x)
+#define ConfNoNullArray(x) ((x == nil) ? ([NSArray array]) : x)
+
+@interface ConferenceManager ()<RoomManagerDelegate>
 
 @property (nonatomic, strong) RoomManager *roomManager;
 @property (nonatomic, assign) SceneType sceneType;
@@ -26,9 +35,9 @@
 - (instancetype)initWithSceneType:(SceneType)type appId:(NSString *)appId authorization:(NSString *)authorization {
     if (self = [super init]) {
         self.sceneType = type;
-        
         ConfConfigModel.shareInstance.appId = appId;
         self.roomManager = [[RoomManager alloc] initWithSceneType:type appId:appId authorization:authorization configModel:ConfConfigModel.shareInstance];
+        self.roomManager.delegate = self;
     }
     return self;
 }
@@ -76,7 +85,7 @@
 }
 
 - (void)audienceApplyWithType:(EnableSignalType)type completeSuccessBlock:(void (^ _Nullable) (void))successBlock completeFailBlock:(void (^ _Nullable) (NSError *error))failBlock {
-
+    
     [self.roomManager audienceActionWithType:type value:1 userId:self.ownModel.userId apiVersion:APIVersion1 completeSuccessBlock:successBlock completeFailBlock:failBlock];
 }
 
@@ -84,17 +93,25 @@
     [self.roomManager uploadLogWithApiversion:APIVersion1 successBlock:successBlock failBlock:failBlock];
 }
 
-- (void)updateRoomInfoWithValue:(BOOL)enable enableSignalType:(ConfEnableRoomSignalType)type successBolck:(void (^)(void))successBlock failBlock:(void (^ _Nullable) (NSError *error))failBlock {
+- (void)updateRoomInfoWithValue:(NSInteger)value enableSignalType:(ConfEnableRoomSignalType)type successBolck:(void (^)(void))successBlock failBlock:(void (^ _Nullable) (NSError *error))failBlock {
     
     WEAK(self);
-    [self.roomManager updateRoomInfoWithValue:enable enableSignalType:type apiversion:APIVersion1 successBolck:^{
+    [self.roomManager updateRoomInfoWithValue:value enableSignalType:type apiversion:APIVersion1 successBolck:^{
         
         switch (type) {
             case ConfEnableRoomSignalTypeMuteAllAudio:
+                weakself.roomModel.muteAllAudio = value;
+                if(value != MuteAllAudioStateUnmute) {
+                    for(ConfUserModel *userModel in self.userListModels){
+                        userModel.enableAudio = NO;
+                    }
+                }
                 break;
             case ConfEnableRoomSignalTypeMuteAllChat:
+                weakself.roomModel.muteAllChat = value;
                 break;
             case ConfEnableRoomSignalTypeShareBoard:
+                weakself.roomModel.shareBoard = value;
                 break;
             case ConfEnableRoomSignalTypeState:
                 break;
@@ -105,7 +122,7 @@
         if(successBlock != nil){
             successBlock();
         }
-
+        
     } failBlock:failBlock];
 }
 
@@ -132,7 +149,7 @@
     
     WEAK(self);
     [self.roomManager getUserListWithNextId:nextId count:100 apiversion:APIVersion1 successBlock:^(ConfUserListInfoModel * _Nonnull userListInfoModel) {
-    
+        
         NSMutableArray<ConfUserModel*> *userList = [NSMutableArray array];
         [userList addObjectsFromArray:userModelList];
         [userList addObjectsFromArray:userListInfoModel.list];
@@ -160,12 +177,12 @@
                 } else if(type == EnableSignalTypeAudio){
                     model.enableAudio = enable;
                     if([model.userId isEqualToString:weakself.ownModel.userId]) {
-                       [weakself.roomManager muteLocalAudioStream:@(!enable)];
+                        [weakself.roomManager muteLocalAudioStream:@(!enable)];
                     }
                 } else if(type == EnableSignalTypeVideo){
                     model.enableVideo = enable;
                     if([model.userId isEqualToString:weakself.ownModel.userId]) {
-                       [weakself.roomManager muteLocalVideoStream:@(!enable)];
+                        [weakself.roomManager muteLocalVideoStream:@(!enable)];
                     }
                 }
                 break;
@@ -193,7 +210,7 @@
                 model.role = ConfRoleTypeHost;
                 model.grantBoard = 1;
                 model.grantScreen = 1;
-
+                
                 targetModel = model;
                 continue;
             }
@@ -202,6 +219,23 @@
             if(model.userId != weakself.ownModel.userId &&
                model.role == ConfRoleTypeParticipant) {
                 [participantModels addObject:model];
+            }
+        }
+        
+        // reset share screen
+        for (ConfShareScreenUserModel *model in weakself.roomModel.shareScreenUsers) {
+            if(model.uid == weakself.ownModel.uid) {
+                model.role = ConfRoleTypeParticipant;
+            } else if([model.userId isEqualToString:userId]) {
+                model.role = ConfRoleTypeHost;
+            }
+        }
+        // reset share board
+        for (ConfShareBoardUserModel *model in weakself.roomModel.shareBoardUsers) {
+            if(model.uid == weakself.ownModel.uid) {
+                model.role = ConfRoleTypeParticipant;
+            } else if([model.userId isEqualToString:userId]) {
+                model.role = ConfRoleTypeHost;
             }
         }
         
@@ -302,7 +336,7 @@
 
 #pragma mark private
 - (void)handelConfRoomInfoModel:(ConfRoomInfoModel *)roomInfoModel {
-
+    
     ConfConfigModel.shareInstance.uid = roomInfoModel.localUser.uid;
     ConfConfigModel.shareInstance.userId = roomInfoModel.localUser.userId;
     ConfConfigModel.shareInstance.roomName = roomInfoModel.room.roomName;
@@ -323,6 +357,277 @@
 }
 - (void)removeVideoCanvasWithView:(UIView *)view {
     [self.roomManager removeVideoCanvasWithView:view];
+}
+
+#pragma mark RoomManagerDelegate
+- (void)didReceivedSignal:(NSString *)signalText fromPeer:(NSString *)peer {
+    NSDictionary *dict = [JsonParseUtil dictionaryWithJsonString:signalText];
+    ConfSignalP2PInfoModel *model = [ConfSignalP2PModel yy_modelWithDictionary:dict].data;
+    if([self.delegate respondsToSelector:@selector(didReceivedPeerSignal:)]) {
+        [self.delegate didReceivedPeerSignal:model];
+    }
+}
+- (void)didReceivedSignal:(NSString *)signalText {
+    
+    NSDictionary *dict = [JsonParseUtil dictionaryWithJsonString:signalText];
+    NSInteger cmd = [dict[@"cmd"] integerValue];
+    NSInteger version = [dict[@"version"] integerValue];
+    if(version != CONF_MESSAGE_VERSION) {
+        return;
+    }
+    
+    if(cmd == ChannelMessageTypeChat) {
+        
+        [self messageChat:dict];
+        
+    } else if(cmd == ChannelMessageTypeInOut) {
+        
+        [self messageInOut:dict];
+        
+    } else if(cmd == ChannelMessageTypeRoomInfo) {
+        
+        [self messageRoomInfo:dict];
+        
+    } else if(cmd == ChannelMessageTypeUserInfo) {
+        
+        [self messageUserInfo:dict];
+        
+    } else if(cmd == ChannelMessageTypeShareBoard) {
+        
+        [self messageShareBoard:dict];
+        
+    } else if(cmd == ChannelMessageTypeShareScreen) {
+        
+        [self messageShareScreen:dict];
+        
+    } else if(cmd == ChannelMessageTypeHostChange) {
+        
+        [self messageHostChange:dict];
+        
+    } else if(cmd == ChannelMessageTypeKickoff) {
+        
+        [self messageKickoff:dict];
+    }
+}
+
+- (void)didReceivedMessage:(MessageInfoModel * _Nonnull)model {
+    if([self.delegate respondsToSelector:@selector(didReceivedMessage:)]) {
+        [self.delegate didReceivedMessage:model];
+    }
+}
+- (void)didReceivedConnectionStateChanged:(ConnectionState)state {
+    if([self.delegate respondsToSelector:@selector(didReceivedConnectionStateChanged:)]) {
+        [self.delegate didReceivedConnectionStateChanged:ConnectionStateReconnected];
+    }
+}
+- (void)networkTypeGrade:(NetworkGrade)grade uid:(NSInteger)uid {
+    if([self.delegate respondsToSelector:@selector(networkTypeGrade:uid:)]) {
+        [self.delegate networkTypeGrade:grade uid: uid];
+    }
+}
+
+#pragma mark Handle message
+- (void)messageChat:(NSDictionary *)dict {
+    
+    MessageInfoModel *model = [MessageModel yy_modelWithDictionary:dict].data;
+    if(![model.userId isEqualToString:self.ownModel.userId]) {
+        model.isSelfSend = NO;
+        NSNumber *timestamp = dict[@"timestamp"];
+        model.timestamp = ConfNoNullNumber(timestamp).integerValue;
+    }
+    
+    if([self.delegate respondsToSelector:@selector(didReceivedMessage:)]) {
+        [self.delegate didReceivedMessage:model];
+    }
+}
+- (void)messageInOut:(NSDictionary *)dict {
+    
+    NSDictionary *dataDic = dict[@"data"];
+    if(dataDic == nil){
+        return;
+    }
+    
+    ConfSignalChannelInOutModel *inOutModel = [ConfSignalChannelInOutModel yy_modelWithDictionary:dataDic];
+    
+    self.roomModel.onlineUsers = inOutModel.total;
+    
+    NSArray<ConfSignalChannelInOutInfoModel*> *list = inOutModel.list;
+    for (ConfSignalChannelInOutInfoModel *model in list){
+        if(model.state == 0) { // out
+            
+            NSPredicate *predicate = [NSPredicate predicateWithFormat:@"uid != %d", model.userModel.uid];
+            
+            NSArray<ConfUserModel *> *filteredHostArray = [self.roomModel.hosts filteredArrayUsingPredicate:predicate];
+            self.roomModel.hosts = [NSArray arrayWithArray:filteredHostArray];
+            
+            NSArray<ConfUserModel *> *filteredArray = [self.userListModels filteredArrayUsingPredicate:predicate];
+            self.userListModels = [NSArray arrayWithArray:filteredArray];
+            
+        } else { // add
+            if(model.userModel.role == ConfRoleTypeHost) {
+                
+                NSMutableArray<ConfUserModel *> *hosts = [NSMutableArray arrayWithArray:self.roomModel.hosts];
+                [hosts addObject:model.userModel];
+                self.roomModel.hosts = [NSArray arrayWithArray:hosts];
+                
+                NSMutableArray<ConfUserModel *> *userListModels = [NSMutableArray arrayWithArray:self.userListModels];
+                if(self.ownModel.role == ConfRoleTypeHost){
+                    [userListModels insertObject:model.userModel atIndex:self.roomModel.hosts.count - 1];
+                } else {
+                    [userListModels insertObject:model.userModel atIndex:self.roomModel.hosts.count];
+                }
+                self.userListModels = [NSArray arrayWithArray:userListModels];
+                
+            } else {
+                
+                NSMutableArray<ConfUserModel *> *userListModels = [NSMutableArray arrayWithArray:self.userListModels];
+                [userListModels addObject:model.userModel];
+                self.userListModels = [NSArray arrayWithArray:userListModels];
+            }
+        }
+    }
+    
+    if([self.delegate respondsToSelector:@selector(didReceivedSignalInOut:)]) {
+        [self.delegate didReceivedSignalInOut: list];
+    }
+}
+- (void)messageUserInfo:(NSDictionary *)dict {
+    NSDictionary *dataDic = dict[@"data"];
+    if(dataDic == nil){
+        return;
+    }
+    
+    ConfUserModel *userModel = [ConfUserModel yy_modelWithDictionary:dataDic];
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"uid == %d", userModel.uid];
+    NSArray<ConfUserModel *> *filteredArray = [self.userListModels filteredArrayUsingPredicate:predicate];
+    if(filteredArray > 0){
+        filteredArray.firstObject.userName = userModel.userName;
+        filteredArray.firstObject.role = userModel.role;
+        filteredArray.firstObject.enableChat = userModel.enableChat;
+        filteredArray.firstObject.enableVideo = userModel.enableVideo;
+        filteredArray.firstObject.enableAudio = userModel.enableAudio;
+    }
+    
+    if([self.delegate respondsToSelector:@selector(didReceivedSignalUserInfo:)]) {
+        [self.delegate didReceivedSignalUserInfo: userModel];
+    }
+}
+- (void)messageRoomInfo:(NSDictionary *)dict {
+    
+    NSDictionary *dataDic = dict[@"data"];
+    if(dataDic == nil) {
+        return;
+    }
+    
+    ConfSignalChannelRoomModel *model = [ConfSignalChannelRoomModel yy_modelWithDictionary:dataDic];
+    self.roomModel.muteAllAudio = model.muteAllChat;
+    if(model.muteAllChat != MuteAllAudioStateUnmute){
+        for(ConfUserModel *userModel in self.userListModels){
+            userModel.enableAudio = NO;
+        }
+    }
+    
+    if([self.delegate respondsToSelector:@selector(didReceivedSignalRoomInfo:)]) {
+        [self.delegate didReceivedSignalRoomInfo:model];
+    }
+}
+- (void)messageShareBoard:(NSDictionary *)dict {
+    
+    NSDictionary *dataDic = dict[@"data"];
+    if(dataDic == nil) {
+        return;
+    }
+    
+    ConfSignalChannelBoardModel *boardModel = [ConfSignalChannelBoardModel yy_modelWithDictionary:dataDic];
+    self.roomModel.shareBoard = boardModel.shareBoard;
+    
+    if (boardModel.shareBoard == 0) {
+        
+        self.roomModel.shareBoardUsers = @[];
+        self.roomModel.createBoardUserId = @"";
+        
+    } else {
+        
+        self.roomModel.shareBoardUsers = [NSArray arrayWithArray: boardModel.shareBoardUsers];
+        self.roomModel.createBoardUserId = @"";
+        if(self.roomModel.shareBoardUsers.count > 0){
+            self.roomModel.createBoardUserId = self.roomModel.shareBoardUsers.firstObject.userId;
+            
+        }
+    }
+    if([self.delegate respondsToSelector:@selector(didReceivedSignalShareBoard:)]) {
+        [self.delegate didReceivedSignalShareBoard:boardModel];
+    }
+}
+- (void)messageShareScreen:(NSDictionary *)dict {
+    NSDictionary *dataDic = dict[@"data"];
+    if(dataDic == nil) {
+        return;
+    }
+    
+    ConfSignalChannelScreenModel *screenModel = [ConfSignalChannelScreenModel yy_modelWithDictionary:dataDic];
+    self.roomModel.shareScreen = screenModel.shareScreen;
+    
+    if (screenModel.shareScreen == 0) {
+        
+        self.roomModel.shareScreenUsers = @[];
+        
+    } else {
+        
+        self.roomModel.shareScreenUsers = [NSArray arrayWithArray: screenModel.shareScreenUsers];
+    }
+    if([self.delegate respondsToSelector:@selector(didReceivedSignalShareScreen:)]) {
+        [self.delegate didReceivedSignalShareScreen:screenModel];
+    }
+}
+- (void)messageHostChange:(NSDictionary *)dict {
+    
+    NSArray<ConfUserModel*> *hostModels = [ConfSignalChannelHostModel yy_modelWithDictionary:dict].data;
+    
+    NSMutableArray<ConfUserModel*> *allParticipantModels = [NSMutableArray arrayWithArray:self.userListModels];
+    [allParticipantModels removeObjectAtIndex:0];
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"role != %d", ConfRoleTypeHost];
+    NSArray<ConfUserModel*> *participantModels = [allParticipantModels filteredArrayUsingPredicate:predicate];
+    
+    self.roomModel.hosts = [NSArray arrayWithArray:hostModels];
+    NSPredicate *hostPredicate = [NSPredicate predicateWithFormat:@"uid != %d", self.ownModel.uid];
+    NSArray<ConfUserModel*> *hostFilteredModels = [self.roomModel.hosts filteredArrayUsingPredicate:hostPredicate];
+    
+    NSPredicate *ownPredicate = [NSPredicate predicateWithFormat:@"uid == %d", self.ownModel.uid];
+    NSArray<ConfUserModel*> *ownFilteredModels = [self.roomModel.hosts filteredArrayUsingPredicate:ownPredicate];
+    if(ownFilteredModels > 0){
+        self.ownModel.role = ConfRoleTypeHost;
+        self.ownModel.grantBoard = 1;
+    }
+    
+    NSMutableArray<ConfUserModel*> *allModels = [NSMutableArray array];
+    [allModels addObject:self.ownModel];
+    [allModels addObjectsFromArray:hostFilteredModels];
+    [allModels addObjectsFromArray:participantModels];
+    self.userListModels = [NSArray arrayWithArray:allModels];
+    
+    if([self.delegate respondsToSelector:@selector(didReceivedSignalHostChange:)]) {
+        [self.delegate didReceivedSignalHostChange:hostModels];
+    }
+}
+
+- (void)messageKickoff:(NSDictionary *)dict {
+    
+    NSDictionary *dataDic = dict[@"data"];
+    if(dataDic == nil) {
+        return;
+    }
+    
+    ConfSignalChannelKickoutModel *model = [ConfSignalChannelKickoutModel yy_modelWithDictionary:dataDic];
+    if(![model.userId isEqualToString:self.ownModel.userId]) {
+        return;
+    }
+    
+    [self.roomManager leftRoomWithUserId:model.userId apiversion:APIVersion1 successBolck:nil failBlock:nil];
+    
+    if([self.delegate respondsToSelector:@selector(didReceivedSignalKickoutChange:)]) {
+        [self.delegate didReceivedSignalKickoutChange:model];
+    }
 }
 
 @end

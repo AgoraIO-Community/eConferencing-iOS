@@ -35,7 +35,13 @@ OKText = "确定";
 UploadLogSuccessText = "日志上报成功";
 
 UserNameVerifyEmptyText = "房间名、用户名不能为空";
-UserNameVerifyText = "房间名、用户名最多为20个字符";
+RoomNameMinVerifyText = "房间名大于或者等于3个字符";
+UserNameMinVerifyText = "用户名大于或者等于3个字符";
+RoomNameMaxVerifyText = "房间名最多为50个字符";
+UserNameMaxVerifyText = "用户名最多为20个字符";
+PsdMaxVerifyText = "密码最多为20个字符";
+
+LoginOnAnotherDeviceText = "账户在其他设备上登录了";
 
 ColorPickerText = " 选择颜色";
 JoinMediaFailedText = "加入媒体失败";

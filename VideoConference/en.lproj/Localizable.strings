@@ -36,7 +36,12 @@ OKText = "OK";
 UploadLogSuccessText = "upload log successed";
 
 UserNameVerifyEmptyText = "room name and user name can not empty";
-UserNameVerifyText = "room name and user name must be within 20 characters";
+RoomNameMinVerifyText = "room name must be greater than or equal to 3 characters";
+UserNameMinVerifyText = "user name must be greater than or equal to 3 characters";
+RoomNameMaxVerifyText = "room name must be within 50 characters";
+UserNameMaxVerifyText = "user name must be within 20 characters";
+PsdMaxVerifyText = "password must be within 20 characters";
+LoginOnAnotherDeviceText = "account signed in on another device";
 
 ColorPickerText = " Color Picker";
 JoinMediaFailedText = "join media failed";

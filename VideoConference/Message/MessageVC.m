@@ -22,6 +22,8 @@
 
 @property (assign, nonatomic) NSInteger currentTimestamp;
 
+@property (strong, nonatomic) NSMutableArray<MessageInfoModel *> *messageArray;
+
 @end
 
 @implementation MessageVC
@@ -41,8 +43,8 @@
     
     [self addNotification];
     
-    if(self.messageArray == nil) {
-        self.messageArray = [NSMutableArray array];
+    self.messageArray = AgoraRoomManager.shareManager.messageInfoModels;
+    if(self.messageArray.count == 0) {
         self.currentTimestamp = 0;
     } else {
         self.currentTimestamp = self.messageArray.firstObject.timestamp;
@@ -60,6 +62,12 @@
 - (void)addNotification {
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardDidShow:) name:UIKeyboardDidShowNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillHidden:) name:UIKeyboardWillHideNotification object:nil];
+    
+    [[NSNotificationCenter defaultCenter]  addObserver:self selector:@selector(updateMessageView) name:NOTICENAME_MESSAGE_CHANGED object:nil];
+}
+
+- (void)updateMessageView {
+    [self.tableView reloadData];
 }
 
 - (void)keyboardDidShow:(NSNotification *)notification {

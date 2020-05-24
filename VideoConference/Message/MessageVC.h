@@ -13,8 +13,6 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface MessageVC : BaseViewController
 
-@property (strong, nonatomic) NSMutableArray<MessageInfoModel *> *messageArray;
-
 @end
 
 NS_ASSUME_NONNULL_END

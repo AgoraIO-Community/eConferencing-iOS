@@ -29,20 +29,6 @@ typedef NS_ENUM(NSInteger, SignalType) {
     SignalValueShareScreen,     // 开始/结束分享屏幕
 };
 
-typedef NS_ENUM(NSInteger, EnableSignalType) {
-    EnableSignalTypeVideo,
-    EnableSignalTypeAudio,
-    EnableSignalTypeChat,
-    EnableSignalTypeGrantBoard,
-};
-
-typedef NS_ENUM(NSInteger, ConfEnableRoomSignalType) {
-    ConfEnableRoomSignalTypeMuteAllChat,
-    ConfEnableRoomSignalTypeMuteAllAudio,
-    ConfEnableRoomSignalTypeState,
-    ConfEnableRoomSignalTypeShareBoard,
-};
-
 // covideo state
 typedef NS_ENUM(NSInteger, SignalLinkState) {
     SignalLinkStateIdle             = 0,

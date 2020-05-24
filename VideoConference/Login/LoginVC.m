@@ -98,8 +98,27 @@
         [self showToast:NSLocalizedString(@"UserNameVerifyEmptyText", nil)];
         return;
     }
-    if(![self checkFieldText:userName] || ![self checkFieldText:roomName]) {
-        [self showToast:NSLocalizedString(@"UserNameVerifyText", nil)];
+    NSInteger strlength = [self checkFieldText:roomName];
+    if(strlength < 3){
+        [self showToast:NSLocalizedString(@"RoomNameMinVerifyText", nil)];
+        return;
+    }
+    if(strlength > 50){
+        [self showToast:NSLocalizedString(@"RoomNameMaxVerifyText", nil)];
+        return;
+    }
+    strlength = [self checkFieldText:userName];
+    if(strlength < 3){
+        [self showToast:NSLocalizedString(@"UserNameMinVerifyText", nil)];
+        return;
+    }
+    if(strlength > 20){
+        [self showToast:NSLocalizedString(@"UserNameMaxVerifyText", nil)];
+        return;
+    }
+    strlength = [self checkFieldText:roomPsd];
+    if(strlength > 20){
+        [self showToast:NSLocalizedString(@"PsdMaxVerifyText", nil)];
         return;
     }
     
@@ -131,7 +150,7 @@
     }];
 }
 
-- (BOOL)checkFieldText:(NSString *)text {
+- (NSInteger)checkFieldText:(NSString *)text {
     int strlength = 0;
     char *p = (char *)[text cStringUsingEncoding:NSUnicodeStringEncoding];
     for (int i = 0; i < [text lengthOfBytesUsingEncoding:NSUnicodeStringEncoding]; i++) {
@@ -143,11 +162,7 @@
             p++;
         }
     }
-    if(strlength <= 20){
-        return YES;
-    } else {
-       return NO;
-    }
+    return strlength;
 }
 - (void)setLoadingVisible:(BOOL)show {
     if(show) {

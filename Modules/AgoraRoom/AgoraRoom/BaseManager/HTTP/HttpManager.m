@@ -190,23 +190,23 @@ static NSString *agoraUId;
     }];
 }
 
-+ (void)updateRoomInfoWithValue:(BOOL)enable enableSignalType:(ConfEnableRoomSignalType)type appId:(NSString *)appId roomId:(NSString *)roomId apiVersion:(NSString *)apiVersion completeSuccessBlock:(void (^ _Nullable) (void))successBlock completeFailBlock:(void (^ _Nullable) (NSError *error))failBlock {
++ (void)updateRoomInfoWithValue:(NSInteger)value enableSignalType:(ConfEnableRoomSignalType)type appId:(NSString *)appId roomId:(NSString *)roomId apiVersion:(NSString *)apiVersion completeSuccessBlock:(void (^ _Nullable) (void))successBlock completeFailBlock:(void (^ _Nullable) (NSError *error))failBlock {
     
     NSString *url = [NSString stringWithFormat:HTTP_UPDATE_ROOM_INFO, HTTP_BASE_URL, appId, roomId];
     
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     switch (type) {
         case ConfEnableRoomSignalTypeMuteAllChat:
-            params[@"muteAllChat"] = @(enable ? 1 : 0);
+            params[@"muteAllChat"] = @(value);
             break;
         case ConfEnableRoomSignalTypeMuteAllAudio:
-            params[@"muteAllAudio"] = @(enable ? 1 : 0);
+            params[@"muteAllAudio"] = @(value);
             break;
         case ConfEnableRoomSignalTypeState:
-            params[@"state"] = @(enable ? 1 : 0);
+            params[@"state"] = @(value);
             break;
         case ConfEnableRoomSignalTypeShareBoard:
-            params[@"shareBoard"] = @(enable ? 1 : 0);
+            params[@"shareBoard"] = @(value);
             break;
         default:
             break;

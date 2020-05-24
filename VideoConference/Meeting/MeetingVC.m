@@ -15,19 +15,25 @@
 #import "BottomBar.h"
 #import "AgoraFlowLayout.h"
 
-@interface MeetingVC ()<UICollectionViewDelegate, UICollectionViewDataSource, WhiteManagerDelegate>
+@interface MeetingVC ()<UICollectionViewDelegate, UICollectionViewDataSource, WhiteManagerDelegate, ConferenceDelegate>
 
-@property (weak, nonatomic) IBOutlet UIView *stateBg;
-@property (weak, nonatomic) IBOutlet UILabel *nameLabel;
 @property (weak, nonatomic) IBOutlet PaddingLabel *tipLabel;
 @property (weak, nonatomic) IBOutlet MeetingNavigation *nav;
 @property (weak, nonatomic) IBOutlet UICollectionView *collectionView;
 @property (weak, nonatomic) IBOutlet BottomBar *bottomBar;
 @property (weak, nonatomic) IBOutlet UIPageControl *pageControl;
 
+@property (weak, nonatomic) IBOutlet UIView *stateBg;
+@property (weak, nonatomic) IBOutlet UILabel *nameLabel;
+@property (weak, nonatomic) IBOutlet UIImageView *hostImgView;
+@property (weak, nonatomic) IBOutlet UIImageView *shareImgView;
+@property (weak, nonatomic) IBOutlet UIImageView *audioImgView;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *hostWConstraint;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *shareWConstraint;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *audioWConstraint;
+
 @property (weak, nonatomic) AgoraFlowLayout *layout;
 
-//@property (assign, nonatomic) NSInteger unReadMsgCount;
 @property (strong, nonatomic) NSMutableArray<ConfUserModel *> *allUserListModel;
 
 @property (strong, nonatomic) WhiteInfoModel *whiteInfoModel;
@@ -41,30 +47,44 @@
     [super viewDidLoad];
     
     self.allUserListModel = [NSMutableArray array];
-   
+    
     [self initView];
-    [self initData];
     [self addNotification];
     
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
         [self setupWhiteBoard];
     });
     
+    AgoraRoomManager.shareManager.conferenceManager.delegate = self;
+    
+    [self initData];
     [self startDispatchGroup];
 }
 
-- (void)setupWhiteBoard {
+- (void)updateViewOnReconnected {
+    WEAK(self);
+    ConferenceManager *manager = AgoraRoomManager.shareManager.conferenceManager;
+    [manager getConfRoomInfoWithSuccessBlock:^(ConfRoomInfoModel * _Nonnull roomInfoModel) {
+        
+        [weakself initData];
+        [weakself startDispatchGroup];
+        
+    } failBlock:^(NSError * _Nonnull error) {
+        
+    }];
+}
 
+- (void)setupWhiteBoard {
+    
     WhiteManager *whiteManager = AgoraRoomManager.shareManager.whiteManager;
     [whiteManager initWhiteSDK:self.pipVideoCell.boardView dataSourceDelegate:self];
     
     WEAK(self);
     ConferenceManager *conferenceManager = AgoraRoomManager.shareManager.conferenceManager;
-    ConfShareBoardUserModel *shareBoardModel = NoNullArray(conferenceManager.roomModel.shareBoardUsers).firstObject;
-
+    
     [conferenceManager getWhiteInfoWithSuccessBlock:^(WhiteInfoModel * _Nonnull model) {
         [whiteManager joinWhiteRoomWithBoardId:model.boardId boardToken:model.boardToken whiteWriteModel:conferenceManager.ownModel.grantBoard completeSuccessBlock:^{
-        
+            
             [whiteManager disableWhiteDeviceInputs:!conferenceManager.ownModel.grantBoard];
             [whiteManager currentWhiteScene:^(NSInteger sceneCount, NSInteger sceneIndex) {
                 [whiteManager moveWhiteToContainer:sceneIndex];
@@ -105,25 +125,12 @@
         errMsg = error.localizedDescription;
         dispatch_group_leave(group);
     }];
-
+    
     dispatch_group_notify(group, dispatch_get_main_queue(), ^{
         if(errMsg != nil && errMsg.length > 0) {
             [self showToast:errMsg];
         } else {
-            ConferenceManager *manager = AgoraRoomManager.shareManager.conferenceManager;
-            NSInteger shareScreenCount = manager.roomModel.shareScreenUsers.count;
-            NSInteger shareBoardCount = manager.roomModel.shareBoardUsers.count;
-            NSInteger allUserCount = self.allUserListModel.count;
-            NSInteger count = shareScreenCount + shareBoardCount + allUserCount - 2;
-            if(count <= 0) {
-                self.pageControl.hidden = YES;
-            } else {
-                self.pageControl.hidden = NO;
-                self.pageControl.currentPage = 0;
-                self.pageControl.numberOfPages = 1 + count / 4 + (count % 4 == 0 ? 0 : 1);
-            }
-
-            [self.collectionView reloadData];
+            [self onReloadView];
         }
     });
 }
@@ -141,30 +148,20 @@
     [self.collectionView setCollectionViewLayout:layout];
     self.layout = layout;
     
-    self.stateBg.hidden = NO;
+    self.stateBg.hidden = YES;
     self.stateBg.layer.cornerRadius = 11;
     self.stateBg.clipsToBounds = YES;
     
-    self.tipLabel.hidden = NO;
+    self.tipLabel.hidden = YES;
     self.tipLabel.layer.cornerRadius = 11;
     self.tipLabel.clipsToBounds = YES;
     self.tipLabel.edgeInsets = UIEdgeInsetsMake(0, 10, 0, 10);
-    self.tipLabel.text = @"撒第六 离开了房间";
 }
 
 - (void)initData {
     ConferenceManager *manager = AgoraRoomManager.shareManager.conferenceManager;
     self.nav.title.text = manager.roomModel.roomName;
     [self.nav startTimerWithCount: manager.roomModel.startTime];
-    
-    //    self.nameLabel.text = manager.roomModel.roomName;
-//    ConfUserModel *firstHost = NoNullArray(manager.roomModel.hosts).firstObject;
-//    if(firstHost != nil && !firstHost.enableAudio){
-//        firstHost
-//    }
-
-    // bottom bar
-    [self.bottomBar updateView];
     
     [self.allUserListModel addObject:manager.ownModel];
     for(ConfUserModel *hostModel in manager.roomModel.hosts) {
@@ -173,12 +170,95 @@
         }
     }
     [self.collectionView  reloadData];
+    
+    [self updateStateView];
+}
+
+- (void)updateStateView {
+    ConferenceManager *manager = AgoraRoomManager.shareManager.conferenceManager;
+    if(self.allUserListModel.count == 1) {
+        self.stateBg.hidden = YES;
+    } else {
+        self.stateBg.hidden = NO;
+                    
+        BOOL enableAudio = YES;
+        ConfRoleType roleType = ConfRoleTypeHost;
+        if(manager.roomModel.shareScreenUsers.count > 0 || manager.roomModel.shareBoardUsers.count > 0) {
+            
+            NSString *userName = @"";
+            NSInteger uid = 0;
+            if(manager.roomModel.shareScreenUsers.count > 0) {
+                ConfShareScreenUserModel *model = manager.roomModel.shareScreenUsers.firstObject;
+                userName = model.userName;
+                roleType = model.role;
+                uid = model.uid;
+            } else {
+                ConfShareBoardUserModel *model = manager.roomModel.shareBoardUsers.firstObject;
+                userName = model.userName;
+                roleType = model.role;
+                uid = model.uid;
+            }
+            self.nameLabel.text = userName;
+            self.shareImgView.hidden = NO;
+            self.shareWConstraint.constant = 17;
+            if(roleType == ConfRoleTypeHost){
+                self.hostImgView.hidden = NO;
+                self.hostWConstraint.constant = 17;
+            } else {
+                self.hostImgView.hidden = YES;
+                self.hostWConstraint.constant = 0;
+            }
+            
+            NSPredicate *predicate = [NSPredicate predicateWithFormat:@"uid == %d", uid];
+            NSArray<ConfUserModel *> *filteredHostArray = [self.allUserListModel  filteredArrayUsingPredicate:predicate];
+            if(filteredHostArray.count > 0){
+                enableAudio = filteredHostArray.firstObject.enableAudio;
+            }
+        } else {
+            self.shareImgView.hidden = YES;
+            self.shareWConstraint.constant = 0;
+            ConfUserModel *model = self.allUserListModel[1];
+            roleType = model.role;
+            enableAudio = model.enableAudio;
+        }
+        
+        if(roleType == ConfRoleTypeHost){
+            self.hostImgView.hidden = NO;
+            self.hostWConstraint.constant = 17;
+        } else {
+            self.hostImgView.hidden = YES;
+            self.hostWConstraint.constant = 0;
+        }
+        self.audioImgView.image = [UIImage imageNamed:enableAudio ? @"state-unmute" : @"state-mute"];
+        
+    }
+    
+    // bottom bar
+    [self.bottomBar updateView];
 }
 
 - (void)addNotification {
-    [NSNotificationCenter.defaultCenter addObserver:self selector:@selector(onLocalVideoStateChange) name:NOTICENAME_LOCAL_VIDEO_CHANGED object:nil];
+    [NSNotificationCenter.defaultCenter addObserver:self selector:@selector(onLocalVideoStateChange) name:NOTICENAME_LOCAL_MEDIA_CHANGED object:nil];
+}
+
+- (void)onReloadView {
     
-    [NSNotificationCenter.defaultCenter addObserver:self selector:@selector(onLocalVideoStateChange) name:NOTICENAME_LOCAL_VIDEO_CHANGED object:nil];
+    ConferenceManager *manager = AgoraRoomManager.shareManager.conferenceManager;
+    NSInteger shareScreenCount = manager.roomModel.shareScreenUsers.count;
+    NSInteger shareBoardCount = manager.roomModel.shareBoardUsers.count;
+    NSInteger allUserCount = self.allUserListModel.count;
+    NSInteger count = shareScreenCount + shareBoardCount + allUserCount - 2;
+    if(count <= 0) {
+        self.pageControl.hidden = YES;
+    } else {
+        self.pageControl.hidden = NO;
+        self.pageControl.currentPage = 0;
+        self.pageControl.numberOfPages = 1 + count / 4 + (count % 4 == 0 ? 0 : 1);
+    }
+    
+    [self.collectionView reloadData];
+    
+    [self updateStateView];
 }
 
 - (void)onLocalVideoStateChange {
@@ -292,7 +372,7 @@
     });
 }
 - (void)scrollViewDidEndScroll {
-   NSArray *indexPaths = [self.collectionView indexPathsForVisibleItems];
+    NSArray *indexPaths = [self.collectionView indexPathsForVisibleItems];
     NSIndexPath *indexPath = indexPaths.firstObject;
     if(self.pageControl.numberOfPages > 0) {
         if(indexPath.section == 0) {
@@ -309,5 +389,191 @@
     [AgoraRoomManager.shareManager.whiteManager currentWhiteScene:^(NSInteger sceneCount, NSInteger sceneIndex) {
         [AgoraRoomManager.shareManager.whiteManager moveWhiteToContainer:sceneIndex];
     }];
+}
+
+#pragma mark ConferenceDelegate
+- (void)didReceivedPeerSignal:(ConfSignalP2PInfoModel * _Nonnull)model {
+    
+    ConferenceManager *manager = AgoraRoomManager.shareManager.conferenceManager;
+    
+    if(model.action == P2PMessageTypeActionInvitation || model.action == P2PMessageTypeActionApply) {
+        
+        NSString *title = @"";
+        EnableSignalType type = EnableSignalTypeVideo;
+        NSString *noticeName = @"";
+        NSString *userId = @"";
+        if(model.action == P2PMessageTypeActionInvitation) {
+            title = @"主持人邀请你打开摄像头";
+            EnableSignalType type = EnableSignalTypeVideo;
+            noticeName = NOTICENAME_LOCAL_MEDIA_CHANGED;
+            userId = manager.ownModel.userId;
+            if(model.type == P2PMessageTypeActionTypeAudio) {
+                title = @"主持人邀请你打开麦克风";
+                type = EnableSignalTypeAudio;
+            } else if(model.type == P2PMessageTypeActionTypeBoard) {
+                title = @"主持人邀请你打开麦克风";
+                type = EnableSignalTypeAudio;
+            }
+        } else {
+            title = [NSString stringWithFormat:@"%@申请打开摄像头", model.userName];
+            EnableSignalType type = EnableSignalTypeVideo;
+            noticeName = NOTICENAME_REMOTE_MEDIA_CHANGED;
+            userId = model.userId;
+            if(model.type == P2PMessageTypeActionTypeAudio) {
+                title = [NSString stringWithFormat:@"%@申请打开麦克风", model.userName];
+                type = EnableSignalTypeAudio;
+            }
+        }
+        
+        [AlertViewUtil showAlertWithController:[VCManager getTopVC] title:title cancelHandler:nil sureHandler:^(UIAlertAction * _Nullable action) {
+            [manager updateUserInfoWithUserId:userId value:YES enableSignalType:type successBolck:^{
+                
+                [NSNotificationCenter.defaultCenter postNotificationName:noticeName object:nil];
+                
+            } failBlock:^(NSError * _Nonnull error) {
+                BaseViewController *vc = (BaseViewController*)[VCManager getTopVC];
+                if(vc){
+                    [vc showToast:error.localizedDescription];
+                }
+            }];
+        }];
+    } else if(model.action == P2PMessageTypeActionRejectApply || model.action == P2PMessageTypeActionRejectInvitation) {
+        
+        NSString *title = @"";
+        if(model.action == P2PMessageTypeActionRejectApply) {
+            title = @"主持人拒绝了打开摄像头的申请";
+            if(model.type == P2PMessageTypeActionTypeAudio) {
+                title = @"主持人拒绝了打开麦克风的申请";
+            }
+        } else {
+            title = [NSString stringWithFormat:@"%@拒绝了打开摄像头的邀请", model.userName];
+            if(model.type == P2PMessageTypeActionTypeAudio) {
+                title = [NSString stringWithFormat:@"%@拒绝了打开麦克风的邀请", model.userName];
+            }
+        }
+        [AlertViewUtil showAlertWithController:[VCManager getTopVC] title:title];
+    }
+}
+- (void)didReceivedSignalInOut:(NSArray<ConfSignalChannelInOutInfoModel *> *)models {
+    //
+    [self onReloadView];
+    
+    ConfSignalChannelInOutInfoModel *model = models.lastObject;
+    if(model == nil){
+        return;
+    }
+    
+    NSString *tipText = @"";
+    if(model.state == 0) {
+        tipText = [NSString stringWithFormat:@"\"%@\"离开房间", model.userModel.userName];
+    } else {
+        tipText = [NSString stringWithFormat:@"\"%@\"进入房间", model.userModel.userName];
+    }
+    
+    self.tipLabel.hidden = NO;
+    [self.tipLabel setText: tipText];
+    
+    WEAK(self);
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(3.f * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        weakself.tipLabel.hidden = YES;
+    });
+    
+}
+- (void)didReceivedSignalRoomInfo:(ConfSignalChannelRoomModel *)model {
+    if (model.state == 0) {
+        [AlertViewUtil showAlertWithController:[VCManager getTopVC] title:@"主持人结束了会议" sureHandler:^(UIAlertAction * _Nullable action) {
+            [VCManager popRootView];
+        }];
+        return;
+    }
+    
+    NSString *title = @"";
+    NSString *message = @"";
+    if(model.muteAllChat == MuteAllAudioStateUnmute){
+        title = @"主持人解除静音控制";
+        message = @"您现在自主控制麦克风了哦!";
+    } else if(model.muteAllChat == MuteAllAudioStateAllowUnmute){
+        title = @"主持人开启了静音控制";
+        message = @"你可以再次打开麦克风!";
+    } else if(model.muteAllChat == MuteAllAudioStateNoAllowUnmute){
+        title = @"主持人开启了静音控制";
+        message = @"你可以通过申请打开麦克风!";
+    }
+    [AlertViewUtil showAlertWithController:[VCManager getTopVC] title:title message:message cancelText:nil sureText:@"我知道了" cancelHandler:nil sureHandler:nil];
+    
+    if(model.muteAllChat != MuteAllAudioStateUnmute){
+        [self onReloadView];
+    }
+    
+    [NSNotificationCenter.defaultCenter postNotificationName:NOTICENAME_ROOM_INFO_CHANGED object:nil];
+    
+}
+- (void)didReceivedSignalUserInfo:(ConfUserModel *)model {
+    
+    ConferenceManager *manager = AgoraRoomManager.shareManager.conferenceManager;
+    if(model.uid == manager.ownModel.uid){
+        [NSNotificationCenter.defaultCenter postNotificationName:NOTICENAME_LOCAL_MEDIA_CHANGED object:nil];
+    } else {
+        [self onReloadView];
+        [NSNotificationCenter.defaultCenter postNotificationName:NOTICENAME_REMOTE_MEDIA_CHANGED object:nil];
+    }
+}
+- (void)didReceivedSignalShareBoard:(ConfSignalChannelBoardModel *)model {
+    
+    // 0->1 or 1->0
+    if((!self.pipVideoCell.showWhite && model.shareBoardUsers.count > 0) ||
+       (self.pipVideoCell.showWhite && model.shareBoardUsers.count == 0)) {
+        
+        [self onReloadView];
+        [NSNotificationCenter.defaultCenter postNotificationName:NOTICENAME_SHARE_INFO_CHANGED object:nil];
+    } else {
+        [self.pipVideoCell updateWhiteView];
+    }
+}
+- (void)didReceivedSignalShareScreen:(ConfSignalChannelScreenModel *)model {
+    
+    // 0->1 or 1->0
+    if((!self.pipVideoCell.showScreen && model.shareScreenUsers.count > 0) ||
+       (self.pipVideoCell.showScreen && model.shareScreenUsers.count == 0)) {
+        
+        [self onReloadView];
+        [NSNotificationCenter.defaultCenter postNotificationName:NOTICENAME_SHARE_INFO_CHANGED object:nil];
+    }
+    
+}
+- (void)didReceivedSignalHostChange:(NSArray<ConfUserModel*> *)hostModels {
+    [self onReloadView];
+    [NSNotificationCenter.defaultCenter postNotificationName:NOTICENAME_HOST_ROLE_CHANGED object:nil];
+}
+- (void)didReceivedSignalKickoutChange:(ConfSignalChannelKickoutModel*)model {
+    
+    [AlertViewUtil showAlertWithController:[VCManager getTopVC] title:@"主持人把你移出房间" sureHandler:^(UIAlertAction * _Nullable action) {
+        [VCManager popRootView];
+    }];
+}
+- (void)didReceivedMessage:(MessageInfoModel * _Nonnull)model {
+    UIViewController *vc = [VCManager getTopVC];
+    if([vc isKindOfClass:self.class]) {
+        [self.bottomBar addUnreadMsgCount];
+    }
+    [AgoraRoomManager.shareManager.messageInfoModels addObject:model];
+    [NSNotificationCenter.defaultCenter postNotificationName:NOTICENAME_MESSAGE_CHANGED object:nil];
+}
+- (void)didReceivedConnectionStateChanged:(ConnectionState)state {
+    if(state == ConnectionStateReconnected) {
+        [self updateViewOnReconnected];
+    } else if(state == ConnectionStateAnotherLogged) {
+        [self showToast:NSLocalizedString(@"LoginOnAnotherDeviceText", nil)];
+        [AgoraRoomManager releaseResource];
+        [VCManager popRootView];
+    }
+}
+- (void)networkTypeGrade:(NetworkGrade)grade uid:(NSInteger)uid {
+    
+}
+
+- (void)dealloc {
+    [NSNotificationCenter.defaultCenter removeObserver:self];
+    [AgoraRoomManager releaseResource];
 }
 @end

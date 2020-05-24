@@ -109,6 +109,23 @@
 		784D21FD2463F2F00065985A /* LogManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 784D21862463F2F00065985A /* LogManager.m */; };
 		784D21FE2463F2F00065985A /* LogManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 784D21872463F2F00065985A /* LogManager.h */; };
 		784D22162463F5740065985A /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 784D22182463F5740065985A /* Localizable.strings */; };
+		78C08CC6247A0D3D00728DCB /* ConferenceDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 78C08CC4247A0D3C00728DCB /* ConferenceDelegate.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		78C08CCC247A179100728DCB /* ConfSignalP2PModel.h in Headers */ = {isa = PBXBuildFile; fileRef = 78C08CCA247A179100728DCB /* ConfSignalP2PModel.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		78C08CCD247A179100728DCB /* ConfSignalP2PModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 78C08CCB247A179100728DCB /* ConfSignalP2PModel.m */; };
+		78C08CD0247A181200728DCB /* BaseSignalModel.h in Headers */ = {isa = PBXBuildFile; fileRef = 78C08CCE247A181200728DCB /* BaseSignalModel.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		78C08CD1247A181200728DCB /* BaseSignalModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 78C08CCF247A181200728DCB /* BaseSignalModel.m */; };
+		78C08CD4247A251F00728DCB /* ConfSignalChannelInOutModel.h in Headers */ = {isa = PBXBuildFile; fileRef = 78C08CD2247A251F00728DCB /* ConfSignalChannelInOutModel.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		78C08CD5247A251F00728DCB /* ConfSignalChannelInOutModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 78C08CD3247A251F00728DCB /* ConfSignalChannelInOutModel.m */; };
+		78C08CD8247A2DBC00728DCB /* ConfSignalChannelRoomModel.h in Headers */ = {isa = PBXBuildFile; fileRef = 78C08CD6247A2DBC00728DCB /* ConfSignalChannelRoomModel.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		78C08CD9247A2DBC00728DCB /* ConfSignalChannelRoomModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 78C08CD7247A2DBC00728DCB /* ConfSignalChannelRoomModel.m */; };
+		78C08CDC247A3B3800728DCB /* ConfSignalChannelBoardModel.h in Headers */ = {isa = PBXBuildFile; fileRef = 78C08CDA247A3B3800728DCB /* ConfSignalChannelBoardModel.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		78C08CDD247A3B3800728DCB /* ConfSignalChannelBoardModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 78C08CDB247A3B3800728DCB /* ConfSignalChannelBoardModel.m */; };
+		78C08CE0247A3F6600728DCB /* ConfSignalChannelScreenModel.h in Headers */ = {isa = PBXBuildFile; fileRef = 78C08CDE247A3F6600728DCB /* ConfSignalChannelScreenModel.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		78C08CE1247A3F6600728DCB /* ConfSignalChannelScreenModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 78C08CDF247A3F6600728DCB /* ConfSignalChannelScreenModel.m */; };
+		78C08CE4247A42D900728DCB /* ConfSignalChannelHostModel.h in Headers */ = {isa = PBXBuildFile; fileRef = 78C08CE2247A42D900728DCB /* ConfSignalChannelHostModel.h */; };
+		78C08CE5247A42D900728DCB /* ConfSignalChannelHostModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 78C08CE3247A42D900728DCB /* ConfSignalChannelHostModel.m */; };
+		78C08CE8247A477B00728DCB /* ConfSignalChannelKickoutModel.h in Headers */ = {isa = PBXBuildFile; fileRef = 78C08CE6247A477B00728DCB /* ConfSignalChannelKickoutModel.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		78C08CE9247A477B00728DCB /* ConfSignalChannelKickoutModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 78C08CE7247A477B00728DCB /* ConfSignalChannelKickoutModel.m */; };
 		78F691552472BB20000A0E71 /* EduEntryParams.m in Sources */ = {isa = PBXBuildFile; fileRef = 78F691492472BB20000A0E71 /* EduEntryParams.m */; };
 		78F691562472BB20000A0E71 /* ConferenceEntryParams.m in Sources */ = {isa = PBXBuildFile; fileRef = 78F6914A2472BB20000A0E71 /* ConferenceEntryParams.m */; };
 		78F691572472BB20000A0E71 /* EntryParams.m in Sources */ = {isa = PBXBuildFile; fileRef = 78F6914B2472BB20000A0E71 /* EntryParams.m */; };
@@ -260,6 +277,23 @@
 		784D21872463F2F00065985A /* LogManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LogManager.h; sourceTree = "<group>"; };
 		784D22172463F5740065985A /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		784D22192463F5760065985A /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/Localizable.strings"; sourceTree = "<group>"; };
+		78C08CC4247A0D3C00728DCB /* ConferenceDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ConferenceDelegate.h; sourceTree = "<group>"; };
+		78C08CCA247A179100728DCB /* ConfSignalP2PModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ConfSignalP2PModel.h; sourceTree = "<group>"; };
+		78C08CCB247A179100728DCB /* ConfSignalP2PModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ConfSignalP2PModel.m; sourceTree = "<group>"; };
+		78C08CCE247A181200728DCB /* BaseSignalModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BaseSignalModel.h; sourceTree = "<group>"; };
+		78C08CCF247A181200728DCB /* BaseSignalModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BaseSignalModel.m; sourceTree = "<group>"; };
+		78C08CD2247A251F00728DCB /* ConfSignalChannelInOutModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ConfSignalChannelInOutModel.h; sourceTree = "<group>"; };
+		78C08CD3247A251F00728DCB /* ConfSignalChannelInOutModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ConfSignalChannelInOutModel.m; sourceTree = "<group>"; };
+		78C08CD6247A2DBC00728DCB /* ConfSignalChannelRoomModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ConfSignalChannelRoomModel.h; sourceTree = "<group>"; };
+		78C08CD7247A2DBC00728DCB /* ConfSignalChannelRoomModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ConfSignalChannelRoomModel.m; sourceTree = "<group>"; };
+		78C08CDA247A3B3800728DCB /* ConfSignalChannelBoardModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ConfSignalChannelBoardModel.h; sourceTree = "<group>"; };
+		78C08CDB247A3B3800728DCB /* ConfSignalChannelBoardModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ConfSignalChannelBoardModel.m; sourceTree = "<group>"; };
+		78C08CDE247A3F6600728DCB /* ConfSignalChannelScreenModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ConfSignalChannelScreenModel.h; sourceTree = "<group>"; };
+		78C08CDF247A3F6600728DCB /* ConfSignalChannelScreenModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ConfSignalChannelScreenModel.m; sourceTree = "<group>"; };
+		78C08CE2247A42D900728DCB /* ConfSignalChannelHostModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ConfSignalChannelHostModel.h; sourceTree = "<group>"; };
+		78C08CE3247A42D900728DCB /* ConfSignalChannelHostModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ConfSignalChannelHostModel.m; sourceTree = "<group>"; };
+		78C08CE6247A477B00728DCB /* ConfSignalChannelKickoutModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ConfSignalChannelKickoutModel.h; sourceTree = "<group>"; };
+		78C08CE7247A477B00728DCB /* ConfSignalChannelKickoutModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ConfSignalChannelKickoutModel.m; sourceTree = "<group>"; };
 		78F691492472BB20000A0E71 /* EduEntryParams.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EduEntryParams.m; sourceTree = "<group>"; };
 		78F6914A2472BB20000A0E71 /* ConferenceEntryParams.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ConferenceEntryParams.m; sourceTree = "<group>"; };
 		78F6914B2472BB20000A0E71 /* EntryParams.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EntryParams.m; sourceTree = "<group>"; };
@@ -363,6 +397,7 @@
 				784D20F82463F2F00065985A /* RoomManager+RTM.h */,
 				784D21102463F2F00065985A /* RoomManager+RTM.m */,
 				784D20FD2463F2F00065985A /* RoomManagerDelegate.h */,
+				78C08CC4247A0D3C00728DCB /* ConferenceDelegate.h */,
 			);
 			path = RoomManager;
 			sourceTree = "<group>";
@@ -377,13 +412,13 @@
 				784D21032463F2F00065985A /* SignalShareScreenModel.m */,
 				784D21042463F2F00065985A /* MessageModel.m */,
 				784D21052463F2F00065985A /* SignalP2PModel.h */,
+				784D210C2463F2F00065985A /* SignalP2PModel.m */,
 				784D21062463F2F00065985A /* SignalEnum.h */,
 				784D21072463F2F00065985A /* SignalReplayModel.m */,
 				784D21082463F2F00065985A /* SignalRoomModel.m */,
 				784D21092463F2F00065985A /* SignalShareScreenModel.h */,
 				784D210A2463F2F00065985A /* SignalUserModel.m */,
 				784D210B2463F2F00065985A /* SignalInfoModel.h */,
-				784D210C2463F2F00065985A /* SignalP2PModel.m */,
 				784D210D2463F2F00065985A /* MessageModel.h */,
 			);
 			path = SignalModel;
@@ -650,6 +685,22 @@
 				78F6917E24738F2E000A0E71 /* ConfShareBoardUserModel.m */,
 				78F6919624754B32000A0E71 /* ConfUserListInfoModel.h */,
 				78F6919724754B32000A0E71 /* ConfUserListInfoModel.m */,
+				78C08CCA247A179100728DCB /* ConfSignalP2PModel.h */,
+				78C08CCB247A179100728DCB /* ConfSignalP2PModel.m */,
+				78C08CCE247A181200728DCB /* BaseSignalModel.h */,
+				78C08CCF247A181200728DCB /* BaseSignalModel.m */,
+				78C08CD2247A251F00728DCB /* ConfSignalChannelInOutModel.h */,
+				78C08CD3247A251F00728DCB /* ConfSignalChannelInOutModel.m */,
+				78C08CD6247A2DBC00728DCB /* ConfSignalChannelRoomModel.h */,
+				78C08CD7247A2DBC00728DCB /* ConfSignalChannelRoomModel.m */,
+				78C08CDA247A3B3800728DCB /* ConfSignalChannelBoardModel.h */,
+				78C08CDB247A3B3800728DCB /* ConfSignalChannelBoardModel.m */,
+				78C08CDE247A3F6600728DCB /* ConfSignalChannelScreenModel.h */,
+				78C08CDF247A3F6600728DCB /* ConfSignalChannelScreenModel.m */,
+				78C08CE2247A42D900728DCB /* ConfSignalChannelHostModel.h */,
+				78C08CE3247A42D900728DCB /* ConfSignalChannelHostModel.m */,
+				78C08CE6247A477B00728DCB /* ConfSignalChannelKickoutModel.h */,
+				78C08CE7247A477B00728DCB /* ConfSignalChannelKickoutModel.m */,
 			);
 			path = ConfRoomModel;
 			sourceTree = "<group>";
@@ -692,6 +743,14 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				78C08CE8247A477B00728DCB /* ConfSignalChannelKickoutModel.h in Headers */,
+				78C08CD8247A2DBC00728DCB /* ConfSignalChannelRoomModel.h in Headers */,
+				78C08CD4247A251F00728DCB /* ConfSignalChannelInOutModel.h in Headers */,
+				78C08CDC247A3B3800728DCB /* ConfSignalChannelBoardModel.h in Headers */,
+				78C08CE0247A3F6600728DCB /* ConfSignalChannelScreenModel.h in Headers */,
+				78C08CD0247A181200728DCB /* BaseSignalModel.h in Headers */,
+				78C08CCC247A179100728DCB /* ConfSignalP2PModel.h in Headers */,
+				78C08CC6247A0D3D00728DCB /* ConferenceDelegate.h in Headers */,
 				78F691A024762953000A0E71 /* WhiteInfoModel.h in Headers */,
 				78F6919824754B33000A0E71 /* ConfUserListInfoModel.h in Headers */,
 				78F6917F24738F2E000A0E71 /* ConfShareBoardUserModel.h in Headers */,
@@ -719,6 +778,7 @@
 				78F6916424737EBB000A0E71 /* EduRoomAllModel.h in Headers */,
 				784D21EC2463F2F00065985A /* ReplayModel.h in Headers */,
 				784D21972463F2F00065985A /* SignalShareScreenModel.h in Headers */,
+				78C08CE4247A42D900728DCB /* ConfSignalChannelHostModel.h in Headers */,
 				78F6919C2475540B000A0E71 /* ConfUserListModel.h in Headers */,
 				784D21EF2463F2F00065985A /* BaseModel.h in Headers */,
 				784D218D2463F2F00065985A /* SignalReplayModel.h in Headers */,
@@ -868,9 +928,12 @@
 			buildActionMask = 2147483647;
 			files = (
 				784D21C72463F2F00065985A /* sha1.c in Sources */,
+				78C08CD9247A2DBC00728DCB /* ConfSignalChannelRoomModel.m in Sources */,
 				784D21CE2463F2F00065985A /* pwd2key.c in Sources */,
 				784D21CA2463F2F00065985A /* aes_ni.c in Sources */,
 				784D21A22463F2F00065985A /* RoomManager.m in Sources */,
+				78C08CE1247A3F6600728DCB /* ConfSignalChannelScreenModel.m in Sources */,
+				78C08CE9247A477B00728DCB /* ConfSignalChannelKickoutModel.m in Sources */,
 				784D218B2463F2F00065985A /* EduConfigModel.m in Sources */,
 				78F691572472BB20000A0E71 /* EntryParams.m in Sources */,
 				78F6917C24738EDB000A0E71 /* ConfShareScreenUserModel.m in Sources */,
@@ -892,6 +955,7 @@
 				784D21F92463F2F00065985A /* RTCManager.m in Sources */,
 				784D21E52463F2F00065985A /* WhiteModel.m in Sources */,
 				78F6917724738AF8000A0E71 /* ConfRoomAllModel.m in Sources */,
+				78C08CDD247A3B3800728DCB /* ConfSignalChannelBoardModel.m in Sources */,
 				784D21B42463F2F00065985A /* ioapi.c in Sources */,
 				784D21AC2463F2F00065985A /* NSArray+Copy.m in Sources */,
 				784D21A12463F2F00065985A /* VideoSessionModel.m in Sources */,
@@ -899,6 +963,7 @@
 				784D21E42463F2F00065985A /* BaseModel.m in Sources */,
 				784D21FB2463F2F00065985A /* OSSManager.m in Sources */,
 				78F6917624738AF8000A0E71 /* ConfUserModel.m in Sources */,
+				78C08CE5247A42D900728DCB /* ConfSignalChannelHostModel.m in Sources */,
 				78F6919D2475540B000A0E71 /* ConfUserListModel.m in Sources */,
 				784D21C02463F2F00065985A /* aeskey.c in Sources */,
 				784D21E22463F2F00065985A /* EnterRoomAllModel.m in Sources */,
@@ -919,13 +984,16 @@
 				784D21CF2463F2F00065985A /* aestab.c in Sources */,
 				78F6916324737EBB000A0E71 /* EduRoomAllModel.m in Sources */,
 				784D21D42463F2F00065985A /* SSZipArchive.m in Sources */,
+				78C08CCD247A179100728DCB /* ConfSignalP2PModel.m in Sources */,
 				78F6917824738AF8000A0E71 /* ConfRoomModel.m in Sources */,
 				784D21BB2463F2F00065985A /* minishared.c in Sources */,
 				784D21912463F2F00065985A /* SignalShareScreenModel.m in Sources */,
 				78F691A124762953000A0E71 /* WhiteInfoModel.m in Sources */,
 				784D21A52463F2F00065985A /* JsonParseUtil.m in Sources */,
+				78C08CD1247A181200728DCB /* BaseSignalModel.m in Sources */,
 				784D21B22463F2F00065985A /* zip.c in Sources */,
 				78F691892473B0C1000A0E71 /* ConfConfigModel.m in Sources */,
+				78C08CD5247A251F00728DCB /* ConfSignalChannelInOutModel.m in Sources */,
 				78F691852473AD4B000A0E71 /* EducationManager.m in Sources */,
 				784D21C12463F2F00065985A /* hmac.c in Sources */,
 				784D219D2463F2F00065985A /* RoomManager+RTC.m in Sources */,

@@ -17,6 +17,8 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, strong) ConferenceManager *conferenceManager;
 @property (nonatomic, strong) WhiteManager *whiteManager;
 
+@property (nonatomic, strong) NSMutableArray<MessageInfoModel*> *messageInfoModels;
+
 + (instancetype)shareManager;
 + (void)releaseResource;
 

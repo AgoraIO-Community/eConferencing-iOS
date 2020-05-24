@@ -30,7 +30,7 @@
 
 - (void)awakeFromNib {
     [super awakeFromNib];
-
+    
     UIImage *image = [UIImage generateImageWithSize:CGSizeMake(32, 32)];
     image = [UIImage circleImageWithOriginalImage:image];
     self.imgView.image = image;
@@ -40,7 +40,7 @@
     [self.shareView addSubview:boardView];
     [boardView equalTo:self.shareView];
     self.boardView = boardView;
-
+    
     self.whiteboardTool.backgroundColor = UIColor.clearColor;
     [self.whiteboardTool setDirectionPortrait: NO];
     self.whiteboardTool.delegate = self;
@@ -49,6 +49,9 @@
         NSArray *colorArray = [UIColor convertColorToRGB:[UIColor colorWithHexString:colorString]];
         [AgoraRoomManager.shareManager.whiteManager setWhiteStrokeColor:colorArray];
     }];
+    
+    self.showWhite = NO;
+    self.showScreen = NO;
 }
 
 - (void)removeVideoCanvas {
@@ -59,9 +62,12 @@
 }
 
 - (void)setUser:(ConfUserModel *)userModel shareBoardModel:(ConfShareBoardUserModel *)boardModel {
-
+    
     [self removeVideoCanvas];
-
+    
+    self.showWhite = NO;
+    self.showScreen = YES;
+    
     self.shareView.hidden = NO;
     self.boardView.hidden = NO;
     self.remoteView.hidden = YES;
@@ -85,6 +91,8 @@
         }
     }
     
+    [self updateWhiteView];
+    
     ConferenceManager *manager = AgoraRoomManager.shareManager.conferenceManager;
     if(userModel.enableVideo) {
         self.localView.hidden = NO;
@@ -97,6 +105,9 @@
 - (void)setUser:(ConfUserModel *)userModel shareScreenModel:(ConfShareScreenUserModel *)screenModel {
     [self removeVideoCanvas];
     
+    self.showWhite = YES;
+    self.showScreen = NO;
+    
     self.shareView.hidden = NO;
     self.boardView.hidden = YES;
     self.remoteView.hidden = YES;
@@ -107,6 +118,8 @@
     self.applyBtn.hidden = YES;
     self.endBtn.hidden = YES;
     
+    [self updateWhiteView];
+    
     ConferenceManager *manager = AgoraRoomManager.shareManager.conferenceManager;
     if(userModel.enableVideo) {
         self.localView.hidden = NO;
@@ -115,12 +128,15 @@
         self.localView.hidden = YES;
     }
     
-     [manager addVideoCanvasWithUId:screenModel.screenId inView:self.shareView];
+    [manager addVideoCanvasWithUId:screenModel.screenId inView:self.shareView];
 }
 
 - (void)setUser:(ConfUserModel *)userModel remoteUser:(ConfUserModel *)remoteUserModel {
-
+    
     [self removeVideoCanvas];
+    
+    self.showWhite = YES;
+    self.showScreen = YES;
     
     self.shareView.hidden = YES;
     self.boardView.hidden = YES;
@@ -130,6 +146,8 @@
     self.whiteboardColor.hidden = YES;
     self.applyBtn.hidden = YES;
     self.endBtn.hidden = YES;
+    
+    [self updateWhiteView];
     
     ConferenceManager *manager = AgoraRoomManager.shareManager.conferenceManager;
     if(userModel.enableVideo) {
@@ -153,6 +171,9 @@
     
     [self removeVideoCanvas];
     
+    self.showWhite = YES;
+    self.showScreen = YES;
+    
     self.shareView.hidden = YES;
     self.localView.hidden = YES;
     
@@ -160,6 +181,8 @@
     self.whiteboardColor.hidden = YES;
     self.applyBtn.hidden = YES;
     self.endBtn.hidden = YES;
+    
+    [self updateWhiteView];
     
     ConferenceManager *manager = AgoraRoomManager.shareManager.conferenceManager;
     if(userModel.enableVideo) {
@@ -170,6 +193,14 @@
         self.imgView.hidden = NO;
         self.remoteView.hidden = YES;
     }
+}
+
+- (void)updateWhiteView {
+    ConferenceManager *manager = AgoraRoomManager.shareManager.conferenceManager;
+    self.whiteboardTool.hidden = manager.ownModel.grantBoard ? NO : YES;
+    
+    WhiteManager *whiteManager = AgoraRoomManager.shareManager.whiteManager;
+    [whiteManager setWritable:manager.ownModel.grantBoard ? YES : NO  completionHandler:nil];
 }
 
 - (void)updateLocalView {
@@ -185,13 +216,26 @@
 }
 
 - (IBAction)appleBoard:(id)sender {
-    // 申请
     
+    WEAK(self);
+    ConferenceManager *manager = AgoraRoomManager.shareManager.conferenceManager;
+    [manager audienceApplyWithType:EnableSignalTypeGrantBoard completeSuccessBlock:^{
+        
+    } completeFailBlock:^(NSError * _Nonnull error) {
+        [weakself showMsgToast:error.localizedDescription];
+    }];
 }
 
 - (IBAction)endBoard:(id)sender {
-    // 
-    
+}
+
+- (void)showMsgToast:(NSString *)title {
+    UIViewController *vc = [VCManager getTopVC];
+    if (vc != nil && title != nil && title.length > 0){
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [vc.view makeToast:title];
+        });
+    }
 }
 
 #pragma mark WhiteToolDelegate
