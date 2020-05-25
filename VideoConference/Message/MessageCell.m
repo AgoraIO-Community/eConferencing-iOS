@@ -15,7 +15,7 @@
 @property (weak, nonatomic) IBOutlet UILabel *msg;
 @property (weak, nonatomic) IBOutlet UIImageView *bgImgView;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *timeHeightConstraint;
-
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *textBgWConstraint;
 @end
 
 @implementation MessageCell
@@ -31,9 +31,16 @@
 }
 
 - (void)updateWithTime:(NSInteger)time message:(NSString *)msg username:(NSString*)username {
-    
+
     self.msg.text = msg;
     self.name.text = username;
+    
+    CGFloat maxWidth = kScreenWidth - 9 - 54 - 24;
+    CGSize msgSize1 = [self.msg sizeThatFits:CGSizeMake(maxWidth, NSIntegerMax)];
+    CGSize msgSize2 = [self.name sizeThatFits:CGSizeMake(maxWidth, NSIntegerMax)];
+    CGFloat wConstraint = MAX(msgSize1.width, msgSize2.width);
+    self.textBgWConstraint.constant = wConstraint + 24;
+
     if(time == 0){
         self.time.hidden = YES;
         self.timeHeightConstraint.constant = 0;

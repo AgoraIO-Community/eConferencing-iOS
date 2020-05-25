@@ -25,7 +25,8 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, strong) NSArray<ConfUserModel *> *userListModels;
 
 - (instancetype)initWithSceneType:(SceneType)type appId:(NSString *)appId authorization:(NSString *)authorization;
-
+- (void)netWorkProbeTestCompleteBlock:(void (^ _Nullable) (NetworkGrade grade))block;
+    
 // init media
 - (void)initMediaWithClientRole:(ClientRole)role successBolck:(void (^)(void))successBlock failBlock:(void (^ _Nullable) (NSInteger errorCode))failBlock;
 

@@ -136,7 +136,7 @@
 		784936E52469351600DE15AB /* SetArrowCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SetArrowCell.h; sourceTree = "<group>"; };
 		784936E62469351600DE15AB /* SetArrowCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SetArrowCell.m; sourceTree = "<group>"; };
 		784936E72469351600DE15AB /* SetArrowCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SetArrowCell.xib; sourceTree = "<group>"; };
-		784D20992463EB810065985A /* VideoConference.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = VideoConference.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		784D20992463EB810065985A /* Agora Meeting.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Agora Meeting.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		784D20A62463EB810065985A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		784D20A82463EB820065985A /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		784D20AB2463EB820065985A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -310,7 +310,7 @@
 		784D209A2463EB810065985A /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				784D20992463EB810065985A /* VideoConference.app */,
+				784D20992463EB810065985A /* Agora Meeting.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -647,7 +647,7 @@
 			);
 			name = VideoConference;
 			productName = VideoConference;
-			productReference = 784D20992463EB810065985A /* VideoConference.app */;
+			productReference = 784D20992463EB810065985A /* Agora Meeting.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -979,7 +979,7 @@
 					"@executable_path/Frameworks",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = io.agora.VideoConference;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = "Agora Meeting";
 				PROVISIONING_PROFILE_SPECIFIER = AgoraAppsDevProfile;
 				TARGETED_DEVICE_FAMILY = 1;
 			};
@@ -1002,7 +1002,7 @@
 					"@executable_path/Frameworks",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = io.agora.VideoConference;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = "Agora Meeting";
 				PROVISIONING_PROFILE_SPECIFIER = AgoraAppsDevProfile;
 				TARGETED_DEVICE_FAMILY = 1;
 			};

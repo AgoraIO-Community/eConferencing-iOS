@@ -44,6 +44,12 @@
     return self;
 }
 
+- (void)startNetWorkProbeTest:(NSString *)appid {
+    self.rtcManager = nil;
+    self.rtcManager = [RTCManager new];
+    [self.rtcManager startLastmileProbeTest:appid dataSourceDelegate:self];
+}
+
 #pragma mark entry room start
 - (void)entryEduSaaSRoomWithParams:(EduSaaSEntryParams *)params successBolck:(void (^)(void))successBlock failBlock:(void (^ _Nullable) (NSError *error))failBlock {
     
@@ -187,7 +193,7 @@
         model.videoCanvas.view = nil;
         if(uid == self.baseConfigModel.uid) {
             [self.rtcManager setupLocalVideo:model.videoCanvas];
-            [self.rtcManager setClientRole:AgoraClientRoleAudience];
+//            [self.rtcManager setClientRole:AgoraClientRoleAudience];
         } else {
             [self.rtcManager setupRemoteVideo:model.videoCanvas];
         }
@@ -200,7 +206,7 @@
             model.videoCanvas.view = nil;
             if(model.uid == self.baseConfigModel.uid) {
                 [self.rtcManager setupLocalVideo:model.videoCanvas];
-                [self.rtcManager setClientRole:AgoraClientRoleAudience];
+//                [self.rtcManager setClientRole:AgoraClientRoleAudience];
             } else {
                 [self.rtcManager setupRemoteVideo:model.videoCanvas];
             }
@@ -493,16 +499,16 @@
     NSString *uid = @(self.baseConfigModel.uid).stringValue;
 
     self.rtmManager = [RTMManager new];
+    WEAK(self);
     [self.rtmManager initSignalWithAppid:appid appToken:appToken userId:uid dataSourceDelegate:self completeSuccessBlock:^{
         
-        if(successBlock != nil){
-           successBlock();
-        }
-    } completeFailBlock:^(NSInteger errorCode) {
-        if(failBlock != nil){
-           failBlock(errorCode);
-        }
-    }];
+        NSString *channelName = self.baseConfigModel.channelName;
+        [weakself.rtmManager joinSignalWithChannelName:channelName completeSuccessBlock:^{
+            if(successBlock != nil){
+               successBlock();
+            }
+        } completeFailBlock:failBlock];
+    } completeFailBlock:failBlock];
 }
 - (void)setupRTCWithClientRole:(ClientRole)role successBolck:(void (^)(void))successBlock failBlock:(void (^ _Nullable) (NSInteger errorCode))failBlock {
     
@@ -514,6 +520,7 @@
     }
     
     BaseConfigModel *configModel = self.baseConfigModel;
+    self.rtcManager = nil;
     self.rtcManager = [RTCManager new];
     [self.rtcManager initEngineKitWithAppid:configModel.appId clientRole:agoraClientRole dataSourceDelegate:self];
     

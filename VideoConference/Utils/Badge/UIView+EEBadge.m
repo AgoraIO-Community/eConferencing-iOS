@@ -15,9 +15,13 @@ static char badgeViewKey;
 static NSInteger const pointWidth = 18;
 
 // Distance to the right of the control
-static NSInteger const rightRange = 0;
+static NSInteger rightRange = 0;
 
 @implementation UIView (EEBadge)
+- (void)showBadgeWithRightMagin:(CGFloat)rMagin topMagin:(CGFloat)tMagin {
+    rightRange = rMagin;
+    [self showBadgeWithTopMagin:tMagin];
+}
 - (void)showBadgeWithTopMagin:(CGFloat)magin
 {
     if (self.badge == nil) {

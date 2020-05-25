@@ -14,6 +14,7 @@
 @property (weak, nonatomic) IBOutlet UILabel *msg;
 @property (weak, nonatomic) IBOutlet UIImageView *bgImgView;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *timeHeightConstraint;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *textBgWConstraint;
 
 @end
 
@@ -31,19 +32,25 @@
 
 - (void)updateWithTime:(NSInteger)time message:(NSString *)msg {
     self.msg.text = msg;
+    
+    CGFloat maxWidth = kScreenWidth - 9 - 54 - 24;
+    CGSize msgSize = [self.msg sizeThatFits:CGSizeMake(maxWidth, NSIntegerMax)];
+    self.textBgWConstraint.constant = msgSize.width + 24;
+    
     if(time == 0){
         self.time.hidden = YES;
         self.timeHeightConstraint.constant = 0;
     } else {
         self.time.hidden = NO;
         self.timeHeightConstraint.constant = 17;
-        
+
         NSDate *date = [[NSDate alloc]initWithTimeIntervalSince1970:time * 0.001];
         NSDateFormatter *formatter = [[NSDateFormatter alloc]init];
         [formatter setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
         NSString *timeString = [formatter stringFromDate:date];
         self.time.text = timeString;
     }
+
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {

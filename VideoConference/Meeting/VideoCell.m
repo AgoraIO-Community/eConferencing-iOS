@@ -7,6 +7,7 @@
 //
 
 #import "VideoCell.h"
+#import "UIImage+Circle.h"
 
 @interface VideoCell ()
 
@@ -30,7 +31,9 @@
 @implementation VideoCell
 - (void)awakeFromNib {
     [super awakeFromNib];
-    
+    UIImage *image = [UIImage generateImageWithSize:CGSizeMake(32, 32)];
+    image = [UIImage circleImageWithOriginalImage:image];
+    self.headImgView.image = image;
 }
 
 - (void)setShareBoardModel:(ConfShareBoardUserModel *)userModel {

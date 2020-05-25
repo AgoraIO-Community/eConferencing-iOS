@@ -98,6 +98,7 @@
     
     ConferenceManager *manager = AgoraRoomManager.shareManager.conferenceManager;
     ConfUserModel *userModel = self.allUserListModel[indexPath.row];
+   
     if(userModel.role == ConfRoleTypeHost) {
         return;
     }
@@ -110,7 +111,7 @@
     UIAlertAction *muteAudio = [UIAlertAction actionWithTitle:audioText style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
         
         // apply
-        if(manager.roomModel.muteAllAudio == MuteAllAudioStateNoAllowUnmute) {
+        if(manager.roomModel.muteAllAudio == MuteAllAudioStateNoAllowUnmute && !userModel.enableAudio) {
             [weakself gotoCheckApply:EnableSignalTypeAudio];
             return;
         }
@@ -125,7 +126,9 @@
             [weakself showToast:error.localizedDescription];
         }];
     }];
-    [alertController addAction:muteAudio];
+    if(indexPath.row == 0 || ownModel.role == ConfRoleTypeHost) {
+        [alertController addAction:muteAudio];
+    }
     
     NSString *videoText = userModel.enableVideo ? Localized(@"MuteVideo") : Localized(@"UnMuteVideo");
     UIAlertAction *muteVideo = [UIAlertAction actionWithTitle:videoText style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
@@ -141,7 +144,9 @@
             [weakself showToast:error.localizedDescription];
         }];
     }];
-    [alertController addAction:muteVideo];
+    if(indexPath.row == 0 || ownModel.role == ConfRoleTypeHost) {
+        [alertController addAction:muteVideo];
+    }
 
     if (userModel.role == ConfRoleTypeParticipant && ownModel.role == ConfRoleTypeHost && indexPath.row != 0) {
         UIAlertAction *setHost = [UIAlertAction actionWithTitle:Localized(@"SetHost") style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {

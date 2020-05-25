@@ -41,22 +41,8 @@
     [self.tableView registerNib:[UINib nibWithNibName:@"MessageCell" bundle:nil] forCellReuseIdentifier:@"MessageCell"];
     [self.tableView registerNib:[UINib nibWithNibName:@"MessageSelfCell" bundle:nil] forCellReuseIdentifier:@"MessageSelfCell"];
     
+    [self updateMessageView];
     [self addNotification];
-    
-    self.messageArray = AgoraRoomManager.shareManager.messageInfoModels;
-    if(self.messageArray.count == 0) {
-        self.currentTimestamp = 0;
-    } else {
-        self.currentTimestamp = self.messageArray.firstObject.timestamp;
-        for (MessageInfoModel *model in self.messageArray) {
-    
-            NSInteger timestamp = [self handelMessageTimestamp:model];
-            model.timestamp = timestamp;
-            
-            NSInteger cellHeight = [self cellHeight:model];
-            model.cellHeight = cellHeight;
-        }
-    }
 }
 
 - (void)addNotification {
@@ -67,6 +53,25 @@
 }
 
 - (void)updateMessageView {
+    self.messageArray = AgoraRoomManager.shareManager.messageInfoModels;
+    if(self.messageArray.count == 0) {
+        self.currentTimestamp = 0;
+    } else {
+        self.currentTimestamp = self.messageArray.firstObject.timestamp;
+        NSInteger index = 0;
+        for (MessageInfoModel *model in self.messageArray) {
+    
+            if(index != 0){
+                NSInteger timestamp = [self handelMessageTimestamp:model];
+                model.timestamp = timestamp;
+            }
+            index++;
+
+            NSInteger cellHeight = [self cellHeight:model];
+            model.cellHeight = cellHeight;
+        }
+    }
+    
     [self.tableView reloadData];
 }
 
@@ -123,7 +128,8 @@
 }
 
 - (CGFloat)cellHeight:(MessageInfoModel *)model {
-    CGFloat maxWidth = kScreenWidth - 21 - 54;
+
+    CGFloat maxWidth = kScreenWidth - 9 - 54 - 24;
     CGFloat msgHeight = [self sizeWithString:model.message Font:[UIFont systemFontOfSize:16] maxSize: CGSizeMake(maxWidth, NSIntegerMax)].height;
     if(model.timestamp == 0){
         msgHeight -= 17;
@@ -137,7 +143,7 @@
 }
 
 - (NSInteger)handelMessageTimestamp:(MessageInfoModel *)model {
-    NSInteger timestamp = model.timestamp;
+    NSInteger timestamp = 0;
     
     // check
     NSInteger differ = model.timestamp - self.currentTimestamp;

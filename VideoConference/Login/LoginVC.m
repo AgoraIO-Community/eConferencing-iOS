@@ -11,7 +11,6 @@
 #import "SetVC.h"
 #import "UserDefaults.h"
 #import "MeetingVC.h"
-#import <IQKeyboardManager/IQKeyboardManager.h>
 #import "AgoraRoomManager.h"
 
 @interface LoginVC ()<UITextViewDelegate>
@@ -26,6 +25,8 @@
 @property (weak, nonatomic) IBOutlet UITextField *roomPsd;
 @property (weak, nonatomic) IBOutlet UITextField *userName;
 
+@property (weak, nonatomic) IBOutlet UIImageView *signalImgView;
+
 @end
 
 @implementation LoginVC
@@ -34,16 +35,6 @@
     [super viewDidLoad];
     self.view.backgroundColor = UIColor.whiteColor;
     [self initView];
-    
-    IQKeyboardManager.sharedManager.enableAutoToolbar = NO;
-//    IQKeyboardManager.sharedManager.keyboardDistanceFromTextField = 50
-    IQKeyboardManager.sharedManager.shouldResignOnTouchOutside = YES;
-
-//    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-//            MeetingVC *vc = [[MeetingVC alloc] initWithNibName:@"MeetingVC" bundle:nil];
-//        [VCManager pushToVC:vc];
-//    });
-
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -51,6 +42,26 @@
     self.cameraSwitch.on = [UserDefaults getOpenCamera];
     self.micSwitch.on = [UserDefaults getOpenMic];
     self.userName.text = [UserDefaults getUserName];
+
+    WEAK(self);
+    [AgoraRoomManager.shareManager.conferenceManager netWorkProbeTestCompleteBlock:^(NetworkGrade grade) {
+        
+        NSString *imgName = @"signal_unknown";
+        switch (grade) {
+            case NetworkGradeLow:
+                imgName = @"signal_bad";
+                break;
+            case NetworkGradeMiddle:
+                imgName = @"signal_poor";
+                break;
+            case NetworkGradeHigh:
+                imgName = @"signal_good";
+                break;
+            default:
+                break;
+        }
+        weakself.signalImgView.image = [UIImage imageNamed:imgName];
+    }];
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
@@ -59,7 +70,7 @@
 }
 
 - (void)initView {
-
+    
     self.textFieldBgView.layer.borderWidth = 1;
     self.textFieldBgView.layer.borderColor = [UIColor colorWithHexString:@"E9EFF4"].CGColor;
     self.textFieldBgView.layer.cornerRadius = 5;
@@ -88,8 +99,8 @@
     [self.view endEditing:YES];
     self.tipView.hidden = YES;
     
-    self.roomName.text = @"543212";
-    self.roomPsd.text = @"123452";
+    self.roomName.text = @"roomjerry";
+    self.roomPsd.text = @"123";
     
     NSString *userName = self.userName.text;
     NSString *roomPsd = self.roomPsd.text;
@@ -139,7 +150,7 @@
         [UserDefaults setUserName: userName];
         [UserDefaults setOpenCamera: params.enableVideo];
         [UserDefaults setOpenMic: params.enableAudio];
-
+        
         [weakself setLoadingVisible:NO];
         MeetingVC *vc = [[MeetingVC alloc] initWithNibName:@"MeetingVC" bundle:nil];
         [VCManager pushToVC:vc];

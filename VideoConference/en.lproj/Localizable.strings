@@ -12,6 +12,8 @@ Member = "成员";
 IM = "聊天";
 More = "更多";
 
+OKText = "OK";
+
 Invitation = "邀请";
 AllMute = "全体静音";
 AllUnmute = "解除全体静音";

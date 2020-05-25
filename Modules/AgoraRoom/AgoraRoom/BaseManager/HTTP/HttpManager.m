@@ -272,10 +272,10 @@ static NSString *agoraUId;
             params[@"enableChat"] = @(enable ? 1 : 0);
             break;
         case EnableSignalTypeAudio:
-            params[@"enableVideo"] = @(enable ? 1 : 0);
+            params[@"enableAudio"] = @(enable ? 1 : 0);
             break;
         case EnableSignalTypeVideo:
-            params[@"enableAudio"] = @(enable ? 1 : 0);
+            params[@"enableVideo"] = @(enable ? 1 : 0);
             break;
         case EnableSignalTypeGrantBoard:
             params[@"grantBoard"] = @(enable ? 1 : 0);

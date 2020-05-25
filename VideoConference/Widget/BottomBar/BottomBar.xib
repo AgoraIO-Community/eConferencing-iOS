@@ -46,18 +46,18 @@
                                 <constraint firstAttribute="height" constant="50" id="RAc-0z-dmC"/>
                             </constraints>
                         </view>
-                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Rad-Ea-Akd" customClass="BottomItem">
-                            <rect key="frame" x="248.5" y="3" width="82.5" height="50"/>
-                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                            <constraints>
-                                <constraint firstAttribute="height" constant="50" id="pov-Lp-vdE"/>
-                            </constraints>
-                        </view>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="z8d-ms-XQy" customClass="BottomItem">
                             <rect key="frame" x="331" y="3" width="83" height="50"/>
                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="50" id="pza-tn-3Uh"/>
+                            </constraints>
+                        </view>
+                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Rad-Ea-Akd" customClass="BottomItem">
+                            <rect key="frame" x="248.5" y="3" width="82.5" height="50"/>
+                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="50" id="pov-Lp-vdE"/>
                             </constraints>
                         </view>
                     </subviews>

@@ -18,7 +18,6 @@ typedef NS_ENUM(NSInteger, ConfEnableRoomSignalType) {
     ConfEnableRoomSignalTypeShareBoard,
 };
 
-
 typedef NS_ENUM(NSInteger, ConnectionState) {
     ConnectionStateReconnected,
     ConnectionStateReconnecting,
@@ -30,6 +29,13 @@ typedef NS_ENUM(NSInteger, ConnectionState) {
 typedef NS_ENUM(NSInteger, ClientRole) {
     ClientRoleBroadcaster   = 1,
     ClientRoleAudience      = 2,
+};
+
+typedef NS_ENUM(NSInteger, EnableSignalType) {
+    EnableSignalTypeVideo,
+    EnableSignalTypeAudio,
+    EnableSignalTypeChat,
+    EnableSignalTypeGrantBoard,
 };
 
 typedef NS_ENUM(NSInteger, SceneType) {
@@ -45,9 +51,19 @@ typedef NS_ENUM(NSInteger, NetworkGrade) {
     NetworkGradeLow = 3,
 };
 
-typedef NS_ENUM(NSInteger, EnableSignalType) {
-    EnableSignalTypeVideo,
-    EnableSignalTypeAudio,
-    EnableSignalTypeChat,
-    EnableSignalTypeGrantBoard,
+typedef NS_ENUM(NSInteger, AudioOutputRouting) {
+    /** Default. */
+    AudioOutputRoutingDefault = -1,
+    /** Headset.*/
+    AudioOutputRoutingHeadset = 0,
+    /** Earpiece. */
+    AudioOutputRoutingEarpiece = 1,
+    /** Headset with no microphone. */
+    AudioOutputRoutingHeadsetNoMic = 2,
+    /** Speakerphone. */
+    AudioOutputRoutingSpeakerphone = 3,
+    /** Loudspeaker. */
+    AudioOutputRoutingLoudspeaker = 4,
+    /** Bluetooth headset. */
+    AudioOutputRoutingHeadsetBluetooth = 5
 };

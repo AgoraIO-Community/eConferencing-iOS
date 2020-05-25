@@ -100,7 +100,6 @@
 
 - (void)startDispatchGroup {
     
-    WEAK(self);
     ConferenceManager *manager = AgoraRoomManager.shareManager.conferenceManager;
     
     dispatch_group_t group = dispatch_group_create();
@@ -119,7 +118,6 @@
     // get totle users
     dispatch_group_enter(group);
     [manager getUserListWithSuccessBlock:^{
-        weakself.allUserListModel = [NSMutableArray arrayWithArray:manager.userListModels];
         dispatch_group_leave(group);
     } failBlock:^(NSError * _Nonnull error) {
         errMsg = error.localizedDescription;
@@ -180,7 +178,7 @@
         self.stateBg.hidden = YES;
     } else {
         self.stateBg.hidden = NO;
-                    
+        
         BOOL enableAudio = YES;
         ConfRoleType roleType = ConfRoleTypeHost;
         if(manager.roomModel.shareScreenUsers.count > 0 || manager.roomModel.shareBoardUsers.count > 0) {
@@ -219,6 +217,7 @@
             self.shareWConstraint.constant = 0;
             ConfUserModel *model = self.allUserListModel[1];
             roleType = model.role;
+            self.nameLabel.text = model.userName;
             enableAudio = model.enableAudio;
         }
         
@@ -244,6 +243,8 @@
 - (void)onReloadView {
     
     ConferenceManager *manager = AgoraRoomManager.shareManager.conferenceManager;
+    self.allUserListModel = [NSMutableArray arrayWithArray:manager.userListModels];
+    
     NSInteger shareScreenCount = manager.roomModel.shareScreenUsers.count;
     NSInteger shareBoardCount = manager.roomModel.shareBoardUsers.count;
     NSInteger allUserCount = self.allUserListModel.count;
@@ -255,7 +256,6 @@
         self.pageControl.currentPage = 0;
         self.pageControl.numberOfPages = 1 + count / 4 + (count % 4 == 0 ? 0 : 1);
     }
-    
     [self.collectionView reloadData];
     
     [self updateStateView];
@@ -393,65 +393,17 @@
 
 #pragma mark ConferenceDelegate
 - (void)didReceivedPeerSignal:(ConfSignalP2PInfoModel * _Nonnull)model {
-    
-    ConferenceManager *manager = AgoraRoomManager.shareManager.conferenceManager;
-    
-    if(model.action == P2PMessageTypeActionInvitation || model.action == P2PMessageTypeActionApply) {
+    if(model.action == P2PMessageTypeTip) {
         
-        NSString *title = @"";
-        EnableSignalType type = EnableSignalTypeVideo;
-        NSString *noticeName = @"";
-        NSString *userId = @"";
-        if(model.action == P2PMessageTypeActionInvitation) {
-            title = @"主持人邀请你打开摄像头";
-            EnableSignalType type = EnableSignalTypeVideo;
-            noticeName = NOTICENAME_LOCAL_MEDIA_CHANGED;
-            userId = manager.ownModel.userId;
-            if(model.type == P2PMessageTypeActionTypeAudio) {
-                title = @"主持人邀请你打开麦克风";
-                type = EnableSignalTypeAudio;
-            } else if(model.type == P2PMessageTypeActionTypeBoard) {
-                title = @"主持人邀请你打开麦克风";
-                type = EnableSignalTypeAudio;
-            }
-        } else {
-            title = [NSString stringWithFormat:@"%@申请打开摄像头", model.userName];
-            EnableSignalType type = EnableSignalTypeVideo;
-            noticeName = NOTICENAME_REMOTE_MEDIA_CHANGED;
-            userId = model.userId;
-            if(model.type == P2PMessageTypeActionTypeAudio) {
-                title = [NSString stringWithFormat:@"%@申请打开麦克风", model.userName];
-                type = EnableSignalTypeAudio;
-            }
-        }
+        [self handleConfirmAlertView:model];
         
-        [AlertViewUtil showAlertWithController:[VCManager getTopVC] title:title cancelHandler:nil sureHandler:^(UIAlertAction * _Nullable action) {
-            [manager updateUserInfoWithUserId:userId value:YES enableSignalType:type successBolck:^{
-                
-                [NSNotificationCenter.defaultCenter postNotificationName:noticeName object:nil];
-                
-            } failBlock:^(NSError * _Nonnull error) {
-                BaseViewController *vc = (BaseViewController*)[VCManager getTopVC];
-                if(vc){
-                    [vc showToast:error.localizedDescription];
-                }
-            }];
-        }];
+    } else if(model.action == P2PMessageTypeActionInvitation || model.action == P2PMessageTypeActionApply) {
+        
+        [self handleApplyOrInvitationAlertView: model];
+        
     } else if(model.action == P2PMessageTypeActionRejectApply || model.action == P2PMessageTypeActionRejectInvitation) {
         
-        NSString *title = @"";
-        if(model.action == P2PMessageTypeActionRejectApply) {
-            title = @"主持人拒绝了打开摄像头的申请";
-            if(model.type == P2PMessageTypeActionTypeAudio) {
-                title = @"主持人拒绝了打开麦克风的申请";
-            }
-        } else {
-            title = [NSString stringWithFormat:@"%@拒绝了打开摄像头的邀请", model.userName];
-            if(model.type == P2PMessageTypeActionTypeAudio) {
-                title = [NSString stringWithFormat:@"%@拒绝了打开麦克风的邀请", model.userName];
-            }
-        }
-        [AlertViewUtil showAlertWithController:[VCManager getTopVC] title:title];
+        [self handleRejectAlertView: model];
     }
 }
 - (void)didReceivedSignalInOut:(NSArray<ConfSignalChannelInOutInfoModel *> *)models {
@@ -465,9 +417,9 @@
     
     NSString *tipText = @"";
     if(model.state == 0) {
-        tipText = [NSString stringWithFormat:@"\"%@\"离开房间", model.userModel.userName];
+        tipText = [NSString stringWithFormat:@"\"%@\"离开房间", model.userName];
     } else {
-        tipText = [NSString stringWithFormat:@"\"%@\"进入房间", model.userModel.userName];
+        tipText = [NSString stringWithFormat:@"\"%@\"进入房间", model.userName];
     }
     
     self.tipLabel.hidden = NO;
@@ -539,7 +491,6 @@
         [self onReloadView];
         [NSNotificationCenter.defaultCenter postNotificationName:NOTICENAME_SHARE_INFO_CHANGED object:nil];
     }
-    
 }
 - (void)didReceivedSignalHostChange:(NSArray<ConfUserModel*> *)hostModels {
     [self onReloadView];
@@ -568,8 +519,107 @@
         [VCManager popRootView];
     }
 }
+- (void)didAudioRouteChanged:(AudioOutputRouting)routing {
+    [self.nav setAudioRouting:routing];
+}
 - (void)networkTypeGrade:(NetworkGrade)grade uid:(NSInteger)uid {
     
+}
+
+#pragma mark Handel Tip View
+- (void)handleConfirmAlertView:(ConfSignalP2PInfoModel*)model {
+    
+    NSString *title = @"";
+    if(model.action == P2PMessageTypeActionOpenTip) {
+        if(model.type == P2PMessageTypeActionTypeAudio){
+            title = @"主持人同意了你打开麦克风的申请";
+        } else if(model.type == P2PMessageTypeActionTypeBoard){
+            title = @"你现在有白板的操作权限了";
+        }
+    } else if(model.action == P2PMessageTypeActionCloseTip) {
+        if(model.type == P2PMessageTypeActionTypeVideo){
+            title = @"主持人关闭了你的摄像头";
+        } else if(model.type == P2PMessageTypeActionTypeAudio){
+            title = @"主持人关闭了你的麦克风";
+        } else if(model.type == P2PMessageTypeActionTypeBoard){
+            title = @"你现在没有白板的操作权限了";
+        }
+    }
+    if(title.length > 0){
+        [AlertViewUtil showAlertWithController:[VCManager getTopVC] title:title];
+    }
+}
+    
+- (void)handleRejectAlertView:(ConfSignalP2PInfoModel*)model {
+    NSString *title = @"";
+    if(model.action == P2PMessageTypeActionRejectApply) {
+        if(model.type == P2PMessageTypeActionTypeBoard) {
+            title = [NSString stringWithFormat:@"%@拒绝了共享白板操作的申请", model.userName];
+        } else if(model.type == P2PMessageTypeActionTypeAudio) {
+            title = @"主持人拒绝了打开麦克风的申请";
+        }
+    } else {
+        if(model.type == P2PMessageTypeActionTypeAudio) {
+            title = [NSString stringWithFormat:@"%@拒绝了打开麦克风的邀请", model.userName];
+        } else if(model.type == P2PMessageTypeActionTypeVideo) {
+            title = [NSString stringWithFormat:@"%@拒绝了打开摄像头的邀请", model.userName];
+        }
+    }
+    if(title.length > 0){
+        [AlertViewUtil showAlertWithController:[VCManager getTopVC] title:title];
+    }
+}
+
+- (void)handleApplyOrInvitationAlertView:(ConfSignalP2PInfoModel*)model {
+    
+    ConferenceManager *manager = AgoraRoomManager.shareManager.conferenceManager;
+    
+    NSString *title = @"";
+    EnableSignalType type = EnableSignalTypeVideo;
+    NSString *noticeName = @"";
+    NSString *userId = @"";
+    if(model.action == P2PMessageTypeActionInvitation) {
+        
+        noticeName = NOTICENAME_LOCAL_MEDIA_CHANGED;
+        userId = manager.ownModel.userId;
+        if(model.type == P2PMessageTypeActionTypeAudio) {
+            title = @"主持人邀请你打开麦克风";
+            type = EnableSignalTypeAudio;
+        } else if(model.type == P2PMessageTypeActionTypeVideo) {
+            title = @"主持人邀请你打开摄像头";
+            type = EnableSignalTypeVideo;
+        }
+    } else {
+        noticeName = NOTICENAME_REMOTE_MEDIA_CHANGED;
+        userId = model.userId;
+        if(model.type == P2PMessageTypeActionTypeBoard) {
+            title = [NSString stringWithFormat:@"%@申请共享白板操作的权限", model.userName];
+            type = EnableSignalTypeGrantBoard;
+            noticeName = @"";
+        } else if(model.type == P2PMessageTypeActionTypeAudio) {
+            title = [NSString stringWithFormat:@"%@申请打开麦克风", model.userName];
+            type = EnableSignalTypeAudio;
+        }
+    }
+    
+    if(title.length == 0){
+        return;
+    }
+    
+    [AlertViewUtil showAlertWithController:[VCManager getTopVC] title:title message:nil cancelText:@"取消" sureText:@"同意" cancelHandler:nil sureHandler:^(UIAlertAction * _Nullable action) {
+        [manager updateUserInfoWithUserId:userId value:YES enableSignalType:type successBolck:^{
+            
+            if(NoNullString(noticeName).length > 0){
+                [NSNotificationCenter.defaultCenter postNotificationName:noticeName object:nil];
+            }
+            
+        } failBlock:^(NSError * _Nonnull error) {
+            BaseViewController *vc = (BaseViewController*)[VCManager getTopVC];
+            if(vc){
+                [vc showToast:error.localizedDescription];
+            }
+        }];
+    }];
 }
 
 - (void)dealloc {

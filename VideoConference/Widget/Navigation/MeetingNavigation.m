@@ -40,11 +40,18 @@
 }
 
 - (void)initView {
-    
+    self.speakerBtn.userInteractionEnabled = NO;
 }
 
 - (IBAction)onSpeakerClick:(id)sender {
-    
+}
+
+- (void)setAudioRouting:(AudioOutputRouting)routing {
+    if(routing == AudioOutputRoutingHeadset || routing == AudioOutputRoutingHeadsetNoMic || routing ==  AudioOutputRoutingHeadsetBluetooth) {
+        [self.speakerBtn setImage:[UIImage imageNamed:@"speaker-ear"] forState:UIControlStateNormal];
+    } else {
+        [self.speakerBtn setImage:[UIImage imageNamed:@"speaker-open"] forState:UIControlStateNormal];
+    }
 }
 
 - (IBAction)onSwitchCamera:(id)sender {

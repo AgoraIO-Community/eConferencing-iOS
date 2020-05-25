@@ -26,6 +26,7 @@
         [[NSBundle mainBundle]loadNibNamed:NSStringFromClass([self class]) owner:self options:nil];
         [self addSubview:self.item];
         [self.item equalTo:self];
+        self.imageView.clipsToBounds = NO;
     }
     return self;
 }
@@ -51,7 +52,7 @@
 - (void)setCount:(NSInteger)count {
     _count = count;
     if(count > 0){
-        [self.imageView showBadgeWithTopMagin:0];
+        [self.imageView showBadgeWithRightMagin:-8 topMagin:0];
         [self.imageView setBadgeCount:count];
     } else {
         [self.imageView hidenBadge];

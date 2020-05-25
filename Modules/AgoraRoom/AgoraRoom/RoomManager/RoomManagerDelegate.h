@@ -18,17 +18,14 @@ NS_ASSUME_NONNULL_BEGIN
 @protocol RoomManagerDelegate <NSObject>
 
 @optional
-//- (void)didReceivedPeerSignal:(SignalP2PInfoModel * _Nonnull)model;
-//- (void)didReceivedSignal:(SignalInfoModel *)signalInfoModel;
-//- (void)didReceivedMessage:(MessageInfoModel * _Nonnull)model;
-
 
 - (void)didReceivedSignal:(NSString *)signalText fromPeer:(NSString *)peer;
 - (void)didReceivedSignal:(NSString *)signalText;
 
-
+- (void)didAudioRouteChanged:(AudioOutputRouting)routing;
 - (void)didReceivedConnectionStateChanged:(ConnectionState)state;
 
+- (void)networkLastmileTypeGrade:(NetworkGrade)grade;
 - (void)networkTypeGrade:(NetworkGrade)grade uid:(NSInteger)uid;
 
 @end

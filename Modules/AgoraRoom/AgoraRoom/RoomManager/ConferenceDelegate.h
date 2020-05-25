@@ -46,6 +46,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)didReceivedMessage:(MessageInfoModel * _Nonnull)model;
 - (void)didReceivedConnectionStateChanged:(ConnectionState)state;
 
+- (void)didAudioRouteChanged:(AudioOutputRouting)routing;
 - (void)networkTypeGrade:(NetworkGrade)grade uid:(NSInteger)uid;
 
 @end

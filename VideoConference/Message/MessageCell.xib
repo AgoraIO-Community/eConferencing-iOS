@@ -61,13 +61,13 @@
                             <constraint firstAttribute="trailing" secondItem="vqo-pC-UCd" secondAttribute="trailing" id="WSJ-VO-f3x"/>
                             <constraint firstAttribute="trailing" secondItem="dGm-om-mf2" secondAttribute="trailing" constant="12" id="Wh1-wH-OUs"/>
                             <constraint firstItem="dGm-om-mf2" firstAttribute="leading" secondItem="xOm-m4-0MV" secondAttribute="leading" constant="12" id="ku0-tk-vvm"/>
+                            <constraint firstAttribute="width" constant="220" id="w6U-eP-RAs"/>
                         </constraints>
                     </view>
                 </subviews>
                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                 <constraints>
                     <constraint firstItem="xOm-m4-0MV" firstAttribute="top" secondItem="lDr-bJ-I3e" secondAttribute="bottom" constant="10" id="McK-Ng-FT5"/>
-                    <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="xOm-m4-0MV" secondAttribute="trailing" constant="54" id="T2h-ve-Xtf"/>
                     <constraint firstItem="lDr-bJ-I3e" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" id="T39-kV-IAF"/>
                     <constraint firstItem="lDr-bJ-I3e" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="10" id="fkM-oF-LIL"/>
                     <constraint firstItem="xOm-m4-0MV" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="9" id="i8M-8B-dpT"/>
@@ -81,6 +81,7 @@
                 <outlet property="bgImgView" destination="vqo-pC-UCd" id="WDL-Zt-R1o"/>
                 <outlet property="msg" destination="0Fd-Uy-JTE" id="xKp-vt-gsN"/>
                 <outlet property="name" destination="dGm-om-mf2" id="O9d-pm-cpL"/>
+                <outlet property="textBgWConstraint" destination="w6U-eP-RAs" id="cP7-rD-tr9"/>
                 <outlet property="time" destination="lDr-bJ-I3e" id="Pee-6K-COd"/>
                 <outlet property="timeHeightConstraint" destination="KCe-fG-hiw" id="bCq-dv-kKP"/>
             </connections>

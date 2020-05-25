@@ -10,18 +10,6 @@
 
 @implementation ConfSignalChannelInOutInfoModel
 
-+ (NSDictionary *)modelCustomPropertyMapper {
-   return @{@"userModel":@[@"userId",
-                           @"userName",
-                           @"role",
-                           @"enableChat",
-                           @"enableVideo",
-                           @"enableAudio",
-                           @"uid",
-                           @"screenId",
-                           @"grantBoard",
-                           @"grantScreen"]};
-}
 @end
 
 @implementation ConfSignalChannelInOutModel

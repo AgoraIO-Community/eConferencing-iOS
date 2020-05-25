@@ -20,6 +20,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (copy, nonatomic) LeftBlock leftBlock;
 
 - (void)startTimerWithCount:(NSInteger)timeCount;
+- (void)setAudioRouting:(NSInteger)routing;
 
 @end
 

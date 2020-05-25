@@ -11,7 +11,7 @@
 @implementation AlertViewUtil
 + (void)showAlertWithController:(UIViewController *)viewController title:(NSString *)title cancelHandler:(KAlertHandler _Nullable)cancelHandler sureHandler:(KAlertHandler _Nullable)sureHandler {
     
-    [AlertViewUtil showAlertWithController:viewController title:title message:nil cancelText:NSLocalizedString(@"CancelText", nil) sureText:NSLocalizedString(@"OKText", nil) cancelHandler:cancelHandler sureHandler:sureHandler];
+    [AlertViewUtil showAlertWithController:viewController title:title message:nil cancelText:NSLocalizedString(@"Cancel", nil) sureText:NSLocalizedString(@"OKText", nil) cancelHandler:cancelHandler sureHandler:sureHandler];
 }
 
 + (void)showAlertWithController:(UIViewController *)viewController title:(NSString *)title sureHandler:(KAlertHandler)sureHandler {
@@ -21,12 +21,12 @@
 
 + (void)showAlertWithController:(UIViewController *)viewController title:(NSString *)title cancelHandler:(KAlertHandler)cancelHandler {
     
-    [AlertViewUtil showAlertWithController:viewController title:title message:nil cancelText:NSLocalizedString(@"CancelText", nil) sureText:nil cancelHandler:cancelHandler sureHandler:nil];
+    [AlertViewUtil showAlertWithController:viewController title:title message:nil cancelText:NSLocalizedString(@"Cancel", nil) sureText:nil cancelHandler:cancelHandler sureHandler:nil];
 }
 
 + (void)showAlertWithController:(UIViewController *)viewController title:(NSString *)title {
     
-    [AlertViewUtil showAlertWithController:viewController title:title message:nil cancelText:NSLocalizedString(@"CancelText", nil) sureText:nil cancelHandler:nil sureHandler:nil];
+    [AlertViewUtil showAlertWithController:viewController title:title message:nil cancelText:NSLocalizedString(@"Cancel", nil) sureText:nil cancelHandler:nil sureHandler:nil];
 }
 
 + (void)showAlertWithController:(UIViewController *)viewController title:(NSString *)title message:(NSString * _Nullable)message cancelText:(NSString * _Nullable)cancelText sureText:(NSString * _Nullable)sureText cancelHandler:(KAlertHandler _Nullable)cancelHandler sureHandler:(KAlertHandler _Nullable)sureHandler {

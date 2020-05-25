@@ -46,6 +46,7 @@
                             <constraint firstItem="IHN-pv-FYz" firstAttribute="top" secondItem="oyE-Q5-GBL" secondAttribute="top" id="Dby-dt-0pX"/>
                             <constraint firstItem="IHN-pv-FYz" firstAttribute="leading" secondItem="oyE-Q5-GBL" secondAttribute="leading" id="U7x-qb-oAG"/>
                             <constraint firstAttribute="trailing" secondItem="haw-bA-Lej" secondAttribute="trailing" constant="12" id="bNq-Km-ZPz"/>
+                            <constraint firstAttribute="width" constant="220" id="hij-F5-VVx"/>
                             <constraint firstItem="haw-bA-Lej" firstAttribute="top" secondItem="oyE-Q5-GBL" secondAttribute="top" constant="12" id="mBf-gp-7Nh"/>
                             <constraint firstItem="haw-bA-Lej" firstAttribute="leading" secondItem="oyE-Q5-GBL" secondAttribute="leading" constant="12" id="u9C-xM-s2X"/>
                             <constraint firstAttribute="bottom" secondItem="IHN-pv-FYz" secondAttribute="bottom" id="xfK-57-fa2"/>
@@ -58,7 +59,6 @@
                     <constraint firstItem="aOV-WK-9Yc" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="10" id="CfY-Wo-vQv"/>
                     <constraint firstAttribute="trailing" secondItem="oyE-Q5-GBL" secondAttribute="trailing" constant="9" id="F6t-Q0-AlW"/>
                     <constraint firstAttribute="trailing" secondItem="aOV-WK-9Yc" secondAttribute="trailing" id="Hhw-ej-wGc"/>
-                    <constraint firstItem="oyE-Q5-GBL" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="54" id="WJk-FN-dRp"/>
                     <constraint firstItem="oyE-Q5-GBL" firstAttribute="top" secondItem="aOV-WK-9Yc" secondAttribute="bottom" constant="10" id="hzb-gO-CXp"/>
                     <constraint firstAttribute="bottom" secondItem="oyE-Q5-GBL" secondAttribute="bottom" id="ora-MT-fka"/>
                 </constraints>
@@ -68,6 +68,7 @@
             <connections>
                 <outlet property="bgImgView" destination="IHN-pv-FYz" id="qz7-Pe-Zte"/>
                 <outlet property="msg" destination="haw-bA-Lej" id="Tnd-YX-Tn0"/>
+                <outlet property="textBgWConstraint" destination="hij-F5-VVx" id="lfi-tg-K1p"/>
                 <outlet property="time" destination="aOV-WK-9Yc" id="qzi-k6-fHe"/>
                 <outlet property="timeHeightConstraint" destination="BgK-yP-5aQ" id="dZL-6S-YOy"/>
             </connections>

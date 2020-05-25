@@ -13,6 +13,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface UIView (EEBadge)
 @property (nonatomic, strong) UILabel *badge;
+- (void)showBadgeWithRightMagin:(CGFloat)rMagin topMagin:(CGFloat)tMagin;
 - (void)showBadgeWithTopMagin:(CGFloat)magin;
 - (void)hidenBadge;
 - (void)setBadgeCount:(NSInteger)count;

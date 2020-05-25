@@ -163,7 +163,7 @@
         [manager addVideoCanvasWithUId:remoteUserModel.uid inView:self.remoteView];
     } else {
         self.imgView.hidden = NO;
-        self.remoteView.hidden = YES;
+        self.remoteView.hidden = NO;
     }
 }
 

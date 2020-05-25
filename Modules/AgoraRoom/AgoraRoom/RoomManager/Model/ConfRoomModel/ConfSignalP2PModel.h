@@ -12,19 +12,25 @@
 typedef NS_ENUM(NSInteger, P2PMessageType) {
     P2PMessageTypeInvitation            = 1,
     P2PMessageTypeApply                 = 2,
+    P2PMessageTypeTip                   = 3,
 };
 
 typedef NS_ENUM(NSInteger, P2PMessageTypeAction) {
-    P2PMessageTypeActionInvitation            = 1,
-    P2PMessageTypeActionRejectApply           = 2,
-    P2PMessageTypeActionApply                 = 3,
-    P2PMessageTypeActionRejectInvitation      = 4,
+    P2PMessageTypeActionInvitation            = 10,
+    P2PMessageTypeActionRejectApply           = 11,
+    
+    P2PMessageTypeActionApply                 = 20,
+    P2PMessageTypeActionRejectInvitation      = 21,
+    
+    P2PMessageTypeActionOpenTip               = 30,
+    P2PMessageTypeActionCloseTip              = 31,
 };
 
 typedef NS_ENUM(NSInteger, P2PMessageTypeActionType) {
     P2PMessageTypeActionTypeAudio               = 1,
     P2PMessageTypeActionTypeVideo               = 2,
-    P2PMessageTypeActionTypeBoard               = 3,
+    P2PMessageTypeActionTypeIM                  = 3,
+    P2PMessageTypeActionTypeBoard               = 4,
 };
 
 NS_ASSUME_NONNULL_BEGIN

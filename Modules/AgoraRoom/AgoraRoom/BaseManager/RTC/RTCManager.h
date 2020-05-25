@@ -16,6 +16,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)initEngineKitWithAppid:(NSString *)appid clientRole:(AgoraClientRole)role dataSourceDelegate:(id<RTCManagerDelegate> _Nullable)rtcDelegate;
 
+- (int)startLastmileProbeTest:(NSString *)appid dataSourceDelegate:(id<RTCManagerDelegate> _Nullable)rtcDelegate;
+
 - (int)joinChannelByToken:(NSString * _Nullable)token channelId:(NSString * _Nonnull)channelId info:(NSString * _Nullable)info uid:(NSUInteger)uid joinSuccess:(void(^ _Nullable)(NSString * _Nonnull channel, NSUInteger uid, NSInteger elapsed))joinSuccessBlock;
 
 - (int)setupLocalVideo:(AgoraRtcVideoCanvas * _Nullable)local;

@@ -28,14 +28,16 @@
     self.delegate = rtcDelegate;
     self.frontCamera = YES;
     
-    self.rtcEngineKit = [AgoraRtcEngineKit sharedEngineWithAppId:appid delegate:self];
+    if(self.rtcEngineKit == nil){
+        self.rtcEngineKit = [AgoraRtcEngineKit sharedEngineWithAppId:appid delegate:self];
+    }
     NSString *logFilePath = [NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES)[0] stringByAppendingPathComponent:@"/Agora/agoraRTC.log"];
+    [self.rtcEngineKit disableLastmileTest];
     [self.rtcEngineKit setLogFile:logFilePath];
     [self.rtcEngineKit setLogFileSize:512];
     [self.rtcEngineKit setLogFilter:AgoraLogFilterInfo];
     
     [self.rtcEngineKit setChannelProfile: AgoraChannelProfileLiveBroadcasting];
-    
     AgoraVideoEncoderConfiguration *configuration = [AgoraVideoEncoderConfiguration new];
     configuration.dimensions = AgoraVideoDimension360x360;
     configuration.frameRate = 15;
@@ -51,6 +53,15 @@
     if(role == AgoraClientRoleBroadcaster){
         [self.rtcEngineKit startPreview];
     }
+}
+
+- (int)startLastmileProbeTest:(NSString *)appid dataSourceDelegate:(id<RTCManagerDelegate> _Nullable)rtcDelegate {
+    
+    if(self.rtcEngineKit == nil){
+        self.rtcEngineKit = [AgoraRtcEngineKit sharedEngineWithAppId:appid delegate:self];
+    }
+    self.delegate = rtcDelegate;
+    return [self.rtcEngineKit enableLastmileTest];
 }
 
 - (int)joinChannelByToken:(NSString * _Nullable)token channelId:(NSString * _Nonnull)channelId info:(NSString * _Nullable)info uid:(NSUInteger)uid joinSuccess:(void(^ _Nullable)(NSString * _Nonnull channel, NSUInteger uid, NSInteger elapsed))joinSuccessBlock {
@@ -136,6 +147,18 @@
     AgoraLogInfo(@"didOfflineOfUid: %lu", (unsigned long)uid);
     if([self.delegate respondsToSelector:@selector(rtcDidOfflineOfUid:)]) {
         [self.delegate rtcDidOfflineOfUid:uid];
+    }
+}
+
+- (void)rtcEngine:(AgoraRtcEngineKit *)engine didAudioRouteChanged:(AgoraAudioOutputRouting)routing {
+    if([self.delegate respondsToSelector:@selector(didAudioRouteChanged:)]) {
+        [self.delegate didAudioRouteChanged:routing];
+    }
+}
+
+- (void)rtcEngine:(AgoraRtcEngineKit *_Nonnull)engine lastmileQuality:(AgoraNetworkQuality)quality {
+    if([self.delegate respondsToSelector:@selector(rtcEngine:lastmileQuality:)]) {
+        [self.delegate rtcEngine:engine lastmileQuality:quality];
     }
 }
 

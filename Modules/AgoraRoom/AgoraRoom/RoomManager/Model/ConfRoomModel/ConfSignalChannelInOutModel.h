@@ -11,9 +11,8 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface ConfSignalChannelInOutInfoModel : NSObject
+@interface ConfSignalChannelInOutInfoModel : ConfUserModel
 
-@property (nonatomic, strong) ConfUserModel *userModel;
 @property (nonatomic, assign) NSInteger state;
 
 @end

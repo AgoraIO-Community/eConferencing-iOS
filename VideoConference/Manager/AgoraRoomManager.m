@@ -29,8 +29,14 @@ static AgoraRoomManager *manager = nil;
         self.whiteManager = [WhiteManager new];
         
         self.messageInfoModels = [NSMutableArray array];
+        
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onWillTerminate) name:NOTICENAME_ON_WILL_TERMINATE object:nil];
     }
     return self;
+}
+
+- (void)onWillTerminate {
+    [AgoraRoomManager releaseResource];
 }
 
 + (void)releaseResource {

@@ -15,6 +15,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 //  1共享 0不共享
 @property (nonatomic, assign) NSInteger shareBoard;
+@property (nonatomic, strong) NSString *createBoardUserId;
 @property (nonatomic, strong) NSArray<ConfShareBoardUserModel*> *shareBoardUsers;
 
 @end
