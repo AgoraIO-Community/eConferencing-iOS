@@ -54,6 +54,8 @@
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateView) name:NOTICENAME_SHARE_INFO_CHANGED object:nil];
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateView) name:NOTICENAME_HOST_ROLE_CHANGED object:nil];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateView) name:NOTICENAME_IN_OUT_CHANGED object:nil];
 }
 
 - (void)updateView {
@@ -63,6 +65,13 @@
     self.allUserListModel = AgoraRoomManager.shareManager.conferenceManager.userListModels;
     self.nav.title.text = [NSString stringWithFormat:@"成员（%ld）", (long)self.allUserListModel.count];
     [self.tableView reloadData];
+    
+    if(AgoraRoomManager.shareManager.conferenceManager.ownModel.role == ConfRoleTypeHost){
+        self.nav.rightBtn.hidden = NO;
+    } else {
+        self.nav.rightBtn.hidden = YES;
+    }
+    
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -99,7 +108,7 @@
     ConferenceManager *manager = AgoraRoomManager.shareManager.conferenceManager;
     ConfUserModel *userModel = self.allUserListModel[indexPath.row];
    
-    if(userModel.role == ConfRoleTypeHost) {
+    if(userModel.role == ConfRoleTypeHost && indexPath.row != 0) {
         return;
     }
     
@@ -110,9 +119,15 @@
     NSString *audioText = userModel.enableAudio ? Localized(@"MuteAudio") : Localized(@"UnMuteAudio");
     UIAlertAction *muteAudio = [UIAlertAction actionWithTitle:audioText style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
         
+        // 邀请
+        if(indexPath.row != 0 && !userModel.enableAudio){
+            [weakself gotoCheckInvite:EnableSignalTypeAudio model:userModel];
+            return;
+        }
+        
         // apply
         if(manager.roomModel.muteAllAudio == MuteAllAudioStateNoAllowUnmute && !userModel.enableAudio) {
-            [weakself gotoCheckApply:EnableSignalTypeAudio];
+            [weakself gotoCheckApply:EnableSignalTypeAudio model:userModel];
             return;
         }
     
@@ -132,6 +147,12 @@
     
     NSString *videoText = userModel.enableVideo ? Localized(@"MuteVideo") : Localized(@"UnMuteVideo");
     UIAlertAction *muteVideo = [UIAlertAction actionWithTitle:videoText style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+        
+        // 邀请
+        if(indexPath.row != 0 && !userModel.enableVideo){
+            [weakself gotoCheckInvite:EnableSignalTypeVideo model:userModel];
+            return;
+        }
         
         [weakself setLoadingVisible:YES];
         [manager updateUserInfoWithUserId:userModel.userId value:!userModel.enableVideo enableSignalType:EnableSignalTypeVideo successBolck:^{
@@ -153,7 +174,7 @@
             
             [weakself setLoadingVisible:YES];
             [manager changeHostWithUserId:userModel.userId completeSuccessBlock:^{
-                [weakself updateView];
+//                [weakself updateView];
             } completeFailBlock:^(NSError * _Nonnull error) {
                 [weakself updateView];
                 [weakself showToast:error.localizedDescription];
@@ -163,7 +184,7 @@
     }
     
     // have shared
-    if(NoNullString(manager.roomModel.createBoardUserId).length > 0 && userModel.role == ConfRoleTypeParticipant) {
+    if(NoNullString(manager.roomModel.createBoardUserId).integerValue > 0 && userModel.role == ConfRoleTypeParticipant) {
         
         // click self
         if(userModel.uid == ownModel.uid && ![ownModel.userId isEqualToString:NoNullString(manager.roomModel.createBoardUserId)]) {
@@ -173,7 +194,7 @@
             UIAlertAction *whiteBoardControl = [UIAlertAction actionWithTitle:boardText style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
                 
                 if(!userModel.grantBoard){
-                    [weakself gotoApply:EnableSignalTypeGrantBoard];
+                    [weakself gotoApplyOrInvite:EnableSignalTypeGrantBoard actionType:P2PMessageTypeActionApply userId:ownModel.userId];
                 } else {
                     [weakself updateWhiteBoardStateWithValue:!userModel.grantBoard userId:userModel.userId];
                 }
@@ -230,21 +251,40 @@
     }
 }
 
-- (void)gotoCheckApply:(EnableSignalType)type {
+- (void)gotoCheckInvite:(EnableSignalType)type model:(ConfUserModel *)model {
+    UIViewController *vc = [VCManager getTopVC];
+    
+    NSString *title = @"";
+    if(type == EnableSignalTypeAudio){
+        title = [NSString stringWithFormat:@"邀请%@打开麦克风", model.userName];
+    } else if(type == EnableSignalTypeVideo){
+        title = [NSString stringWithFormat:@"邀请%@打开摄像头", model.userName];
+    }
+    
+    if(title.length == 0){
+        return;
+    }
+    
+    WEAK(self);
+    [AlertViewUtil showAlertWithController:vc title:title cancelHandler:nil sureHandler:^(UIAlertAction * _Nullable action) {
+        [weakself gotoApplyOrInvite:type actionType:P2PMessageTypeActionInvitation userId:model.userId];
+    }];
+}
+- (void)gotoCheckApply:(EnableSignalType)type model:(ConfUserModel *)model {
     UIViewController *vc = [VCManager getTopVC];
 
     WEAK(self);
     [AlertViewUtil showAlertWithController:vc title:@"当前会议主持人设置为静音状态，是否申请打开麦克风？" cancelHandler:nil sureHandler:^(UIAlertAction * _Nullable action) {
-        [weakself gotoApply:type];
+        [weakself gotoApplyOrInvite:type actionType:P2PMessageTypeActionApply userId:model.userId];
     }];
 }
-- (void)gotoApply:(EnableSignalType)type {
+- (void)gotoApplyOrInvite:(EnableSignalType)type actionType:(P2PMessageTypeAction)actionType userId:(NSString *)userId {
 
     WEAK(self);
     [self setLoadingVisible:YES];
     ConferenceManager *manager = AgoraRoomManager.shareManager.conferenceManager;
-    [manager audienceApplyWithType:type completeSuccessBlock:^{
-        [weakself updateView];
+    [manager p2pActionWithType:type actionType:actionType userId:userId completeSuccessBlock:^{
+         [weakself updateView];
     } completeFailBlock:^(NSError * _Nonnull error) {
         [weakself updateView];
         [weakself showToast:error.localizedDescription];

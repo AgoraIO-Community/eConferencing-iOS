@@ -13,7 +13,6 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface ConfSignalChannelInOutInfoModel : ConfUserModel
 
-@property (nonatomic, assign) NSInteger state;
 
 @end
 

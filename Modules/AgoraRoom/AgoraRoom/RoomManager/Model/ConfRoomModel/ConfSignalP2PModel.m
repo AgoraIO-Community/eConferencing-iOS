@@ -8,6 +8,10 @@
 
 #import "ConfSignalP2PModel.h"
 
+@implementation ConfSignalP2PInfoModel
+
+@end
+
 @implementation ConfSignalP2PModel
 
 @end

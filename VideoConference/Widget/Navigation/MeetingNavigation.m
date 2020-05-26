@@ -126,10 +126,10 @@
 }
 
 - (void)showScoreAlert {
+
+    ScoreAlertVC *vc = [[ScoreAlertVC alloc] initWithNibName:@"ScoreAlertVC" bundle:nil];
     
     WEAK(self);
-    
-    ScoreAlertVC *vc = [[ScoreAlertVC alloc] initWithNibName:@"ScoreAlertVC" bundle:nil];
     vc.block = ^(){
         if(weakself.leftBlock == nil){
             [VCManager popTopView];

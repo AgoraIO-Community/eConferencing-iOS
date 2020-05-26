@@ -295,6 +295,18 @@
     }];
 }
 
+- (void)hostActionWithType:(EnableSignalType)type value:(NSInteger)value userId:(NSString *)userId apiVersion:(NSString *)apiVersion completeSuccessBlock:(void (^ _Nullable) (void))successBlock completeFailBlock:(void (^ _Nullable) (NSError *error))failBlock {
+    
+    NSString *appId = self.baseConfigModel.appId;
+    NSString *roomId = self.baseConfigModel.roomId;
+
+    WEAK(self);
+    [HttpManager hostActionWithType:type value:value appId:appId roomId:roomId userId:userId apiVersion:apiVersion completeSuccessBlock:successBlock completeFailBlock:^(NSError * _Nonnull error) {
+        if(failBlock != nil) {
+            failBlock([weakself httpErrorMessage:error]);
+        }
+    }];
+}
 - (void)audienceActionWithType:(EnableSignalType)type value:(NSInteger)value userId:(NSString *)userId apiVersion:(NSString *)apiVersion completeSuccessBlock:(void (^ _Nullable) (void))successBlock completeFailBlock:(void (^ _Nullable) (NSError *error))failBlock {
     
     NSString *appId = self.baseConfigModel.appId;

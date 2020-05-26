@@ -36,7 +36,9 @@
     BOOL equalEnableAudio = self.enableAudio == model.enableAudio;
     BOOL equalUid = self.uid == model.uid;
     BOOL equalGrantBoard = self.grantBoard == model.grantBoard;
+    BOOL equalGrantScreen = self.grantScreen == model.grantScreen;
     BOOL equalScreenId = self.screenId == model.screenId;
+    BOOL equalState = self.state == model.state;
 
   return equalUserId
     && equalUserUuid
@@ -47,11 +49,9 @@
     && equalEnableAudio
     && equalUid
     && equalGrantBoard
-    && equalScreenId;
-
-//    @property (nonatomic, strong) NSString *rtcToken;
-//    @property (nonatomic, strong) NSString *rtmToken;
-//    @property (nonatomic, strong) NSString *screenToken;
+    && equalGrantScreen
+    && equalScreenId
+    && equalState;
 }
 
 - (NSUInteger)hash {
@@ -64,7 +64,9 @@
     ^ [@(self.enableAudio) hash]
     ^ [@(self.uid) hash]
     ^ [@(self.grantBoard) hash]
-    ^ [@(self.screenId) hash];
+    ^ [@(self.grantScreen) hash]
+    ^ [@(self.screenId) hash]
+    ^ [@(self.state) hash];
 }
 
 @end

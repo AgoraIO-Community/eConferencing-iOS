@@ -107,7 +107,7 @@
     
     // init media
     dispatch_group_enter(group);
-    ClientRole clientRole = manager.ownModel.enableVideo ? ClientRoleBroadcaster : ClientRoleAudience;
+    ClientRole clientRole = ClientRoleBroadcaster;
     [manager initMediaWithClientRole:clientRole successBolck:^{
         dispatch_group_leave(group);
     } failBlock:^(NSInteger errorCode) {
@@ -174,7 +174,7 @@
 
 - (void)updateStateView {
     ConferenceManager *manager = AgoraRoomManager.shareManager.conferenceManager;
-    if(self.allUserListModel.count == 1) {
+    if(self.allUserListModel.count <= 1) {
         self.stateBg.hidden = YES;
     } else {
         self.stateBg.hidden = NO;
@@ -396,7 +396,7 @@
     if(model.action == P2PMessageTypeTip) {
         
         [self handleConfirmAlertView:model];
-        
+        // 判断申请还是邀请
     } else if(model.action == P2PMessageTypeActionInvitation || model.action == P2PMessageTypeActionApply) {
         
         [self handleApplyOrInvitationAlertView: model];
@@ -430,8 +430,16 @@
         weakself.tipLabel.hidden = YES;
     });
     
+    [NSNotificationCenter.defaultCenter postNotificationName:NOTICENAME_IN_OUT_CHANGED object:nil];
 }
 - (void)didReceivedSignalRoomInfo:(ConfSignalChannelRoomModel *)model {
+
+    if(model.muteAllAudio != MuteAllAudioStateUnmute){
+        [self onReloadView];
+    }
+    
+    [NSNotificationCenter.defaultCenter postNotificationName:NOTICENAME_ROOM_INFO_CHANGED object:nil];
+    
     if (model.state == 0) {
         [AlertViewUtil showAlertWithController:[VCManager getTopVC] title:@"主持人结束了会议" sureHandler:^(UIAlertAction * _Nullable action) {
             [VCManager popRootView];
@@ -441,23 +449,17 @@
     
     NSString *title = @"";
     NSString *message = @"";
-    if(model.muteAllChat == MuteAllAudioStateUnmute){
+    if(model.muteAllAudio == MuteAllAudioStateUnmute){
         title = @"主持人解除静音控制";
         message = @"您现在自主控制麦克风了哦!";
-    } else if(model.muteAllChat == MuteAllAudioStateAllowUnmute){
+    } else if(model.muteAllAudio == MuteAllAudioStateAllowUnmute){
         title = @"主持人开启了静音控制";
         message = @"你可以再次打开麦克风!";
-    } else if(model.muteAllChat == MuteAllAudioStateNoAllowUnmute){
+    } else if(model.muteAllAudio == MuteAllAudioStateNoAllowUnmute){
         title = @"主持人开启了静音控制";
         message = @"你可以通过申请打开麦克风!";
     }
     [AlertViewUtil showAlertWithController:[VCManager getTopVC] title:title message:message cancelText:nil sureText:@"我知道了" cancelHandler:nil sureHandler:nil];
-    
-    if(model.muteAllChat != MuteAllAudioStateUnmute){
-        [self onReloadView];
-    }
-    
-    [NSNotificationCenter.defaultCenter postNotificationName:NOTICENAME_ROOM_INFO_CHANGED object:nil];
     
 }
 - (void)didReceivedSignalUserInfo:(ConfUserModel *)model {
@@ -576,6 +578,7 @@
     
     NSString *title = @"";
     EnableSignalType type = EnableSignalTypeVideo;
+    P2PMessageTypeAction actionType = P2PMessageTypeActionRejectApply;
     NSString *noticeName = @"";
     NSString *userId = @"";
     if(model.action == P2PMessageTypeActionInvitation) {
@@ -589,6 +592,7 @@
             title = @"主持人邀请你打开摄像头";
             type = EnableSignalTypeVideo;
         }
+        actionType = P2PMessageTypeActionRejectInvitation;
     } else {
         noticeName = NOTICENAME_REMOTE_MEDIA_CHANGED;
         userId = model.userId;
@@ -600,13 +604,25 @@
             title = [NSString stringWithFormat:@"%@申请打开麦克风", model.userName];
             type = EnableSignalTypeAudio;
         }
+        actionType = P2PMessageTypeActionRejectApply;
     }
     
     if(title.length == 0){
         return;
     }
     
-    [AlertViewUtil showAlertWithController:[VCManager getTopVC] title:title message:nil cancelText:@"取消" sureText:@"同意" cancelHandler:nil sureHandler:^(UIAlertAction * _Nullable action) {
+    [AlertViewUtil showAlertWithController:[VCManager getTopVC] title:title message:nil cancelText:@"拒绝" sureText:@"同意" cancelHandler:^(UIAlertAction * _Nullable action) {
+
+        [manager p2pActionWithType:type actionType:actionType userId:userId completeSuccessBlock:^{
+             
+        } completeFailBlock:^(NSError * _Nonnull error) {
+            BaseViewController *vc = (BaseViewController*)[VCManager getTopVC];
+            if(vc){
+                [vc showToast:error.localizedDescription];
+            }
+        }];
+        
+    } sureHandler:^(UIAlertAction * _Nullable action) {
         [manager updateUserInfoWithUserId:userId value:YES enableSignalType:type successBolck:^{
             
             if(NoNullString(noticeName).length > 0){

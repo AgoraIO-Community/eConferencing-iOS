@@ -14,7 +14,6 @@ PODS:
   - AFNetworking/Serialization (3.2.1)
   - AFNetworking/UIKit (3.2.1):
     - AFNetworking/NSURLSession
-  - AgoraRtcEngine_iOS (2.9.0.102)
   - AgoraRtm_iOS (1.2.2)
   - AliyunOSSiOS (2.10.8)
   - CocoaLumberjack (3.6.1):
@@ -49,7 +48,6 @@ PODS:
 
 DEPENDENCIES:
   - AFNetworking (~> 3.2.1)
-  - AgoraRtcEngine_iOS (= 2.9.0.102)
   - AgoraRtm_iOS (~> 1.2.2)
   - AliyunOSSiOS
   - CocoaLumberjack
@@ -60,7 +58,6 @@ DEPENDENCIES:
 SPEC REPOS:
   trunk:
     - AFNetworking
-    - AgoraRtcEngine_iOS
     - AgoraRtm_iOS
     - AliyunOSSiOS
     - CocoaLumberjack
@@ -71,7 +68,6 @@ SPEC REPOS:
 
 SPEC CHECKSUMS:
   AFNetworking: b6f891fdfaed196b46c7a83cf209e09697b94057
-  AgoraRtcEngine_iOS: 9755a9dcd45ab1d177ece9fe15dea23124d63d50
   AgoraRtm_iOS: c6ba986a3af73dd0f02e6e2995ae4fe9c155e6ae
   AliyunOSSiOS: 8db92936545593b9e5c66d680ef2ac0738946651
   CocoaLumberjack: b17ae15142558d08bbacf69775fa10c4abbebcc9
@@ -80,6 +76,6 @@ SPEC CHECKSUMS:
   Whiteboard: 79ab8b3ba0a3bcd573c9a77a23da5ef07e7a0f5d
   YYModel: 2a7fdd96aaa4b86a824e26d0c517de8928c04b30
 
-PODFILE CHECKSUM: b4bc202e9f65e847952acc2927734e312318d0f2
+PODFILE CHECKSUM: b7d48ff471dad55654308fb5cadf4e5786c46655
 
 COCOAPODS: 1.8.4

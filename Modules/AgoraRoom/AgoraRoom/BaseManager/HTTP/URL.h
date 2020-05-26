@@ -53,9 +53,13 @@
 // /conf/v1/apps/{appId}/room/{roomId}/user/{userId}/board
 #define HTTP_BOARD_STATE @"%@/v1/apps/%@/room/%@/user/%@/board"
 
-// http: audience apply
+// http: audience action
 // /conf/v1/apps/{appId}/room/{roomId}/user/{userId}/audience/apply
-#define HTTP_AUDIENCE_APPLY @"%@/v1/apps/%@/room/%@/user/%@/audience/apply"
+#define HTTP_AUDIENCE_ACTION @"%@/v1/apps/%@/room/%@/user/%@/audience/apply"
+
+// http: host action
+// /conf/v1/apps/{appId}/room/{roomId}/user/{userId}/host/invite
+#define HTTP_HOTS_ACTION @"%@/v1/apps/%@/room/%@/user/%@/host/invite"
 
 // http: get userlist info
 // /conf/v1/apps/{appId}/room/{roomId}/user/page

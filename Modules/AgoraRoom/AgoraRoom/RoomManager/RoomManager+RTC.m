@@ -7,7 +7,8 @@
 //
 
 #import "RoomManager+RTC.h"
-#import <AgoraRtcEngineKit/AgoraRtcEngineKit.h>
+#import <AgoraRtcKit/AgoraRtcEngineKit.h>
+//#import <AgoraRtcEngineKit/AgoraRtcEngineKit.h>
 #import "RoomManagerDelegate.h"
 #import <YYModel.h>
 

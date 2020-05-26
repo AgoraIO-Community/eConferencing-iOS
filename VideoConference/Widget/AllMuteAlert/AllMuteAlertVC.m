@@ -49,6 +49,9 @@
 }
 
 - (IBAction)onContinue:(id)sender {
+    [self dismissViewControllerAnimated:YES completion:^{
+    }];
+    
     if(self.block != nil){
         self.block(self.isCheck);
     }

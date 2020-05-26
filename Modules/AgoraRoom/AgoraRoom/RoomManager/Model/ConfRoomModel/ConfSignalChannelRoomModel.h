@@ -12,7 +12,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface ConfSignalChannelRoomModel : NSObject
 
-@property (nonatomic, assign) MuteAllAudioState muteAllChat;
+@property (nonatomic, assign) MuteAllAudioState muteAllAudio;
 @property (nonatomic, assign) BOOL state;// 1=正常 2=会议结束
 
 @end

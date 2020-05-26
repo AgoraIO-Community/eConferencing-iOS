@@ -26,7 +26,7 @@ static NSString *agoraUId;
 @implementation HttpManager
 
 + (void)getConfigWithApiVersion:(NSString *)apiVersion successBolck:(void (^ _Nullable) (ConfigAllInfoModel * model))successBlock completeFailBlock:(void (^ _Nullable) (NSError *error))failBlock {
-
+    
     NSInteger deviceType = 0;
     if (UIUserInterfaceIdiomPhone == [UIDevice currentDevice].userInterfaceIdiom) {
         deviceType = 1;
@@ -66,7 +66,7 @@ static NSString *agoraUId;
 }
 
 + (void)enterRoomWithParams:(EntryParams *)params appId:(NSString *)appId  apiVersion:(NSString *)apiVersion successBolck:(void (^ _Nullable) (EnterRoomInfoModel *model))successBlock completeFailBlock:(void (^ _Nullable) (NSError *error))failBlock {
-
+    
     NSMutableDictionary *dicParams = [NSMutableDictionary dictionary];
     if ([params isKindOfClass:[EduSaaSEntryParams class]]){
         EduSaaSEntryParams *saasParams = (EduSaaSEntryParams*)params;
@@ -83,7 +83,7 @@ static NSString *agoraUId;
         dicParams[@"role"] = @(eduParams.role);
         dicParams[@"userUuid"] = eduParams.userUuid;
         dicParams[@"roomUuid"] = eduParams.roomUuid;
-
+        
     } else if ([params isKindOfClass:[ConferenceEntryParams class]]){
         ConferenceEntryParams *cParams = (ConferenceEntryParams*)params;
         dicParams[@"userName"] = cParams.userName;
@@ -133,7 +133,7 @@ static NSString *agoraUId;
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     params[@"type"] = @(messageType);
     params[@"message"] = message;
-
+    
     [HttpManager post:url params:params headers:nil apiVersion:apiVersion success:^(id responseObj) {
         
         CommonModel *model = [CommonModel yy_modelWithDictionary:responseObj];
@@ -168,7 +168,7 @@ static NSString *agoraUId;
     if(userIds != nil && userIds.count > 0){
         params[@"userIds"] = userIds;
     }
-
+    
     [HttpManager post:url params:params headers:nil apiVersion:apiVersion success:^(id responseObj) {
         
         CommonModel *model = [CommonModel yy_modelWithDictionary:responseObj];
@@ -211,7 +211,7 @@ static NSString *agoraUId;
         default:
             break;
     }
-
+    
     [HttpManager post:url params:params headers:nil apiVersion:apiVersion success:^(id responseObj) {
         
         CommonModel *model = [CommonModel yy_modelWithDictionary:responseObj];
@@ -283,7 +283,7 @@ static NSString *agoraUId;
         default:
             break;
     }
-
+    
     [HttpManager post:url params:params headers:nil apiVersion:apiVersion success:^(id responseObj) {
         
         CommonModel *model = [CommonModel yy_modelWithDictionary:responseObj];
@@ -334,7 +334,47 @@ static NSString *agoraUId;
     
     NSString *url = [NSString stringWithFormat:HTTP_BOARD_STATE, HTTP_BASE_URL, appId, roomId, userId];
     
-        [HttpManager post:url params:nil headers:nil apiVersion:apiVersion success:^(id responseObj) {
+    [HttpManager post:url params:nil headers:nil apiVersion:apiVersion success:^(id responseObj) {
+        
+        CommonModel *model = [CommonModel yy_modelWithDictionary:responseObj];
+        if(model.code == 0) {
+            if(successBlock != nil) {
+                successBlock();
+            }
+        } else {
+            if(failBlock != nil) {
+                NSError *error = LocalError(model.code, model.msg);
+                failBlock(error);
+            }
+        }
+        
+    } failure:^(NSError *error) {
+        if(failBlock != nil) {
+            failBlock(error);
+        }
+    }];
+}
+
++ (void)hostActionWithType:(EnableSignalType)type value:(NSInteger)value appId:(NSString *)appId roomId:(NSString *)roomId userId:(NSString *)userId apiVersion:(NSString *)apiVersion completeSuccessBlock:(void (^ _Nullable) (void))successBlock completeFailBlock:(void (^ _Nullable) (NSError *error))failBlock {
+    
+    NSString *url = [NSString stringWithFormat:HTTP_HOTS_ACTION, HTTP_BASE_URL, appId, roomId, userId];
+    NSMutableDictionary *params = [NSMutableDictionary dictionary];
+    switch (type) {
+        case EnableSignalTypeAudio:
+            params[@"type"] = @(1);
+            break;
+        case EnableSignalTypeVideo:
+            params[@"type"] = @(2);
+            break;
+        case EnableSignalTypeGrantBoard:
+            params[@"type"] = @(3);
+            break;
+        default:
+            break;
+    }
+    params[@"action"] = @(value);
+            
+    [HttpManager post:url params:params headers:nil apiVersion:apiVersion success:^(id responseObj) {
         
         CommonModel *model = [CommonModel yy_modelWithDictionary:responseObj];
         if(model.code == 0) {
@@ -357,9 +397,24 @@ static NSString *agoraUId;
 
 + (void)audienceActionWithType:(EnableSignalType)type value:(NSInteger)value appId:(NSString *)appId roomId:(NSString *)roomId userId:(NSString *)userId apiVersion:(NSString *)apiVersion completeSuccessBlock:(void (^ _Nullable) (void))successBlock completeFailBlock:(void (^ _Nullable) (NSError *error))failBlock {
     
-    NSString *url = [NSString stringWithFormat:HTTP_AUDIENCE_APPLY, HTTP_BASE_URL, appId, roomId, userId];
-    
-        [HttpManager post:url params:nil headers:nil apiVersion:apiVersion success:^(id responseObj) {
+    NSString *url = [NSString stringWithFormat:HTTP_AUDIENCE_ACTION, HTTP_BASE_URL, appId, roomId, userId];
+    NSMutableDictionary *params = [NSMutableDictionary dictionary];
+    switch (type) {
+        case EnableSignalTypeAudio:
+            params[@"type"] = @(1);
+            break;
+        case EnableSignalTypeVideo:
+            params[@"type"] = @(2);
+            break;
+        case EnableSignalTypeGrantBoard:
+            params[@"type"] = @(3);
+            break;
+        default:
+            break;
+    }
+    params[@"action"] = @(value);
+            
+    [HttpManager post:url params:params headers:nil apiVersion:apiVersion success:^(id responseObj) {
         
         CommonModel *model = [CommonModel yy_modelWithDictionary:responseObj];
         if(model.code == 0) {
@@ -381,7 +436,7 @@ static NSString *agoraUId;
 }
 
 + (void)getRoomInfoWithAppId:(NSString *)appId roomId:(NSString *)roomId apiVersion:(NSString *)apiVersion completeSuccessBlock:(void (^ _Nullable) (id responseModel))successBlock completeFailBlock:(void (^ _Nullable) (NSError *error))failBlock {
- 
+    
     NSString *url = [NSString stringWithFormat:HTTP_ROOM_INFO, HTTP_BASE_URL, appId, roomId];
     
     [HttpManager get:url params:nil headers:nil apiVersion:apiVersion success:^(id responseObj) {
@@ -457,11 +512,11 @@ static NSString *agoraUId;
 + (void)getLogInfoWithAppId:(NSString *)appId roomId:(NSString *)roomId apiVersion:(NSString *)apiVersion completeSuccessBlock:(void (^ _Nullable) (LogParamsInfoModel * model))successBlock completeFailBlock:(void (^ _Nullable) (NSError *error))failBlock {
     
     NSString *url = [NSString stringWithFormat:HTTP_LOG_PARAMS, HTTP_BASE_URL];
-
+    
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     params[@"appCode"] = [HttpManager appCode];
     params[@"osType"] = @(1);// ios
-
+    
     NSInteger deviceType = 1;
     if (UIUserInterfaceIdiomPhone == [UIDevice currentDevice].userInterfaceIdiom) {
         deviceType = 1;
@@ -469,7 +524,7 @@ static NSString *agoraUId;
         deviceType = 2;
     }
     params[@"terminalType"] = @(deviceType);
-
+    
     NSDictionary *infoDictionary = [[NSBundle mainBundle] infoDictionary];
     NSString *app_Version = [infoDictionary objectForKey:@"CFBundleShortVersionString"];
     params[@"appVersion"] = app_Version;
@@ -477,13 +532,13 @@ static NSString *agoraUId;
     if(roomId == nil){
         params[@"roomId"] = @"0";
     } else {
-       params[@"roomId"] = roomId;
+        params[@"roomId"] = roomId;
     }
     
     if(appId != nil){
         params[@"appId"] = appId;
     }
-
+    
     [HttpManager get:url params:params headers:nil apiVersion:apiVersion success:^(id responseObj) {
         LogParamsModel *model = [LogParamsModel yy_modelWithDictionary:responseObj];
         if(model.code == 0){
@@ -506,12 +561,12 @@ static NSString *agoraUId;
 + (void)getWhiteInfoWithAppId:(NSString *)appId roomId:(NSString *)roomId apiVersion:(NSString *)apiVersion completeSuccessBlock:(void (^ _Nullable) (WhiteInfoModel *model))successBlock completeFailBlock:(void (^ _Nullable) (NSError *error))failBlock {
     
     NSString *url = [NSString stringWithFormat:HTTP_WHITE_ROOM_INFO, HTTP_BASE_URL, appId, roomId];
-
+    
     [HttpManager get:url params:nil headers:nil apiVersion:apiVersion success:^(id responseObj) {
         
         WhiteModel *model = [WhiteModel yy_modelWithDictionary:responseObj];
         if(model.code == 0) {
-        
+            
             if(successBlock != nil) {
                 successBlock(model.data);
             }
@@ -554,7 +609,7 @@ static NSString *agoraUId;
 
 #pragma mark private
 + (void)get:(NSString *)url params:(NSDictionary *)params headers:(NSDictionary<NSString*, NSString*> *)headers apiVersion:(NSString *)apiVersion success:(void (^)(id))success failure:(void (^)(NSError *))failure {
-
+    
     // add header
     NSMutableDictionary *_headers = [NSMutableDictionary dictionaryWithDictionary:[HttpManager httpHeader]];
     if(headers != nil){

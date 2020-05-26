@@ -67,6 +67,8 @@
 		78784939246D322200455FA2 /* ShareLinkView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 78784938246D322200455FA2 /* ShareLinkView.xib */; };
 		7878493D246D770100455FA2 /* UIImage+Circle.m in Sources */ = {isa = PBXBuildFile; fileRef = 7878493C246D770100455FA2 /* UIImage+Circle.m */; };
 		78C08C9E2476AD2100728DCB /* AgoraFlowLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = 78C08C9D2476AD2100728DCB /* AgoraFlowLayout.m */; };
+		78C08D01247BEB3700728DCB /* ScaleView.m in Sources */ = {isa = PBXBuildFile; fileRef = 78C08D00247BEB3700728DCB /* ScaleView.m */; };
+		78ED7E1B247BFC5600F93385 /* UIViewAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 78ED7E1A247BFC5600F93385 /* UIViewAdditions.m */; };
 		78F690FD246E71EA000A0E71 /* ScoreAlertVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 78F690F6246E71EA000A0E71 /* ScoreAlertVC.xib */; };
 		78F690FE246E71EA000A0E71 /* ScoreAlertVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 78F690F7246E71EA000A0E71 /* ScoreAlertVC.m */; };
 		78F690FF246E71EA000A0E71 /* AllMuteAlertVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 78F690FA246E71EA000A0E71 /* AllMuteAlertVC.xib */; };
@@ -200,6 +202,10 @@
 		7878493C246D770100455FA2 /* UIImage+Circle.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UIImage+Circle.m"; sourceTree = "<group>"; };
 		78C08C9C2476AD2100728DCB /* AgoraFlowLayout.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AgoraFlowLayout.h; sourceTree = "<group>"; };
 		78C08C9D2476AD2100728DCB /* AgoraFlowLayout.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AgoraFlowLayout.m; sourceTree = "<group>"; };
+		78C08CFF247BEB3700728DCB /* ScaleView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ScaleView.h; sourceTree = "<group>"; };
+		78C08D00247BEB3700728DCB /* ScaleView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ScaleView.m; sourceTree = "<group>"; };
+		78ED7E19247BFC5600F93385 /* UIViewAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UIViewAdditions.h; sourceTree = "<group>"; };
+		78ED7E1A247BFC5600F93385 /* UIViewAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UIViewAdditions.m; sourceTree = "<group>"; };
 		78F690F6246E71EA000A0E71 /* ScoreAlertVC.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ScoreAlertVC.xib; sourceTree = "<group>"; };
 		78F690F7246E71EA000A0E71 /* ScoreAlertVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ScoreAlertVC.m; sourceTree = "<group>"; };
 		78F690F8246E71EA000A0E71 /* ScoreAlertVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ScoreAlertVC.h; sourceTree = "<group>"; };
@@ -569,6 +575,10 @@
 				78F69120246E874F000A0E71 /* PIPVideoCell.h */,
 				78F69121246E874F000A0E71 /* PIPVideoCell.m */,
 				78F69122246E874F000A0E71 /* PIPVideoCell.xib */,
+				78C08CFF247BEB3700728DCB /* ScaleView.h */,
+				78C08D00247BEB3700728DCB /* ScaleView.m */,
+				78ED7E19247BFC5600F93385 /* UIViewAdditions.h */,
+				78ED7E1A247BFC5600F93385 /* UIViewAdditions.m */,
 				78F69125246E886F000A0E71 /* VideoCell.h */,
 				78F69126246E886F000A0E71 /* VideoCell.m */,
 				78F69127246E886F000A0E71 /* VideoCell.xib */,
@@ -782,6 +792,7 @@
 				78F690FE246E71EA000A0E71 /* ScoreAlertVC.m in Sources */,
 				7878490E246BA6CE00455FA2 /* MessageVC.m in Sources */,
 				7808B29D2468449700B320EB /* SetSwitchCell.m in Sources */,
+				78ED7E1B247BFC5600F93385 /* UIViewAdditions.m in Sources */,
 				784936E82469351600DE15AB /* SetArrowCell.m in Sources */,
 				784D22762464187B0065985A /* UIView+Constraint.m in Sources */,
 				784D22B724655BFA0065985A /* BottomItem.m in Sources */,
@@ -810,6 +821,7 @@
 				7808B2982468449700B320EB /* SetTextFieldCell.m in Sources */,
 				784D22722464187B0065985A /* UIColor+Addition.m in Sources */,
 				780356222465890B001F9624 /* MeetingNavigation.m in Sources */,
+				78C08D01247BEB3700728DCB /* ScaleView.m in Sources */,
 				78F6916B24738072000A0E71 /* KeyCenter.m in Sources */,
 				784D2297246424D20065985A /* EEWhiteboardTool.m in Sources */,
 				78784912246BBC3900455FA2 /* UserCell.m in Sources */,

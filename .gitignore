@@ -64,3 +64,5 @@ IPAQA/
 IPA/
 *.ipa
 *.xcarchive
+
+AgoraRtcKit.framework

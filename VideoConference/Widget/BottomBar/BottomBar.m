@@ -110,8 +110,18 @@
     
     BOOL isSelected = sender.isSelected;
     if(sender == self.audioItem || sender == self.videoItem) {
-        sender.isSelected = !isSelected;
         
+        if(sender == self.audioItem && manager.roomModel.muteAllAudio == MuteAllAudioStateNoAllowUnmute && !manager.ownModel.enableAudio && manager.ownModel.role != ConfRoleTypeHost){
+            
+            //申请
+            UIViewController *vc = [VCManager getTopVC];
+            [AlertViewUtil showAlertWithController:vc title:@"当前会议主持人设置为静音状态，是否申请打开麦克风？" cancelHandler:nil sureHandler:^(UIAlertAction * _Nullable action) {
+                [weakself gotoApplyOrInvite:EnableSignalTypeAudio actionType:P2PMessageTypeActionApply userId:manager.ownModel.userId];
+            }];
+            return;
+        }
+        
+        sender.isSelected = !isSelected;
         EnableSignalType type = EnableSignalTypeAudio;
         if(sender == self.videoItem) {
             type = EnableSignalTypeVideo;
@@ -164,7 +174,7 @@
             muteText = Localized(@"AllUnmute");
         }
         
-        UIAlertAction *allMute = [UIAlertAction actionWithTitle:Localized(@"muteText") style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+        UIAlertAction *allMute = [UIAlertAction actionWithTitle:muteText style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
             
             if (manager.roomModel.muteAllAudio == MuteAllAudioStateUnmute) {
                 AllMuteAlertVC *vc = [[AllMuteAlertVC alloc] initWithNibName:@"AllMuteAlertVC" bundle:nil];
@@ -179,14 +189,14 @@
         [alertController addAction:allMute];
     }
     
-    if(NoNullString(manager.roomModel.createBoardUserId).length > 0 && manager.ownModel.role == ConfRoleTypeParticipant) {
+    if(NoNullString(manager.roomModel.createBoardUserId).integerValue > 0 && manager.ownModel.role == ConfRoleTypeParticipant) {
         
         NSString *boardText = manager.ownModel.grantBoard ? Localized(@"CancelWhiteBoardControl") : Localized(@"ApplyWhiteBoard");
         
         UIAlertAction *whiteBoardControl = [UIAlertAction actionWithTitle:boardText style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
             
             if(!manager.ownModel.grantBoard){
-                [weakself gotoApply:EnableSignalTypeGrantBoard];
+                [weakself gotoApplyOrInvite:EnableSignalTypeGrantBoard actionType:P2PMessageTypeActionApply userId:manager.ownModel.userId];
             } else {
                 [weakself updateWhiteBoardState];
             }
@@ -228,20 +238,21 @@
     ConferenceManager *manager = AgoraRoomManager.shareManager.conferenceManager;
     
     WEAK(self);
-    [manager updateRoomInfoWithValue:state enableSignalType:ConfEnableRoomSignalTypeMuteAllChat successBolck:^{
-
+    [manager updateRoomInfoWithValue:state enableSignalType:ConfEnableRoomSignalTypeMuteAllAudio successBolck:^{
+        
     } failBlock:^(NSError * _Nonnull error) {
         [weakself showMsgToast:error.localizedDescription];
     }];
 }
 
-- (void)gotoApply:(EnableSignalType)type {
+- (void)gotoApplyOrInvite:(EnableSignalType)type actionType:(P2PMessageTypeAction)actionType userId:(NSString *)userId {
 
     WEAK(self);
     ConferenceManager *manager = AgoraRoomManager.shareManager.conferenceManager;
-    [manager audienceApplyWithType:EnableSignalTypeGrantBoard completeSuccessBlock:^{
-
-    } completeFailBlock:^(NSError * _Nonnull error) {
+    [manager p2pActionWithType:type actionType:actionType userId:userId completeSuccessBlock:^{
+        [weakself updateView];
+    } completeFailBlock:^(NSError *error) {
+        [weakself updateView];
         [weakself showMsgToast:error.localizedDescription];
     }];
 }

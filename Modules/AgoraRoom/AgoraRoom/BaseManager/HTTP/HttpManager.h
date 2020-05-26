@@ -54,6 +54,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 //+ (void)sendCoVideoWithType:(SignalLinkState)linkState appId:(NSString *)appId roomId:(NSString *)roomId userIds:(NSArray<NSString *> *)userIds apiVersion:(NSString *)apiVersion successBolck:(void (^ _Nullable) (void))successBlock completeFailBlock:(void (^ _Nullable) (NSError *error))failBlock;
 
+// value：1=邀请 2=拒绝
++ (void)hostActionWithType:(EnableSignalType)type value:(NSInteger)value appId:(NSString *)appId roomId:(NSString *)roomId userId:(NSString *)userId apiVersion:(NSString *)apiVersion completeSuccessBlock:(void (^ _Nullable) (void))successBlock completeFailBlock:(void (^ _Nullable) (NSError *error))failBlock;
 // value：1=申请 2=拒绝
 + (void)audienceActionWithType:(EnableSignalType)type value:(NSInteger)value appId:(NSString *)appId roomId:(NSString *)roomId userId:(NSString *)userId apiVersion:(NSString *)apiVersion completeSuccessBlock:(void (^ _Nullable) (void))successBlock completeFailBlock:(void (^ _Nullable) (NSError *error))failBlock;
 

@@ -7,7 +7,8 @@
 //
 
 #import <Foundation/Foundation.h>
-#import <AgoraRtcEngineKit/AgoraRtcEngineKit.h>
+#import <AgoraRtcKit/AgoraRtcEngineKit.h>
+//#import <AgoraRtcEngineKit/AgoraRtcEngineKit.h>
 #import "RTCManagerDelegate.h"
 
 NS_ASSUME_NONNULL_BEGIN

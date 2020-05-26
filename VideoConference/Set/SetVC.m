@@ -389,7 +389,7 @@
     
     WEAK(self);
     [self setLoadingVisible:YES];
-    [manager updateRoomInfoWithValue:self.currentState enableSignalType:ConfEnableRoomSignalTypeMuteAllChat successBolck:^{
+    [manager updateRoomInfoWithValue:self.currentState enableSignalType:ConfEnableRoomSignalTypeMuteAllAudio successBolck:^{
         
         [weakself setLoadingVisible:NO];
         

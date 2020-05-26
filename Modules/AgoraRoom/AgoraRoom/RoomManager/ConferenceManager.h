@@ -53,7 +53,7 @@ NS_ASSUME_NONNULL_BEGIN
 // send message
 - (void)sendMessageWithText:(NSString *)message successBolck:(void (^ _Nullable) (void))successBlock completeFailBlock:(void (^ _Nullable) (NSError *error))failBlock;
 
-- (void)audienceApplyWithType:(EnableSignalType)type completeSuccessBlock:(void (^ _Nullable) (void))successBlock completeFailBlock:(void (^ _Nullable) (NSError *error))failBlock;
+- (void)p2pActionWithType:(EnableSignalType)type actionType:(P2PMessageTypeAction)actionType userId:(NSString *)userId completeSuccessBlock:(void (^ _Nullable) (void))successBlock completeFailBlock:(void (^ _Nullable) (NSError *error))failBlock;
 
 // upload log
 - (void)uploadLogWithSuccessBlock:(void (^ _Nullable) (NSString *uploadSerialNumber))successBlock failBlock:(void (^ _Nullable) (NSError *error))failBlock;

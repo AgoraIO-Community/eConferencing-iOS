@@ -10,10 +10,11 @@
 #import "UIImage+Circle.h"
 #import "EEWhiteboardTool.h"
 #import "EEColorShowView.h"
+#import "ScaleView.h"
 
 @interface PIPVideoCell ()<WhiteToolDelegate>
 
-@property (weak, nonatomic) IBOutlet UIView *remoteView;
+@property (weak, nonatomic) IBOutlet ScaleView *remoteView;
 @property (weak, nonatomic) IBOutlet UIView *localView;
 @property (weak, nonatomic) IBOutlet UIImageView *imgView;
 
@@ -163,7 +164,7 @@
         [manager addVideoCanvasWithUId:remoteUserModel.uid inView:self.remoteView];
     } else {
         self.imgView.hidden = NO;
-        self.remoteView.hidden = NO;
+        self.remoteView.hidden = YES;
     }
 }
 
@@ -189,6 +190,7 @@
         self.imgView.hidden = YES;
         self.remoteView.hidden = NO;
         [manager addVideoCanvasWithUId:userModel.uid inView:self.remoteView];
+//        [manager addVideoCanvasWithUId:userModel.uid inView:self.remoteView.contentView];
     } else {
         self.imgView.hidden = NO;
         self.remoteView.hidden = YES;
@@ -197,6 +199,11 @@
 
 - (void)updateWhiteView {
     ConferenceManager *manager = AgoraRoomManager.shareManager.conferenceManager;
+    if(NoNullString(manager.roomModel.createBoardUserId).integerValue == 0){
+        self.whiteboardTool.hidden = YES;
+        return;
+    }
+    
     self.whiteboardTool.hidden = manager.ownModel.grantBoard ? NO : YES;
     
     WhiteManager *whiteManager = AgoraRoomManager.shareManager.whiteManager;
@@ -219,7 +226,7 @@
     
     WEAK(self);
     ConferenceManager *manager = AgoraRoomManager.shareManager.conferenceManager;
-    [manager audienceApplyWithType:EnableSignalTypeGrantBoard completeSuccessBlock:^{
+    [manager p2pActionWithType:EnableSignalTypeGrantBoard actionType:P2PMessageTypeActionApply userId:manager.ownModel.userId completeSuccessBlock:^{
         
     } completeFailBlock:^(NSError * _Nonnull error) {
         [weakself showMsgToast:error.localizedDescription];

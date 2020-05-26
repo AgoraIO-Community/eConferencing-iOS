@@ -55,6 +55,8 @@ static VCManager *manager = nil;
         [nvc dismissViewControllerAnimated:NO completion:^{
             [nvc popToRootViewControllerAnimated:YES];
         }];
+    } else {
+        [nvc popToRootViewControllerAnimated:YES];
     }
 }
 

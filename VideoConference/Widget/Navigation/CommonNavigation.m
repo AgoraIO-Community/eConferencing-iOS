@@ -10,7 +10,6 @@
 
 @interface CommonNavigation()
 @property (strong, nonatomic) IBOutlet CommonNavigation *navigation;
-
 @end
 
 @implementation CommonNavigation

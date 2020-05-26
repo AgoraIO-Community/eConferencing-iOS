@@ -68,6 +68,8 @@ NS_ASSUME_NONNULL_BEGIN
 // apply/cancel/reject colink
 - (void)sendCoVideoWithType:(SignalLinkState)linkState userIds:(NSArray<NSString *> *)userIds apiversion:(NSString *)apiversion successBolck:(void (^ _Nullable) (void))successBlock completeFailBlock:(void (^ _Nullable) (NSError *error))failBlock;
 
+// value：1=邀请 2=拒绝
+- (void)hostActionWithType:(EnableSignalType)type value:(NSInteger)value userId:(NSString *)userId apiVersion:(NSString *)apiVersion completeSuccessBlock:(void (^ _Nullable) (void))successBlock completeFailBlock:(void (^ _Nullable) (NSError *error))failBlock;
 // value：1=申请 2=拒绝
 - (void)audienceActionWithType:(EnableSignalType)type value:(NSInteger)value userId:(NSString *)userId apiVersion:(NSString *)apiVersion completeSuccessBlock:(void (^ _Nullable) (void))successBlock completeFailBlock:(void (^ _Nullable) (NSError *error))failBlock;
 

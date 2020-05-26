@@ -51,10 +51,6 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)getWhiteInfoWithSuccessBlock:(void (^ _Nullable) (WhiteInfoModel * model))successBlock failBlock:(void (^ _Nullable) (NSError *error))failBlock;
 
-- (NSInteger)submitRating:(NSInteger)rating;
-
-- (NSInteger)switchCamera;
-
 // Canvas
 - (void)addVideoCanvasWithUId:(NSUInteger)uid inView:(UIView *)view;
 - (void)removeVideoCanvasWithUId:(NSUInteger)uid;
