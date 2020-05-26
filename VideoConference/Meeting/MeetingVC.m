@@ -23,15 +23,6 @@
 @property (weak, nonatomic) IBOutlet BottomBar *bottomBar;
 @property (weak, nonatomic) IBOutlet UIPageControl *pageControl;
 
-@property (weak, nonatomic) IBOutlet UIView *stateBg;
-@property (weak, nonatomic) IBOutlet UILabel *nameLabel;
-@property (weak, nonatomic) IBOutlet UIImageView *hostImgView;
-@property (weak, nonatomic) IBOutlet UIImageView *shareImgView;
-@property (weak, nonatomic) IBOutlet UIImageView *audioImgView;
-@property (weak, nonatomic) IBOutlet NSLayoutConstraint *hostWConstraint;
-@property (weak, nonatomic) IBOutlet NSLayoutConstraint *shareWConstraint;
-@property (weak, nonatomic) IBOutlet NSLayoutConstraint *audioWConstraint;
-
 @property (weak, nonatomic) AgoraFlowLayout *layout;
 
 @property (strong, nonatomic) NSMutableArray<ConfUserModel *> *allUserListModel;
@@ -85,7 +76,7 @@
     [conferenceManager getWhiteInfoWithSuccessBlock:^(WhiteInfoModel * _Nonnull model) {
         [whiteManager joinWhiteRoomWithBoardId:model.boardId boardToken:model.boardToken whiteWriteModel:conferenceManager.ownModel.grantBoard completeSuccessBlock:^{
             
-            [whiteManager disableWhiteDeviceInputs:!conferenceManager.ownModel.grantBoard];
+//            [whiteManager disableWhiteDeviceInputs:!conferenceManager.ownModel.grantBoard];
             [whiteManager currentWhiteScene:^(NSInteger sceneCount, NSInteger sceneIndex) {
                 [whiteManager moveWhiteToContainer:sceneIndex];
             }];
@@ -146,10 +137,6 @@
     [self.collectionView setCollectionViewLayout:layout];
     self.layout = layout;
     
-    self.stateBg.hidden = YES;
-    self.stateBg.layer.cornerRadius = 11;
-    self.stateBg.clipsToBounds = YES;
-    
     self.tipLabel.hidden = YES;
     self.tipLabel.layer.cornerRadius = 11;
     self.tipLabel.clipsToBounds = YES;
@@ -173,64 +160,8 @@
 }
 
 - (void)updateStateView {
-    ConferenceManager *manager = AgoraRoomManager.shareManager.conferenceManager;
-    if(self.allUserListModel.count <= 1) {
-        self.stateBg.hidden = YES;
-    } else {
-        self.stateBg.hidden = NO;
-        
-        BOOL enableAudio = YES;
-        ConfRoleType roleType = ConfRoleTypeHost;
-        if(manager.roomModel.shareScreenUsers.count > 0 || manager.roomModel.shareBoardUsers.count > 0) {
-            
-            NSString *userName = @"";
-            NSInteger uid = 0;
-            if(manager.roomModel.shareScreenUsers.count > 0) {
-                ConfShareScreenUserModel *model = manager.roomModel.shareScreenUsers.firstObject;
-                userName = model.userName;
-                roleType = model.role;
-                uid = model.uid;
-            } else {
-                ConfShareBoardUserModel *model = manager.roomModel.shareBoardUsers.firstObject;
-                userName = model.userName;
-                roleType = model.role;
-                uid = model.uid;
-            }
-            self.nameLabel.text = userName;
-            self.shareImgView.hidden = NO;
-            self.shareWConstraint.constant = 17;
-            if(roleType == ConfRoleTypeHost){
-                self.hostImgView.hidden = NO;
-                self.hostWConstraint.constant = 17;
-            } else {
-                self.hostImgView.hidden = YES;
-                self.hostWConstraint.constant = 0;
-            }
-            
-            NSPredicate *predicate = [NSPredicate predicateWithFormat:@"uid == %d", uid];
-            NSArray<ConfUserModel *> *filteredHostArray = [self.allUserListModel  filteredArrayUsingPredicate:predicate];
-            if(filteredHostArray.count > 0){
-                enableAudio = filteredHostArray.firstObject.enableAudio;
-            }
-        } else {
-            self.shareImgView.hidden = YES;
-            self.shareWConstraint.constant = 0;
-            ConfUserModel *model = self.allUserListModel[1];
-            roleType = model.role;
-            self.nameLabel.text = model.userName;
-            enableAudio = model.enableAudio;
-        }
-        
-        if(roleType == ConfRoleTypeHost){
-            self.hostImgView.hidden = NO;
-            self.hostWConstraint.constant = 17;
-        } else {
-            self.hostImgView.hidden = YES;
-            self.hostWConstraint.constant = 0;
-        }
-        self.audioImgView.image = [UIImage imageNamed:enableAudio ? @"state-unmute" : @"state-mute"];
-        
-    }
+   
+    [self.pipVideoCell updateStateView];
     
     // bottom bar
     [self.bottomBar updateView];
@@ -474,15 +405,8 @@
 }
 - (void)didReceivedSignalShareBoard:(ConfSignalChannelBoardModel *)model {
     
-    // 0->1 or 1->0
-    if((!self.pipVideoCell.showWhite && model.shareBoardUsers.count > 0) ||
-       (self.pipVideoCell.showWhite && model.shareBoardUsers.count == 0)) {
-        
-        [self onReloadView];
-        [NSNotificationCenter.defaultCenter postNotificationName:NOTICENAME_SHARE_INFO_CHANGED object:nil];
-    } else {
-        [self.pipVideoCell updateWhiteView];
-    }
+    [self onReloadView];
+    [NSNotificationCenter.defaultCenter postNotificationName:NOTICENAME_SHARE_INFO_CHANGED object:nil];
 }
 - (void)didReceivedSignalShareScreen:(ConfSignalChannelScreenModel *)model {
     

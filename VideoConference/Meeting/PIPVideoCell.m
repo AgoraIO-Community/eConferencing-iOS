@@ -25,6 +25,15 @@
 @property (weak, nonatomic) IBOutlet EEWhiteboardTool *whiteboardTool;
 @property (weak, nonatomic) IBOutlet EEColorShowView *whiteboardColor;
 
+@property (weak, nonatomic) IBOutlet UIView *stateBg;
+@property (weak, nonatomic) IBOutlet UILabel *nameLabel;
+@property (weak, nonatomic) IBOutlet UIImageView *hostImgView;
+@property (weak, nonatomic) IBOutlet UIImageView *shareImgView;
+@property (weak, nonatomic) IBOutlet UIImageView *audioImgView;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *hostWConstraint;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *shareWConstraint;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *audioWConstraint;
+
 @end
 
 @implementation PIPVideoCell
@@ -53,6 +62,10 @@
     
     self.showWhite = NO;
     self.showScreen = NO;
+    
+    self.stateBg.hidden = YES;
+    self.stateBg.layer.cornerRadius = 11;
+    self.stateBg.clipsToBounds = YES;
 }
 
 - (void)removeVideoCanvas {
@@ -190,7 +203,7 @@
         self.imgView.hidden = YES;
         self.remoteView.hidden = NO;
         [manager addVideoCanvasWithUId:userModel.uid inView:self.remoteView];
-//        [manager addVideoCanvasWithUId:userModel.uid inView:self.remoteView.contentView];
+        //        [manager addVideoCanvasWithUId:userModel.uid inView:self.remoteView.contentView];
     } else {
         self.imgView.hidden = NO;
         self.remoteView.hidden = YES;
@@ -201,13 +214,24 @@
     ConferenceManager *manager = AgoraRoomManager.shareManager.conferenceManager;
     if(NoNullString(manager.roomModel.createBoardUserId).integerValue == 0){
         self.whiteboardTool.hidden = YES;
+        self.applyBtn.hidden = YES;
         return;
     }
     
-    self.whiteboardTool.hidden = manager.ownModel.grantBoard ? NO : YES;
+    BOOL white = NO;
+    if(manager.ownModel.role == ConfRoleTypeHost){
+        white = YES;
+    } else {
+        white = manager.ownModel.grantBoard;
+    }
     
+    self.applyBtn.hidden = white;
+    
+    WEAK(self);
     WhiteManager *whiteManager = AgoraRoomManager.shareManager.whiteManager;
-    [whiteManager setWritable:manager.ownModel.grantBoard ? YES : NO  completionHandler:nil];
+    [whiteManager setWritable:white completionHandler:^(BOOL isWritable, NSError * _Nullable error) {
+        weakself.whiteboardTool.hidden = !isWritable;
+    }];
 }
 
 - (void)updateLocalView {
@@ -226,7 +250,7 @@
     
     WEAK(self);
     ConferenceManager *manager = AgoraRoomManager.shareManager.conferenceManager;
-    [manager p2pActionWithType:EnableSignalTypeGrantBoard actionType:P2PMessageTypeActionApply userId:manager.ownModel.userId completeSuccessBlock:^{
+    [manager p2pActionWithType:EnableSignalTypeGrantBoard actionType:P2PMessageTypeActionApply userId:manager.roomModel.createBoardUserId completeSuccessBlock:^{
         
     } completeFailBlock:^(NSError * _Nonnull error) {
         [weakself showMsgToast:error.localizedDescription];
@@ -263,6 +287,66 @@
         self.whiteboardColor.hidden = !bHidden;
     } else if (!bHidden) {
         self.whiteboardColor.hidden = YES;
+    }
+}
+
+- (void)updateStateView {
+    ConferenceManager *manager = AgoraRoomManager.shareManager.conferenceManager;
+    if(manager.userListModels.count <= 1) {
+        self.stateBg.hidden = YES;
+    } else {
+        self.stateBg.hidden = NO;
+        
+        BOOL enableAudio = YES;
+        ConfRoleType roleType = ConfRoleTypeHost;
+        if(manager.roomModel.shareScreenUsers.count > 0 || manager.roomModel.shareBoardUsers.count > 0) {
+            
+            NSString *userName = @"";
+            NSInteger uid = 0;
+            if(manager.roomModel.shareScreenUsers.count > 0) {
+                ConfShareScreenUserModel *model = manager.roomModel.shareScreenUsers.firstObject;
+                userName = model.userName;
+                roleType = model.role;
+                uid = model.uid;
+            } else {
+                ConfShareBoardUserModel *model = manager.roomModel.shareBoardUsers.firstObject;
+                userName = model.userName;
+                roleType = model.role;
+                uid = model.uid;
+            }
+            self.nameLabel.text = userName;
+            self.shareImgView.hidden = NO;
+            self.shareWConstraint.constant = 17;
+            if(roleType == ConfRoleTypeHost){
+                self.hostImgView.hidden = NO;
+                self.hostWConstraint.constant = 17;
+            } else {
+                self.hostImgView.hidden = YES;
+                self.hostWConstraint.constant = 0;
+            }
+            
+            NSPredicate *predicate = [NSPredicate predicateWithFormat:@"uid == %d", uid];
+            NSArray<ConfUserModel *> *filteredHostArray = [manager.userListModels  filteredArrayUsingPredicate:predicate];
+            if(filteredHostArray.count > 0){
+                enableAudio = filteredHostArray.firstObject.enableAudio;
+            }
+        } else {
+            self.shareImgView.hidden = YES;
+            self.shareWConstraint.constant = 0;
+            ConfUserModel *model = manager.userListModels[1];
+            roleType = model.role;
+            self.nameLabel.text = model.userName;
+            enableAudio = model.enableAudio;
+        }
+        
+        if(roleType == ConfRoleTypeHost){
+            self.hostImgView.hidden = NO;
+            self.hostWConstraint.constant = 17;
+        } else {
+            self.hostImgView.hidden = YES;
+            self.hostWConstraint.constant = 0;
+        }
+        self.audioImgView.image = [UIImage imageNamed:enableAudio ? @"state-unmute" : @"state-mute"];
     }
 }
 

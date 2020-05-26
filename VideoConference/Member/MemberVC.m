@@ -194,7 +194,7 @@
             UIAlertAction *whiteBoardControl = [UIAlertAction actionWithTitle:boardText style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
                 
                 if(!userModel.grantBoard){
-                    [weakself gotoApplyOrInvite:EnableSignalTypeGrantBoard actionType:P2PMessageTypeActionApply userId:ownModel.userId];
+                    [weakself gotoApplyOrInvite:EnableSignalTypeGrantBoard actionType:P2PMessageTypeActionApply userId:manager.roomModel.createBoardUserId];
                 } else {
                     [weakself updateWhiteBoardStateWithValue:!userModel.grantBoard userId:userModel.userId];
                 }

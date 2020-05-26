@@ -333,8 +333,10 @@ static NSString *agoraUId;
 + (void)whiteBoardStateWithValue:(NSInteger)value appId:(NSString *)appId roomId:(NSString *)roomId userId:(NSString *)userId apiVersion:(NSString *)apiVersion completeSuccessBlock:(void (^ _Nullable) (void))successBlock completeFailBlock:(void (^ _Nullable) (NSError *error))failBlock {
     
     NSString *url = [NSString stringWithFormat:HTTP_BOARD_STATE, HTTP_BASE_URL, appId, roomId, userId];
-    
-    [HttpManager post:url params:nil headers:nil apiVersion:apiVersion success:^(id responseObj) {
+    NSMutableDictionary *params = [NSMutableDictionary dictionary];
+    params[@"state"] = @(value);
+             
+    [HttpManager post:url params:params headers:nil apiVersion:apiVersion success:^(id responseObj) {
         
         CommonModel *model = [CommonModel yy_modelWithDictionary:responseObj];
         if(model.code == 0) {

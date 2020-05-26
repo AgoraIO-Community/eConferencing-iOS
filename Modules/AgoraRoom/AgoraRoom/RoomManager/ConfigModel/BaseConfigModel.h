@@ -13,20 +13,20 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface BaseConfigModel : NSObject
 
-@property (nonatomic, copy) MultiLanguageModel *multiLanguage;
+@property (nonatomic, strong) MultiLanguageModel *multiLanguage;
 
-@property (nonatomic, copy) NSString* userId;
-@property (nonatomic, copy) NSString* userToken;
+@property (nonatomic, strong) NSString* userId;
+@property (nonatomic, strong) NSString* userToken;
 
-@property (nonatomic, copy) NSString* roomId;
-@property (nonatomic, copy) NSString* appId;
+@property (nonatomic, strong) NSString* roomId;
+@property (nonatomic, strong) NSString* appId;
 @property (nonatomic, assign) NSInteger uid;//rtm&rtc
-@property (nonatomic, copy) NSString* channelName;
+@property (nonatomic, strong) NSString* channelName;
 
-@property (nonatomic, copy) NSString* rtcToken;
-@property (nonatomic, copy) NSString* rtmToken;
-@property (nonatomic, copy) NSString* boardId;
-@property (nonatomic, copy) NSString* boardToken;
+@property (nonatomic, strong) NSString* rtcToken;
+@property (nonatomic, strong) NSString* rtmToken;
+@property (nonatomic, strong) NSString* boardId;
+@property (nonatomic, strong) NSString* boardToken;
 
 @end
 

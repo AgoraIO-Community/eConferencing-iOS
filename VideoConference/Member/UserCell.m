@@ -55,7 +55,16 @@
         self.hostImgView.hidden = YES;
     }
     
-    if(userModel.grantBoard || userModel.grantScreen) {
+    BOOL share = NO;
+    if(userModel.grantScreen){
+        share = YES;
+    } else if(userModel.grantBoard) {
+        if([NoNullString(manager.roomModel.createBoardUserId) isEqualToString:userModel.userId]) {
+            share = YES;
+        }
+    }
+
+    if(share) {
         self.shareImgView.hidden = NO;
         self.shareWConstraint.constant = 24;
     } else {

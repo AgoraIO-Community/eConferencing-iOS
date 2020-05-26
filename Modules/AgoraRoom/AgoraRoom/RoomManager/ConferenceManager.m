@@ -116,7 +116,7 @@
         
         NSInteger value = actionType == P2PMessageTypeActionApply ? 1 : 2;
         
-        [self.roomManager audienceActionWithType:type value:value userId:self.ownModel.userId apiVersion:APIVersion1 completeSuccessBlock:successBlock completeFailBlock:failBlock];
+        [self.roomManager audienceActionWithType:type value:value userId:userId apiVersion:APIVersion1 completeSuccessBlock:successBlock completeFailBlock:failBlock];
     }
 }
 
@@ -584,6 +584,18 @@
     } else {
         self.roomModel.shareBoardUsers = [NSArray arrayWithArray: boardModel.shareBoardUsers];
     }
+    
+    for(ConfUserModel *userModel in self.userListModels) {
+        BOOL share = NO;
+        for(ConfShareBoardUserModel *shareBoardUserModel in self.roomModel.shareBoardUsers) {
+            if(userModel.uid == shareBoardUserModel.uid){
+                share = YES;
+                break;
+            }
+        }
+        userModel.grantBoard = share;
+    }
+    
     if([self.delegate respondsToSelector:@selector(didReceivedSignalShareBoard:)]) {
         [self.delegate didReceivedSignalShareBoard:boardModel];
     }
@@ -605,6 +617,18 @@
         
         self.roomModel.shareScreenUsers = [NSArray arrayWithArray: screenModel.shareScreenUsers];
     }
+    
+    for(ConfUserModel *userModel in self.userListModels) {
+        BOOL share = NO;
+        for(ConfShareScreenUserModel *shareScreenUserModel in self.roomModel.shareScreenUsers) {
+            if(userModel.uid == shareScreenUserModel.uid){
+                share = YES;
+                break;
+            }
+        }
+        userModel.grantScreen = share;
+    }
+    
     if([self.delegate respondsToSelector:@selector(didReceivedSignalShareScreen:)]) {
         [self.delegate didReceivedSignalShareScreen:screenModel];
     }

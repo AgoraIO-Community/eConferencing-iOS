@@ -72,6 +72,14 @@ WhiteApplianceKey const WhiteApplianceEraser = @"eraser";
 
 - (void)setWritable:(BOOL)writable completionHandler:(void (^ _Nullable)(BOOL isWritable, NSError * _Nullable error))completionHandler {
     
+    BOOL isWritable = [self.room isWritable];
+    if(writable == isWritable) {
+        if(completionHandler != nil){
+            completionHandler(isWritable, nil);
+        }
+        return;
+    }
+    
     [self.room setWritable:writable completionHandler:completionHandler];
 }
 
