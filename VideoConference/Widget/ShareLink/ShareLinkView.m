@@ -9,7 +9,7 @@
 #import "ShareLinkView.h"
 #import "AgoraRoomManager.h"
 
-#define ITUNES_URL @"https://itunes.apple.com/cn/app/id1496783878"
+#define ITUNES_URL @"https://itunes.apple.com/cn/app/id1515428313"
 
 @interface ShareLinkView()<UIGestureRecognizerDelegate>
 
