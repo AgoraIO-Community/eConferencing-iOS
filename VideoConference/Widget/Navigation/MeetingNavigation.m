@@ -62,22 +62,9 @@
 - (IBAction)onLeftMeeting:(id)sender {
     
     ConferenceManager *manager = AgoraRoomManager.shareManager.conferenceManager;
-    
-    NSInteger uid = manager.ownModel.uid;
     NSString *userId = manager.ownModel.userId;
-    BOOL isHost = NO;
-    
-    // 判断
-    NSArray<ConfUserModel*> *hosts = [manager.roomModel hosts];
-    if (hosts != nil) {
-        for (ConfUserModel *host in hosts) {
-            if(host.uid == uid) {
-                isHost = YES;
-                break;
-            }
-        }
-    }
-    
+    BOOL isHost = manager.ownModel.role == ConfRoleTypeHost;
+
     WEAK(self);
     
     UIAlertAction *left = [UIAlertAction actionWithTitle:@"退出会议" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
@@ -96,7 +83,7 @@
     
     if(isHost) {
 
-        UIAlertController *alertController = [UIAlertController alertControllerWithTitle:nil message:@"如果您不像中断会议，\n请在离开前指定新的主持人" preferredStyle:UIAlertControllerStyleActionSheet];
+        UIAlertController *alertController = [UIAlertController alertControllerWithTitle:nil message:@"如果您不想中断会议，\n请在离开前指定新的主持人" preferredStyle:UIAlertControllerStyleActionSheet];
         
         UIAlertAction *finish = [UIAlertAction actionWithTitle:@"结束会议" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
             

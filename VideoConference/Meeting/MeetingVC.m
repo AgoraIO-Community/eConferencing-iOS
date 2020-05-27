@@ -371,6 +371,10 @@
     
     [NSNotificationCenter.defaultCenter postNotificationName:NOTICENAME_ROOM_INFO_CHANGED object:nil];
     
+    if(AgoraRoomManager.shareManager.conferenceManager.ownModel.role == ConfRoleTypeHost) {
+        return;
+    }
+    
     if (model.state == 0) {
         [AlertViewUtil showAlertWithController:[VCManager getTopVC] title:@"主持人结束了会议" sureHandler:^(UIAlertAction * _Nullable action) {
             [VCManager popRootView];

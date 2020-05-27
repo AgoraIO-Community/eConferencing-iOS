@@ -116,7 +116,10 @@
             //申请
             UIViewController *vc = [VCManager getTopVC];
             [AlertViewUtil showAlertWithController:vc title:@"当前会议主持人设置为静音状态，是否申请打开麦克风？" cancelHandler:nil sureHandler:^(UIAlertAction * _Nullable action) {
-                [weakself gotoApplyOrInvite:EnableSignalTypeAudio actionType:P2PMessageTypeActionApply userId:manager.ownModel.userId];
+                
+                if(manager.roomModel.hosts.count > 0){
+                    [weakself gotoApplyOrInvite:EnableSignalTypeAudio actionType:P2PMessageTypeActionApply userId:manager.roomModel.hosts.firstObject.userId];
+                }
             }];
             return;
         }
@@ -196,7 +199,7 @@
         UIAlertAction *whiteBoardControl = [UIAlertAction actionWithTitle:boardText style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
             
             if(!manager.ownModel.grantBoard){
-                [weakself gotoApplyOrInvite:EnableSignalTypeGrantBoard actionType:P2PMessageTypeActionApply userId:manager.ownModel.userId];
+                [weakself gotoApplyOrInvite:EnableSignalTypeGrantBoard actionType:P2PMessageTypeActionApply userId:manager.roomModel.createBoardUserId];
             } else {
                 [weakself updateWhiteBoardState];
             }

@@ -127,7 +127,10 @@
         
         // apply
         if(manager.roomModel.muteAllAudio == MuteAllAudioStateNoAllowUnmute && !userModel.enableAudio) {
-            [weakself gotoCheckApply:EnableSignalTypeAudio model:userModel];
+            
+            if(manager.roomModel.hosts.count > 0){
+                [weakself gotoCheckApply:EnableSignalTypeAudio model:manager.roomModel.hosts.firstObject];
+            }
             return;
         }
     
