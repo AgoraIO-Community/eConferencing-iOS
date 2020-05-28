@@ -43,7 +43,7 @@
     
     ConferenceManager *manager = AgoraRoomManager.shareManager.conferenceManager;
     
-    self.meetName.text = [NSString stringWithFormat:@"会员名：%@", manager.roomModel.roomName];
+    self.meetName.text = [NSString stringWithFormat:@"会议名：%@", manager.roomModel.roomName];
     self.invitationName.text = [NSString stringWithFormat:@"邀请人：%@", manager.ownModel.userName];
     self.psd.text = [NSString stringWithFormat:@"会议密码：%@", manager.roomModel.password];
     self.link.text = ITUNES_URL;
