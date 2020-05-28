@@ -99,7 +99,7 @@
     [self.view endEditing:YES];
     self.tipView.hidden = YES;
     
-//    self.roomName.text = @"khkko";
+//    self.roomName.text = @"999";
 //    self.roomPsd.text = @"123";
     
     NSString *userName = self.userName.text;

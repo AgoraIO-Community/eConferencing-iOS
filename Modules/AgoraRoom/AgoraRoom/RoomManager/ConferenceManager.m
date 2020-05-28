@@ -234,8 +234,7 @@
 }
 
 - (void)changeHostWithUserId:(NSString *)userId completeSuccessBlock:(void (^ _Nullable) (void))successBlock completeFailBlock:(void (^ _Nullable) (NSError *error))failBlock {
-    
-    WEAK(self);
+
     [self.roomManager changeHostWithUserId:userId completeSuccessBlock:^{
 
         if (successBlock != nil) {
@@ -468,6 +467,9 @@
     NSArray<ConfSignalChannelInOutInfoModel*> *list = inOutModel.list;
     for (ConfSignalChannelInOutInfoModel *model in list){
         if(model.state == 0) { // out
+            if(model.uid == self.ownModel.uid) {
+                continue;
+            }
             
             NSPredicate *predicate = [NSPredicate predicateWithFormat:@"uid != %d", model.uid];
             
@@ -480,37 +482,51 @@
             //  存储出去人的队列， 用于更新userListModels
             
         } else { // add
-            if(model.uid == self.ownModel.uid){
-                continue;
-            }
-            
             NSPredicate *exsitPredicate = [NSPredicate predicateWithFormat:@"uid == %d", model.uid];
             NSArray<ConfUserModel *> *exsitFilteredArray = [self.userListModels filteredArrayUsingPredicate:exsitPredicate];
             if(exsitFilteredArray.count > 0) {
-                // update
+                
                 ConfUserModel *um = exsitFilteredArray.firstObject;
-                um.userName = model.userName;
-                um.role = model.role;
-                um.enableChat = model.enableChat;
-                um.enableVideo = model.enableVideo;
-                um.enableAudio = model.enableAudio;
-                um.grantBoard = model.grantBoard;
-                um.grantScreen = model.grantScreen;
-                continue;
+                if(um.role == model.role || um.uid == self.ownModel.uid){
+                    um.userName = model.userName;
+                    um.enableChat = model.enableChat;
+                    um.enableVideo = model.enableVideo;
+                    um.enableAudio = model.enableAudio;
+                    um.grantBoard = model.grantBoard;
+                    um.grantScreen = model.grantScreen;
+                    if(um.role == model.role) {
+                       continue;
+                    }
+                    um.role = model.role;
+                }
+                
+                // remove
+                NSPredicate *predicate = [NSPredicate predicateWithFormat:@"uid != %d", um.uid];
+                
+                NSArray<ConfUserModel *> *filteredHostArray = [self.roomModel.hosts filteredArrayUsingPredicate:predicate];
+                self.roomModel.hosts = [NSArray arrayWithArray:filteredHostArray];
+                
+                NSArray<ConfUserModel *> *filteredArray = [self.userListModels filteredArrayUsingPredicate:predicate];
+                self.userListModels = [NSArray arrayWithArray:filteredArray];
             }
             
+            // 添加
             if(model.role == ConfRoleTypeHost) {
                 
+                // host
                 NSMutableArray<ConfUserModel *> *hosts = [NSMutableArray arrayWithArray:self.roomModel.hosts];
                 [hosts addObject:model];
                 self.roomModel.hosts = [NSArray arrayWithArray:hosts];
+                NSPredicate *hostPredicate = [NSPredicate predicateWithFormat:@"uid != %d", self.ownModel.uid];
+                NSArray<ConfUserModel*> *hostFilteredModels = [self.roomModel.hosts filteredArrayUsingPredicate:hostPredicate];
                 
                 NSMutableArray<ConfUserModel *> *userListModels = [NSMutableArray arrayWithArray:self.userListModels];
-                if(self.ownModel.role == ConfRoleTypeHost){
-                    [userListModels insertObject:model atIndex:self.roomModel.hosts.count - 1];
-                } else {
-                    [userListModels insertObject:model atIndex:self.roomModel.hosts.count];
-                }
+                NSPredicate *predicate = [NSPredicate predicateWithFormat:@"role != %d && uid != %d", ConfRoleTypeHost, self.ownModel.uid];
+                NSArray<ConfUserModel*> *participantModels = [userListModels filteredArrayUsingPredicate:predicate];
+                
+                NSMutableArray<ConfUserModel *> *_userListModels = [NSMutableArray arrayWithObject:self.ownModel];
+                [_userListModels addObjectsFromArray:hostFilteredModels];
+                [_userListModels addObjectsFromArray:participantModels];
                 self.userListModels = [NSArray arrayWithArray:userListModels];
                 
             } else {
@@ -641,6 +657,33 @@
     
     // init
     NSArray<ConfUserModel*> *allHostModels = [ConfSignalChannelHostModel yy_modelWithDictionary:dict].data;
+    [self hostChange:allHostModels];
+    
+    if([self.delegate respondsToSelector:@selector(didReceivedSignalHostChange:)]) {
+        [self.delegate didReceivedSignalHostChange:allHostModels];
+    }
+}
+
+- (void)messageKickoff:(NSDictionary *)dict {
+    
+    NSDictionary *dataDic = dict[@"data"];
+    if(dataDic == nil) {
+        return;
+    }
+    
+    ConfSignalChannelKickoutModel *model = [ConfSignalChannelKickoutModel yy_modelWithDictionary:dataDic];
+    if(![model.userId isEqualToString:self.ownModel.userId]) {
+        return;
+    }
+    
+    [self.roomManager leftRoomWithUserId:model.userId apiversion:APIVersion1 successBolck:nil failBlock:nil];
+    
+    if([self.delegate respondsToSelector:@selector(didReceivedSignalKickoutChange:)]) {
+        [self.delegate didReceivedSignalKickoutChange:model];
+    }
+}
+
+- (void)hostChange:(NSArray<ConfUserModel*> *)allHostModels {
     
     // remove no exsit
     {
@@ -702,28 +745,5 @@
     [allModels addObjectsFromArray:hostFilteredModels];
     [allModels addObjectsFromArray:participantModels];
     self.userListModels = [NSArray arrayWithArray:allModels];
-    
-    if([self.delegate respondsToSelector:@selector(didReceivedSignalHostChange:)]) {
-        [self.delegate didReceivedSignalHostChange:allHostModels];
-    }
-}
-
-- (void)messageKickoff:(NSDictionary *)dict {
-    
-    NSDictionary *dataDic = dict[@"data"];
-    if(dataDic == nil) {
-        return;
-    }
-    
-    ConfSignalChannelKickoutModel *model = [ConfSignalChannelKickoutModel yy_modelWithDictionary:dataDic];
-    if(![model.userId isEqualToString:self.ownModel.userId]) {
-        return;
-    }
-    
-    [self.roomManager leftRoomWithUserId:model.userId apiversion:APIVersion1 successBolck:nil failBlock:nil];
-    
-    if([self.delegate respondsToSelector:@selector(didReceivedSignalKickoutChange:)]) {
-        [self.delegate didReceivedSignalKickoutChange:model];
-    }
 }
 @end

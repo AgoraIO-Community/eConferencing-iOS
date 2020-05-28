@@ -45,7 +45,6 @@
 }
 
 - (void)startNetWorkProbeTest:(NSString *)appid {
-    self.rtcManager = nil;
     self.rtcManager = [RTCManager new];
     [self.rtcManager startLastmileProbeTest:appid dataSourceDelegate:self];
 }
@@ -532,7 +531,6 @@
     }
     
     BaseConfigModel *configModel = self.baseConfigModel;
-    self.rtcManager = nil;
     self.rtcManager = [RTCManager new];
     [self.rtcManager initEngineKitWithAppid:configModel.appId clientRole:agoraClientRole dataSourceDelegate:self];
     

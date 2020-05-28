@@ -18,7 +18,7 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
 
-    IQKeyboardManager.sharedManager.enableAutoToolbar = NO;
+//    IQKeyboardManager.sharedManager.enableAutoToolbar = NO;
     IQKeyboardManager.sharedManager.shouldResignOnTouchOutside = YES;
     
     return YES;

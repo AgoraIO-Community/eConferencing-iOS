@@ -53,12 +53,13 @@
     
     ConferenceManager *manager = AgoraRoomManager.shareManager.conferenceManager;
     
-    if(userModel.enableVideo){
-        self.headImgView.hidden = YES;
+    if (userModel.enableVideo) {
         [manager addVideoCanvasWithUId:userModel.uid inView:self.renderView];
+        self.headImgView.hidden = YES;
     } else {
-        self.headImgView.hidden = NO;
         [manager removeVideoCanvasWithView:self.renderView];
+        self.headImgView.hidden = NO;
+        self.renderView.hidden = YES;
     }
     
     self.nameLabel.text = userModel.userName;

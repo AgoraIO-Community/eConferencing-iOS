@@ -49,7 +49,7 @@
     AgoraRoomManager.shareManager.conferenceManager.delegate = self;
     
     [self initData];
-    [self startDispatchGroup];
+    [self startDispatchGroup: YES];
 }
 
 - (void)updateViewOnReconnected {
@@ -58,7 +58,7 @@
     [manager getConfRoomInfoWithSuccessBlock:^(ConfRoomInfoModel * _Nonnull roomInfoModel) {
         
         [weakself initData];
-        [weakself startDispatchGroup];
+        [weakself startDispatchGroup: NO];
         [NSNotificationCenter.defaultCenter postNotificationName:NOTICENAME_RECONNECT_CHANGED object:nil];
     } failBlock:^(NSError * _Nonnull error) {
         
@@ -89,22 +89,24 @@
     }];
 }
 
-- (void)startDispatchGroup {
+- (void)startDispatchGroup:(BOOL)initMedia {
     
     ConferenceManager *manager = AgoraRoomManager.shareManager.conferenceManager;
     
     dispatch_group_t group = dispatch_group_create();
     __block NSString *errMsg = @"";
     
-    // init media
-    dispatch_group_enter(group);
-    ClientRole clientRole = ClientRoleBroadcaster;
-    [manager initMediaWithClientRole:clientRole successBolck:^{
-        dispatch_group_leave(group);
-    } failBlock:^(NSInteger errorCode) {
-        errMsg = [NSString stringWithFormat:@"%@:%ld", NSLocalizedString(@"JoinMediaFailedText", nil), (long)errorCode];
-        dispatch_group_leave(group);
-    }];
+    if(initMedia) {
+        // init media
+        dispatch_group_enter(group);
+        ClientRole clientRole = ClientRoleBroadcaster;
+        [manager initMediaWithClientRole:clientRole successBolck:^{
+            dispatch_group_leave(group);
+        } failBlock:^(NSInteger errorCode) {
+            errMsg = [NSString stringWithFormat:@"%@:%ld", NSLocalizedString(@"JoinMediaFailedText", nil), (long)errorCode];
+            dispatch_group_leave(group);
+        }];
+    }
     
     // get totle users
     dispatch_group_enter(group);
