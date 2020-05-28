@@ -13,6 +13,7 @@
 #import <YYModel.h>
 
 #import "ConfSignalChannelHostModel.h"
+#import "LogManager.h"
 
 #define CONF_MESSAGE_VERSION 1
 #define ConfNoNullString(x) ((x == nil) ? @"" : x)
@@ -459,7 +460,7 @@
     if(dataDic == nil){
         return;
     }
-    
+        
     ConfSignalChannelInOutModel *inOutModel = [ConfSignalChannelInOutModel yy_modelWithDictionary:dataDic];
     
     self.roomModel.onlineUsers = inOutModel.total;
@@ -538,6 +539,10 @@
         }
     }
     
+    AgoraLogInfo(@"messageInOut ownModel ===> %@", [self.ownModel yy_modelDescription]);
+    AgoraLogInfo(@"messageInOut hostModels ===> %@", [self.roomModel.hosts yy_modelDescription]);
+    AgoraLogInfo(@"messageInOut userListModels ===> %@", [self.userListModels yy_modelDescription]);
+    
     if([self.delegate respondsToSelector:@selector(didReceivedSignalInOut:)]) {
         [self.delegate didReceivedSignalInOut: list];
     }
@@ -558,6 +563,10 @@
         filteredArray.firstObject.enableVideo = userModel.enableVideo;
         filteredArray.firstObject.enableAudio = userModel.enableAudio;
     }
+    
+    AgoraLogInfo(@"messageUserInfo ownModel ===> %@", [self.ownModel yy_modelDescription]);
+    AgoraLogInfo(@"messageUserInfo hostModels ===> %@", [self.roomModel.hosts yy_modelDescription]);
+    AgoraLogInfo(@"messageUserInfo userListModels ===> %@", [self.userListModels yy_modelDescription]);
     
     if([self.delegate respondsToSelector:@selector(didReceivedSignalUserInfo:)]) {
         [self.delegate didReceivedSignalUserInfo: userModel];
@@ -584,6 +593,10 @@
     if(!self.ownModel.enableAudio) {
         [self.roomManager muteLocalAudioStream:@(1)];
     }
+    
+    AgoraLogInfo(@"messageRoomInfo ownModel ===> %@", [self.ownModel yy_modelDescription]);
+    AgoraLogInfo(@"messageRoomInfo hostModels ===> %@", [self.roomModel.hosts yy_modelDescription]);
+    AgoraLogInfo(@"messageRoomInfo userListModels ===> %@", [self.userListModels yy_modelDescription]);
     
     if([self.delegate respondsToSelector:@selector(didReceivedSignalRoomInfo:)]) {
         [self.delegate didReceivedSignalRoomInfo:model];
@@ -615,6 +628,10 @@
         }
         userModel.grantBoard = share;
     }
+    
+    AgoraLogInfo(@"messageShareBoard ownModel ===> %@", [self.ownModel yy_modelDescription]);
+    AgoraLogInfo(@"messageShareBoard hostModels ===> %@", [self.roomModel.hosts yy_modelDescription]);
+    AgoraLogInfo(@"messageShareBoard userListModels ===> %@", [self.userListModels yy_modelDescription]);
     
     if([self.delegate respondsToSelector:@selector(didReceivedSignalShareBoard:)]) {
         [self.delegate didReceivedSignalShareBoard:boardModel];
@@ -649,6 +666,10 @@
         userModel.grantScreen = share;
     }
     
+    AgoraLogInfo(@"messageShareScreen ownModel ===> %@", [self.ownModel yy_modelDescription]);
+    AgoraLogInfo(@"messageShareScreen hostModels ===> %@", [self.roomModel.hosts yy_modelDescription]);
+    AgoraLogInfo(@"messageShareScreen userListModels ===> %@", [self.userListModels yy_modelDescription]);
+    
     if([self.delegate respondsToSelector:@selector(didReceivedSignalShareScreen:)]) {
         [self.delegate didReceivedSignalShareScreen:screenModel];
     }
@@ -658,6 +679,10 @@
     // init
     NSArray<ConfUserModel*> *allHostModels = [ConfSignalChannelHostModel yy_modelWithDictionary:dict].data;
     [self hostChange:allHostModels];
+    
+    AgoraLogInfo(@"messageHostChange ownModel ===> %@", [self.ownModel yy_modelDescription]);
+    AgoraLogInfo(@"messageHostChange hostModels ===> %@", [self.roomModel.hosts yy_modelDescription]);
+    AgoraLogInfo(@"messageHostChange userListModels ===> %@", [self.userListModels yy_modelDescription]);
     
     if([self.delegate respondsToSelector:@selector(didReceivedSignalHostChange:)]) {
         [self.delegate didReceivedSignalHostChange:allHostModels];
@@ -677,6 +702,10 @@
     }
     
     [self.roomManager leftRoomWithUserId:model.userId apiversion:APIVersion1 successBolck:nil failBlock:nil];
+    
+    AgoraLogInfo(@"messageKickoff ownModel ===> %@", [self.ownModel yy_modelDescription]);
+    AgoraLogInfo(@"messageKickoff hostModels ===> %@", [self.roomModel.hosts yy_modelDescription]);
+    AgoraLogInfo(@"messageKickoff userListModels ===> %@", [self.userListModels yy_modelDescription]);
     
     if([self.delegate respondsToSelector:@selector(didReceivedSignalKickoutChange:)]) {
         [self.delegate didReceivedSignalKickoutChange:model];
