@@ -1091,7 +1091,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 4;
-				DEVELOPMENT_TEAM = SW3CA7M752;
+				DEVELOPMENT_TEAM = 7289G77ZF3;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "$(SRCROOT)/VideoConference/VideoConference.pch";
 				INFOPLIST_FILE = VideoConference/Info.plist;
@@ -1101,9 +1101,9 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0.0;
-				PRODUCT_BUNDLE_IDENTIFIER = io.agora.VideoConference;
+				PRODUCT_BUNDLE_IDENTIFIER = io.agora.VideoConferenceQA;
 				PRODUCT_NAME = "Agora Meeting";
-				PROVISIONING_PROFILE_SPECIFIER = AgoraAppsDevProfile;
+				PROVISIONING_PROFILE_SPECIFIER = AgoraIOTest2019;
 				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = QARelease;
