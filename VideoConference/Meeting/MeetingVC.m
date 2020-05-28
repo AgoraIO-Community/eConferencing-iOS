@@ -59,7 +59,7 @@
         
         [weakself initData];
         [weakself startDispatchGroup];
-        
+        [NSNotificationCenter.defaultCenter postNotificationName:NOTICENAME_RECONNECT_CHANGED object:nil];
     } failBlock:^(NSError * _Nonnull error) {
         
     }];
@@ -541,7 +541,7 @@
     
     [AlertViewUtil showAlertWithController:[VCManager getTopVC] title:title message:nil cancelText:@"拒绝" sureText:@"同意" cancelHandler:^(UIAlertAction * _Nullable action) {
 
-        [manager p2pActionWithType:type actionType:actionType userId:userId completeSuccessBlock:^{
+        [manager p2pActionWithType:type actionType:actionType userId:model.userId completeSuccessBlock:^{
              
         } completeFailBlock:^(NSError * _Nonnull error) {
             BaseViewController *vc = (BaseViewController*)[VCManager getTopVC];

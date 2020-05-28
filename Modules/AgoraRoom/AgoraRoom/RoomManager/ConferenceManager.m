@@ -565,6 +565,10 @@
         }
     }
     
+    if(!self.ownModel.enableAudio) {
+        [self.roomManager muteLocalAudioStream:@(1)];
+    }
+    
     if([self.delegate respondsToSelector:@selector(didReceivedSignalRoomInfo:)]) {
         [self.delegate didReceivedSignalRoomInfo:model];
     }

@@ -44,9 +44,10 @@ typedef NS_ENUM(NSInteger, ZipStateType) {
 
 + (void)uploadLogWithSceneType:(SceneType)sceneType appId:(NSString *)appId roomId:(NSString *)roomId apiVersion:(NSString*)apiVersion completeSuccessBlock:(void (^ _Nullable) (NSString *uploadSerialNumber))successBlock completeFailBlock:(void (^ _Nullable) (NSError *error))failBlock {
     
-    NSString *logDirectoryPath = [NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES)[0] stringByAppendingPathComponent:@"/Agora"];
+    NSString *logBaseDirectoryPath = NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES)[0];
+    NSString *logDirectoryPath = [logBaseDirectoryPath stringByAppendingPathComponent:@"/Agora"];
     NSString *zipName = [LogManager generateZipName];
-    NSString *zipPath = [NSString stringWithFormat:@"%@/%@", logDirectoryPath, zipName];
+    NSString *zipPath = [NSString stringWithFormat:@"%@/%@", logBaseDirectoryPath, zipName];
     
     [LogManager zipFilesWithSourceDirectory:logDirectoryPath toPath:zipPath completeBlock:^(NSInteger zipCode) {
         [LogManager checkZipCodeAndUploadWithSceneType:sceneType zipCode:zipCode zipPath:zipPath appId:appId roomId:roomId apiVersion:apiVersion completeSuccessBlock:successBlock completeFailBlock:failBlock];

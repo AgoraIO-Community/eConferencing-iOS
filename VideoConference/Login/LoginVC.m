@@ -99,12 +99,13 @@
     [self.view endEditing:YES];
     self.tipView.hidden = YES;
     
-//    self.roomName.text = @"roomjerry9";
+//    self.roomName.text = @"khkko";
 //    self.roomPsd.text = @"123";
     
     NSString *userName = self.userName.text;
     NSString *roomPsd = self.roomPsd.text;
     NSString *roomName = self.roomName.text;
+    
     if (userName.length <= 0 || roomName.length <= 0) {
         [self showToast:NSLocalizedString(@"UserNameVerifyEmptyText", nil)];
         return;

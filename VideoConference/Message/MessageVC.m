@@ -105,6 +105,7 @@
 - (IBAction)onClickSend {
     NSString *str = self.tf.text;
     [self sendMsg:str];
+    self.tf.text = @"";
 }
 
 - (void)sendMsg:(NSString *)msg {
@@ -210,7 +211,7 @@
     
     NSString *content = textField.text;
     [self sendMsg:content];
-    textField.text = nil;
+    textField.text = @"";
     [textField resignFirstResponder];
     return NO;
 }

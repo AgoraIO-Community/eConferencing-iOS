@@ -56,6 +56,8 @@
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateView) name:NOTICENAME_HOST_ROLE_CHANGED object:nil];
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateView) name:NOTICENAME_IN_OUT_CHANGED object:nil];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateView) name:NOTICENAME_RECONNECT_CHANGED object:nil];
 }
 
 - (void)updateView {
