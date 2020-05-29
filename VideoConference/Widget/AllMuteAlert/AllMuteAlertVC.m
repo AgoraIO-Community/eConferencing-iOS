@@ -49,12 +49,12 @@
 }
 
 - (IBAction)onContinue:(id)sender {
+    WEAK(self);
     [self dismissViewControllerAnimated:YES completion:^{
+        if(weakself.block != nil){
+            weakself.block(weakself.isCheck);
+        }
     }];
-    
-    if(self.block != nil){
-        self.block(self.isCheck);
-    }
 }
 
 @end

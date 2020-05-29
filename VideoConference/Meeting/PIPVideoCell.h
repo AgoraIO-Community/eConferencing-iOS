@@ -21,8 +21,6 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)setUser:(ConfUserModel *)userModel shareBoardModel:(ConfShareBoardUserModel *)boardModel;
 - (void)setUser:(ConfUserModel *)userModel shareScreenModel:(ConfShareScreenUserModel *)screenModel;
 - (void)setUser:(ConfUserModel *)userModel remoteUser:(ConfUserModel *)remoteUserModel;
-
-- (void)updateLocalView;
 - (void)updateWhiteView;
 - (void)updateStateView;
 @end

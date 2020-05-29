@@ -234,18 +234,6 @@
     }];
 }
 
-- (void)updateLocalView {
-    ConferenceManager *manager = AgoraRoomManager.shareManager.conferenceManager;
-    BOOL enableVideo = manager.ownModel.enableVideo;
-    if(enableVideo) {
-        self.localView.hidden = NO;
-        [manager addVideoCanvasWithUId:manager.ownModel.uid inView:self.localView];
-    } else {
-        self.localView.hidden = YES;
-        [manager removeVideoCanvasWithView:self.localView];
-    }
-}
-
 - (IBAction)appleBoard:(id)sender {
     
     WEAK(self);

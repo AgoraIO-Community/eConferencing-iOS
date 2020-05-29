@@ -631,6 +631,8 @@
     
     AgoraLogInfo(@"messageShareBoard ownModel ===> %@", [self.ownModel yy_modelDescription]);
     AgoraLogInfo(@"messageShareBoard hostModels ===> %@", [self.roomModel.hosts yy_modelDescription]);
+    AgoraLogInfo(@"messageHostChange shareBoardUsers ===> %@", [self.roomModel.shareBoardUsers yy_modelDescription]);
+    AgoraLogInfo(@"messageHostChange shareScreenUsers ===> %@", [self.roomModel.shareScreenUsers yy_modelDescription]);
     AgoraLogInfo(@"messageShareBoard userListModels ===> %@", [self.userListModels yy_modelDescription]);
     
     if([self.delegate respondsToSelector:@selector(didReceivedSignalShareBoard:)]) {
@@ -668,6 +670,8 @@
     
     AgoraLogInfo(@"messageShareScreen ownModel ===> %@", [self.ownModel yy_modelDescription]);
     AgoraLogInfo(@"messageShareScreen hostModels ===> %@", [self.roomModel.hosts yy_modelDescription]);
+    AgoraLogInfo(@"messageHostChange shareBoardUsers ===> %@", [self.roomModel.shareBoardUsers yy_modelDescription]);
+    AgoraLogInfo(@"messageHostChange shareScreenUsers ===> %@", [self.roomModel.shareScreenUsers yy_modelDescription]);
     AgoraLogInfo(@"messageShareScreen userListModels ===> %@", [self.userListModels yy_modelDescription]);
     
     if([self.delegate respondsToSelector:@selector(didReceivedSignalShareScreen:)]) {

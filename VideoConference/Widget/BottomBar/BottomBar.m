@@ -14,6 +14,7 @@
 #import "ShareLinkView.h"
 #import "AgoraRoomManager.h"
 #import "AllMuteAlertVC.h"
+#import "BaseViewController.h"
 
 @interface BottomBar()
 @property (strong, nonatomic) IBOutlet BottomBar *bar;
@@ -130,14 +131,16 @@
             type = EnableSignalTypeVideo;
         }
         
+        [self setLoadingVisible:YES clickView:sender];
         [manager updateUserInfoWithUserId:userId value:sender.isSelected enableSignalType:type successBolck:^{
-            
+            [weakself setLoadingVisible:NO clickView:sender];
             if(type == EnableSignalTypeVideo) {
                 [NSNotificationCenter.defaultCenter postNotificationName:NOTICENAME_LOCAL_MEDIA_CHANGED object:nil];
             }
             
         } failBlock:^(NSError * _Nonnull error) {
             sender.isSelected = isSelected;
+            [weakself setLoadingVisible:NO clickView:sender];
             
             [weakself showMsgToast:error.localizedDescription];
         }];
@@ -242,7 +245,6 @@
     
     WEAK(self);
     [manager updateRoomInfoWithValue:state enableSignalType:ConfEnableRoomSignalTypeMuteAllAudio successBolck:^{
-        
     } failBlock:^(NSError * _Nonnull error) {
         [weakself showMsgToast:error.localizedDescription];
     }];
@@ -250,11 +252,21 @@
 
 - (void)gotoApplyOrInvite:(EnableSignalType)type actionType:(P2PMessageTypeAction)actionType userId:(NSString *)userId {
 
+    UIView *clickView;
+    if(type == EnableSignalTypeAudio) {
+        clickView = self.audioItem;
+    } else if(type == EnableSignalTypeVideo) {
+        clickView = self.videoItem;
+    }
+    
     WEAK(self);
+    [self setLoadingVisible:YES clickView:clickView];
     ConferenceManager *manager = AgoraRoomManager.shareManager.conferenceManager;
     [manager p2pActionWithType:type actionType:actionType userId:userId completeSuccessBlock:^{
+        [weakself setLoadingVisible:NO clickView:clickView];
         [weakself updateView];
     } completeFailBlock:^(NSError *error) {
+        [weakself setLoadingVisible:NO clickView:clickView];
         [weakself updateView];
         [weakself showMsgToast:error.localizedDescription];
     }];
@@ -266,8 +278,7 @@
     
     ConferenceManager *manager = AgoraRoomManager.shareManager.conferenceManager;
     [manager whiteBoardStateWithValue:!manager.ownModel.grantBoard userId:manager.ownModel.userId completeSuccessBlock:^{
-        
-    } completeFailBlock:^(NSError * _Nonnull error) {
+    } completeFailBlock:^(NSError * _Nonnull error) {;
         [weakself showMsgToast:error.localizedDescription];
     }];
 }
@@ -275,6 +286,26 @@
 - (void)addUnreadMsgCount {
     NSInteger count = self.imItem.count + 1;
     self.imItem.count = count;
+}
+
+- (void)setLoadingVisible:(BOOL)show clickView:(UIView*)clickView {
+    
+    if(clickView == nil) {
+        return;
+    }
+    
+    BaseViewController *vc = (BaseViewController*)[VCManager getTopVC];
+    if(vc == nil || ![vc isKindOfClass:BaseViewController.class]){
+        return;
+    }
+    
+    if(show) {
+        [vc.activityIndicator startAnimating];
+        clickView.userInteractionEnabled = NO;
+    } else {
+        [vc.activityIndicator stopAnimating];
+        clickView.userInteractionEnabled = YES;
+    }
 }
 
 @end

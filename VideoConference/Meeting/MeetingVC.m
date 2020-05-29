@@ -195,7 +195,7 @@
 }
 
 - (void)onLocalVideoStateChange {
-    [self.pipVideoCell updateLocalView];
+    [self reloadPIPVideoCell];
     [self.bottomBar updateView];
 }
 
@@ -226,35 +226,17 @@
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
     
-    ConferenceManager *manager = AgoraRoomManager.shareManager.conferenceManager;
-    NSInteger shareScreenCount = manager.roomModel.shareScreenUsers.count;
-    NSInteger shareBoardCount = manager.roomModel.shareBoardUsers.count;
-    NSInteger allUserCount = self.allUserListModel.count;
-    
     if(indexPath.section == 0) {
         PIPVideoCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"PIPVideoCell" forIndexPath:indexPath];
-        NSInteger count = shareScreenCount + shareBoardCount + allUserCount;
-        
-        // only self
-        ConfUserModel *selfModel = self.allUserListModel.firstObject;
-        if(count == 1) {
-            [cell setOneUserModel:selfModel];
-        } else {
-            if(shareScreenCount > 0) {
-                ConfShareScreenUserModel *remoteModel = manager.roomModel.shareScreenUsers.firstObject;
-                [cell setUser:selfModel shareScreenModel:remoteModel];
-                
-            } else if(shareBoardCount > 0) {
-                ConfShareBoardUserModel *remoteModel = manager.roomModel.shareBoardUsers.firstObject;
-                [cell setUser:selfModel shareBoardModel:remoteModel];
-            } else {
-                ConfUserModel *remoteModel = self.allUserListModel[1];
-                [cell setUser:selfModel remoteUser:remoteModel];
-            }
-        }
         self.pipVideoCell = cell;
+        [self reloadPIPVideoCell];
         return cell;
     } else {
+        ConferenceManager *manager = AgoraRoomManager.shareManager.conferenceManager;
+        NSInteger shareScreenCount = manager.roomModel.shareScreenUsers.count;
+        NSInteger shareBoardCount = manager.roomModel.shareBoardUsers.count;
+        NSInteger allUserCount = self.allUserListModel.count;
+        
         VideoCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"VideoCell" forIndexPath:indexPath];
         if(shareScreenCount > indexPath.row + 1) {
             ConfShareScreenUserModel *model = manager.roomModel.shareScreenUsers[indexPath.row + 1];
@@ -416,13 +398,8 @@
 }
 - (void)didReceivedSignalShareScreen:(ConfSignalChannelScreenModel *)model {
     
-    // 0->1 or 1->0
-    if((!self.pipVideoCell.showScreen && model.shareScreenUsers.count > 0) ||
-       (self.pipVideoCell.showScreen && model.shareScreenUsers.count == 0)) {
-        
-        [self onReloadView];
-        [NSNotificationCenter.defaultCenter postNotificationName:NOTICENAME_SHARE_INFO_CHANGED object:nil];
-    }
+    [self onReloadView];
+    [NSNotificationCenter.defaultCenter postNotificationName:NOTICENAME_SHARE_INFO_CHANGED object:nil];
 }
 - (void)didReceivedSignalHostChange:(NSArray<ConfUserModel*> *)hostModels {
     [self onReloadView];
@@ -566,6 +543,33 @@
             }
         }];
     }];
+}
+
+
+-(void) reloadPIPVideoCell {
+    ConferenceManager *manager = AgoraRoomManager.shareManager.conferenceManager;
+    NSInteger shareScreenCount = manager.roomModel.shareScreenUsers.count;
+    NSInteger shareBoardCount = manager.roomModel.shareBoardUsers.count;
+    NSInteger allUserCount = self.allUserListModel.count;
+    NSInteger count = shareScreenCount + shareBoardCount + allUserCount;
+    
+    // only self
+    ConfUserModel *selfModel = self.allUserListModel.firstObject;
+    if(count == 1) {
+        [self.pipVideoCell setOneUserModel:selfModel];
+    } else {
+        if(shareScreenCount > 0) {
+            ConfShareScreenUserModel *remoteModel = manager.roomModel.shareScreenUsers.firstObject;
+            [self.pipVideoCell setUser:selfModel shareScreenModel:remoteModel];
+            
+        } else if(shareBoardCount > 0) {
+            ConfShareBoardUserModel *remoteModel = manager.roomModel.shareBoardUsers.firstObject;
+            [self.pipVideoCell setUser:selfModel shareBoardModel:remoteModel];
+        } else {
+            ConfUserModel *remoteModel = self.allUserListModel[1];
+            [self.pipVideoCell setUser:selfModel remoteUser:remoteModel];
+        }
+    }
 }
 
 - (void)dealloc {

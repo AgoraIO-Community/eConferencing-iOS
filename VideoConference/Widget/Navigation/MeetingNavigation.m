@@ -9,6 +9,7 @@
 #import "MeetingNavigation.h"
 #import "AgoraRoomManager.h"
 #import "ScoreAlertVC.h"
+#import "BaseViewController.h"
 
 @interface MeetingNavigation() {
     dispatch_source_t timer;
@@ -87,11 +88,14 @@
         
         UIAlertAction *finish = [UIAlertAction actionWithTitle:@"结束会议" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
             
+            [weakself setLoadingVisible:YES];
             [manager updateRoomInfoWithValue:0 enableSignalType:ConfEnableRoomSignalTypeState successBolck:^{
                 
+                [weakself setLoadingVisible:NO];
                 [weakself showScoreAlert];
                             
             } failBlock:^(NSError * _Nonnull error) {
+                [weakself setLoadingVisible:NO];
                 [weakself showMsgToast:error.localizedDescription];
             }];
             
@@ -162,6 +166,22 @@
 - (void)stopTimer {
     if (timer) {
         dispatch_source_cancel(timer);
+    }
+}
+
+- (void)setLoadingVisible:(BOOL)show {
+    
+    BaseViewController *vc = (BaseViewController*)[VCManager getTopVC];
+    if(vc == nil || ![vc isKindOfClass:BaseViewController.class]){
+        return;
+    }
+    
+    if(show) {
+        [vc.activityIndicator startAnimating];
+        vc.view.userInteractionEnabled = NO;
+    } else {
+        [vc.activityIndicator stopAnimating];
+        vc.view.userInteractionEnabled = YES;
     }
 }
 
