@@ -29,8 +29,8 @@ typedef NS_ENUM(NSInteger, P2PMessageTypeAction) {
 typedef NS_ENUM(NSInteger, P2PMessageTypeActionType) {
     P2PMessageTypeActionTypeAudio               = 1,
     P2PMessageTypeActionTypeVideo               = 2,
-    P2PMessageTypeActionTypeIM                  = 3,
-    P2PMessageTypeActionTypeBoard               = 4,
+    P2PMessageTypeActionTypeBoard               = 3,
+    P2PMessageTypeActionTypeIM                  = 4,
 };
 
 NS_ASSUME_NONNULL_BEGIN

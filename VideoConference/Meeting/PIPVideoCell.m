@@ -89,20 +89,14 @@
     self.whiteboardTool.hidden = YES;
     self.whiteboardColor.hidden = YES;
     
-    if(boardModel.uid == userModel.uid) {
-        self.applyBtn.hidden = YES;
-        self.endBtn.hidden = NO;
+    // has apply
+    if(userModel.grantBoard) {
         self.whiteboardTool.hidden = NO;
+        self.applyBtn.hidden = YES;
+        self.endBtn.hidden = YES;
     } else {
-        // has apply
-        if(userModel.grantBoard) {
-            self.whiteboardTool.hidden = NO;
-            self.applyBtn.hidden = YES;
-            self.endBtn.hidden = YES;
-        } else {
-            self.applyBtn.hidden = NO;
-            self.endBtn.hidden = YES;
-        }
+        self.applyBtn.hidden = NO;
+        self.endBtn.hidden = YES;
     }
     
     [self updateWhiteView];
