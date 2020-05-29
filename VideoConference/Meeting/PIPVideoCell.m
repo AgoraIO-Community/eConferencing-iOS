@@ -19,6 +19,7 @@
 @property (weak, nonatomic) IBOutlet UIImageView *imgView;
 
 @property (weak, nonatomic) IBOutlet UIView *shareView;
+@property (weak, nonatomic) IBOutlet UIView *shareBoardView;
 @property (weak, nonatomic) IBOutlet UIButton *applyBtn;
 @property (weak, nonatomic) IBOutlet UIButton *endBtn;
 
@@ -46,9 +47,8 @@
     self.imgView.image = image;
     
     UIView *boardView = [WhiteManager createWhiteBoardView];
-    boardView.hidden = YES;
-    [self.shareView addSubview:boardView];
-    [boardView equalTo:self.shareView];
+    [self.shareBoardView addSubview:boardView];
+    [boardView equalTo:self.shareBoardView];
     self.boardView = boardView;
     
     self.whiteboardTool.backgroundColor = UIColor.clearColor;
@@ -59,9 +59,6 @@
         NSArray *colorArray = [UIColor convertColorToRGB:[UIColor colorWithHexString:colorString]];
         [AgoraRoomManager.shareManager.whiteManager setWhiteStrokeColor:colorArray];
     }];
-    
-    self.showWhite = NO;
-    self.showScreen = NO;
     
     self.stateBg.hidden = YES;
     self.stateBg.layer.cornerRadius = 11;
@@ -79,11 +76,8 @@
     
     [self removeVideoCanvas];
     
-    self.showWhite = NO;
-    self.showScreen = YES;
-    
-    self.shareView.hidden = NO;
-    self.boardView.hidden = NO;
+    self.shareView.hidden = YES;
+    self.shareBoardView.hidden = NO;
     self.remoteView.hidden = YES;
     self.imgView.hidden = YES;
     self.whiteboardTool.hidden = YES;
@@ -112,12 +106,9 @@
 
 - (void)setUser:(ConfUserModel *)userModel shareScreenModel:(ConfShareScreenUserModel *)screenModel {
     [self removeVideoCanvas];
-    
-    self.showWhite = YES;
-    self.showScreen = NO;
-    
+
     self.shareView.hidden = NO;
-    self.boardView.hidden = YES;
+    self.shareBoardView.hidden = YES;
     self.remoteView.hidden = YES;
     self.imgView.hidden = YES;
     
@@ -143,11 +134,8 @@
     
     [self removeVideoCanvas];
     
-    self.showWhite = YES;
-    self.showScreen = YES;
-    
     self.shareView.hidden = YES;
-    self.boardView.hidden = YES;
+    self.shareBoardView.hidden = YES;
     self.imgView.hidden = YES;
     
     self.whiteboardTool.hidden = YES;
@@ -178,9 +166,6 @@
 - (void)setOneUserModel:(ConfUserModel *)userModel {
     
     [self removeVideoCanvas];
-    
-    self.showWhite = YES;
-    self.showScreen = YES;
     
     self.shareView.hidden = YES;
     self.localView.hidden = YES;
@@ -286,15 +271,24 @@
             NSString *userName = @"";
             NSInteger uid = 0;
             if(manager.roomModel.shareScreenUsers.count > 0) {
-                ConfShareScreenUserModel *model = manager.roomModel.shareScreenUsers.firstObject;
-                userName = model.userName;
-                roleType = model.role;
-                uid = model.uid;
+                
+                for(ConfShareScreenUserModel *model in manager.roomModel.shareScreenUsers) {
+                    if([model.userId isEqualToString:NoNullString(manager.roomModel.createBoardUserId)]) {
+                        userName = model.userName;
+                        roleType = model.role;
+                        uid = model.uid;
+                        break;
+                    }
+                }
             } else {
-                ConfShareBoardUserModel *model = manager.roomModel.shareBoardUsers.firstObject;
-                userName = model.userName;
-                roleType = model.role;
-                uid = model.uid;
+                for(ConfShareBoardUserModel *model in manager.roomModel.shareBoardUsers) {
+                    if([model.userId isEqualToString:NoNullString(manager.roomModel.createBoardUserId)]) {
+                        userName = model.userName;
+                        roleType = model.role;
+                        uid = model.uid;
+                        break;
+                    }
+                }
             }
             self.nameLabel.text = userName;
             self.shareImgView.hidden = NO;

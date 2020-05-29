@@ -195,6 +195,10 @@
 }
 
 - (void)onLocalVideoStateChange {
+    ConferenceManager *manager = AgoraRoomManager.shareManager.conferenceManager;
+    self.allUserListModel = [NSMutableArray arrayWithArray:manager.userListModels];
+       
+    
     [self reloadPIPVideoCell];
     [self.bottomBar updateView];
 }
@@ -421,7 +425,7 @@
 }
 - (void)didReceivedConnectionStateChanged:(ConnectionState)state {
     if(state == ConnectionStateReconnected) {
-        [self updateViewOnReconnected];
+//        [self updateViewOnReconnected];
     } else if(state == ConnectionStateAnotherLogged) {
         [self showToast:NSLocalizedString(@"LoginOnAnotherDeviceText", nil)];
         [AgoraRoomManager releaseResource];

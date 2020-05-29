@@ -713,13 +713,13 @@
 }
 
 - (void)hostChange:(NSArray<ConfUserModel*> *)allHostModels {
-    
+        
     // remove no exsit
     {
         NSPredicate *predicate = [NSPredicate predicateWithFormat:@"state != 0"];
         allHostModels = [allHostModels filteredArrayUsingPredicate:predicate];
     }
-    
+
     {
         NSPredicate *isSelfPredicate = [NSPredicate predicateWithFormat:@"uid == %d", self.ownModel.uid];
         NSArray<ConfUserModel*> *selfModels = [allHostModels filteredArrayUsingPredicate:isSelfPredicate];
@@ -774,5 +774,26 @@
     [allModels addObjectsFromArray:hostFilteredModels];
     [allModels addObjectsFromArray:participantModels];
     self.userListModels = [NSArray arrayWithArray:allModels];
+    
+    // role
+    for(ConfUserModel *hostUserModel in self.roomModel.hosts) {
+        
+        for(ConfShareScreenUserModel *shareScreenUsers in self.roomModel.shareScreenUsers) {
+            if(shareScreenUsers.uid == hostUserModel.uid){
+                shareScreenUsers.role = ConfRoleTypeHost;
+            } else {
+                shareScreenUsers.role = ConfRoleTypeParticipant;
+            }
+        }
+        
+        for(ConfShareBoardUserModel *shareBoardUserModel in self.roomModel.shareBoardUsers) {
+            if(shareBoardUserModel.uid == hostUserModel.uid){
+                shareBoardUserModel.role = ConfRoleTypeHost;
+            } else {
+                shareBoardUserModel.role = ConfRoleTypeParticipant;
+            }
+        }
+    }
+    
 }
 @end

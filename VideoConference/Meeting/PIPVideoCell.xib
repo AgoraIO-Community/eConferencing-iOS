@@ -31,6 +31,10 @@
                     </view>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="vP8-IB-Met">
                         <rect key="frame" x="0.0" y="130" width="300" height="240"/>
+                        <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    </view>
+                    <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="PmJ-tG-omG">
+                        <rect key="frame" x="0.0" y="130" width="300" height="240"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                     </view>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="00O-1d-Kux" customClass="EEWhiteboardTool">
@@ -143,15 +147,19 @@
                 <constraint firstItem="vP8-IB-Met" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" constant="130" id="B0M-0e-vRn"/>
                 <constraint firstAttribute="trailing" secondItem="k8S-e4-wRe" secondAttribute="trailing" constant="15" id="FlC-rq-ZMK"/>
                 <constraint firstAttribute="trailing" secondItem="6rl-FV-MGv" secondAttribute="trailing" id="JMJ-Bh-y9G"/>
+                <constraint firstAttribute="bottom" secondItem="PmJ-tG-omG" secondAttribute="bottom" constant="130" id="Jjr-Of-ZF8"/>
                 <constraint firstItem="00O-1d-Kux" firstAttribute="top" secondItem="4Ql-oX-1kf" secondAttribute="bottom" constant="2" id="QnI-jM-KYN"/>
                 <constraint firstItem="qJN-vp-Mts" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" constant="-5" id="RC3-0y-vlB"/>
+                <constraint firstItem="PmJ-tG-omG" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" id="VbM-cJ-zUI"/>
                 <constraint firstAttribute="trailing" secondItem="uCj-MA-KbF" secondAttribute="trailing" constant="15" id="Xa5-vx-LcK"/>
                 <constraint firstItem="00O-1d-Kux" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" constant="15" id="YhG-HD-nSn"/>
                 <constraint firstAttribute="bottom" secondItem="6rl-FV-MGv" secondAttribute="bottom" id="ag1-CI-qbj"/>
                 <constraint firstItem="yUV-mK-g03" firstAttribute="centerX" secondItem="gTV-IL-0wX" secondAttribute="centerX" id="eLS-FX-Rdm"/>
                 <constraint firstItem="k8S-e4-wRe" firstAttribute="top" secondItem="vP8-IB-Met" secondAttribute="bottom" constant="30" id="gRj-pt-bbb"/>
+                <constraint firstAttribute="trailing" secondItem="PmJ-tG-omG" secondAttribute="trailing" id="h6N-x6-VJd"/>
                 <constraint firstItem="qJN-vp-Mts" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" constant="11" id="hoN-AB-2pY"/>
                 <constraint firstItem="4Ql-oX-1kf" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" constant="30" id="i9b-iC-A8y"/>
+                <constraint firstItem="PmJ-tG-omG" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" constant="130" id="iEm-oc-ouP"/>
                 <constraint firstAttribute="trailing" secondItem="vP8-IB-Met" secondAttribute="trailing" id="im4-mN-Iyf"/>
                 <constraint firstItem="XXk-EW-KnL" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" constant="20" id="jGZ-5s-udk"/>
                 <constraint firstItem="uCj-MA-KbF" firstAttribute="top" secondItem="vP8-IB-Met" secondAttribute="bottom" constant="30" id="mt3-ub-URL"/>
@@ -173,6 +181,7 @@
                 <outlet property="localView" destination="XXk-EW-KnL" id="yKA-ev-xeR"/>
                 <outlet property="nameLabel" destination="Xcn-qk-5QO" id="TNg-1b-a0Y"/>
                 <outlet property="remoteView" destination="6rl-FV-MGv" id="NbU-CX-QGA"/>
+                <outlet property="shareBoardView" destination="PmJ-tG-omG" id="2Gk-JN-uTE"/>
                 <outlet property="shareImgView" destination="myC-FV-sFI" id="7EK-EP-2xJ"/>
                 <outlet property="shareView" destination="vP8-IB-Met" id="Ezf-YS-yg2"/>
                 <outlet property="shareWConstraint" destination="03O-dd-yQB" id="CGp-zH-FE3"/>
