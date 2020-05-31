@@ -127,7 +127,7 @@
         self.localView.hidden = YES;
     }
     
-    [manager addVideoCanvasWithUId:screenModel.screenId inView:self.shareView];
+    [manager addVideoCanvasWithUId:screenModel.screenId inView:self.shareView showType:ShowViewTypeFit];
 }
 
 - (void)setUser:(ConfUserModel *)userModel remoteUser:(ConfUserModel *)remoteUserModel {

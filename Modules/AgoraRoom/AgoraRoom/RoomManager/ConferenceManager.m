@@ -25,6 +25,11 @@
 @property (nonatomic, strong) RoomManager *roomManager;
 @property (nonatomic, assign) SceneType sceneType;
 @property (nonatomic, copy) void (^ netWorkProbeTestBlock) (NetworkGrade grade);
+
+// 在成功获取所有人数据 之前的人员进出Models
+@property (nonatomic, copy) NSMutableArray<ConfSignalChannelInOutInfoModel*> *recordInOutInfoModels;
+@property (nonatomic, assign) BOOL hasAllUserModels;
+
 @end
 
 @implementation ConferenceManager
@@ -39,6 +44,9 @@
         ConfConfigModel.shareInstance.appId = appId;
         self.roomManager = [[RoomManager alloc] initWithSceneType:type appId:appId authorization:authorization configModel:ConfConfigModel.shareInstance];
         self.roomManager.delegate = self;
+        
+        self.hasAllUserModels = NO;
+        self.recordInOutInfoModels = [NSMutableArray array];
     }
     
     return self;
@@ -196,6 +204,8 @@
         if(userListInfoModel.total > userList.count){
             [weakself getUserListWithNextId:userListInfoModel.nextId userModelList:userList successBlock:successBlock failBlock:failBlock];
         } else {
+            weakself.hasAllUserModels = YES;
+            [weakself handleInOutModels:weakself.recordInOutInfoModels];
             successBlock(userList);
         }
         
@@ -313,6 +323,9 @@
     [self.roomManager releaseResource];
     self.ownModel = nil;
     self.roomModel = nil;
+    
+    self.hasAllUserModels = NO;
+    self.recordInOutInfoModels = [NSMutableArray array];
 }
 
 #pragma mark private
@@ -330,8 +343,11 @@
 }
 
 // Canvas
+- (void)addVideoCanvasWithUId:(NSUInteger)uid inView:(UIView *)view showType:(ShowViewType)showType {
+    [self.roomManager addVideoCanvasWithUId:uid inView:view showType:showType];
+}
 - (void)addVideoCanvasWithUId:(NSUInteger)uid inView:(UIView *)view {
-    [self.roomManager addVideoCanvasWithUId:uid inView:view];
+    [self.roomManager addVideoCanvasWithUId:uid inView:view showType:ShowViewTypeHidden];
 }
 - (void)removeVideoCanvasWithUId:(NSUInteger)uid {
     [self.roomManager removeVideoCanvasWithUId:uid];
@@ -463,88 +479,19 @@
         
     ConfSignalChannelInOutModel *inOutModel = [ConfSignalChannelInOutModel yy_modelWithDictionary:dataDic];
     
-    self.roomModel.onlineUsers = inOutModel.total;
-    
-    NSArray<ConfSignalChannelInOutInfoModel*> *list = inOutModel.list;
-    for (ConfSignalChannelInOutInfoModel *model in list){
-        if(model.state == 0) { // out
-            if(model.uid == self.ownModel.uid) {
-                continue;
-            }
-            
-            NSPredicate *predicate = [NSPredicate predicateWithFormat:@"uid != %d", model.uid];
-            
-            NSArray<ConfUserModel *> *filteredHostArray = [self.roomModel.hosts filteredArrayUsingPredicate:predicate];
-            self.roomModel.hosts = [NSArray arrayWithArray:filteredHostArray];
-            
-            NSArray<ConfUserModel *> *filteredArray = [self.userListModels filteredArrayUsingPredicate:predicate];
-            self.userListModels = [NSArray arrayWithArray:filteredArray];
-            
-            //  存储出去人的队列， 用于更新userListModels
-            
-        } else { // add
-            NSPredicate *exsitPredicate = [NSPredicate predicateWithFormat:@"uid == %d", model.uid];
-            NSArray<ConfUserModel *> *exsitFilteredArray = [self.userListModels filteredArrayUsingPredicate:exsitPredicate];
-            if(exsitFilteredArray.count > 0) {
-                
-                ConfUserModel *um = exsitFilteredArray.firstObject;
-                if(um.role == model.role || um.uid == self.ownModel.uid){
-                    um.userName = model.userName;
-                    um.enableChat = model.enableChat;
-                    um.enableVideo = model.enableVideo;
-                    um.enableAudio = model.enableAudio;
-                    um.grantBoard = model.grantBoard;
-                    um.grantScreen = model.grantScreen;
-                    if(um.role == model.role) {
-                       continue;
-                    }
-                    um.role = model.role;
-                }
-                
-                // remove
-                NSPredicate *predicate = [NSPredicate predicateWithFormat:@"uid != %d", um.uid];
-                
-                NSArray<ConfUserModel *> *filteredHostArray = [self.roomModel.hosts filteredArrayUsingPredicate:predicate];
-                self.roomModel.hosts = [NSArray arrayWithArray:filteredHostArray];
-                
-                NSArray<ConfUserModel *> *filteredArray = [self.userListModels filteredArrayUsingPredicate:predicate];
-                self.userListModels = [NSArray arrayWithArray:filteredArray];
-            }
-            
-            // 添加
-            if(model.role == ConfRoleTypeHost) {
-                
-                // host
-                NSMutableArray<ConfUserModel *> *hosts = [NSMutableArray arrayWithArray:self.roomModel.hosts];
-                [hosts addObject:model];
-                self.roomModel.hosts = [NSArray arrayWithArray:hosts];
-                NSPredicate *hostPredicate = [NSPredicate predicateWithFormat:@"uid != %d", self.ownModel.uid];
-                NSArray<ConfUserModel*> *hostFilteredModels = [self.roomModel.hosts filteredArrayUsingPredicate:hostPredicate];
-                
-                NSMutableArray<ConfUserModel *> *userListModels = [NSMutableArray arrayWithArray:self.userListModels];
-                NSPredicate *predicate = [NSPredicate predicateWithFormat:@"role != %d && uid != %d", ConfRoleTypeHost, self.ownModel.uid];
-                NSArray<ConfUserModel*> *participantModels = [userListModels filteredArrayUsingPredicate:predicate];
-                
-                NSMutableArray<ConfUserModel *> *_userListModels = [NSMutableArray arrayWithObject:self.ownModel];
-                [_userListModels addObjectsFromArray:hostFilteredModels];
-                [_userListModels addObjectsFromArray:participantModels];
-                self.userListModels = [NSArray arrayWithArray:_userListModels];
-                
-            } else {
-                
-                NSMutableArray<ConfUserModel *> *userListModels = [NSMutableArray arrayWithArray:self.userListModels];
-                [userListModels addObject:model];
-                self.userListModels = [NSArray arrayWithArray:userListModels];
-            }
-        }
+    if(!self.hasAllUserModels) {
+        [self.recordInOutInfoModels addObjectsFromArray:inOutModel.list];
+        return;
     }
     
+    self.roomModel.onlineUsers = inOutModel.total;
+    [self handleInOutModels:inOutModel.list];
     AgoraLogInfo(@"messageInOut ownModel ===> %@", [self.ownModel yy_modelDescription]);
     AgoraLogInfo(@"messageShareBoard roomModel ===> %@", [self.roomModel yy_modelDescription]);
     AgoraLogInfo(@"messageInOut userListModels ===> %@", [self.userListModels yy_modelDescription]);
     
     if([self.delegate respondsToSelector:@selector(didReceivedSignalInOut:)]) {
-        [self.delegate didReceivedSignalInOut: list];
+        [self.delegate didReceivedSignalInOut: inOutModel.list];
     }
 }
 - (void)messageUserInfo:(NSDictionary *)dict {
@@ -563,6 +510,9 @@
         filteredArray.firstObject.enableVideo = userModel.enableVideo;
         filteredArray.firstObject.enableAudio = userModel.enableAudio;
     }
+    
+    BOOL muteAudio = !self.ownModel.enableAudio;
+    [self.roomManager muteLocalAudioStream:@(muteAudio)];
     
     AgoraLogInfo(@"messageUserInfo ownModel ===> %@", [self.ownModel yy_modelDescription]);
     AgoraLogInfo(@"messageShareBoard roomModel ===> %@", [self.roomModel yy_modelDescription]);
@@ -794,6 +744,82 @@
             }
         }
     }
-    
 }
+
+- (void)handleInOutModels:(NSArray<ConfSignalChannelInOutInfoModel*> *) list {
+
+    for (ConfSignalChannelInOutInfoModel *model in list){
+        if(model.state == 0) { // out
+            if(model.uid == self.ownModel.uid) {
+                continue;
+            }
+            
+            NSPredicate *predicate = [NSPredicate predicateWithFormat:@"uid != %d", model.uid];
+            
+            NSArray<ConfUserModel *> *filteredHostArray = [self.roomModel.hosts filteredArrayUsingPredicate:predicate];
+            self.roomModel.hosts = [NSArray arrayWithArray:filteredHostArray];
+            
+            NSArray<ConfUserModel *> *filteredArray = [self.userListModels filteredArrayUsingPredicate:predicate];
+            self.userListModels = [NSArray arrayWithArray:filteredArray];
+            
+            //  存储出去人的队列， 用于更新userListModels
+            
+        } else { // add
+            NSPredicate *exsitPredicate = [NSPredicate predicateWithFormat:@"uid == %d", model.uid];
+            NSArray<ConfUserModel *> *exsitFilteredArray = [self.userListModels filteredArrayUsingPredicate:exsitPredicate];
+            if(exsitFilteredArray.count > 0) {
+                
+                ConfUserModel *um = exsitFilteredArray.firstObject;
+                if(um.role == model.role || um.uid == self.ownModel.uid){
+                    um.userName = model.userName;
+                    um.enableChat = model.enableChat;
+                    um.enableVideo = model.enableVideo;
+                    um.enableAudio = model.enableAudio;
+                    um.grantBoard = model.grantBoard;
+                    um.grantScreen = model.grantScreen;
+                    if(um.role == model.role) {
+                       continue;
+                    }
+                    um.role = model.role;
+                }
+                
+                // remove
+                NSPredicate *predicate = [NSPredicate predicateWithFormat:@"uid != %d", um.uid];
+                
+                NSArray<ConfUserModel *> *filteredHostArray = [self.roomModel.hosts filteredArrayUsingPredicate:predicate];
+                self.roomModel.hosts = [NSArray arrayWithArray:filteredHostArray];
+                
+                NSArray<ConfUserModel *> *filteredArray = [self.userListModels filteredArrayUsingPredicate:predicate];
+                self.userListModels = [NSArray arrayWithArray:filteredArray];
+            }
+            
+            // 添加
+            if(model.role == ConfRoleTypeHost) {
+                
+                // host
+                NSMutableArray<ConfUserModel *> *hosts = [NSMutableArray arrayWithArray:self.roomModel.hosts];
+                [hosts addObject:model];
+                self.roomModel.hosts = [NSArray arrayWithArray:hosts];
+                NSPredicate *hostPredicate = [NSPredicate predicateWithFormat:@"uid != %d", self.ownModel.uid];
+                NSArray<ConfUserModel*> *hostFilteredModels = [self.roomModel.hosts filteredArrayUsingPredicate:hostPredicate];
+                
+                NSMutableArray<ConfUserModel *> *userListModels = [NSMutableArray arrayWithArray:self.userListModels];
+                NSPredicate *predicate = [NSPredicate predicateWithFormat:@"role != %d && uid != %d", ConfRoleTypeHost, self.ownModel.uid];
+                NSArray<ConfUserModel*> *participantModels = [userListModels filteredArrayUsingPredicate:predicate];
+                
+                NSMutableArray<ConfUserModel *> *_userListModels = [NSMutableArray arrayWithObject:self.ownModel];
+                [_userListModels addObjectsFromArray:hostFilteredModels];
+                [_userListModels addObjectsFromArray:participantModels];
+                self.userListModels = [NSArray arrayWithArray:_userListModels];
+                
+            } else {
+                
+                NSMutableArray<ConfUserModel *> *userListModels = [NSMutableArray arrayWithArray:self.userListModels];
+                [userListModels addObject:model];
+                self.userListModels = [NSArray arrayWithArray:userListModels];
+            }
+        }
+    }
+}
+
 @end

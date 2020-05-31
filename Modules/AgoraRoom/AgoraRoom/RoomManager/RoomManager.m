@@ -63,7 +63,28 @@
     WEAK(self);
     [self getConfigWithApiVersion:configApiVersion successBolck:^{
         [weakself getEntryInfoWithParams:params apiVersion:entryApiVersion successBolck:^{
-            [weakself getRoomInfoWithApiversion:roomInfoApiVersion successBlock:successBlock failBlock:failBlock];
+            [weakself getRoomInfoWithApiversion:roomInfoApiVersion successBlock:^(id  _Nonnull roomInfoModel) {
+                
+                if([roomInfoModel isKindOfClass:[ConfRoomInfoModel class]]) {
+                    ConfRoomInfoModel *model = (ConfRoomInfoModel*)roomInfoModel;
+                    weakself.baseConfigModel.rtmToken = model.localUser.rtmToken;
+                    weakself.baseConfigModel.uid = model.localUser.uid;
+                    weakself.baseConfigModel.channelName = model.room.channelName;
+                }
+                
+                [weakself setupRTMWithSuccessBolck:^{
+                    if(successBlock != nil){
+                       successBlock(roomInfoModel);
+                    }
+                } failBlock:^(NSInteger errorCode) {
+                    if(failBlock != nil){
+                        NSString *errorStr = Localized(@"RTMInitErrorText");
+                        errorStr = [NSString stringWithFormat:@"%@:%ld", errorStr, (long)errorCode];
+                        NSError *error = LocalError(LocalAgoraErrorCodeCommon, errorStr);
+                        failBlock(error);
+                    }
+                }];
+            } failBlock:failBlock];
         } failBlock:failBlock];
     } failBlock:failBlock];
 }
@@ -71,39 +92,7 @@
 
 - (void)initMediaWithClientRole:(ClientRole)role successBolck:(void (^)(void))successBlock failBlock:(void (^ _Nullable) (NSInteger errorCode))failBlock {
     
-    dispatch_group_t group = dispatch_group_create();
-    
-    __block NSInteger errCode = 0;
-
-    // init rtm
-    dispatch_group_enter(group);
-    [self setupRTMWithSuccessBolck:^{
-       dispatch_group_leave(group);
-    } failBlock:^(NSInteger errorCode) {
-        errCode = errorCode;
-        dispatch_group_leave(group);
-    }];
-    
-    // init rtc
-    dispatch_group_enter(group);
-    [self setupRTCWithClientRole:role successBolck:^{
-        dispatch_group_leave(group);
-    } failBlock:^(NSInteger errorCode) {
-        errCode = errorCode;
-        dispatch_group_leave(group);
-    }];
-
-    dispatch_group_notify(group, dispatch_get_main_queue(), ^{
-        if(errCode != 0) {
-            if(failBlock != nil){
-               failBlock(errCode);
-            }
-        } else {
-            if(successBlock != nil){
-               successBlock();
-            }
-        }
-    });
+    [self setupRTCWithClientRole:role successBolck:successBlock failBlock:failBlock];
 }
 
 - (void)sendMessageWithText:(NSString *)message apiversion:(NSString *)apiversion successBolck:(void (^ _Nullable) (void))successBlock completeFailBlock:(void (^ _Nullable) (NSError *error))failBlock {
@@ -124,7 +113,7 @@
     }];
 }
 
-- (void)addVideoCanvasWithUId:(NSUInteger)uid inView:(UIView *)view {
+- (void)addVideoCanvasWithUId:(NSUInteger)uid inView:(UIView *)view showType:(ShowViewType)showType {
     
     VideoSessionModel *currentSessionModel;
     VideoSessionModel *removeSessionModel;
@@ -159,7 +148,11 @@
     AgoraRtcVideoCanvas *videoCanvas = [[AgoraRtcVideoCanvas alloc] init];
     videoCanvas.uid = uid;
     videoCanvas.view = view;
-    videoCanvas.renderMode = AgoraVideoRenderModeHidden;
+    if(showType == ShowViewTypeFit){
+        videoCanvas.renderMode = AgoraVideoRenderModeFit;
+    } else if(showType == ShowViewTypeHidden){
+        videoCanvas.renderMode = AgoraVideoRenderModeHidden;
+    }
     if(uid == self.baseConfigModel.uid) {
         [self.rtcManager setupLocalVideo: videoCanvas];
     } else {
@@ -502,7 +495,6 @@
     }];
 }
 
-#pragma mark Private init Media
 - (void)setupRTMWithSuccessBolck:(void (^)(void))successBlock failBlock:(void (^ _Nullable) (NSInteger errorCode))failBlock{
 
     NSString *appid = self.baseConfigModel.appId;

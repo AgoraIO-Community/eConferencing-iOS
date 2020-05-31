@@ -31,6 +31,14 @@ typedef NS_ENUM(NSInteger, ClientRole) {
     ClientRoleAudience      = 2,
 };
 
+typedef NS_ENUM(NSUInteger, ShowViewType) {
+    
+    /** Hidden(1): Uniformly scale the video until it fills the visible boundaries (cropped). One dimension of the video may have clipped contents. */
+    ShowViewTypeHidden = 1,
+    /** Fit(2): Uniformly scale the video until one of its dimension fits the boundary (zoomed to fit). Areas that are not filled due to the disparity in the aspect ratio are filled with black. */
+    ShowViewTypeFit = 2,
+};
+
 typedef NS_ENUM(NSInteger, EnableSignalType) {
     EnableSignalTypeVideo,
     EnableSignalTypeAudio,

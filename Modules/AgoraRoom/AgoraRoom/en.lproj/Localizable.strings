@@ -12,6 +12,8 @@ LogClearErrorText = "failed to clear log files";
 LogZipErrorText = "log file compression failed";
 UploadOSSErrorText = "upload OSS failed";
 
+RTMInitErrorText = "RTM init error";
+
 OKText = "OK";
 CancelText = "Cancel";
 UpdateText = "version has been updated. Please download the new version";

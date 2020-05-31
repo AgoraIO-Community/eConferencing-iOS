@@ -12,6 +12,8 @@ LogClearErrorText = "清除日志文件失败";
 LogZipErrorText = "日志文件压缩失败";
 UploadOSSErrorText = "上传OSS失败";
 
+RTMInitErrorText = "RTM初始化失败";
+
 OKText = "确定";
 CancelText = "取消";
 UpdateText = "版本已经更新了，请下载最新版本";

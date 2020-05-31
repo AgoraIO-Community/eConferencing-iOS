@@ -89,7 +89,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (int)switchCamera;
 
 // Canvas
-- (void)addVideoCanvasWithUId:(NSUInteger)uid inView:(UIView *)view;
+- (void)addVideoCanvasWithUId:(NSUInteger)uid inView:(UIView *)view showType:(ShowViewType)showType;
 - (void)removeVideoCanvasWithUId:(NSUInteger)uid;
 - (void)removeVideoCanvasWithView:(UIView *)view;
 

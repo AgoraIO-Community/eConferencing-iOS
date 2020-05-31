@@ -179,7 +179,7 @@
 
 // Canvas
 - (void)addVideoCanvasWithUId:(NSUInteger)uid inView:(UIView *)view {
-    [self.roomManager addVideoCanvasWithUId:uid inView:view];
+    [self.roomManager addVideoCanvasWithUId:uid inView:view showType:ShowViewTypeHidden];
 }
 - (void)removeVideoCanvasWithUId:(NSUInteger)uid {
     [self.roomManager removeVideoCanvasWithUId:uid];
