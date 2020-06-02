@@ -107,11 +107,12 @@
      
     CGSize size = collectionView.bounds.size;
     if(indexPath.section == 0){
-        return collectionView.bounds.size;
+        return size;
     }
     
     NSInteger width = (size.width - 2) * 0.5;
     NSInteger height = (size.height - 2) * 0.5;
+    
     return CGSizeMake(width, height);
 }
 @end

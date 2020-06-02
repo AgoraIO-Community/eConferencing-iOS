@@ -237,8 +237,8 @@
         return cell;
     } else {
         ConferenceManager *manager = AgoraRoomManager.shareManager.conferenceManager;
-        NSInteger shareScreenCount = manager.roomModel.shareScreenUsers.count;
-        NSInteger shareBoardCount = manager.roomModel.shareBoardUsers.count;
+        NSInteger shareScreenCount = manager.roomModel.shareScreenUsers.count > 0 ? 1 : 0;
+        NSInteger shareBoardCount = manager.roomModel.shareBoardUsers.count > 0 ? 1 : 0;
         NSInteger allUserCount = self.allUserListModel.count;
         
         VideoCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"VideoCell" forIndexPath:indexPath];
@@ -266,7 +266,13 @@
     }
     
     ConferenceManager *manager = AgoraRoomManager.shareManager.conferenceManager;
-    NSInteger count = self.allUserListModel.count + manager.roomModel.shareScreenUsers.count + manager.roomModel.shareBoardUsers.count - 2;
+
+    BOOL shared = NO;
+    if(manager.roomModel.shareScreenUsers.count > 0 || manager.roomModel.shareBoardUsers.count > 0){
+        shared = YES;
+    }
+    
+    NSInteger count = self.allUserListModel.count + (shared ? 1 : 0) - 2;
     if(count % 4 == 0){
         return count;
     } else {
@@ -425,7 +431,7 @@
 }
 - (void)didReceivedConnectionStateChanged:(ConnectionState)state {
     if(state == ConnectionStateReconnected) {
-//        [self updateViewOnReconnected];
+        [self updateViewOnReconnected];
     } else if(state == ConnectionStateAnotherLogged) {
         [self showToast:NSLocalizedString(@"LoginOnAnotherDeviceText", nil)];
         [AgoraRoomManager releaseResource];

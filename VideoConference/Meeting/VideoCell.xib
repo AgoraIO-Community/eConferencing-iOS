@@ -18,7 +18,7 @@
                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                 <subviews>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="gw0-zF-BD7">
-                        <rect key="frame" x="0.0" y="0.0" width="200" height="300"/>
+                        <rect key="frame" x="1" y="0.0" width="198" height="300"/>
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <viewLayoutGuide key="safeArea" id="TZS-Nk-Z6u"/>
                     </view>
@@ -75,7 +75,7 @@
                 <constraint firstItem="fOm-GC-sB1" firstAttribute="centerX" secondItem="gTV-IL-0wX" secondAttribute="centerX" id="BM4-5k-VYx"/>
                 <constraint firstItem="JCK-8G-1mS" firstAttribute="centerY" secondItem="jFt-tq-QDZ" secondAttribute="centerY" id="BRo-iP-pWd"/>
                 <constraint firstItem="jFt-tq-QDZ" firstAttribute="leading" secondItem="JxQ-pn-yKm" secondAttribute="trailing" constant="5" id="DpY-b2-YA5"/>
-                <constraint firstAttribute="trailing" secondItem="gw0-zF-BD7" secondAttribute="trailing" id="QJM-37-cpx"/>
+                <constraint firstAttribute="trailing" secondItem="gw0-zF-BD7" secondAttribute="trailing" constant="1" id="QJM-37-cpx"/>
                 <constraint firstItem="XIS-L9-JJh" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" id="SSR-jf-v0b"/>
                 <constraint firstAttribute="bottom" secondItem="XIS-L9-JJh" secondAttribute="bottom" id="VUZ-qf-Kg8"/>
                 <constraint firstAttribute="trailing" secondItem="XIS-L9-JJh" secondAttribute="trailing" id="bcw-WB-Ppx"/>
@@ -85,7 +85,7 @@
                 <constraint firstItem="gw0-zF-BD7" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" id="kAR-ot-1WF"/>
                 <constraint firstAttribute="bottom" secondItem="JxQ-pn-yKm" secondAttribute="bottom" constant="3" id="n4E-B1-E0D"/>
                 <constraint firstItem="ujI-8b-3fq" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" constant="9" id="tPy-Ha-t0H"/>
-                <constraint firstItem="gw0-zF-BD7" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" id="uyX-c1-fwl"/>
+                <constraint firstItem="gw0-zF-BD7" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" constant="1" id="uyX-c1-fwl"/>
                 <constraint firstItem="JxQ-pn-yKm" firstAttribute="leading" secondItem="ujI-8b-3fq" secondAttribute="trailing" constant="5" id="we3-Ey-Lyj"/>
             </constraints>
             <viewLayoutGuide key="safeArea" id="SEy-5g-ep8"/>
