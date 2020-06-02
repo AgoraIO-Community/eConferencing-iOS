@@ -27,7 +27,7 @@
 @property (nonatomic, copy) void (^ netWorkProbeTestBlock) (NetworkGrade grade);
 
 // 在成功获取所有人数据 之前的人员进出Models
-@property (nonatomic, copy) NSMutableArray<ConfSignalChannelInOutInfoModel*> *recordInOutInfoModels;
+@property (nonatomic, strong) NSMutableArray<ConfSignalChannelInOutInfoModel*> *recordInOutInfoModels;
 @property (nonatomic, assign) BOOL hasAllUserModels;
 
 @end
