@@ -232,7 +232,6 @@
 - (void)updateUserInfoWithUserId:(NSString*)userId  value:(BOOL)enable enableSignalType:(EnableSignalType)type apiversion:(NSString *)apiversion successBolck:(void (^)(void))successBlock failBlock:(void (^ _Nullable) (NSError *error))failBlock {
     
     WEAK(self);
-    
     NSString *appId = self.baseConfigModel.appId;
     NSString *roomId = self.baseConfigModel.roomId;
     [HttpManager updateUserInfoWithValue:enable enableSignalType:type appId:appId roomId:roomId userId:userId apiVersion:apiversion completeSuccessBlock:^{
