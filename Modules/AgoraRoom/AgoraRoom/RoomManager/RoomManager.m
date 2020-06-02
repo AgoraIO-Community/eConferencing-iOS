@@ -120,6 +120,10 @@
     for (VideoSessionModel *videoSessionModel in self.rtcVideoSessionModels) {
         // view rerender
         if(videoSessionModel.videoCanvas.view == view){
+            if(videoSessionModel.videoCanvas.uid == uid) {
+                continue;
+            }
+            
             videoSessionModel.videoCanvas.view = nil;
             if(videoSessionModel.uid == self.baseConfigModel.uid) {
                 [self.rtcManager setupLocalVideo:videoSessionModel.videoCanvas];
@@ -145,36 +149,39 @@
         [self.rtcVideoSessionModels removeObject:currentSessionModel];
     }
     
-    AgoraRtcVideoCanvas *videoCanvas = [[AgoraRtcVideoCanvas alloc] init];
-    videoCanvas.uid = uid;
-    videoCanvas.view = view;
-    if(showType == ShowViewTypeFit){
-        videoCanvas.renderMode = AgoraVideoRenderModeFit;
-    } else if(showType == ShowViewTypeHidden){
-        videoCanvas.renderMode = AgoraVideoRenderModeHidden;
-    }
-    if(uid == self.baseConfigModel.uid) {
-        [self.rtcManager setupLocalVideo: videoCanvas];
-    } else {
-        [self.rtcManager setupRemoteVideo: videoCanvas];
-    }
-    
-    VideoSessionModel *videoSessionModel = [VideoSessionModel new];
-    videoSessionModel.uid = uid;
-    videoSessionModel.videoCanvas = videoCanvas;
-    [self.rtcVideoSessionModels addObject:videoSessionModel];
-    
-    // low stream
-//    if(self.baseConfigModel.sceneType == 1) {
-//        if(uid != self.baseConfigModel.uid) {
-//            [self.rtcManager setRemoteVideoStream:uid type:AgoraVideoStreamTypeLow];
-//        }
-//    }
-    
-    // role
-    if(uid == self.baseConfigModel.uid) {
-        [self.rtcManager setClientRole:AgoraClientRoleBroadcaster];
-    }
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        
+        AgoraRtcVideoCanvas *videoCanvas = [[AgoraRtcVideoCanvas alloc] init];
+            videoCanvas.uid = uid;
+            videoCanvas.view = view;
+            if(showType == ShowViewTypeFit){
+                videoCanvas.renderMode = AgoraVideoRenderModeFit;
+            } else if(showType == ShowViewTypeHidden){
+                videoCanvas.renderMode = AgoraVideoRenderModeHidden;
+            }
+            if(uid == self.baseConfigModel.uid) {
+                [self.rtcManager setupLocalVideo: videoCanvas];
+            } else {
+                [self.rtcManager setupRemoteVideo: videoCanvas];
+            }
+            
+            VideoSessionModel *videoSessionModel = [VideoSessionModel new];
+            videoSessionModel.uid = uid;
+            videoSessionModel.videoCanvas = videoCanvas;
+            [self.rtcVideoSessionModels addObject:videoSessionModel];
+            
+            // low stream
+        //    if(self.baseConfigModel.sceneType == 1) {
+        //        if(uid != self.baseConfigModel.uid) {
+        //            [self.rtcManager setRemoteVideoStream:uid type:AgoraVideoStreamTypeLow];
+        //        }
+        //    }
+            
+            // role
+            if(uid == self.baseConfigModel.uid) {
+                [self.rtcManager setClientRole:AgoraClientRoleBroadcaster];
+            }
+    });
 }
 
 - (void)removeVideoCanvasWithUId:(NSUInteger)uid {
