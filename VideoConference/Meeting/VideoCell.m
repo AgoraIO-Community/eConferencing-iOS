@@ -55,6 +55,7 @@
     
     if (userModel.enableVideo) {
         [manager addVideoCanvasWithUId:userModel.uid inView:self.renderView];
+        self.renderView.hidden = NO;
         self.headImgView.hidden = YES;
     } else {
         [manager removeVideoCanvasWithView:self.renderView];

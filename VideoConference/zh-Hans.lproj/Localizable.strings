@@ -25,7 +25,7 @@ SetHost = "设为主持人";
 RemoveRoom = "移出房间";
 
 WhiteBoardControl = "共享白板控制";
-ApplyWhiteBoard = "申请共享白板控制";
+ApplyWhiteBoard = "申请白板互动";
 CancelWhiteBoardControl = "取消共享白板控制";
 
 Set = "设置";
