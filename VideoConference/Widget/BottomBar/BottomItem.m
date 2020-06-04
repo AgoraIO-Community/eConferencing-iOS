@@ -39,9 +39,11 @@
 - (void)setIsSelected:(BOOL)isSelected {
     _isSelected = isSelected;
     if(isSelected){
-       self.imageView.image = [UIImage imageNamed:self.imageName1];
+        self.imageView.image = [UIImage imageNamed:self.imageName1];
+        self.tipText.textColor = [UIColor colorWithHexString:@"4DA1FF"];
     } else {
         self.imageView.image = [UIImage imageNamed:self.imageName0];
+        self.tipText.textColor = [UIColor colorWithHexString:@"989898"];
     }
 }
 
@@ -59,7 +61,9 @@
     }
 }
 
-- (IBAction)onSelectBar:(UIButton *)sender {
+- (IBAction)onSelectBar:(BottomItem *)sender {
+    
+    self.tipText.textColor = sender.isSelected ? [UIColor colorWithHexString:@"4DA1FF"] : [UIColor colorWithHexString:@"989898"];
     if(self.block != nil){
         self.block();
     }
