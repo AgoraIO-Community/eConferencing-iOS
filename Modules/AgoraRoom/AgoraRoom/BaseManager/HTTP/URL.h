@@ -8,7 +8,10 @@
 
 #import <Foundation/Foundation.h>
 
-#define HTTP_BASE_URL @"https://api-solutions-dev.sh.agoralab.co/edu"
+#define HTTP_EDU_HOST_URL @"/edu/"
+#define HTTP_MEET_HOST_URL @"/meeting/"
+
+#define HTTP_BASE_URL @"https://api-test.agora.io/scenario/meeting"
 
 #define HTTP_GET_CONFIG @"%@/v1/app/version"
 
@@ -19,63 +22,63 @@
 // http: get app config
 #define HTTP_OSS_STS_CALLBACK @"%@/v1/log/sts/callback"
 
-// /conf/v1/apps/{appId}/room/entry
+// /conf/apps/{appId}/v1/room/entry
 #define HTTP_ENTER_ROOM1 @"%@/v1/room/entry"
-#define HTTP_ENTER_ROOM2 @"%@/v1/apps/%@/room/entry"
+#define HTTP_ENTER_ROOM2 @"%@/apps/%@/v1/room/entry"
 
-// /edu/v1/apps/{appId}/room/exit
-#define HTTP_LEFT_ROOM @"%@/v1/apps/%@/room/%@/exit"
-// /conf/v1/apps/{appId}/room/{roomId}/user/{userId}/exit
-#define HTTP_CONF_LEFT_ROOM @"%@/v1/apps/%@/room/%@/user/%@/exit"
+// /edu/apps/{appId}/v1/room/exit
+#define HTTP_LEFT_ROOM @"%@/apps/%@/v1/room/%@/exit"
+// /conf/apps/{appId}/v1/room/{roomId}/user/{userId}/exit
+#define HTTP_CONF_LEFT_ROOM @"%@/apps/%@/v1/room/%@/user/%@/exit"
 
 // http: get or update global state
-// /edu/v1/apps/{appId}/room/{roomId}
-#define HTTP_ROOM_INFO @"%@/v1/apps/%@/room/%@"
+// /edu/apps/{appId}/v1/room/{roomId}
+#define HTTP_ROOM_INFO @"%@/apps/%@/v1/room/%@"
 
 #warning You need to use your own backend service API
 // http: get white board keys in room
-// /edu/v1/apps/{appId}/room/{roomId}
-#define HTTP_WHITE_ROOM_INFO @"%@/v1/apps/%@/room/%@/board"
+// /edu/apps/{appId}/v1/room/{roomId}
+#define HTTP_WHITE_ROOM_INFO @"%@/apps/%@/v1/room/%@/board"
 
 // http: update room info
-// /edu/v1/apps/{appId}/room/{roomId}
-#define HTTP_UPDATE_ROOM_INFO @"%@/v1/apps/%@/room/%@"
+// /edu/apps/{appId}/v1/room/{roomId}
+#define HTTP_UPDATE_ROOM_INFO @"%@/apps/%@/v1/room/%@"
 
 // http: update user info
-// /edu/v1/apps/{appId}/room/{roomId}/user/{userId}
-#define HTTP_UPDATE_USER_INFO @"%@/v1/apps/%@/room/%@/user/%@"
+// /edu/apps/{appId}/v1/room/{roomId}/user/{userId}
+#define HTTP_UPDATE_USER_INFO @"%@/apps/%@/v1/room/%@/user/%@"
 
 // http: change host
-// /conf/v1/apps/{appId}/room/{roomId}/user/{userId}/host
-#define HTTP_CHANGE_HOST @"%@/v1/apps/%@/room/%@/user/%@/host"
+// /conf/apps/{appId}/v1/room/{roomId}/user/{userId}/host
+#define HTTP_CHANGE_HOST @"%@/apps/%@/v1/room/%@/user/%@/host"
 
 // http: change board
-// /conf/v1/apps/{appId}/room/{roomId}/user/{userId}/board
-#define HTTP_BOARD_STATE @"%@/v1/apps/%@/room/%@/user/%@/board"
+// /conf/apps/{appId}/v1/room/{roomId}/user/{userId}/board
+#define HTTP_BOARD_STATE @"%@/apps/%@/v1/room/%@/user/%@/board"
 
 // http: audience action
-// /conf/v1/apps/{appId}/room/{roomId}/user/{userId}/audience/apply
-#define HTTP_AUDIENCE_ACTION @"%@/v1/apps/%@/room/%@/user/%@/audience/apply"
+// /conf/apps/{appId}/v1/room/{roomId}/user/{userId}/audience/apply
+#define HTTP_AUDIENCE_ACTION @"%@/apps/%@/v1/room/%@/user/%@/audience/apply"
 
 // http: host action
-// /conf/v1/apps/{appId}/room/{roomId}/user/{userId}/host/invite
-#define HTTP_HOTS_ACTION @"%@/v1/apps/%@/room/%@/user/%@/host/invite"
+// /conf/apps/{appId}/v1/room/{roomId}/user/{userId}/host/invite
+#define HTTP_HOTS_ACTION @"%@/apps/%@/v1/room/%@/user/%@/host/invite"
 
 // http: get userlist info
-// /conf/v1/apps/{appId}/room/{roomId}/user/page
-#define HTTP_USER_LIST_INFO @"%@/v1/apps/%@/room/%@/user/page"
+// /conf/apps/{appId}/v1/room/{roomId}/user/page
+#define HTTP_USER_LIST_INFO @"%@/apps/%@/v1/room/%@/user/page"
 
 // http: im
-// /edu/v1/apps/{appId}/room/{roomId}/chat
-#define HTTP_USER_INSTANT_MESSAGE @"%@/v1/apps/%@/room/%@/chat"
+// /edu/apps/{appId}/v1/room/{roomId}/chat
+#define HTTP_USER_INSTANT_MESSAGE @"%@/apps/%@/v1/room/%@/chat"
 
 // http: covideo
-// /edu/v1/apps/{appId}/room/{roomId}/covideo
-#define HTTP_USER_COVIDEO @"%@/v1/apps/%@/room/%@/covideo"
+// /edu/apps/{appId}/v1/room/{roomId}/covideo
+#define HTTP_USER_COVIDEO @"%@/apps/%@/v1/room/%@/covideo"
 
 // http: get replay info
-// /edu/v1/apps/{appId}/room/{roomId}/record/{recordId}
-#define HTTP_GET_REPLAY_INFO @"%@/v1/apps/%@/room/%@/record/%@"
+// /edu/apps/{appId}/v1/room/{roomId}/record/{recordId}
+#define HTTP_GET_REPLAY_INFO @"%@/apps/%@/v1/room/%@/record/%@"
 
 // Error
 typedef NS_ENUM(NSInteger, LocalAgoraErrorCode) {

@@ -620,7 +620,7 @@ static NSString *agoraUId;
     
     NSString *_url = [url stringByReplacingOccurrencesOfString:@"v1" withString:apiVersion];
     if(sceneType == SceneTypeConference){
-        _url = [_url stringByReplacingOccurrencesOfString:@"/edu/" withString:@"/conf/"];
+        _url = [_url stringByReplacingOccurrencesOfString:HTTP_EDU_HOST_URL withString:HTTP_MEET_HOST_URL];
     }
     
     [HttpClient get:_url params:params headers:_headers success:success failure:failure];
@@ -630,7 +630,7 @@ static NSString *agoraUId;
     
     NSString *_url = [url stringByReplacingOccurrencesOfString:@"v1" withString:apiVersion];
     if(sceneType == SceneTypeConference){
-        _url = [_url stringByReplacingOccurrencesOfString:@"/edu/" withString:@"/conf/"];
+        _url = [_url stringByReplacingOccurrencesOfString:HTTP_EDU_HOST_URL withString:HTTP_MEET_HOST_URL];
     }
     
     // add header

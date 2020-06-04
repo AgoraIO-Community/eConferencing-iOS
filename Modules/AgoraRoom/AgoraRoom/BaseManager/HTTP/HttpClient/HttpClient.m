@@ -58,8 +58,9 @@ static HttpClient *manager = nil;
     } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
         
         AgoraLogInfo(@"\n============>Get HTTP Success<============\n\
+              \nurl==>\n%@\n\
               \nResult==>\n%@\n\
-              ", responseObject);
+              ", url, responseObject);
         
         if ([HttpClient checkUserTokenExpired:responseObject]) {
             return;
@@ -70,8 +71,9 @@ static HttpClient *manager = nil;
         }
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
         AgoraLogInfo(@"\n============>Get HTTP Error<============\n\
+              \nurl==>\n%@\n\
               \nError==>\n%@\n\
-              ", error.description);
+              ", url, error.description);
         if (failure) {
             failure(error);
         }
@@ -96,8 +98,9 @@ static HttpClient *manager = nil;
     [HttpClient.shareManager.sessionManager POST:url parameters:params progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
         
         AgoraLogInfo(@"\n============>Post HTTP Success<============\n\
+              \nurl==>\n%@\n\
               \nResult==>\n%@\n\
-              ", responseObject);
+              ", url, responseObject);
         
         if ([HttpClient checkUserTokenExpired:responseObject]) {
             return;
@@ -109,9 +112,10 @@ static HttpClient *manager = nil;
         
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
 
-        AgoraLogInfo(@"\n============>Post HTTP Error<============\n\
+        AgoraLogInfo(@"\n============>Get HTTP Error<============\n\
+              \nurl==>\n%@\n\
               \nError==>\n%@\n\
-              ", error.description);
+              ", url, error.description);
         if (failure) {
           failure(error);
         }

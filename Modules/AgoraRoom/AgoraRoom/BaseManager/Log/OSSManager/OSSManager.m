@@ -47,7 +47,7 @@ static OSSManager *manager = nil;
         OSSManager.shareManager.initOSSAuthClient = YES;
         NSString *stsURL = [NSString stringWithFormat:HTTP_OSS_STS, HTTP_BASE_URL];
         if(sceneType == SceneTypeConference){
-            stsURL = [stsURL stringByReplacingOccurrencesOfString:@"/edu/" withString:@"/conf/"];
+            stsURL = [stsURL stringByReplacingOccurrencesOfString:HTTP_EDU_HOST_URL withString:HTTP_MEET_HOST_URL];
         }
         
         [OSSManager initOSSAuthClientWithSTSURL:stsURL endpoint:endpoint];
@@ -59,7 +59,7 @@ static OSSManager *manager = nil;
     request.uploadingFileURL = fileURL;
     NSString *callbackURL = [NSString stringWithFormat:HTTP_OSS_STS_CALLBACK, HTTP_BASE_URL];
     if(sceneType == SceneTypeConference){
-        callbackURL = [callbackURL stringByReplacingOccurrencesOfString:@"/edu/" withString:@"/conf/"];
+        callbackURL = [callbackURL stringByReplacingOccurrencesOfString:HTTP_EDU_HOST_URL withString:HTTP_MEET_HOST_URL];
     }
     request.callbackParam = @{
         @"callbackUrl": callbackURL,
