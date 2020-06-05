@@ -11,11 +11,11 @@
 @implementation KeyCenter
 
 + (NSString *)agoraAppid {
-    return @"f488493d1886435f963dfb3d95984fd4";
+    return @"d8e1a9cb336449cfb8a7149b019342d7";
 }
 
 + (NSString *)authorization {
-    return @"OGJmMzUzMzM1MjA2NDg1NThhZDFiNzM2Y2ZhNWQyZjE6NzQ1NDIxYzgxYWJiNGFjOWExZmM3YzdlNTBlOTE5OTk=";
+    return @"MjdiZjhjMmRkNTNhNGQwZGEwMWQxNmM4MTllOWE5Yzc6YjM2N2NiMjRiOTExNDQyYTg5YjU5YTdmN2Y0YjM1OWM=";
 }
 
 @end

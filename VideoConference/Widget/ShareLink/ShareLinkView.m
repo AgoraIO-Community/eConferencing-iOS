@@ -85,7 +85,12 @@
 - (IBAction)onCopyBtnClick:(id)sender {
 
     UIPasteboard *pasteboard = [UIPasteboard generalPasteboard];
-    NSString *str = [NSString stringWithFormat:@"%@\n%@\n%@\n会议链接：%@", self.meetName.text, self.invitationName.text, self.psd.text, self.link.text];
+    
+    NSString *webLink = @"web下载链接：https://solutions.agora.io/meeting/web";
+    NSString *androidLink = @"Android下载链接：https://download.agora.io/demo/release/app-AgoraMeeting-release.apk";
+    NSString *iOSLink = [NSString stringWithFormat:@"iOS下载链接：%@", self.link.text];
+    
+    NSString *str = [NSString stringWithFormat:@"%@\n%@\n%@\n%@\n%@\n%@", self.meetName.text, self.psd.text, self.invitationName.text, webLink, androidLink, iOSLink];
     pasteboard.string = str;
     
     [self hiddenShareLinkView];

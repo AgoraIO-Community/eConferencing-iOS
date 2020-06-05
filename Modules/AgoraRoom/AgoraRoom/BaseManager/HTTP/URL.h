@@ -11,7 +11,7 @@
 #define HTTP_EDU_HOST_URL @"/edu/"
 #define HTTP_MEET_HOST_URL @"/meeting/"
 
-#define HTTP_BASE_URL @"https://api-test.agora.io/scenario/meeting"
+#define HTTP_BASE_URL @"https://api.agora.io/scenario/meeting"
 
 #define HTTP_GET_CONFIG @"%@/v1/app/version"
 
