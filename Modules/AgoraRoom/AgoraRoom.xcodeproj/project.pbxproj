@@ -175,6 +175,8 @@
 		78F6919D2475540B000A0E71 /* ConfUserListModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 78F6919B2475540B000A0E71 /* ConfUserListModel.m */; };
 		78F691A024762953000A0E71 /* WhiteInfoModel.h in Headers */ = {isa = PBXBuildFile; fileRef = 78F6919E24762953000A0E71 /* WhiteInfoModel.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		78F691A124762953000A0E71 /* WhiteInfoModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 78F6919F24762953000A0E71 /* WhiteInfoModel.m */; };
+		842120E0258A238E00E0863F /* HttpManager+Public.m in Sources */ = {isa = PBXBuildFile; fileRef = 842120DE258A238E00E0863F /* HttpManager+Public.m */; };
+		842120E1258A238E00E0863F /* HttpManager+Public.h in Headers */ = {isa = PBXBuildFile; fileRef = 842120DF258A238E00E0863F /* HttpManager+Public.h */; };
 		8DF822A71DC500B30717030D /* libPods-AgoraRoom.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3CF927425B6EBE6DE8B3DA33 /* libPods-AgoraRoom.a */; };
 /* End PBXBuildFile section */
 
@@ -354,6 +356,8 @@
 		78F6919B2475540B000A0E71 /* ConfUserListModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ConfUserListModel.m; sourceTree = "<group>"; };
 		78F6919E24762953000A0E71 /* WhiteInfoModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WhiteInfoModel.h; sourceTree = "<group>"; };
 		78F6919F24762953000A0E71 /* WhiteInfoModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WhiteInfoModel.m; sourceTree = "<group>"; };
+		842120DE258A238E00E0863F /* HttpManager+Public.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "HttpManager+Public.m"; sourceTree = "<group>"; };
+		842120DF258A238E00E0863F /* HttpManager+Public.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "HttpManager+Public.h"; sourceTree = "<group>"; };
 		A48E1F12D2C995C86C2D4205 /* Pods-AgoraRoom.qarelease.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AgoraRoom.qarelease.xcconfig"; path = "Target Support Files/Pods-AgoraRoom/Pods-AgoraRoom.qarelease.xcconfig"; sourceTree = "<group>"; };
 		B1E9BFD487F126DABE18B29B /* Pods-AgoraRoom.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AgoraRoom.release.xcconfig"; path = "Target Support Files/Pods-AgoraRoom/Pods-AgoraRoom.release.xcconfig"; sourceTree = "<group>"; };
 		B3B3EBC3D9B2D09A31800247 /* Pods-AgoraRoom.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AgoraRoom.debug.xcconfig"; path = "Target Support Files/Pods-AgoraRoom/Pods-AgoraRoom.debug.xcconfig"; sourceTree = "<group>"; };
@@ -589,6 +593,8 @@
 				784D21622463F2F00065985A /* URL.h */,
 				784D21612463F2F00065985A /* HttpManager.h */,
 				784D21632463F2F00065985A /* HttpManager.m */,
+				842120DF258A238E00E0863F /* HttpManager+Public.h */,
+				842120DE258A238E00E0863F /* HttpManager+Public.m */,
 			);
 			path = HTTP;
 			sourceTree = "<group>";
@@ -858,6 +864,7 @@
 				784D21B32463F2F00065985A /* minishared.h in Headers */,
 				784D21892463F2F00065985A /* RoomManager+RTC.h in Headers */,
 				784D21F82463F2F00065985A /* RTCManagerDelegate.h in Headers */,
+				842120E1258A238E00E0863F /* HttpManager+Public.h in Headers */,
 				784D21D02463F2F00065985A /* sha1.h in Headers */,
 				784D21DE2463F2F00065985A /* HttpManager.h in Headers */,
 				784D21D32463F2F00065985A /* SSZipCommon.h in Headers */,
@@ -983,6 +990,7 @@
 				78F6917C24738EDB000A0E71 /* ConfShareScreenUserModel.m in Sources */,
 				78F6918E2473B11F000A0E71 /* ConferenceManager.m in Sources */,
 				784D21982463F2F00065985A /* SignalUserModel.m in Sources */,
+				842120E0258A238E00E0863F /* HttpManager+Public.m in Sources */,
 				784D21B02463F2F00065985A /* crypt.c in Sources */,
 				784D21E62463F2F00065985A /* CommonModel.m in Sources */,
 				78F691602472BB4C000A0E71 /* EduRoomModel.m in Sources */,

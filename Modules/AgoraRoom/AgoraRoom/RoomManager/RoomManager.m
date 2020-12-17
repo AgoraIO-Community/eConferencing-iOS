@@ -15,6 +15,7 @@
 #import "EduConfigModel.h"
 #import "JsonParseUtil.h"
 #import "VideoSessionModel.h"
+#import "HttpManager+Public.h"
 
 @interface RoomManager()<RTMManagerDelegate, RTCManagerDelegate>
 
@@ -33,7 +34,10 @@
     return self;
 }
 
-- (instancetype)initWithSceneType:(SceneType)type appId:(NSString *)appId authorization:(NSString *)authorization configModel:(BaseConfigModel *)configModel {
+- (instancetype)initWithSceneType:(SceneType)type
+                            appId:(NSString *)appId
+                    authorization:(NSString *)authorization
+                      configModel:(BaseConfigModel *)configModel {
     if (self = [super init]) {
         self.rtcVideoSessionModels = [NSMutableArray array];
         self.sceneType = type;
@@ -50,7 +54,9 @@
 }
 
 #pragma mark entry room start
-- (void)entryEduSaaSRoomWithParams:(EduSaaSEntryParams *)params successBolck:(void (^)(void))successBlock failBlock:(void (^ _Nullable) (NSError *error))failBlock {
+- (void)entryEduSaaSRoomWithParams:(EduSaaSEntryParams *)params
+                      successBolck:(void (^)(void))successBlock
+                         failBlock:(void (^ _Nullable) (NSError *error))failBlock {
     
 //    self.baseConfigModel.userName = params.userName;
 //    self.baseConfigModel.password = params.password;
@@ -58,7 +64,11 @@
 //    [self enterRoomProcess:params successBolck:successBlock failBlock:failBlock];
 }
 
-- (void)enterRoomProcess:(EntryParams *)params configApiVersion:(NSString*)configApiVersion entryApiVersion:(NSString*)entryApiVersion roomInfoApiVersion:(NSString*)roomInfoApiVersion successBolck:(void (^)(id roomInfoModel))successBlock failBlock:(void (^ _Nullable) (NSError *error))failBlock {
+- (void)enterRoomProcess:(EntryParams *)params
+        configApiVersion:(NSString*)configApiVersion
+         entryApiVersion:(NSString*)entryApiVersion roomInfoApiVersion:(NSString*)roomInfoApiVersion
+            successBolck:(void (^)(id roomInfoModel))successBlock
+               failBlock:(void (^ _Nullable) (NSError *error))failBlock {
     
     WEAK(self);
     [self getConfigWithApiVersion:configApiVersion successBolck:^{
@@ -90,12 +100,17 @@
 }
 #pragma mark entry room end
 
-- (void)initMediaWithClientRole:(ClientRole)role successBolck:(void (^)(void))successBlock failBlock:(void (^ _Nullable) (NSInteger errorCode))failBlock {
+- (void)initMediaWithClientRole:(ClientRole)role
+                   successBolck:(void (^)(void))successBlock
+                      failBlock:(void (^ _Nullable) (NSInteger errorCode))failBlock {
     
     [self setupRTCWithClientRole:role successBolck:successBlock failBlock:failBlock];
 }
 
-- (void)sendMessageWithText:(NSString *)message apiversion:(NSString *)apiversion successBolck:(void (^ _Nullable) (void))successBlock completeFailBlock:(void (^ _Nullable) (NSError *error))failBlock {
+- (void)sendMessageWithText:(NSString *)message
+                 apiversion:(NSString *)apiversion
+               successBolck:(void (^ _Nullable) (void))successBlock
+          completeFailBlock:(void (^ _Nullable) (NSError *error))failBlock {
     
     NSString *appId = self.baseConfigModel.appId;
     NSString *roomId = self.baseConfigModel.roomId;
@@ -113,7 +128,9 @@
     }];
 }
 
-- (void)addVideoCanvasWithUId:(NSUInteger)uid inView:(UIView *)view showType:(ShowViewType)showType {
+- (void)addVideoCanvasWithUId:(NSUInteger)uid
+                       inView:(UIView *)view
+                     showType:(ShowViewType)showType {
     
     VideoSessionModel *currentSessionModel;
     VideoSessionModel *removeSessionModel;
@@ -215,7 +232,11 @@
     }
 }
 
-- (void)getUserListWithNextId:(NSString *)nextId count:(NSInteger)count apiversion:(NSString *)apiversion successBlock:(void (^)(ConfUserListInfoModel *userListModel))successBlock failBlock:(void (^ _Nullable) (NSError *error))failBlock {
+- (void)getUserListWithNextId:(NSString *)nextId
+                        count:(NSInteger)count
+                   apiversion:(NSString *)apiversion
+                 successBlock:(void (^)(ConfUserListInfoModel *userListModel))successBlock
+                    failBlock:(void (^ _Nullable) (NSError *error))failBlock {
     
     WEAK(self);
     
@@ -229,7 +250,12 @@
     }];
 }
 
-- (void)updateUserInfoWithUserId:(NSString*)userId  value:(BOOL)enable enableSignalType:(EnableSignalType)type apiversion:(NSString *)apiversion successBolck:(void (^)(void))successBlock failBlock:(void (^ _Nullable) (NSError *error))failBlock {
+- (void)updateUserInfoWithUserId:(NSString*)userId
+                           value:(BOOL)enable
+                enableSignalType:(EnableSignalType)type
+                      apiversion:(NSString *)apiversion
+                    successBolck:(void (^)(void))successBlock
+                       failBlock:(void (^ _Nullable) (NSError *error))failBlock {
     
     WEAK(self);
     NSString *appId = self.baseConfigModel.appId;

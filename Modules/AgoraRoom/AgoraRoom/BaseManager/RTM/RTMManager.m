@@ -22,7 +22,12 @@
 @end
 
 @implementation RTMManager
-- (void)initSignalWithAppid:(NSString *)appId appToken:(NSString *)appToken userId:(NSString *)uid dataSourceDelegate:(id<RTMManagerDelegate> _Nullable)rtmDelegate completeSuccessBlock:(void (^ _Nullable) (void))successBlock completeFailBlock:(void (^ _Nullable) (NSInteger errorCode))failBlock {
+- (void)initSignalWithAppid:(NSString *)appId
+                   appToken:(NSString *)appToken
+                     userId:(NSString *)uid
+         dataSourceDelegate:(id<RTMManagerDelegate> _Nullable)rtmDelegate
+       completeSuccessBlock:(void (^ _Nullable) (void))successBlock
+          completeFailBlock:(void (^ _Nullable) (NSInteger errorCode))failBlock {
     
     AgoraLogInfo(@"init signal appid:%@ apptoken:%@ uid:%@", appId, appToken, uid);
     
@@ -48,7 +53,9 @@
     }];
 }
 
-- (void)joinSignalWithChannelName:(NSString *)channelName completeSuccessBlock:(void (^ _Nullable) (void))successBlock completeFailBlock:(void (^ _Nullable) (NSInteger errorCode))failBlock {
+- (void)joinSignalWithChannelName:(NSString *)channelName
+             completeSuccessBlock:(void (^ _Nullable) (void))successBlock
+                completeFailBlock:(void (^ _Nullable) (NSInteger errorCode))failBlock {
     AgoraLogInfo(@"join signal channelName:%@", channelName);
     
     self.channelName = channelName;
@@ -68,7 +75,9 @@
     }];
 }
 
-- (void)sendMessage:(NSString *)value completeSuccessBlock:(void (^) (void))successBlock completeFailBlock:(void (^) (NSInteger errorCode))failBlock {
+- (void)sendMessage:(NSString *)value
+completeSuccessBlock:(void (^) (void))successBlock
+  completeFailBlock:(void (^) (NSInteger errorCode))failBlock {
     
     AgoraRtmMessage *rtmMessage = [[AgoraRtmMessage alloc] initWithText:value];
     [self.agoraRtmChannel sendMessage:rtmMessage completion:^(AgoraRtmSendChannelMessageErrorCode errorCode) {
@@ -102,7 +111,9 @@
 }
 
 #pragma mark SignalManagerDelegate
-- (void)rtmKit:(AgoraRtmKit * _Nonnull)kit connectionStateChanged:(AgoraRtmConnectionState)state reason:(AgoraRtmConnectionChangeReason)reason {
+- (void)rtmKit:(AgoraRtmKit * _Nonnull)kit
+connectionStateChanged:(AgoraRtmConnectionState)state
+        reason:(AgoraRtmConnectionChangeReason)reason {
     
     AgoraLogInfo(@"connectionStateChanged state:%ld reason:%ld", (long)state, (long)reason);
     
@@ -111,7 +122,9 @@
     }
 }
 
-- (void)rtmKit:(AgoraRtmKit * _Nonnull)kit messageReceived:(AgoraRtmMessage * _Nonnull)message fromPeer:(NSString * _Nonnull)peerId {
+- (void)rtmKit:(AgoraRtmKit * _Nonnull)kit
+messageReceived:(AgoraRtmMessage * _Nonnull)message
+      fromPeer:(NSString * _Nonnull)peerId {
     
     AgoraLogInfo(@"messageReceived:%@ fromPeer:%@", message.text, peerId);
     
@@ -120,7 +133,9 @@
     }
 }
 
-- (void)channel:(AgoraRtmChannel * _Nonnull)channel messageReceived:(AgoraRtmMessage * _Nonnull)message fromMember:(AgoraRtmMember * _Nonnull)member {
+- (void)channel:(AgoraRtmChannel * _Nonnull)channel
+messageReceived:(AgoraRtmMessage * _Nonnull)message
+     fromMember:(AgoraRtmMember * _Nonnull)member {
 
     AgoraLogInfo(@"messageReceived:%@", message.text);
     if([self.delegate respondsToSelector:@selector(didReceivedSignal:)]) {

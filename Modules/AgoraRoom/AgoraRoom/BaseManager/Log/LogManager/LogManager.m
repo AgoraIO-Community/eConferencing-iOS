@@ -14,6 +14,7 @@
 #import <YYModel.h>
 #import "LogParamsModel.h"
 #import "SSZipArchive.h"
+#import "HttpManager+Public.h"
 
 typedef NS_ENUM(NSInteger, ZipStateType) {
     ZipStateTypeOK              = 0,

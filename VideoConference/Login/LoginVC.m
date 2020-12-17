@@ -7,11 +7,13 @@
 //
 
 #import "LoginVC.h"
+#import "LoginVC+Utils.h"
 #import "VCManager.h"
 #import "SetVC.h"
 #import "UserDefaults.h"
 #import "MeetingVC.h"
 #import "AgoraRoomManager.h"
+
 
 @interface LoginVC ()<UITextViewDelegate>
 
@@ -26,6 +28,7 @@
 @property (weak, nonatomic) IBOutlet UITextField *userName;
 
 @property (weak, nonatomic) IBOutlet UIImageView *signalImgView;
+
 
 @end
 
@@ -42,24 +45,11 @@
     self.cameraSwitch.on = [UserDefaults getOpenCamera];
     self.micSwitch.on = [UserDefaults getOpenMic];
     self.userName.text = [UserDefaults getUserName];
-
+    
     WEAK(self);
-    [AgoraRoomManager.shareManager.conferenceManager netWorkProbeTestCompleteBlock:^(NetworkGrade grade) {
-        
-        NSString *imgName = @"signal_unknown";
-        switch (grade) {
-            case NetworkGradeLow:
-                imgName = @"signal_bad";
-                break;
-            case NetworkGradeMiddle:
-                imgName = @"signal_poor";
-                break;
-            case NetworkGradeHigh:
-                imgName = @"signal_good";
-                break;
-            default:
-                break;
-        }
+    ConferenceManager *conferenceManager = AgoraRoomManager.shareManager.conferenceManager;
+    [conferenceManager netWorkProbeTestCompleteBlock:^(NetworkGrade grade) {
+        NSString *imgName = [LoginVC signalImageName:grade];
         weakself.signalImgView.image = [UIImage imageNamed:imgName];
     }];
 }
@@ -70,7 +60,6 @@
 }
 
 - (void)initView {
-    
     self.textFieldBgView.layer.borderWidth = 1;
     self.textFieldBgView.layer.borderColor = [UIColor colorWithHexString:@"E9EFF4"].CGColor;
     self.textFieldBgView.layer.cornerRadius = 5;
@@ -99,38 +88,16 @@
     [self.view endEditing:YES];
     self.tipView.hidden = YES;
     
-//    self.roomName.text = @"1111";
-//    self.roomPsd.text = @"123";
-    
     NSString *userName = self.userName.text;
     NSString *roomPsd = self.roomPsd.text;
     NSString *roomName = self.roomName.text;
+   
+    NSString *tipString = [LoginVC checkInputWithUserName:userName
+                                                  roomPsd:roomPsd
+                                                 roomName:roomName];
     
-    if (userName.length <= 0 || roomName.length <= 0) {
-        [self showToast:NSLocalizedString(@"UserNameVerifyEmptyText", nil)];
-        return;
-    }
-    NSInteger strlength = [self checkFieldText:roomName];
-    if(strlength < 3){
-        [self showToast:NSLocalizedString(@"RoomNameMinVerifyText", nil)];
-        return;
-    }
-    if(strlength > 50){
-        [self showToast:NSLocalizedString(@"RoomNameMaxVerifyText", nil)];
-        return;
-    }
-    strlength = [self checkFieldText:userName];
-    if(strlength < 3){
-        [self showToast:NSLocalizedString(@"UserNameMinVerifyText", nil)];
-        return;
-    }
-    if(strlength > 20){
-        [self showToast:NSLocalizedString(@"UserNameMaxVerifyText", nil)];
-        return;
-    }
-    strlength = [self checkFieldText:roomPsd];
-    if(strlength > 20){
-        [self showToast:NSLocalizedString(@"PsdMaxVerifyText", nil)];
+    if (tipString != nil ) {
+        [self showToast:tipString];
         return;
     }
     
@@ -146,11 +113,10 @@
     
     [self setLoadingVisible:YES];
     WEAK(self);
-    [AgoraRoomManager.shareManager.conferenceManager entryConfRoomWithParams:params successBolck:^{
+    ConferenceManager *conferenceManager = AgoraRoomManager.shareManager.conferenceManager;
+    [conferenceManager entryConfRoomWithParams:params successBolck:^{
         
-        [UserDefaults setUserName: userName];
-        [UserDefaults setOpenCamera: params.enableVideo];
-        [UserDefaults setOpenMic: params.enableAudio];
+        [LoginVC saveEntryParamas:params];
         
         [weakself setLoadingVisible:NO];
         MeetingVC *vc = [[MeetingVC alloc] initWithNibName:@"MeetingVC" bundle:nil];
@@ -162,20 +128,7 @@
     }];
 }
 
-- (NSInteger)checkFieldText:(NSString *)text {
-    int strlength = 0;
-    char *p = (char *)[text cStringUsingEncoding:NSUnicodeStringEncoding];
-    for (int i = 0; i < [text lengthOfBytesUsingEncoding:NSUnicodeStringEncoding]; i++) {
-        if (*p) {
-            p++;
-            strlength++;
-        }
-        else {
-            p++;
-        }
-    }
-    return strlength;
-}
+
 - (void)setLoadingVisible:(BOOL)show {
     if(show) {
         [self.activityIndicator startAnimating];

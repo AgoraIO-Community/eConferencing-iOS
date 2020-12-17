@@ -25,7 +25,9 @@ static AgoraRoomManager *manager = nil;
     if(self = [super init]) {
         NSString *appid = [KeyCenter agoraAppid];
         NSString *authorization = [KeyCenter authorization];
-        self.conferenceManager =  [[ConferenceManager alloc]initWithSceneType:SceneTypeConference appId:appid authorization:authorization];
+        self.conferenceManager =  [[ConferenceManager alloc] initWithSceneType:SceneTypeConference
+                                                                         appId:appid
+                                                                 authorization:authorization];
         self.whiteManager = [WhiteManager new];
         
         self.messageInfoModels = [NSMutableArray array];

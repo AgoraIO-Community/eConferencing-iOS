@@ -10,6 +10,7 @@
 #import <CocoaLumberjack/CocoaLumberjack.h>
 #import "RoomEnum.h"
 
+
 #ifdef DEBUG
 static const DDLogLevel ddLogLevel = DDLogLevelVerbose;
 #else

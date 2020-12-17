@@ -10,6 +10,7 @@
 #import "HttpManager.h"
 #import "URL.h"
 #import "ConfigModel.h"
+#import "HttpManager+Public.h"
 
 #define ITUNES_URL @"https://itunes.apple.com/cn/app/id1515428313"
  
