@@ -47,3 +47,6 @@ LoginOnAnotherDeviceText = "account signed in on another device";
 
 ColorPickerText = " Color Picker";
 JoinMediaFailedText = "join media failed";
+TimeLimit = "This is a testing product. Please refrain from using it commercially. The max duration per session is 10 minutes. ";
+
+

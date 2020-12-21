@@ -1,17 +1,34 @@
 //
-//  LoginVC+Utils.m
+//  LoginVM.m
 //  VideoConference
 //
-//  Created by ADMIN on 2020/12/10.
+//  Created by ADMIN on 2020/12/17.
 //  Copyright © 2020 agora. All rights reserved.
 //
 
-#import "LoginVC+Utils.h"
+#import "LoginVM.h"
 #import <AgoraRoom/AgoraRoom.h>
 #import <Foundation/Foundation.h>
 #import "UserDefaults.h"
+#import "AgoraRoomManager.h"
+#import "LoginVMDelegate.h"
 
-@implementation LoginVC (Utils)
+@interface LoginVM ()
+
+@property (strong, nonatomic) ConferenceManager *cm;
+@property (weak, nonatomic) id<NetworkDelegate> networkDelegate;
+
+@end
+
+@implementation LoginVM
+
+- (instancetype)init {
+    self = [super init];
+    if (self) {
+        _cm = AgoraRoomManager.shareManager.conferenceManager;
+    }
+    return self;
+}
 
 + (NSString *)signalImageName:(NetworkGrade)grade {
     NSString *imgName = @"signal_unknown";
@@ -78,6 +95,18 @@
     [UserDefaults setUserName: params.userName];
     [UserDefaults setOpenCamera: params.enableVideo];
     [UserDefaults setOpenMic: params.enableAudio];
+}
+
+/// start for network test
+- (void)startNetworkTest {
+    WEAK(self);
+    [_cm netWorkProbeTestCompleteBlock:^(NetworkGrade grade) {
+        if (weakself.networkDelegate != nil &&
+            [weakself.networkDelegate respondsToSelector:@selector(networkImageNameDidChange:)]) {
+            NSString *imgName = [LoginVM signalImageName:grade];
+            [weakself.networkDelegate networkImageNameDidChange:imgName];
+        }
+    }];
 }
 
 @end

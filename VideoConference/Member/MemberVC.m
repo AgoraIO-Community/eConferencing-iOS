@@ -28,36 +28,33 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
+    [self setup];
+    [self addNotification];
+}
+
+- (void)setup {
     self.allUserListModel = @[];
     self.nav.title.text = @"";
     self.nav.rightBtn.hidden = NO;
     [self.nav.rightBtn setImage:[UIImage imageNamed:@"set-icon"] forState:UIControlStateNormal];
+    self.tableView.tableFooterView = [[UIView alloc] init];
+    [self.tableView registerNib:[UINib nibWithNibName:@"UserCell" bundle:nil] forCellReuseIdentifier:@"UserCell"];
     self.nav.rightBlock = ^(){
         SetVC *vc = [[SetVC alloc] initWithNibName:@"SetVC" bundle:nil];
         vc.isMemberSet = YES;
         [VCManager pushToVC:vc];
     };
-
-    self.tableView.tableFooterView = [[UIView alloc] init];
-    [self.tableView registerNib:[UINib nibWithNibName:@"UserCell" bundle:nil] forCellReuseIdentifier:@"UserCell"];
-    
-    [self addNotification];
 }
 
 - (void)addNotification {
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateView) name:NOTICENAME_LOCAL_MEDIA_CHANGED object:nil];
-   
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateView) name:NOTICENAME_REMOTE_MEDIA_CHANGED object:nil];
-    
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateView) name:NOTICENAME_ROOM_INFO_CHANGED object:nil];
-    
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateView) name:NOTICENAME_SHARE_INFO_CHANGED object:nil];
-    
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateView) name:NOTICENAME_HOST_ROLE_CHANGED object:nil];
-    
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateView) name:NOTICENAME_IN_OUT_CHANGED object:nil];
-    
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateView) name:NOTICENAME_RECONNECT_CHANGED object:nil];
+    NSNotificationCenter *center = [NSNotificationCenter defaultCenter];
+    [center addObserver:self selector:@selector(updateView) name:NOTICENAME_LOCAL_MEDIA_CHANGED object:nil];
+    [center addObserver:self selector:@selector(updateView) name:NOTICENAME_REMOTE_MEDIA_CHANGED object:nil];
+    [center addObserver:self selector:@selector(updateView) name:NOTICENAME_ROOM_INFO_CHANGED object:nil];
+    [center addObserver:self selector:@selector(updateView) name:NOTICENAME_SHARE_INFO_CHANGED object:nil];
+    [center addObserver:self selector:@selector(updateView) name:NOTICENAME_HOST_ROLE_CHANGED object:nil];
+    [center addObserver:self selector:@selector(updateView) name:NOTICENAME_IN_OUT_CHANGED object:nil];
+    [center addObserver:self selector:@selector(updateView) name:NOTICENAME_RECONNECT_CHANGED object:nil];
 }
 
 - (void)updateView {
@@ -116,7 +113,9 @@
     
     ConfUserModel *ownModel = manager.ownModel;
     
-    UIAlertController *alertController = [UIAlertController alertControllerWithTitle:nil message:nil preferredStyle:UIAlertControllerStyleActionSheet];
+    UIAlertController *alertController = [UIAlertController alertControllerWithTitle:nil
+                                                                             message:nil
+                                                                      preferredStyle:UIAlertControllerStyleActionSheet];
     WEAK(self);
     NSString *audioText = userModel.enableAudio ? Localized(@"MuteAudio") : Localized(@"UnMuteAudio");
     UIAlertAction *muteAudio = [UIAlertAction actionWithTitle:audioText style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
@@ -140,7 +139,6 @@
         [manager updateUserInfoWithUserId:userModel.userId value:!userModel.enableAudio enableSignalType:EnableSignalTypeAudio successBolck:^{
             
             [weakself updateView];
-//            [NSNotificationCenter.defaultCenter postNotificationName:indexPath.row == 0 ? NOTICENAME_LOCAL_MEDIA_CHANGED : NOTICENAME_REMOTE_MEDIA_CHANGED object:nil];
         } failBlock:^(NSError * _Nonnull error) {
             [weakself updateView];
             [weakself showToast:error.localizedDescription];

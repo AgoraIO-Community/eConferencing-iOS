@@ -1,17 +1,17 @@
 //
-//  LoginVC+Utils.h
+//  LoginVM.h
 //  VideoConference
 //
-//  Created by ADMIN on 2020/12/10.
+//  Created by ADMIN on 2020/12/17.
 //  Copyright © 2020 agora. All rights reserved.
 //
 
-#import "LoginVC.h"
+#import <Foundation/Foundation.h>
 #import <AgoraRoom/AgoraRoom.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface LoginVC (Utils)
+@interface LoginVM : NSObject
 
 + (NSString *)signalImageName:(NetworkGrade)grade;
 + (NSString *)checkInputWithUserName:(NSString *)userName
@@ -19,6 +19,8 @@ NS_ASSUME_NONNULL_BEGIN
                             roomName:(NSString *)roomName;
 + (void)saveEntryParamas:(ConferenceEntryParams *)params;
 
+/// start for network test
+- (void)startNetworkTest;
 
 @end
 

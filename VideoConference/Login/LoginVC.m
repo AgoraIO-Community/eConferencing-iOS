@@ -7,7 +7,7 @@
 //
 
 #import "LoginVC.h"
-#import "LoginVC+Utils.h"
+#import "LoginVM.h"
 #import "VCManager.h"
 #import "SetVC.h"
 #import "UserDefaults.h"
@@ -22,12 +22,11 @@
 @property (weak, nonatomic) IBOutlet UISwitch *micSwitch;
 @property (weak, nonatomic) IBOutlet UIView *tipView;
 @property (weak, nonatomic) IBOutlet UIButton *joinButton;
-
 @property (weak, nonatomic) IBOutlet UITextField *roomName;
 @property (weak, nonatomic) IBOutlet UITextField *roomPsd;
 @property (weak, nonatomic) IBOutlet UITextField *userName;
-
 @property (weak, nonatomic) IBOutlet UIImageView *signalImgView;
+@property (strong, nonatomic) LoginVM *vm;
 
 
 @end
@@ -45,11 +44,11 @@
     self.cameraSwitch.on = [UserDefaults getOpenCamera];
     self.micSwitch.on = [UserDefaults getOpenMic];
     self.userName.text = [UserDefaults getUserName];
-    
+
     WEAK(self);
     ConferenceManager *conferenceManager = AgoraRoomManager.shareManager.conferenceManager;
     [conferenceManager netWorkProbeTestCompleteBlock:^(NetworkGrade grade) {
-        NSString *imgName = [LoginVC signalImageName:grade];
+        NSString *imgName = [LoginVM signalImageName:grade];
         weakself.signalImgView.image = [UIImage imageNamed:imgName];
     }];
 }
@@ -92,7 +91,7 @@
     NSString *roomPsd = self.roomPsd.text;
     NSString *roomName = self.roomName.text;
    
-    NSString *tipString = [LoginVC checkInputWithUserName:userName
+    NSString *tipString = [LoginVM checkInputWithUserName:userName
                                                   roomPsd:roomPsd
                                                  roomName:roomName];
     
@@ -110,18 +109,19 @@
     params.enableVideo = self.cameraSwitch.on;
     params.enableAudio = self.micSwitch.on;
     params.avatar = @"";
-    
+    [self entryRoom:params];
+}
+
+- (void)entryRoom:(ConferenceEntryParams *)params{
     [self setLoadingVisible:YES];
     WEAK(self);
     ConferenceManager *conferenceManager = AgoraRoomManager.shareManager.conferenceManager;
     [conferenceManager entryConfRoomWithParams:params successBolck:^{
-        
-        [LoginVC saveEntryParamas:params];
-        
+        [LoginVM saveEntryParamas:params];
         [weakself setLoadingVisible:NO];
         MeetingVC *vc = [[MeetingVC alloc] initWithNibName:@"MeetingVC" bundle:nil];
         [VCManager pushToVC:vc];
-        
+        [self showTipsTimeLimit];
     } failBlock:^(NSError * _Nonnull error) {
         [weakself setLoadingVisible:NO];
         [weakself showToast:error.localizedDescription];
@@ -151,6 +151,11 @@
 - (BOOL)textViewShouldBeginEditing:(UITextView *)textView {
     self.tipView.hidden = YES;
     return YES;
+}
+
+/// 显示限制时长的提示
+- (void)showTipsTimeLimit {
+    [self showToast:@"本应用为测试产品，请勿商用。单次直播最长10分钟。"];
 }
 
 @end

@@ -87,7 +87,7 @@
 		78F69131247239F6000A0E71 /* WhiteVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 78F6912F247239F6000A0E71 /* WhiteVC.m */; };
 		78F69132247239F6000A0E71 /* WhiteVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 78F69130247239F6000A0E71 /* WhiteVC.xib */; };
 		78F6916B24738072000A0E71 /* KeyCenter.m in Sources */ = {isa = PBXBuildFile; fileRef = 78F6916A24738072000A0E71 /* KeyCenter.m */; };
-		842120E5258A26F500E0863F /* LoginVC+Utils.m in Sources */ = {isa = PBXBuildFile; fileRef = 842120E4258A26F500E0863F /* LoginVC+Utils.m */; };
+		84D1F32B258B2F87006D57CA /* LoginVM.m in Sources */ = {isa = PBXBuildFile; fileRef = 84D1F32A258B2F87006D57CA /* LoginVM.m */; };
 		8B98F1A923481A0A48DEA700 /* Pods_VideoConference.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0BC5E4E14A0F3AD5CA151FEA /* Pods_VideoConference.framework */; };
 /* End PBXBuildFile section */
 
@@ -237,8 +237,9 @@
 		78F69130247239F6000A0E71 /* WhiteVC.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = WhiteVC.xib; sourceTree = "<group>"; };
 		78F6916924738072000A0E71 /* KeyCenter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KeyCenter.h; sourceTree = "<group>"; };
 		78F6916A24738072000A0E71 /* KeyCenter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KeyCenter.m; sourceTree = "<group>"; };
-		842120E3258A26F500E0863F /* LoginVC+Utils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "LoginVC+Utils.h"; sourceTree = "<group>"; };
-		842120E4258A26F500E0863F /* LoginVC+Utils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "LoginVC+Utils.m"; sourceTree = "<group>"; };
+		84D1F329258B2F87006D57CA /* LoginVM.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LoginVM.h; sourceTree = "<group>"; };
+		84D1F32A258B2F87006D57CA /* LoginVM.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LoginVM.m; sourceTree = "<group>"; };
+		84D1F32C258B3470006D57CA /* LoginVMDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LoginVMDelegate.h; sourceTree = "<group>"; };
 		A3AA1CDDED4E961CF4E62543 /* Pods-VideoConference.devrelease.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-VideoConference.devrelease.xcconfig"; path = "Target Support Files/Pods-VideoConference/Pods-VideoConference.devrelease.xcconfig"; sourceTree = "<group>"; };
 		B04D7D656E6E637C1102C29D /* Pods-VideoConference.debug copy.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-VideoConference.debug copy.xcconfig"; path = "Target Support Files/Pods-VideoConference/Pods-VideoConference.debug copy.xcconfig"; sourceTree = "<group>"; };
 		E518D6B1D22836E711436D1A /* Pods-VideoConference.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-VideoConference.debug.xcconfig"; path = "Target Support Files/Pods-VideoConference/Pods-VideoConference.debug.xcconfig"; sourceTree = "<group>"; };
@@ -565,8 +566,9 @@
 			children = (
 				78F69103246E71FC000A0E71 /* LoginVC.h */,
 				78F69102246E71FC000A0E71 /* LoginVC.m */,
-				842120E3258A26F500E0863F /* LoginVC+Utils.h */,
-				842120E4258A26F500E0863F /* LoginVC+Utils.m */,
+				84D1F329258B2F87006D57CA /* LoginVM.h */,
+				84D1F32A258B2F87006D57CA /* LoginVM.m */,
+				84D1F32C258B3470006D57CA /* LoginVMDelegate.h */,
 			);
 			path = Login;
 			sourceTree = "<group>";
@@ -823,6 +825,7 @@
 				78C08C9E2476AD2100728DCB /* AgoraFlowLayout.m in Sources */,
 				78F69123246E874F000A0E71 /* PIPVideoCell.m in Sources */,
 				7803561D246588D9001F9624 /* CommonNavigation.m in Sources */,
+				84D1F32B258B2F87006D57CA /* LoginVM.m in Sources */,
 				7878491C246BD86900455FA2 /* MessageSelfCell.m in Sources */,
 				784D229C2464262B0065985A /* BottomBar.m in Sources */,
 				78F69109246E71FC000A0E71 /* MeetingVC.m in Sources */,
@@ -835,7 +838,6 @@
 				78C08D01247BEB3700728DCB /* ScaleView.m in Sources */,
 				78F6916B24738072000A0E71 /* KeyCenter.m in Sources */,
 				784D2297246424D20065985A /* EEWhiteboardTool.m in Sources */,
-				842120E5258A26F500E0863F /* LoginVC+Utils.m in Sources */,
 				78784912246BBC3900455FA2 /* UserCell.m in Sources */,
 				784D2293246424D20065985A /* EEPageControlView.m in Sources */,
 			);
