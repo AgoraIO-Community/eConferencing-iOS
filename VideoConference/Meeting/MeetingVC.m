@@ -14,6 +14,7 @@
 #import "MeetingNavigation.h"
 #import "BottomBar.h"
 #import "AgoraFlowLayout.h"
+#import "VideoCell+Extension.h"
 
 @interface MeetingVC ()<UICollectionViewDelegate, UICollectionViewDataSource, WhiteManagerDelegate, ConferenceDelegate>
 
@@ -252,6 +253,12 @@
         } else if(allUserCount > indexPath.row + 2 - shareScreenCount - shareBoardCount) {
             ConfUserModel *model = self.allUserListModel[indexPath.row + 2 - shareScreenCount - shareBoardCount];
             [cell setUserModel:model];
+            UIView *renderView = [cell getRenderView];
+            if (model.enableVideo) {
+                [manager addVideoCanvasWithUId:model.uid inView:renderView];
+            } else {
+                [manager removeVideoCanvasWithView:renderView];
+            }
         } else {
             [cell setUserModel:nil];
         }

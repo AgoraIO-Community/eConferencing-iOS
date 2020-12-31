@@ -1,17 +1,17 @@
 {
   "images" : [
     {
-      "filename" : "grayStateShareScreen.png",
+      "filename" : "竖屏.png",
       "idiom" : "universal",
       "scale" : "1x"
     },
     {
-      "filename" : "grayStateShareScreen@2x.png",
+      "filename" : "竖屏@2x.png",
       "idiom" : "universal",
       "scale" : "2x"
     },
     {
-      "filename" : "grayStateShareScreen@3x.png",
+      "filename" : "竖屏@3x.png",
       "idiom" : "universal",
       "scale" : "3x"
     }

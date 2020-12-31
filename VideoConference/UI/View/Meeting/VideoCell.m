@@ -8,8 +8,10 @@
 
 #import "VideoCell.h"
 #import "UIImage+Circle.h"
+#import "VideoCellModel.h"
+#import "NibInitProtocol.h"
 
-@interface VideoCell ()
+@interface VideoCell ()<NibInitProtocol>
 
 @property (weak, nonatomic) IBOutlet UIView *renderView;
 @property (weak, nonatomic) IBOutlet UIImageView *headImgView;
@@ -44,25 +46,21 @@
     
 }
 
-- (void)setUserModel:(ConfUserModel * _Nullable)userModel {
+- (void)setModel:(VideoCellModel * _Nullable)userModel {
     if(userModel == nil){
         self.hidden = YES;
         return;
     }
      self.hidden = NO;
-    
-    ConferenceManager *manager = AgoraRoomManager.shareManager.conferenceManager;
-    
+
     if (userModel.enableVideo) {
-        [manager addVideoCanvasWithUId:userModel.uid inView:self.renderView];
         self.renderView.hidden = NO;
         self.headImgView.hidden = YES;
     } else {
-        [manager removeVideoCanvasWithView:self.renderView];
         self.headImgView.hidden = NO;
         self.renderView.hidden = YES;
     }
-    
+
     self.nameLabel.text = userModel.userName;
     if(userModel.role == ConfRoleTypeHost) {
         self.hostView.hidden = NO;
@@ -73,7 +71,7 @@
         self.hostWConstraint.constant = 0;
         self.shareLConstraint.constant = 0;
     }
-    
+
     if(userModel.grantBoard || userModel.grantScreen) {
         self.shareView.hidden = NO;
         self.shareWConstraint.constant = 17;
@@ -84,7 +82,7 @@
         self.shareLConstraint.constant = 0;
         self.audioLConstraint.constant = 0;
     }
-    
+
     self.audioView.hidden = NO;
     if(userModel.enableAudio) {
         self.audioView.image = [UIImage imageNamed:@"state-unmute"];
@@ -92,4 +90,16 @@
         self.audioView.image = [UIImage imageNamed:@"state-mute"];
     }
 }
+
+- (UIView *)getRenderView {
+    return _renderView;
+}
+
++ (instancetype)instanceFromNib
+{
+    NSString *className = NSStringFromClass(VideoCell.class);
+    return [[NSBundle mainBundle] loadNibNamed:className owner:self options:nil].firstObject;
+}
+
 @end
+

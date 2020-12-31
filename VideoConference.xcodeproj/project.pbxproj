@@ -7,6 +7,24 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		265FD4772599937900D761B7 /* VideoCellModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 265FD4762599937900D761B7 /* VideoCellModel.m */; };
+		265FD47F2599AF8100D761B7 /* VideoCell+Extension.m in Sources */ = {isa = PBXBuildFile; fileRef = 265FD47E2599AF8100D761B7 /* VideoCell+Extension.m */; };
+		265FD4822599B06C00D761B7 /* VideoCellModel+Extension.m in Sources */ = {isa = PBXBuildFile; fileRef = 265FD4812599B06C00D761B7 /* VideoCellModel+Extension.m */; };
+		265FD4872599C17C00D761B7 /* MeetingTopView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 265FD4842599C17C00D761B7 /* MeetingTopView.xib */; };
+		265FD4882599C17C00D761B7 /* MeetingTopView.m in Sources */ = {isa = PBXBuildFile; fileRef = 265FD4862599C17C00D761B7 /* MeetingTopView.m */; };
+		265FD48E2599D00C00D761B7 /* MeetingVC2.m in Sources */ = {isa = PBXBuildFile; fileRef = 265FD48D2599D00C00D761B7 /* MeetingVC2.m */; };
+		265FD4912599D1CF00D761B7 /* MeetingView.m in Sources */ = {isa = PBXBuildFile; fileRef = 265FD4902599D1CF00D761B7 /* MeetingView.m */; };
+		26C0F4FF259DB23B0032521E /* UIColor+AppColor.m in Sources */ = {isa = PBXBuildFile; fileRef = 26C0F4FE259DB23B0032521E /* UIColor+AppColor.m */; };
+		26C0F505259DDB3F0032521E /* MeetingFlowLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = 26C0F504259DDB3F0032521E /* MeetingFlowLayout.m */; };
+		26DF8800259B282000286DFB /* MeetingBottomView.m in Sources */ = {isa = PBXBuildFile; fileRef = 26DF87FF259B282000286DFB /* MeetingBottomView.m */; };
+		26DF8802259B283300286DFB /* MeetingBottomView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 26DF8801259B283300286DFB /* MeetingBottomView.xib */; };
+		26DF8807259B316F00286DFB /* UIScreen+Extension.m in Sources */ = {isa = PBXBuildFile; fileRef = 26DF8806259B316F00286DFB /* UIScreen+Extension.m */; };
+		26DF880A259B349900286DFB /* SpeakerView.m in Sources */ = {isa = PBXBuildFile; fileRef = 26DF8809259B349900286DFB /* SpeakerView.m */; };
+		26DF880F259C257A00286DFB /* SpeakerLeftItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 26DF880E259C257A00286DFB /* SpeakerLeftItem.m */; };
+		26DF8811259C258900286DFB /* SpeakerLeftItem.xib in Resources */ = {isa = PBXBuildFile; fileRef = 26DF8810259C258900286DFB /* SpeakerLeftItem.xib */; };
+		26DF8819259C304700286DFB /* PageCtrlView.m in Sources */ = {isa = PBXBuildFile; fileRef = 26DF8818259C304700286DFB /* PageCtrlView.m */; };
+		26DF881B259C305000286DFB /* PageCtrlView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 26DF881A259C305000286DFB /* PageCtrlView.xib */; };
+		26DF881F259C354B00286DFB /* VideoScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = 26DF881E259C354B00286DFB /* VideoScrollView.m */; };
 		780356112465706D001F9624 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 780356132465706D001F9624 /* Localizable.strings */; };
 		7803561D246588D9001F9624 /* CommonNavigation.m in Sources */ = {isa = PBXBuildFile; fileRef = 7803561C246588D9001F9624 /* CommonNavigation.m */; };
 		7803561F246588E4001F9624 /* CommonNavigation.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7803561E246588E4001F9624 /* CommonNavigation.xib */; };
@@ -38,8 +56,6 @@
 		784D22752464187B0065985A /* AlertViewUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 784D226B2464187B0065985A /* AlertViewUtil.m */; };
 		784D22762464187B0065985A /* UIView+Constraint.m in Sources */ = {isa = PBXBuildFile; fileRef = 784D226D2464187B0065985A /* UIView+Constraint.m */; };
 		784D22772464187B0065985A /* UIView+EEBadge.m in Sources */ = {isa = PBXBuildFile; fileRef = 784D22712464187B0065985A /* UIView+EEBadge.m */; };
-		784D227C246419780065985A /* AgoraRoom.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 784D227B246419780065985A /* AgoraRoom.framework */; };
-		784D227D246419780065985A /* AgoraRoom.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 784D227B246419780065985A /* AgoraRoom.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		784D2280246419890065985A /* WhiteModule.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 784D227F246419890065985A /* WhiteModule.framework */; };
 		784D2281246419890065985A /* WhiteModule.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 784D227F246419890065985A /* WhiteModule.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		784D2292246424D20065985A /* EEPageControlView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 784D2286246424D20065985A /* EEPageControlView.xib */; };
@@ -99,7 +115,6 @@
 			dstSubfolderSpec = 10;
 			files = (
 				784D2281246419890065985A /* WhiteModule.framework in Embed Frameworks */,
-				784D227D246419780065985A /* AgoraRoom.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -108,6 +123,40 @@
 
 /* Begin PBXFileReference section */
 		0BC5E4E14A0F3AD5CA151FEA /* Pods_VideoConference.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_VideoConference.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		265FD4752599937900D761B7 /* VideoCellModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = VideoCellModel.h; sourceTree = "<group>"; };
+		265FD4762599937900D761B7 /* VideoCellModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = VideoCellModel.m; sourceTree = "<group>"; };
+		265FD47D2599AF8100D761B7 /* VideoCell+Extension.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "VideoCell+Extension.h"; sourceTree = "<group>"; };
+		265FD47E2599AF8100D761B7 /* VideoCell+Extension.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "VideoCell+Extension.m"; sourceTree = "<group>"; };
+		265FD4802599B06C00D761B7 /* VideoCellModel+Extension.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "VideoCellModel+Extension.h"; sourceTree = "<group>"; };
+		265FD4812599B06C00D761B7 /* VideoCellModel+Extension.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "VideoCellModel+Extension.m"; sourceTree = "<group>"; };
+		265FD4842599C17C00D761B7 /* MeetingTopView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MeetingTopView.xib; sourceTree = "<group>"; };
+		265FD4852599C17C00D761B7 /* MeetingTopView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MeetingTopView.h; sourceTree = "<group>"; };
+		265FD4862599C17C00D761B7 /* MeetingTopView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MeetingTopView.m; sourceTree = "<group>"; };
+		265FD4892599C49C00D761B7 /* MeetingTopViewDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MeetingTopViewDelegate.h; sourceTree = "<group>"; };
+		265FD48C2599D00C00D761B7 /* MeetingVC2.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MeetingVC2.h; sourceTree = "<group>"; };
+		265FD48D2599D00C00D761B7 /* MeetingVC2.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MeetingVC2.m; sourceTree = "<group>"; };
+		265FD48F2599D1CF00D761B7 /* MeetingView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MeetingView.h; sourceTree = "<group>"; };
+		265FD4902599D1CF00D761B7 /* MeetingView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MeetingView.m; sourceTree = "<group>"; };
+		26C0F4FD259DB23B0032521E /* UIColor+AppColor.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UIColor+AppColor.h"; sourceTree = "<group>"; };
+		26C0F4FE259DB23B0032521E /* UIColor+AppColor.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UIColor+AppColor.m"; sourceTree = "<group>"; };
+		26C0F503259DDB3F0032521E /* MeetingFlowLayout.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MeetingFlowLayout.h; sourceTree = "<group>"; };
+		26C0F504259DDB3F0032521E /* MeetingFlowLayout.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MeetingFlowLayout.m; sourceTree = "<group>"; };
+		26DF87FE259B282000286DFB /* MeetingBottomView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MeetingBottomView.h; sourceTree = "<group>"; };
+		26DF87FF259B282000286DFB /* MeetingBottomView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MeetingBottomView.m; sourceTree = "<group>"; };
+		26DF8801259B283300286DFB /* MeetingBottomView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MeetingBottomView.xib; sourceTree = "<group>"; };
+		26DF8803259B295600286DFB /* NibInitProtocol.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NibInitProtocol.h; sourceTree = "<group>"; };
+		26DF8805259B316F00286DFB /* UIScreen+Extension.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UIScreen+Extension.h"; sourceTree = "<group>"; };
+		26DF8806259B316F00286DFB /* UIScreen+Extension.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UIScreen+Extension.m"; sourceTree = "<group>"; };
+		26DF8808259B349900286DFB /* SpeakerView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SpeakerView.h; sourceTree = "<group>"; };
+		26DF8809259B349900286DFB /* SpeakerView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SpeakerView.m; sourceTree = "<group>"; };
+		26DF880D259C257A00286DFB /* SpeakerLeftItem.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SpeakerLeftItem.h; sourceTree = "<group>"; };
+		26DF880E259C257A00286DFB /* SpeakerLeftItem.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SpeakerLeftItem.m; sourceTree = "<group>"; };
+		26DF8810259C258900286DFB /* SpeakerLeftItem.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SpeakerLeftItem.xib; sourceTree = "<group>"; };
+		26DF8817259C304700286DFB /* PageCtrlView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PageCtrlView.h; sourceTree = "<group>"; };
+		26DF8818259C304700286DFB /* PageCtrlView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PageCtrlView.m; sourceTree = "<group>"; };
+		26DF881A259C305000286DFB /* PageCtrlView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PageCtrlView.xib; sourceTree = "<group>"; };
+		26DF881D259C354B00286DFB /* VideoScrollView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = VideoScrollView.h; sourceTree = "<group>"; };
+		26DF881E259C354B00286DFB /* VideoScrollView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = VideoScrollView.m; sourceTree = "<group>"; };
 		7803560D2465700A001F9624 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/Main.strings"; sourceTree = "<group>"; };
 		7803560E2465700A001F9624 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/LaunchScreen.strings"; sourceTree = "<group>"; };
 		780356122465706D001F9624 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
@@ -253,7 +302,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				784D2280246419890065985A /* WhiteModule.framework in Frameworks */,
-				784D227C246419780065985A /* AgoraRoom.framework in Frameworks */,
 				8B98F1A923481A0A48DEA700 /* Pods_VideoConference.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -261,6 +309,119 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		265FD473259990D200D761B7 /* UI */ = {
+			isa = PBXGroup;
+			children = (
+				26C0F4FC259DB20B0032521E /* Category */,
+				265FD4832599C16600D761B7 /* View */,
+				265FD4742599936200D761B7 /* Model */,
+			);
+			path = UI;
+			sourceTree = "<group>";
+		};
+		265FD4742599936200D761B7 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				265FD4752599937900D761B7 /* VideoCellModel.h */,
+				265FD4762599937900D761B7 /* VideoCellModel.m */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		265FD4782599AEE600D761B7 /* Category */ = {
+			isa = PBXGroup;
+			children = (
+				265FD47C2599AF4500D761B7 /* UI  */,
+			);
+			path = Category;
+			sourceTree = "<group>";
+		};
+		265FD47C2599AF4500D761B7 /* UI  */ = {
+			isa = PBXGroup;
+			children = (
+				265FD47D2599AF8100D761B7 /* VideoCell+Extension.h */,
+				265FD47E2599AF8100D761B7 /* VideoCell+Extension.m */,
+				265FD4802599B06C00D761B7 /* VideoCellModel+Extension.h */,
+				265FD4812599B06C00D761B7 /* VideoCellModel+Extension.m */,
+			);
+			path = "UI ";
+			sourceTree = "<group>";
+		};
+		265FD4832599C16600D761B7 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				26DF880B259C241100286DFB /* Meeting */,
+				26DF8803259B295600286DFB /* NibInitProtocol.h */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		26C0F4FC259DB20B0032521E /* Category */ = {
+			isa = PBXGroup;
+			children = (
+				26DF8804259B312E00286DFB /* UIKit */,
+			);
+			path = Category;
+			sourceTree = "<group>";
+		};
+		26DF8804259B312E00286DFB /* UIKit */ = {
+			isa = PBXGroup;
+			children = (
+				26DF8805259B316F00286DFB /* UIScreen+Extension.h */,
+				26DF8806259B316F00286DFB /* UIScreen+Extension.m */,
+				26C0F4FD259DB23B0032521E /* UIColor+AppColor.h */,
+				26C0F4FE259DB23B0032521E /* UIColor+AppColor.m */,
+			);
+			path = UIKit;
+			sourceTree = "<group>";
+		};
+		26DF880B259C241100286DFB /* Meeting */ = {
+			isa = PBXGroup;
+			children = (
+				26DF881C259C350000286DFB /* BottomView */,
+				26DF880C259C253F00286DFB /* SpeakerView */,
+				265FD4892599C49C00D761B7 /* MeetingTopViewDelegate.h */,
+				265FD4852599C17C00D761B7 /* MeetingTopView.h */,
+				265FD4862599C17C00D761B7 /* MeetingTopView.m */,
+				265FD4842599C17C00D761B7 /* MeetingTopView.xib */,
+				78F69125246E886F000A0E71 /* VideoCell.h */,
+				78F69126246E886F000A0E71 /* VideoCell.m */,
+				78F69127246E886F000A0E71 /* VideoCell.xib */,
+				265FD48F2599D1CF00D761B7 /* MeetingView.h */,
+				265FD4902599D1CF00D761B7 /* MeetingView.m */,
+				26DF87FE259B282000286DFB /* MeetingBottomView.h */,
+				26DF87FF259B282000286DFB /* MeetingBottomView.m */,
+				26DF8801259B283300286DFB /* MeetingBottomView.xib */,
+				26C0F503259DDB3F0032521E /* MeetingFlowLayout.h */,
+				26C0F504259DDB3F0032521E /* MeetingFlowLayout.m */,
+			);
+			path = Meeting;
+			sourceTree = "<group>";
+		};
+		26DF880C259C253F00286DFB /* SpeakerView */ = {
+			isa = PBXGroup;
+			children = (
+				26DF8808259B349900286DFB /* SpeakerView.h */,
+				26DF8809259B349900286DFB /* SpeakerView.m */,
+				26DF880D259C257A00286DFB /* SpeakerLeftItem.h */,
+				26DF880E259C257A00286DFB /* SpeakerLeftItem.m */,
+				26DF8810259C258900286DFB /* SpeakerLeftItem.xib */,
+			);
+			path = SpeakerView;
+			sourceTree = "<group>";
+		};
+		26DF881C259C350000286DFB /* BottomView */ = {
+			isa = PBXGroup;
+			children = (
+				26DF8817259C304700286DFB /* PageCtrlView.h */,
+				26DF8818259C304700286DFB /* PageCtrlView.m */,
+				26DF881A259C305000286DFB /* PageCtrlView.xib */,
+				26DF881D259C354B00286DFB /* VideoScrollView.h */,
+				26DF881E259C354B00286DFB /* VideoScrollView.m */,
+			);
+			path = BottomView;
+			sourceTree = "<group>";
+		};
 		7803561A2465889D001F9624 /* Navigation */ = {
 			isa = PBXGroup;
 			children = (
@@ -331,6 +492,8 @@
 		784D209B2463EB810065985A /* VideoConference */ = {
 			isa = PBXGroup;
 			children = (
+				265FD4782599AEE600D761B7 /* Category */,
+				265FD473259990D200D761B7 /* UI */,
 				78F6910B246E7212000A0E71 /* Manager */,
 				78F69101246E71FC000A0E71 /* Login */,
 				78F69104246E71FC000A0E71 /* Meeting */,
@@ -576,7 +739,8 @@
 		78F69104246E71FC000A0E71 /* Meeting */ = {
 			isa = PBXGroup;
 			children = (
-				78F69115246E7303000A0E71 /* Widge */,
+				265FD48C2599D00C00D761B7 /* MeetingVC2.h */,
+				265FD48D2599D00C00D761B7 /* MeetingVC2.m */,
 				78F69106246E71FC000A0E71 /* MeetingVC.h */,
 				78F69105246E71FC000A0E71 /* MeetingVC.m */,
 				78F69107246E71FC000A0E71 /* MeetingVC.xib */,
@@ -589,9 +753,6 @@
 				78C08D00247BEB3700728DCB /* ScaleView.m */,
 				78ED7E19247BFC5600F93385 /* UIViewAdditions.h */,
 				78ED7E1A247BFC5600F93385 /* UIViewAdditions.m */,
-				78F69125246E886F000A0E71 /* VideoCell.h */,
-				78F69126246E886F000A0E71 /* VideoCell.m */,
-				78F69127246E886F000A0E71 /* VideoCell.xib */,
 				78F6912E247239F6000A0E71 /* WhiteVC.h */,
 				78F6912F247239F6000A0E71 /* WhiteVC.m */,
 				78F69130247239F6000A0E71 /* WhiteVC.xib */,
@@ -610,13 +771,6 @@
 				78F69111246E7212000A0E71 /* VCManager.m */,
 			);
 			path = Manager;
-			sourceTree = "<group>";
-		};
-		78F69115246E7303000A0E71 /* Widge */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Widge;
 			sourceTree = "<group>";
 		};
 		78F6912A246EC16F000A0E71 /* PaddingLabel */ = {
@@ -719,6 +873,7 @@
 				784D2298246424D20065985A /* EEWhiteboardTool.xib in Resources */,
 				7808B29E2468449700B320EB /* SetCenterTextCell.xib in Resources */,
 				780356112465706D001F9624 /* Localizable.strings in Resources */,
+				26DF881B259C305000286DFB /* PageCtrlView.xib in Resources */,
 				784936E92469351600DE15AB /* SetArrowCell.xib in Resources */,
 				7803562424658995001F9624 /* MeetingNavigation.xib in Resources */,
 				7878490D246BA6CE00455FA2 /* MessageVC.xib in Resources */,
@@ -727,6 +882,7 @@
 				784D20AC2463EB820065985A /* LaunchScreen.storyboard in Resources */,
 				78F69124246E874F000A0E71 /* PIPVideoCell.xib in Resources */,
 				78784918246BD75200455FA2 /* MessageCell.xib in Resources */,
+				26DF8811259C258900286DFB /* SpeakerLeftItem.xib in Resources */,
 				78F690FD246E71EA000A0E71 /* ScoreAlertVC.xib in Resources */,
 				784D2292246424D20065985A /* EEPageControlView.xib in Resources */,
 				78F6910A246E71FC000A0E71 /* MeetingVC.xib in Resources */,
@@ -741,6 +897,8 @@
 				7808B29F2468449700B320EB /* SetImageCell.xib in Resources */,
 				784D229E2464265A0065985A /* BottomBar.xib in Resources */,
 				784D20A72463EB810065985A /* Main.storyboard in Resources */,
+				265FD4872599C17C00D761B7 /* MeetingTopView.xib in Resources */,
+				26DF8802259B283300286DFB /* MeetingBottomView.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -793,6 +951,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				265FD48E2599D00C00D761B7 /* MeetingVC2.m in Sources */,
+				26DF880F259C257A00286DFB /* SpeakerLeftItem.m in Sources */,
 				78F69100246E71EA000A0E71 /* AllMuteAlertVC.m in Sources */,
 				78F6912D246EC17E000A0E71 /* PaddingLabel.m in Sources */,
 				78F69128246E886F000A0E71 /* VideoCell.m in Sources */,
@@ -802,7 +962,9 @@
 				7808B2A22468449700B320EB /* SetVC.m in Sources */,
 				7808B2992468449700B320EB /* SetImageCell.m in Sources */,
 				78F69114246E7212000A0E71 /* VCManager.m in Sources */,
+				26DF8807259B316F00286DFB /* UIScreen+Extension.m in Sources */,
 				78F690FE246E71EA000A0E71 /* ScoreAlertVC.m in Sources */,
+				26C0F4FF259DB23B0032521E /* UIColor+AppColor.m in Sources */,
 				7878490E246BA6CE00455FA2 /* MessageVC.m in Sources */,
 				7808B29D2468449700B320EB /* SetSwitchCell.m in Sources */,
 				78ED7E1B247BFC5600F93385 /* UIViewAdditions.m in Sources */,
@@ -812,19 +974,29 @@
 				784D20B72463EC090065985A /* BaseViewController.m in Sources */,
 				784D20AF2463EB820065985A /* main.m in Sources */,
 				78F69113246E7212000A0E71 /* AgoraRoomManager.m in Sources */,
+				265FD4912599D1CF00D761B7 /* MeetingView.m in Sources */,
+				265FD4772599937900D761B7 /* VideoCellModel.m in Sources */,
 				78F69131247239F6000A0E71 /* WhiteVC.m in Sources */,
 				78784917246BD75200455FA2 /* MessageCell.m in Sources */,
+				26DF881F259C354B00286DFB /* VideoScrollView.m in Sources */,
 				784D22732464187B0065985A /* UIView+Toast.m in Sources */,
 				7878493D246D770100455FA2 /* UIImage+Circle.m in Sources */,
 				784D22752464187B0065985A /* AlertViewUtil.m in Sources */,
+				265FD4822599B06C00D761B7 /* VideoCellModel+Extension.m in Sources */,
+				265FD4882599C17C00D761B7 /* MeetingTopView.m in Sources */,
+				26DF880A259B349900286DFB /* SpeakerView.m in Sources */,
 				784D22742464187B0065985A /* NSArray+Copy.m in Sources */,
 				784D224B2464159D0065985A /* AppDelegate.m in Sources */,
 				7808B2A02468449700B320EB /* SetCenterTextCell.m in Sources */,
+				265FD47F2599AF8100D761B7 /* VideoCell+Extension.m in Sources */,
 				7878490B246BA6CE00455FA2 /* MemberVC.m in Sources */,
 				784D2296246424D20065985A /* EEColorShowView.m in Sources */,
+				26DF8800259B282000286DFB /* MeetingBottomView.m in Sources */,
 				78C08C9E2476AD2100728DCB /* AgoraFlowLayout.m in Sources */,
 				78F69123246E874F000A0E71 /* PIPVideoCell.m in Sources */,
+				26C0F505259DDB3F0032521E /* MeetingFlowLayout.m in Sources */,
 				7803561D246588D9001F9624 /* CommonNavigation.m in Sources */,
+				26DF8819259C304700286DFB /* PageCtrlView.m in Sources */,
 				84D1F32B258B2F87006D57CA /* LoginVM.m in Sources */,
 				7878491C246BD86900455FA2 /* MessageSelfCell.m in Sources */,
 				784D229C2464262B0065985A /* BottomBar.m in Sources */,
@@ -927,7 +1099,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 13.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -980,7 +1152,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 13.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
@@ -1000,7 +1172,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "$(SRCROOT)/VideoConference/VideoConference.pch";
 				INFOPLIST_FILE = VideoConference/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -1025,7 +1197,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "$(SRCROOT)/VideoConference/VideoConference.pch";
 				INFOPLIST_FILE = VideoConference/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -1083,7 +1255,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 13.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
@@ -1103,7 +1275,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "$(SRCROOT)/VideoConference/VideoConference.pch";
 				INFOPLIST_FILE = VideoConference/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -1161,7 +1333,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 13.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
@@ -1181,7 +1353,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "$(SRCROOT)/VideoConference/VideoConference.pch";
 				INFOPLIST_FILE = VideoConference/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

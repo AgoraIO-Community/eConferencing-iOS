@@ -45,6 +45,7 @@
 }
 
 - (IBAction)onSpeakerClick:(id)sender {
+    
 }
 
 - (void)setAudioRouting:(AudioOutputRouting)routing {

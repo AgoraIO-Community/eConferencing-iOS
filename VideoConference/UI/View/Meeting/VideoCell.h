@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "AgoraRoomManager.h"
+@class VideoCellModel;
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -15,7 +16,9 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)setShareBoardModel:(ConfShareBoardUserModel *)userModel;
 - (void)setShareScreenModel:(ConfShareScreenUserModel *)userModel;
-- (void)setUserModel:(ConfUserModel * _Nullable)userModel;
+- (void)setModel:(VideoCellModel * _Nullable)userModel;
+- (UIView *)getRenderView;
++ (instancetype)instanceFromNib;
 
 @end
 

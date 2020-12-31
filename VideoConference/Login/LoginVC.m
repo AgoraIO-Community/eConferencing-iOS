@@ -13,7 +13,7 @@
 #import "UserDefaults.h"
 #import "MeetingVC.h"
 #import "AgoraRoomManager.h"
-
+#import "MeetingVC2.h"
 
 @interface LoginVC ()<UITextViewDelegate>
 
@@ -142,6 +142,8 @@
 - (IBAction)onClickTip:(id)sender {
     BOOL hidden = self.tipView.hidden;
     self.tipView.hidden = !hidden;
+    MeetingVC2 *vc = [MeetingVC2 new];
+    [self.navigationController pushViewController:vc animated:true];
 }
 
 - (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {

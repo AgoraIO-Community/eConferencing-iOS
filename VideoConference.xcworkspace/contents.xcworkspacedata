@@ -8,9 +8,6 @@
       location = "group:Pods/Pods.xcodeproj">
    </FileRef>
    <FileRef
-      location = "group:Modules/AgoraRoom/AgoraRoom.xcodeproj">
-   </FileRef>
-   <FileRef
       location = "group:Modules/WhiteModule/WhiteModule.xcodeproj">
    </FileRef>
    <FileRef

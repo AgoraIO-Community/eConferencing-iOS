@@ -7,24 +7,24 @@ target 'VideoConference' do
   # Comment the next line if you don't want to use dynamic frameworks
   use_frameworks!
   pod 'YYModel'
-#  pod 'Masonry'
   pod "IQKeyboardManager"
+  pod 'AgoraRoom', :path => '/Users/zyp/Agora/AgoraRoom/AgoraRoom.podspec'
 end
 
-target "AgoraRoom" do
-  project 'Modules/AgoraRoom/AgoraRoom.xcodeproj'
-  
-  # Media
-#  pod 'AgoraRtcEngine_iOS', '2.9.0.102'
-  pod 'AgoraRtm_iOS', '1.2.2'
-  
-  # HTTP
-  pod 'AFNetworking', '4.0.1'
-  
-  # LOG
-  pod 'CocoaLumberjack'
-  pod 'AliyunOSSiOS'
-end
+#target "AgoraRoom" do
+#  project 'Modules/AgoraRoom/AgoraRoom.xcodeproj'
+#
+#  # Media
+##  pod 'AgoraRtcEngine_iOS', '2.9.0.102'
+#  pod 'AgoraRtm_iOS', '1.2.2'
+#
+#  # HTTP
+#  pod 'AFNetworking', '4.0.1'
+#
+#  # LOG
+#  pod 'CocoaLumberjack'
+#  pod 'AliyunOSSiOS'
+#end
 
 target "WhiteModule" do
   project 'Modules/WhiteModule/WhiteModule.xcodeproj'
