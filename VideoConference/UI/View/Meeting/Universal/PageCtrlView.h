@@ -12,8 +12,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface PageCtrlView : UIView
 
-- (void)setcCurrentPage:(NSInteger)currentPage
-        andNumberOfPage:(NSInteger)numberOfPage;
+- (void)setcCurrentPage:(NSInteger)currentPage andNumberOfPage:(NSInteger)numberOfPage;
 + (instancetype)instanceFromNib;
 
 @end

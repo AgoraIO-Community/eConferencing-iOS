@@ -6,9 +6,9 @@
 //  Copyright © 2020 agora. All rights reserved.
 //
 
-#import "MeetingFlowLayout.h"
+#import "MeetingFlowLayoutVideo.h"
 
-@implementation MeetingFlowLayout
+@implementation MeetingFlowLayoutVideo
 
 - (CGFloat)minimumLineSpacingForSectionAtIndex:(NSInteger)section {
     return 2;
@@ -26,6 +26,27 @@
     NSInteger height = (size.height - 2) * 0.5;
     
     return CGSizeMake(width, height);
+}
+
+- (UIEdgeInsets)collectionViewContentInsets
+{
+    return UIEdgeInsetsMake(0, 0, 0, 0);
+}
+
+- (NSInteger)numberOfItemsInSection:(NSInteger)section itemsCount:(NSInteger)itemsCount
+{
+    if (itemsCount >= section*4) { return 4; }
+    else { return itemsCount-section*4; }
+}
+
+- (NSInteger)numberOfSectionsInItemsCount:(NSInteger)itemsCount
+{
+    return itemsCount/4 + (fmod(itemsCount, 4) > 0.0 ? 1 : 0);
+}
+
+- (UIEdgeInsets)insetForSectionAtIndex:(NSInteger)section
+{
+    return UIEdgeInsetsZero;
 }
 
 @end

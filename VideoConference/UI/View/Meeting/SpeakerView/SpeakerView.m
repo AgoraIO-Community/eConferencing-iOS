@@ -12,7 +12,7 @@
 /// 演讲者视图
 @interface SpeakerView ()
 @property (nonatomic, strong)SpeakerLeftItem *leftItem;
-@property (nonatomic, strong)UIButton *rightButton;
+
 @end
 
 @implementation SpeakerView
@@ -32,7 +32,7 @@
     _leftItem = [SpeakerLeftItem instanceFromNib];
     _rightButton = [UIButton new];
 
-    UIImage *image = [UIImage imageNamed:@"exit-speaker"];
+    UIImage *image = [UIImage imageNamed:@"平铺视图"];
     [_rightButton setImage:image forState:UIControlStateNormal];
     
     [self addSubview:_leftItem];

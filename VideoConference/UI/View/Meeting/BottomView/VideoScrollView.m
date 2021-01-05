@@ -51,8 +51,8 @@
     _pageCtrlView.translatesAutoresizingMaskIntoConstraints = false;
     [NSLayoutConstraint activateConstraints:@[
         [_pageCtrlView.centerXAnchor constraintEqualToAnchor:self.centerXAnchor],
-        [_pageCtrlView.heightAnchor constraintEqualToConstant:26],
-        [_pageCtrlView.widthAnchor constraintEqualToConstant: 100],
+        [_pageCtrlView.heightAnchor constraintEqualToConstant:20],
+        [_pageCtrlView.widthAnchor constraintEqualToConstant: 60],
         [_pageCtrlView.bottomAnchor constraintEqualToAnchor:self.bottomAnchor constant:-7]
     ]];
 }

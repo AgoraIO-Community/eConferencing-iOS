@@ -10,6 +10,7 @@
 #import "NibInitProtocol.h"
 
 @interface PageCtrlView ()<NibInitProtocol>
+
 @property (weak, nonatomic) IBOutlet UILabel *numberLabel;
 @property (weak, nonatomic) IBOutlet UIPageControl *pageCtrl;
 
@@ -17,10 +18,20 @@
 
 @implementation PageCtrlView
 
-- (void)setcCurrentPage:(NSInteger)currentPage
-        andNumberOfPage:(NSInteger)numberOfPage
+- (void)awakeFromNib
 {
-    if (currentPage > numberOfPage - 1) { return; }
+    [super awakeFromNib];
+    self.layer.cornerRadius = 10;
+    self.layer.masksToBounds = true;
+    [self setcCurrentPage:0 andNumberOfPage:0];
+}
+
+- (void)setcCurrentPage:(NSInteger)currentPage andNumberOfPage:(NSInteger)numberOfPage
+{
+    if (currentPage == 0 && numberOfPage == 0) {
+        [self setHidden:true];
+        return;
+    }
     
     if (numberOfPage <= 4) {//只显示pageCtrl
         [_numberLabel setHidden:true];
@@ -33,6 +44,7 @@
         [_pageCtrl setHidden:true];
         _numberLabel.text = [NSString stringWithFormat:@"%ld/%ld", currentPage, numberOfPage];
     }
+    [self setHidden:true];
 }
 
 + (instancetype)instanceFromNib

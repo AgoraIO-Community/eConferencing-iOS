@@ -15,7 +15,8 @@
 		265FD48E2599D00C00D761B7 /* MeetingVC2.m in Sources */ = {isa = PBXBuildFile; fileRef = 265FD48D2599D00C00D761B7 /* MeetingVC2.m */; };
 		265FD4912599D1CF00D761B7 /* MeetingView.m in Sources */ = {isa = PBXBuildFile; fileRef = 265FD4902599D1CF00D761B7 /* MeetingView.m */; };
 		26C0F4FF259DB23B0032521E /* UIColor+AppColor.m in Sources */ = {isa = PBXBuildFile; fileRef = 26C0F4FE259DB23B0032521E /* UIColor+AppColor.m */; };
-		26C0F505259DDB3F0032521E /* MeetingFlowLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = 26C0F504259DDB3F0032521E /* MeetingFlowLayout.m */; };
+		26C0F505259DDB3F0032521E /* MeetingFlowLayoutVideo.m in Sources */ = {isa = PBXBuildFile; fileRef = 26C0F504259DDB3F0032521E /* MeetingFlowLayoutVideo.m */; };
+		26C0F50925A2C4E90032521E /* MeetingFlowLayoutAudio.m in Sources */ = {isa = PBXBuildFile; fileRef = 26C0F50825A2C4E90032521E /* MeetingFlowLayoutAudio.m */; };
 		26DF8800259B282000286DFB /* MeetingBottomView.m in Sources */ = {isa = PBXBuildFile; fileRef = 26DF87FF259B282000286DFB /* MeetingBottomView.m */; };
 		26DF8802259B283300286DFB /* MeetingBottomView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 26DF8801259B283300286DFB /* MeetingBottomView.xib */; };
 		26DF8807259B316F00286DFB /* UIScreen+Extension.m in Sources */ = {isa = PBXBuildFile; fileRef = 26DF8806259B316F00286DFB /* UIScreen+Extension.m */; };
@@ -139,8 +140,11 @@
 		265FD4902599D1CF00D761B7 /* MeetingView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MeetingView.m; sourceTree = "<group>"; };
 		26C0F4FD259DB23B0032521E /* UIColor+AppColor.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UIColor+AppColor.h"; sourceTree = "<group>"; };
 		26C0F4FE259DB23B0032521E /* UIColor+AppColor.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UIColor+AppColor.m"; sourceTree = "<group>"; };
-		26C0F503259DDB3F0032521E /* MeetingFlowLayout.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MeetingFlowLayout.h; sourceTree = "<group>"; };
-		26C0F504259DDB3F0032521E /* MeetingFlowLayout.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MeetingFlowLayout.m; sourceTree = "<group>"; };
+		26C0F503259DDB3F0032521E /* MeetingFlowLayoutVideo.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MeetingFlowLayoutVideo.h; sourceTree = "<group>"; };
+		26C0F504259DDB3F0032521E /* MeetingFlowLayoutVideo.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MeetingFlowLayoutVideo.m; sourceTree = "<group>"; };
+		26C0F50725A2C4E90032521E /* MeetingFlowLayoutAudio.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MeetingFlowLayoutAudio.h; sourceTree = "<group>"; };
+		26C0F50825A2C4E90032521E /* MeetingFlowLayoutAudio.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MeetingFlowLayoutAudio.m; sourceTree = "<group>"; };
+		26C0F50A25A2C9E30032521E /* MeetingViewDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MeetingViewDelegate.h; sourceTree = "<group>"; };
 		26DF87FE259B282000286DFB /* MeetingBottomView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MeetingBottomView.h; sourceTree = "<group>"; };
 		26DF87FF259B282000286DFB /* MeetingBottomView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MeetingBottomView.m; sourceTree = "<group>"; };
 		26DF8801259B283300286DFB /* MeetingBottomView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MeetingBottomView.xib; sourceTree = "<group>"; };
@@ -364,6 +368,16 @@
 			path = Category;
 			sourceTree = "<group>";
 		};
+		26C0F50625A2BD9F0032521E /* Universal */ = {
+			isa = PBXGroup;
+			children = (
+				26DF8817259C304700286DFB /* PageCtrlView.h */,
+				26DF8818259C304700286DFB /* PageCtrlView.m */,
+				26DF881A259C305000286DFB /* PageCtrlView.xib */,
+			);
+			path = Universal;
+			sourceTree = "<group>";
+		};
 		26DF8804259B312E00286DFB /* UIKit */ = {
 			isa = PBXGroup;
 			children = (
@@ -378,6 +392,7 @@
 		26DF880B259C241100286DFB /* Meeting */ = {
 			isa = PBXGroup;
 			children = (
+				26C0F50625A2BD9F0032521E /* Universal */,
 				26DF881C259C350000286DFB /* BottomView */,
 				26DF880C259C253F00286DFB /* SpeakerView */,
 				265FD4892599C49C00D761B7 /* MeetingTopViewDelegate.h */,
@@ -389,11 +404,14 @@
 				78F69127246E886F000A0E71 /* VideoCell.xib */,
 				265FD48F2599D1CF00D761B7 /* MeetingView.h */,
 				265FD4902599D1CF00D761B7 /* MeetingView.m */,
+				26C0F50A25A2C9E30032521E /* MeetingViewDelegate.h */,
 				26DF87FE259B282000286DFB /* MeetingBottomView.h */,
 				26DF87FF259B282000286DFB /* MeetingBottomView.m */,
 				26DF8801259B283300286DFB /* MeetingBottomView.xib */,
-				26C0F503259DDB3F0032521E /* MeetingFlowLayout.h */,
-				26C0F504259DDB3F0032521E /* MeetingFlowLayout.m */,
+				26C0F503259DDB3F0032521E /* MeetingFlowLayoutVideo.h */,
+				26C0F504259DDB3F0032521E /* MeetingFlowLayoutVideo.m */,
+				26C0F50725A2C4E90032521E /* MeetingFlowLayoutAudio.h */,
+				26C0F50825A2C4E90032521E /* MeetingFlowLayoutAudio.m */,
 			);
 			path = Meeting;
 			sourceTree = "<group>";
@@ -413,9 +431,6 @@
 		26DF881C259C350000286DFB /* BottomView */ = {
 			isa = PBXGroup;
 			children = (
-				26DF8817259C304700286DFB /* PageCtrlView.h */,
-				26DF8818259C304700286DFB /* PageCtrlView.m */,
-				26DF881A259C305000286DFB /* PageCtrlView.xib */,
 				26DF881D259C354B00286DFB /* VideoScrollView.h */,
 				26DF881E259C354B00286DFB /* VideoScrollView.m */,
 			);
@@ -994,7 +1009,7 @@
 				26DF8800259B282000286DFB /* MeetingBottomView.m in Sources */,
 				78C08C9E2476AD2100728DCB /* AgoraFlowLayout.m in Sources */,
 				78F69123246E874F000A0E71 /* PIPVideoCell.m in Sources */,
-				26C0F505259DDB3F0032521E /* MeetingFlowLayout.m in Sources */,
+				26C0F505259DDB3F0032521E /* MeetingFlowLayoutVideo.m in Sources */,
 				7803561D246588D9001F9624 /* CommonNavigation.m in Sources */,
 				26DF8819259C304700286DFB /* PageCtrlView.m in Sources */,
 				84D1F32B258B2F87006D57CA /* LoginVM.m in Sources */,
@@ -1007,6 +1022,7 @@
 				7808B2982468449700B320EB /* SetTextFieldCell.m in Sources */,
 				784D22722464187B0065985A /* UIColor+Addition.m in Sources */,
 				780356222465890B001F9624 /* MeetingNavigation.m in Sources */,
+				26C0F50925A2C4E90032521E /* MeetingFlowLayoutAudio.m in Sources */,
 				78C08D01247BEB3700728DCB /* ScaleView.m in Sources */,
 				78F6916B24738072000A0E71 /* KeyCenter.m in Sources */,
 				784D2297246424D20065985A /* EEWhiteboardTool.m in Sources */,

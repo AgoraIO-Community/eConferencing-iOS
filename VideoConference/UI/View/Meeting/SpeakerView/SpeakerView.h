@@ -12,7 +12,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface SpeakerView : UIView
 
-
+@property (nonatomic, strong)UIButton *rightButton;
 
 @end
 

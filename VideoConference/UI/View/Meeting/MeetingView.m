@@ -13,12 +13,15 @@
 #import "UIScreen+Extension.h"
 #import "VideoScrollView.h"
 #import "SpeakerView.h"
-#import "MeetingFlowLayout.h"
+#import "MeetingFlowLayoutVideo.h"
+#import "MeetingFlowLayoutAudio.h"
+#import "PageCtrlView.h"
+#import "MeetingViewDelegate.h"
 
 @interface MeetingView ()
 
-@property (nonatomic, strong)UIPageControl *pageControl;
 @property (nonatomic, assign)MeetingViewMode mode;
+@property (nonatomic, strong)PageCtrlView *pageCtrlView;
 
 @end
 
@@ -30,21 +33,23 @@
     if (self) {
         [self setup];
         [self layout];
-        [self setMode:MeetingViewModeVideoFlow];
+        [self setMode:MeetingViewModeSpeaker];
     }
     return self;
 }
 
 - (void)setup
 {
-    self.backgroundColor = [UIColor whiteColor];
+    self.backgroundColor = UIColor.redColor;
     _topView = [MeetingTopView instanceFromNib];
     _bottomView = [MeetingBottomView instanceFromNib];
 
-    _layout1 = [MeetingFlowLayout new];
-    _layout1.scrollDirection = UICollectionViewScrollDirectionHorizontal;
+    _layoutVideo = [MeetingFlowLayoutVideo new];
+    _layoutVideo.scrollDirection = UICollectionViewScrollDirectionHorizontal;
+    _layoutAudio = [MeetingFlowLayoutAudio new];
+    _layoutAudio.scrollDirection = UICollectionViewScrollDirectionHorizontal;
     
-    _collectionView = [[UICollectionView alloc] initWithFrame:CGRectZero collectionViewLayout:_layout1];
+    _collectionView = [[UICollectionView alloc] initWithFrame:CGRectZero collectionViewLayout:_layoutVideo];
     _collectionView.backgroundColor = [UIColor redColor];
     [_collectionView setPagingEnabled:true];
     _collectionView.showsHorizontalScrollIndicator = false;
@@ -52,12 +57,18 @@
     _videoScrollView = [VideoScrollView new];
     
     _speakerView = [SpeakerView new];
+    _pageCtrlView = [PageCtrlView instanceFromNib];
     
     [self addSubview:_collectionView];
     [self addSubview:_topView];
     [self addSubview:_bottomView];
     [self addSubview:_videoScrollView];
     [self addSubview:_speakerView];
+    [self addSubview:_pageCtrlView];
+    
+    [_speakerView.rightButton addTarget:self
+                                 action:@selector(didTapRightButton)
+                       forControlEvents:UIControlEventTouchUpInside];
 }
 
 - (void)layout
@@ -84,6 +95,14 @@
         [_collectionView.leadingAnchor constraintEqualToAnchor:self.leadingAnchor],
         [_collectionView.trailingAnchor constraintEqualToAnchor:self.trailingAnchor],
         [_collectionView.bottomAnchor constraintEqualToAnchor:_bottomView.topAnchor]
+    ]];
+    
+    _pageCtrlView.translatesAutoresizingMaskIntoConstraints = false;
+    [NSLayoutConstraint activateConstraints:@[
+        [_pageCtrlView.widthAnchor constraintEqualToConstant:60],
+        [_pageCtrlView.heightAnchor constraintEqualToConstant:20],
+        [_pageCtrlView.bottomAnchor constraintEqualToAnchor:_collectionView.bottomAnchor constant:-26],
+        [_pageCtrlView.centerXAnchor constraintEqualToAnchor:_collectionView.centerXAnchor]
     ]];
     
     _speakerView.translatesAutoresizingMaskIntoConstraints = false;
@@ -113,12 +132,19 @@
         case MeetingViewModeVideoFlow:
             [_videoScrollView setHidden:true];
             [_speakerView setHidden:true];
+            UIEdgeInsets contentInset  = [_layoutVideo collectionViewContentInsets];
+            [_collectionView setContentInset:contentInset];
             [_collectionView setHidden:false];
+            [_collectionView setCollectionViewLayout:_layoutVideo animated:true];
             break;
         case MeetingViewModeAudioFlow:
             [_videoScrollView setHidden:true];
             [_speakerView setHidden:true];
+            contentInset  = [_layoutAudio collectionViewContentInsets];
+            [_collectionView setContentInset:contentInset];
             [_collectionView setHidden:false];
+            [_collectionView setCollectionViewLayout:_layoutAudio animated:true];
+            [_collectionView reloadData];
             break;
         case MeetingViewModeSpeaker:
             [_videoScrollView setHidden:false];
@@ -127,6 +153,20 @@
             break;
         default:
             break;
+    }
+}
+
+- (MeetingViewMode)getMode
+{
+    return _mode;
+}
+
+#pragma Atcion
+- (void)didTapRightButton
+{
+    if ([self.delegate respondsToSelector:@selector(meetingViewDidTapExitSpeakeButton:)])
+    {
+        [_delegate meetingViewDidTapExitSpeakeButton:self];
     }
 }
 
