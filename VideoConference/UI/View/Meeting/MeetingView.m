@@ -17,13 +17,22 @@
 #import "MeetingFlowLayoutAudio.h"
 #import "PageCtrlView.h"
 #import "MeetingViewDelegate.h"
+#import "MeetingFlowLayoutVideoScroll.h"
+#import "MessageView.h"
+#import "UIColor+AppColor.h"
 
-@interface MeetingView ()
+@interface MeetingView (){
+    NSLayoutConstraint *_messageViewBottomConstraint;
+}
 
 @property (nonatomic, assign)MeetingViewMode mode;
 @property (nonatomic, strong)PageCtrlView *pageCtrlView;
+@property (nonatomic, assign)NSUInteger itemCount;
 
 @end
+
+static const CGFloat MessageViewBottomConstantHeigh = -165;
+static const CGFloat MessageViewBottomConstantLow = -35;
 
 @implementation MeetingView
 
@@ -33,7 +42,6 @@
     if (self) {
         [self setup];
         [self layout];
-        [self setMode:MeetingViewModeSpeaker];
     }
     return self;
 }
@@ -45,26 +53,31 @@
     _bottomView = [MeetingBottomView instanceFromNib];
 
     _layoutVideo = [MeetingFlowLayoutVideo new];
-    _layoutVideo.scrollDirection = UICollectionViewScrollDirectionHorizontal;
     _layoutAudio = [MeetingFlowLayoutAudio new];
-    _layoutAudio.scrollDirection = UICollectionViewScrollDirectionHorizontal;
+    _layoutVideoScroll = [MeetingFlowLayoutVideoScroll new];
     
     _collectionView = [[UICollectionView alloc] initWithFrame:CGRectZero collectionViewLayout:_layoutVideo];
-    _collectionView.backgroundColor = [UIColor redColor];
+    _collectionView.backgroundColor = UIColor.redColor;
     [_collectionView setPagingEnabled:true];
     _collectionView.showsHorizontalScrollIndicator = false;
-    
+
     _videoScrollView = [VideoScrollView new];
+    [_videoScrollView.collectionView setCollectionViewLayout:_layoutVideoScroll];
+    [_videoScrollView.collectionView setPagingEnabled:true];
+    _videoScrollView.collectionView.showsHorizontalScrollIndicator = false;
     
     _speakerView = [SpeakerView new];
     _pageCtrlView = [PageCtrlView instanceFromNib];
     
+    _messageView = [MessageView new];
+    
     [self addSubview:_collectionView];
     [self addSubview:_topView];
     [self addSubview:_bottomView];
-    [self addSubview:_videoScrollView];
     [self addSubview:_speakerView];
     [self addSubview:_pageCtrlView];
+    [self addSubview:_videoScrollView];
+    [self addSubview:_messageView];
     
     [_speakerView.rightButton addTarget:self
                                  action:@selector(didTapRightButton)
@@ -99,9 +112,9 @@
     
     _pageCtrlView.translatesAutoresizingMaskIntoConstraints = false;
     [NSLayoutConstraint activateConstraints:@[
-        [_pageCtrlView.widthAnchor constraintEqualToConstant:60],
+        [_pageCtrlView.widthAnchor constraintEqualToConstant:80],
         [_pageCtrlView.heightAnchor constraintEqualToConstant:20],
-        [_pageCtrlView.bottomAnchor constraintEqualToAnchor:_collectionView.bottomAnchor constant:-26],
+        [_pageCtrlView.bottomAnchor constraintEqualToAnchor:_collectionView.bottomAnchor constant:-15],
         [_pageCtrlView.centerXAnchor constraintEqualToAnchor:_collectionView.centerXAnchor]
     ]];
     
@@ -113,13 +126,21 @@
         [_speakerView.bottomAnchor constraintEqualToAnchor:_bottomView.topAnchor]
     ]];
     
-    [_videoScrollView setBackgroundColor:UIColor.greenColor];
     _videoScrollView.translatesAutoresizingMaskIntoConstraints = false;
     [NSLayoutConstraint activateConstraints:@[
         [_videoScrollView.leadingAnchor constraintEqualToAnchor:self.leadingAnchor],
         [_videoScrollView.trailingAnchor constraintEqualToAnchor:self.trailingAnchor],
         [_videoScrollView.bottomAnchor constraintEqualToAnchor:_bottomView.topAnchor],
-        [_videoScrollView.heightAnchor constraintEqualToConstant:108]
+        [_videoScrollView.heightAnchor constraintEqualToConstant:160]
+    ]];
+    
+    _messageView.translatesAutoresizingMaskIntoConstraints = false;
+    _messageViewBottomConstraint = [_messageView.bottomAnchor constraintEqualToAnchor:_videoScrollView.bottomAnchor constant:MessageViewBottomConstantLow];
+    [NSLayoutConstraint activateConstraints:@[
+        [_messageView.leadingAnchor constraintEqualToAnchor:self.leadingAnchor constant:10],
+        [_messageView.trailingAnchor constraintEqualToAnchor:self.trailingAnchor constant:-10],
+        _messageViewBottomConstraint,
+        [_messageView.heightAnchor constraintEqualToConstant:147]
     ]];
     
 }
@@ -130,26 +151,46 @@
     
     switch (_mode) {
         case MeetingViewModeVideoFlow:
-            [_videoScrollView setHidden:true];
-            [_speakerView setHidden:true];
-            UIEdgeInsets contentInset  = [_layoutVideo collectionViewContentInsets];
-            [_collectionView setContentInset:contentInset];
-            [_collectionView setHidden:false];
-            [_collectionView setCollectionViewLayout:_layoutVideo animated:true];
+            {
+                [self->_videoScrollView setHidden:true];
+                [self->_speakerView setHidden:true];
+                [self->_collectionView setHidden:false];
+                [self->_collectionView setCollectionViewLayout:self->_layoutVideo animated:false];
+                [self->_collectionView reloadData];
+                [self->_collectionView setContentOffset:CGPointZero animated:false];
+                [self layoutIfNeeded];
+                _messageViewBottomConstraint.constant = MessageViewBottomConstantLow;
+                [UIView animateWithDuration:0.25 animations:^{
+                    [self layoutIfNeeded];
+                }];
+            }
             break;
         case MeetingViewModeAudioFlow:
-            [_videoScrollView setHidden:true];
-            [_speakerView setHidden:true];
-            contentInset  = [_layoutAudio collectionViewContentInsets];
-            [_collectionView setContentInset:contentInset];
-            [_collectionView setHidden:false];
-            [_collectionView setCollectionViewLayout:_layoutAudio animated:true];
-            [_collectionView reloadData];
+            {
+                [self->_videoScrollView setHidden:true];
+                [self->_speakerView setHidden:true];
+                [self->_collectionView setHidden:false];
+                [self->_collectionView setCollectionViewLayout:self->_layoutAudio animated:false];
+                [self->_collectionView reloadData];
+                [self->_collectionView setContentOffset:CGPointZero animated:false];
+                [self layoutIfNeeded];
+                _messageViewBottomConstraint.constant = MessageViewBottomConstantLow;
+                [UIView animateWithDuration:0.25 animations:^{
+                    [self layoutIfNeeded];
+                }];
+            }
             break;
         case MeetingViewModeSpeaker:
-            [_videoScrollView setHidden:false];
-            [_speakerView setHidden:false];
-            [_collectionView setHidden:true];
+            {
+                [self->_videoScrollView setHidden:false];
+                [self->_speakerView setHidden:false];
+                [self->_collectionView setHidden:true];
+                [self layoutIfNeeded];
+                _messageViewBottomConstraint.constant = MessageViewBottomConstantHeigh;
+                [UIView animateWithDuration:0.25 animations:^{
+                    [self layoutIfNeeded];
+                }];
+            }
             break;
         default:
             break;
@@ -161,6 +202,42 @@
     return _mode;
 }
 
+- (void)setItemCount:(NSUInteger)itemCount
+{
+    _itemCount = itemCount;
+    MeetingViewMode mode = [self getMode];
+    double count = (double) itemCount;
+    if (mode == MeetingViewModeVideoFlow)
+    {
+        NSInteger pages = ceil(count/4);
+        [_pageCtrlView setcCurrentPage:0 andNumberOfPage:pages];
+        return;
+    }
+    if (mode == MeetingViewModeAudioFlow)
+    {
+        NSInteger pages = ceil(count/15);
+        [_pageCtrlView setcCurrentPage:0 andNumberOfPage:pages];
+        return;
+    }
+    if (mode == MeetingViewModeSpeaker)
+    {
+        NSInteger pages = ceil(count/4);
+        [_pageCtrlView setcCurrentPage:0 andNumberOfPage:pages];
+        return;
+    }
+}
+
+- (void)setCurrentPageWithItemIndex:(NSInteger)itemIndex
+{
+    MeetingViewMode mode = [self getMode];
+    NSInteger numberOfPage = mode == MeetingViewModeAudioFlow ? 15 : 4;
+    double count = (double) _itemCount;
+    NSInteger pages = ceil(count/numberOfPage);
+    double index = (double) itemIndex;
+    NSInteger currentPage  = index/numberOfPage;
+    [_pageCtrlView setcCurrentPage:currentPage andNumberOfPage:pages];
+}
+
 #pragma Atcion
 - (void)didTapRightButton
 {
@@ -169,5 +246,6 @@
         [_delegate meetingViewDidTapExitSpeakeButton:self];
     }
 }
+
 
 @end

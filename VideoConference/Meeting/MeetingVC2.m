@@ -12,6 +12,10 @@
 #import "MeetingFlowLayoutVideo.h"
 #import "MeetingFlowLayoutAudio.h"
 #import "MeetingViewDelegate.h"
+#import "AudioCell.h"
+#import "VideoScrollView.h"
+#import "MessageView.h"
+#import "MeetingMessageModel.h"
 
 @interface MeetingVC2 ()<UICollectionViewDelegate, UICollectionViewDataSource, MeetingViewDelegate>
 
@@ -25,87 +29,105 @@
 {
     [super viewDidLoad];
     _mainView = [MeetingView new];
+    [_mainView setMode:MeetingViewModeVideoFlow];
     self.view = _mainView;
     [self setup];
 }
 
 - (void)setup
 {
+    
     _mainView.collectionView.delegate = self;
     _mainView.collectionView.dataSource = self;
     _mainView.delegate = self;
-    UINib *nib = [UINib nibWithNibName:@"VideoCell" bundle:nil];
-    [_mainView.collectionView registerNib:nib forCellWithReuseIdentifier:@"VideoCell"];
+    _mainView.videoScrollView.collectionView.delegate = self;
+    _mainView.videoScrollView.collectionView.dataSource = self;
+    
+    NSString *videoIdf = @"VideoCell";
+    UINib *nib = [UINib nibWithNibName:videoIdf bundle:nil];
+    [_mainView.collectionView registerNib:nib forCellWithReuseIdentifier:videoIdf];
+    [_mainView.videoScrollView.collectionView registerNib:nib forCellWithReuseIdentifier:videoIdf];
+    
+    NSString *audioIdf = @"AudioCell";
+    UINib *audioNib = [UINib nibWithNibName:audioIdf bundle:nil];
+    [_mainView.collectionView registerNib:audioNib forCellWithReuseIdentifier:audioIdf];
 }
 
 #pragma UICollectionViewDelegate & UICollectionViewDataSource
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
 {
-    if (collectionView.collectionViewLayout == _mainView.layoutAudio) {
-        return [_mainView.layoutAudio numberOfItemsInSection:section itemsCount:16];
-    }
-    else {
-        return [_mainView.layoutVideo numberOfItemsInSection:section itemsCount:20];
-    }
-}
-
-- (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView
-{
-    if (collectionView.collectionViewLayout == _mainView.layoutAudio) {
-        return [_mainView.layoutAudio numberOfSectionsInItemsCount:16];
-    }
-    else {
-        return [_mainView.layoutVideo numberOfSectionsInItemsCount:20];
-    }
+    [_mainView setItemCount:13];
+    return 13;
 }
 
 - (__kindof UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    VideoCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"VideoCell"
-                                                                forIndexPath:indexPath];
-    
-    if (!cell)
+    if (collectionView.collectionViewLayout == _mainView.layoutAudio)
     {
-        cell = [VideoCell instanceFromNib];
+        AudioCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"AudioCell"
+                                                                    forIndexPath:indexPath];
+        
+        if (!cell)
+        {
+            cell = [AudioCell instanceFromNib];
+        }
+        return cell;
+    }
+    else
+    {
+        VideoCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"VideoCell"
+                                                                    forIndexPath:indexPath];
+        
+        if (!cell)
+        {
+            cell = [VideoCell instanceFromNib];
+        }
+        return cell;
     }
     
-
-    return cell;
 }
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    [_mainView setMode:MeetingViewModeAudioFlow];
+    [_mainView setMode:MeetingViewModeSpeaker];
+    [_mainView setItemCount:13];
+    
+    MeetingMessageModel *model = [MeetingMessageModel new];
+    model.name = [NSString stringWithFormat:@"XXX%ld", indexPath.row];
+    model.info = [NSString stringWithFormat:@"YYYYYYY%ld", indexPath.row];
+    model.remianCount = 0;
+    model.showButton = true;
+    [_mainView.messageView addModel:model];
 }
 
-- (CGFloat)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout minimumLineSpacingForSectionAtIndex:(NSInteger)section
-{
-    return _mainView.layoutVideo == collectionViewLayout ? [_mainView.layoutVideo minimumLineSpacingForSectionAtIndex:section] : [_mainView.layoutAudio minimumLineSpacingForSectionAtIndex:section];
+#pragma mark scrollViewDidScroll
+- (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView {
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        [self scrollViewDidEndScroll];
+    });
 }
 
-- (CGFloat)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout minimumInteritemSpacingForSectionAtIndex:(NSInteger)section
-{
-    return _mainView.layoutVideo == collectionViewLayout ? [_mainView.layoutVideo minimumInteritemSpacingForSectionAtIndex:section] : [_mainView.layoutAudio minimumInteritemSpacingForSectionAtIndex:section];
+- (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate {
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        [self scrollViewDidEndScroll];
+    });
+}
+- (void)scrollViewDidEndScroll {
+    
+    UICollectionView *collectionView = [_mainView getMode] == MeetingViewModeSpeaker ? _mainView.videoScrollView.collectionView : _mainView.collectionView;
+    NSArray *indexPaths = [collectionView indexPathsForVisibleItems];
+    NSIndexPath *indexPath = indexPaths.firstObject;
+    NSInteger index = indexPath.row + 1;
+    [_mainView setCurrentPageWithItemIndex:index];
 }
 
-- (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath
-{
-    return _mainView.layoutVideo == collectionViewLayout ? [_mainView.layoutVideo collectionView:collectionView sizeForItemAtIndexPath:indexPath] : [_mainView.layoutAudio collectionView:collectionView sizeForItemAtIndexPath:indexPath];
-}
-
--(UIEdgeInsets)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout insetForSectionAtIndex:(NSInteger)section
-{
-    if (collectionViewLayout == _mainView.layoutVideo) { return [_mainView.layoutVideo insetForSectionAtIndex:section]; }
-    return [_mainView.layoutAudio insetForSectionAtIndex:section];
-}
 
 #pragma MeetingViewDelegate
 
 - (void)meetingViewDidTapExitSpeakeButton:(MeetingView *)view
 {
-    MeetingViewMode mode = [view getMode] == MeetingViewModeVideoFlow ? MeetingViewModeSpeaker : MeetingViewModeVideoFlow;
-    [view setMode:mode];
+    [view setMode:MeetingViewModeVideoFlow];
 }
 
 @end

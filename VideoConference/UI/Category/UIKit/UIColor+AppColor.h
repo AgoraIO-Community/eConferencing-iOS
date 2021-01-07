@@ -13,6 +13,7 @@ NS_ASSUME_NONNULL_BEGIN
 @interface UIColor (AppColor)
 
 + (UIColor *)floatViewBackground;
++ (UIColor *)themColor;
 
 @end
 

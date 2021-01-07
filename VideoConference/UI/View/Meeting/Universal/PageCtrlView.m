@@ -33,18 +33,25 @@
         return;
     }
     
+    if (currentPage == 1 && numberOfPage == 1) {
+        [self setHidden:true];
+        return;
+    }
+    
     if (numberOfPage <= 4) {//只显示pageCtrl
         [_numberLabel setHidden:true];
         [_pageCtrl setHidden:false];
         _pageCtrl.numberOfPages = numberOfPage;
         _pageCtrl.currentPage = currentPage;
+        [self setHidden:false];
     }
     else {//只显示number
         [_numberLabel setHidden:false];
         [_pageCtrl setHidden:true];
-        _numberLabel.text = [NSString stringWithFormat:@"%ld/%ld", currentPage, numberOfPage];
+        _numberLabel.text = [NSString stringWithFormat:@"%ld/%ld", currentPage+1, numberOfPage];
+        [self setHidden:false];
     }
-    [self setHidden:true];
+    
 }
 
 + (instancetype)instanceFromNib

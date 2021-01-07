@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "MeetingViewDelegate.h"
 
-@class MeetingTopView, MeetingBottomView, VideoScrollView, SpeakerView, MeetingFlowLayoutVideo, MeetingFlowLayoutAudio;
+@class MeetingTopView, MeetingBottomView, VideoScrollView, SpeakerView, MeetingFlowLayoutVideo, MeetingFlowLayoutAudio, MeetingFlowLayoutVideoScroll, MessageView;
 typedef NS_ENUM(NSUInteger, MeetingViewMode) {
     // 视频平铺模式
     MeetingViewModeVideoFlow,
@@ -24,16 +24,19 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (nonatomic, strong)MeetingTopView *topView;
 @property (nonatomic, strong)MeetingBottomView *bottomView;
-@property (nonatomic, strong)UIView *messageView;
 @property (nonatomic, strong)UICollectionView *collectionView;
 @property (nonatomic, strong)VideoScrollView *videoScrollView;
 @property (nonatomic, strong)SpeakerView *speakerView;
+@property (nonatomic, strong)MessageView *messageView;
 @property (nonatomic, strong)MeetingFlowLayoutVideo *layoutVideo;
 @property (nonatomic, strong)MeetingFlowLayoutAudio *layoutAudio;
+@property (nonatomic, strong)MeetingFlowLayoutVideoScroll *layoutVideoScroll;
 @property (nonatomic, weak)id<MeetingViewDelegate> delegate;
 
 - (void)setMode:(MeetingViewMode)mode;
 - (MeetingViewMode)getMode;
+- (void)setItemCount:(NSUInteger)itemCount;
+- (void)setCurrentPageWithItemIndex:(NSInteger)itemIndex;
 
 @end
 

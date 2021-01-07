@@ -14,19 +14,28 @@ PODS:
   - AFNetworking/Serialization (4.0.1)
   - AFNetworking/UIKit (4.0.1):
     - AFNetworking/NSURLSession
-  - AgoraRoom (0.1.0):
-    - AFNetworking (= 4.0.1)
-    - AgoraRtm_iOS (= 1.2.2)
+  - AgoraLog (1.0.2):
+    - CocoaLumberjack (~> 3.6.1)
+  - AgoraRtcEngine_iOS (3.0.0)
+  - AgoraRte (1.0.0):
+    - AgoraLog
+    - AgoraRtcEngine_iOS (= 3.0.0)
+    - AgoraRtm_iOS (= 1.4.2)
     - AliyunOSSiOS
-    - CocoaLumberjack
-    - YYModel
-  - AgoraRtm_iOS (1.2.2)
+    - Armin (= 1.0.5)
+    - SSZipArchive (= 2.2.3)
+    - YYModel (= 1.0.4)
+  - AgoraRtm_iOS (1.4.2)
+  - Alamofire (4.7.3)
   - AliyunOSSiOS (2.10.8)
-  - CocoaLumberjack (3.7.0):
-    - CocoaLumberjack/Core (= 3.7.0)
-  - CocoaLumberjack/Core (3.7.0)
+  - Armin (1.0.5):
+    - Alamofire (~> 4.7.3)
+  - CocoaLumberjack (3.6.1):
+    - CocoaLumberjack/Core (= 3.6.1)
+  - CocoaLumberjack/Core (3.6.1)
   - dsBridge (3.0.6)
-  - IQKeyboardManager (6.5.5)
+  - IQKeyboardManager (6.5.6)
+  - SSZipArchive (2.2.3)
   - Whiteboard (2.6.4):
     - Whiteboard/Base (= 2.6.4)
     - Whiteboard/Converter (= 2.6.4)
@@ -53,7 +62,11 @@ PODS:
   - YYModel (1.0.4)
 
 DEPENDENCIES:
-  - AgoraRoom (from `/Users/zyp/Agora/AgoraRoom/AgoraRoom.podspec`)
+  - AFNetworking (= 4.0.1)
+  - AgoraRte (from `/Users/zyp/Agora/common-scene-sdk/iOS/AgoraRte.podspec`)
+  - AgoraRtm_iOS (= 1.4.2)
+  - AliyunOSSiOS
+  - CocoaLumberjack (= 3.6.1)
   - IQKeyboardManager
   - Whiteboard (= 2.6.4)
   - YYModel
@@ -61,29 +74,39 @@ DEPENDENCIES:
 SPEC REPOS:
   trunk:
     - AFNetworking
+    - AgoraLog
+    - AgoraRtcEngine_iOS
     - AgoraRtm_iOS
+    - Alamofire
     - AliyunOSSiOS
+    - Armin
     - CocoaLumberjack
     - dsBridge
     - IQKeyboardManager
+    - SSZipArchive
     - Whiteboard
     - YYModel
 
 EXTERNAL SOURCES:
-  AgoraRoom:
-    :path: "/Users/zyp/Agora/AgoraRoom/AgoraRoom.podspec"
+  AgoraRte:
+    :path: "/Users/zyp/Agora/common-scene-sdk/iOS/AgoraRte.podspec"
 
 SPEC CHECKSUMS:
   AFNetworking: 7864c38297c79aaca1500c33288e429c3451fdce
-  AgoraRoom: e8b9c95858c5cfb42957dec253809c565ed3c3dd
-  AgoraRtm_iOS: c6ba986a3af73dd0f02e6e2995ae4fe9c155e6ae
+  AgoraLog: b0eb6ed816b29e411dc14dc2171fe5912a8a141f
+  AgoraRtcEngine_iOS: faaa446c165609e055f7ff56268ccb429e081e57
+  AgoraRte: 07523ecceea0634dfe68ec1a539c0eee32d94bc7
+  AgoraRtm_iOS: 5fb55028ec41659a8d88bebecc5c95a742102d4f
+  Alamofire: c7287b6e5d7da964a70935e5db17046b7fde6568
   AliyunOSSiOS: 8db92936545593b9e5c66d680ef2ac0738946651
-  CocoaLumberjack: e8955b9d337ac307103b0a34fd141c32f27e53c5
+  Armin: f9e500cf93a1e48399d4afaf32587528c06d1662
+  CocoaLumberjack: b17ae15142558d08bbacf69775fa10c4abbebcc9
   dsBridge: 48b62ee8a411ad601a88d6f6c8cf6cb634b206b7
-  IQKeyboardManager: 3a8b9e603f8b0eeaf5f096a1f2b2cfcf121992ef
+  IQKeyboardManager: 2a6e97afdafc7becf0cb17a9a8d795e3a980717f
+  SSZipArchive: 62d4947b08730e4cda640473b0066d209ff033c9
   Whiteboard: 79ab8b3ba0a3bcd573c9a77a23da5ef07e7a0f5d
   YYModel: 2a7fdd96aaa4b86a824e26d0c517de8928c04b30
 
-PODFILE CHECKSUM: 8dbb2f644cd3e836b13211a275531289686978f5
+PODFILE CHECKSUM: b35463c74c60b816bd9c2a45704e100910b290d5
 
 COCOAPODS: 1.10.0

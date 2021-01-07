@@ -134,7 +134,6 @@
     
     AgoraFlowLayout *layout = [AgoraFlowLayout new];
     layout = [AgoraFlowLayout new];
-    layout.scrollDirection = UICollectionViewScrollDirectionHorizontal;
     layout.itemCountPerRow = 2;
     layout.rowCount = 2;
     [self.collectionView setCollectionViewLayout:layout];

@@ -14,7 +14,12 @@
 + (UIColor *)floatViewBackground
 {
     
-    return [UIColor colorWithHexString:@"2F3030"];
+    return [UIColor colorWithHexString:@"2F3030" alpha:0.3];
+}
+
++ (UIColor *)themColor
+{
+    return [UIColor colorWithHexString:@"4DA1FF"];
 }
 
 @end
