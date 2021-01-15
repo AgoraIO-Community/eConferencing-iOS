@@ -19,4 +19,12 @@
 
 }
 
++ (NSString *)customerId {
+    return @"540c58dc40024e3e9bd0c91dbbd2b0b3";
+}
+
++ (NSString *)customerCertificate {
+    return @"bfe8ce3700cc4dd4a7edaf667ac635b4";
+}
+
 @end

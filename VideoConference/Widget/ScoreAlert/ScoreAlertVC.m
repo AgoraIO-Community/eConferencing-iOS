@@ -79,8 +79,8 @@
 }
 
 - (IBAction)onSumbit:(id)sender {
-    ConferenceManager *manager = AgoraRoomManager.shareManager.conferenceManager;
-    [manager submitRating:self.rate];
+//    ConferenceManager *manager = AgoraRoomManager.shareManager.conferenceManager;
+//    [manager submitRating:self.rate];
     
     [self dismissViewControllerAnimated:YES completion:^{
         if(self.block != nil){

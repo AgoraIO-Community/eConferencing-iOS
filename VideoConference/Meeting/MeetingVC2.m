@@ -16,32 +16,35 @@
 #import "VideoScrollView.h"
 #import "MessageView.h"
 #import "MeetingMessageModel.h"
+#import "MeetingTopView.h"
+#import "MeetingTopViewDelegate.h"
+#import "MeetingVM.h"
 
-@interface MeetingVC2 ()<UICollectionViewDelegate, UICollectionViewDataSource, MeetingViewDelegate>
+@interface MeetingVC2 ()<UICollectionViewDelegate, UICollectionViewDataSource, MeetingViewDelegate, MeetingTopViewDelegate, VideoCellDelegate>
 
 @property (nonatomic, strong)MeetingView *mainView;
+@property (nonatomic, strong)MeetingVM *vm;
 
 @end
 
 @implementation MeetingVC2
 
-- (void)viewDidLoad
-{
+- (void)viewDidLoad {
     [super viewDidLoad];
-    _mainView = [MeetingView new];
-    [_mainView setMode:MeetingViewModeVideoFlow];
-    self.view = _mainView;
     [self setup];
 }
 
-- (void)setup
-{
+- (void)setup {
+    _mainView = [MeetingView new];
+    [_mainView setMode:MeetingViewModeVideoFlow];
+    self.view = _mainView;
     
     _mainView.collectionView.delegate = self;
     _mainView.collectionView.dataSource = self;
     _mainView.delegate = self;
     _mainView.videoScrollView.collectionView.delegate = self;
     _mainView.videoScrollView.collectionView.dataSource = self;
+    _mainView.topView.delegate = self;
     
     NSString *videoIdf = @"VideoCell";
     UINib *nib = [UINib nibWithNibName:videoIdf bundle:nil];
@@ -51,20 +54,20 @@
     NSString *audioIdf = @"AudioCell";
     UINib *audioNib = [UINib nibWithNibName:audioIdf bundle:nil];
     [_mainView.collectionView registerNib:audioNib forCellWithReuseIdentifier:audioIdf];
+    
+    _vm = [MeetingVM new];
+    [_vm start];
 }
 
 #pragma UICollectionViewDelegate & UICollectionViewDataSource
 
-- (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
-{
+- (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
     [_mainView setItemCount:13];
     return 13;
 }
 
-- (__kindof UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
-{
-    if (collectionView.collectionViewLayout == _mainView.layoutAudio)
-    {
+- (__kindof UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
+    if (collectionView.collectionViewLayout == _mainView.layoutAudio) {
         AudioCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"AudioCell"
                                                                     forIndexPath:indexPath];
         
@@ -74,11 +77,10 @@
         }
         return cell;
     }
-    else
-    {
+    else {
         VideoCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"VideoCell"
                                                                     forIndexPath:indexPath];
-        
+        cell.delegate = self;
         if (!cell)
         {
             cell = [VideoCell instanceFromNib];
@@ -88,8 +90,7 @@
     
 }
 
-- (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
-{
+- (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
     [_mainView setMode:MeetingViewModeSpeaker];
     [_mainView setItemCount:13];
     
@@ -113,6 +114,7 @@
         [self scrollViewDidEndScroll];
     });
 }
+
 - (void)scrollViewDidEndScroll {
     
     UICollectionView *collectionView = [_mainView getMode] == MeetingViewModeSpeaker ? _mainView.videoScrollView.collectionView : _mainView.collectionView;
@@ -125,9 +127,20 @@
 
 #pragma MeetingViewDelegate
 
-- (void)meetingViewDidTapExitSpeakeButton:(MeetingView *)view
-{
+- (void)meetingViewDidTapExitSpeakeButton:(MeetingView *)view {
     [view setMode:MeetingViewModeVideoFlow];
+}
+
+#pragma MeetingTopViewDelegate
+
+- (void)MeetingTopViewDidTapLeaveButton {
+    [self.navigationController popViewControllerAnimated:true];
+}
+
+#pragma VideoCellDelegate
+
+- (void)videoCell:(VideoCell * _Nonnull)cell didTapType:(VideoCellTapType)type {
+    NSLog(@"");
 }
 
 @end

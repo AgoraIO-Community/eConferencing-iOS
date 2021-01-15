@@ -20,3 +20,11 @@
 - (void)networkImageNameDidChange:(NSString *)imageName;
 
 @end
+
+
+@protocol LoginVMDelegate <NSObject>
+
+/// 当error=nil时，表示加入房间成功，反之失败。
+- (void)LoginVMDidEndEntryRoomWithError:(NSError *)error;
+
+@end

@@ -12,11 +12,12 @@
 #import "UserDefaults.h"
 #import "AgoraRoomManager.h"
 #import "LoginVMDelegate.h"
+#import "LoginInfo.h"
+#import "KeyCenter.h"
 
 @interface LoginVM ()
 
-@property (strong, nonatomic) ConferenceManager *cm;
-@property (weak, nonatomic) id<NetworkDelegate> networkDelegate;
+
 
 @end
 
@@ -25,7 +26,7 @@
 - (instancetype)init {
     self = [super init];
     if (self) {
-        _cm = AgoraRoomManager.shareManager.conferenceManager;
+//        _cm = ARConferenceManager.
     }
     return self;
 }
@@ -91,7 +92,7 @@
     return strlength;
 }
 
-+ (void)saveEntryParamas:(ConferenceEntryParams *)params {
++ (void)saveEntryParamas:(ARConferenceEntryParams *)params {
     [UserDefaults setUserName: params.userName];
     [UserDefaults setOpenCamera: params.enableVideo];
     [UserDefaults setOpenMic: params.enableAudio];
@@ -99,12 +100,41 @@
 
 /// start for network test
 - (void)startNetworkTest {
-    WEAK(self);
-    [_cm netWorkProbeTestCompleteBlock:^(NetworkGrade grade) {
-        if (weakself.networkDelegate != nil &&
-            [weakself.networkDelegate respondsToSelector:@selector(networkImageNameDidChange:)]) {
-            NSString *imgName = [LoginVM signalImageName:grade];
-            [weakself.networkDelegate networkImageNameDidChange:imgName];
+//    WEAK(self);
+//    [_cm netWorkProbeTestCompleteBlock:^(NetworkGrade grade) {
+//        if (weakself.networkDelegate != nil &&
+//            [weakself.networkDelegate respondsToSelector:@selector(networkImageNameDidChange:)]) {
+//            NSString *imgName = [LoginVM signalImageName:grade];
+//            [weakself.networkDelegate networkImageNameDidChange:imgName];
+//        }
+//    }];
+}
+
+- (void)entryRoom:(LoginInfo *)info {
+    ARConferenceEntryParams *params = [ARConferenceEntryParams new];
+    params.userName = info.userName;
+    params.roomName = info.roomName;
+    params.enableAudio = info.enableAudio;
+    params.enableVideo = info.enableVideo;
+    params.userUuid = info.userName;
+    params.roomUuid = info.roomName;
+    params.appId = [KeyCenter agoraAppid];
+    params.customerId = [KeyCenter customerId];
+    params.customerCertificate = [KeyCenter customerCertificate];
+    params.avatar = @"";
+    params.logFilePath = NSSearchPathForDirectoriesInDomains(NSCachesDirectory,
+                                                             NSUserDomainMask,
+                                                             true).firstObject;
+    params.logPrintType = ARConsolePrintTypeError;
+    
+    [ARConferenceManager entryRoomWithParams:params successBlock:^{
+        [LoginVM saveEntryParamas:params];
+        if (self.delegate && [self.delegate respondsToSelector:@selector(LoginVMDidEndEntryRoomWithError:)]) {
+            [self.delegate LoginVMDidEndEntryRoomWithError:nil];
+        }
+    } failBlock:^(NSError *error) {
+        if (self.delegate && [self.delegate respondsToSelector:@selector(LoginVMDidEndEntryRoomWithError:)]) {
+            [self.delegate LoginVMDidEndEntryRoomWithError:error];
         }
     }];
 }

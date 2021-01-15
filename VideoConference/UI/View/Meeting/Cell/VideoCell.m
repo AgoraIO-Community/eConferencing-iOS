@@ -27,6 +27,15 @@
 
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *shareLConstraint;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *audioLConstraint;
+
+@property (weak, nonatomic) IBOutlet UIButton *upButton;
+@property (weak, nonatomic) IBOutlet UIButton *menuButton;
+@property (weak, nonatomic) IBOutlet UIView *actionView;
+@property (weak, nonatomic) IBOutlet UIButton *actionButtonSlience;
+@property (weak, nonatomic) IBOutlet UIButton *actionButtonCloseVideo;
+@property (weak, nonatomic) IBOutlet UIButton *actionButtonLeaveRoom;
+@property (weak, nonatomic) IBOutlet UIButton *actionButtonSetHost;
+
 @end
 
 
@@ -36,13 +45,14 @@
     UIImage *image = [UIImage generateImageWithSize:CGSizeMake(32, 32)];
     image = [UIImage circleImageWithOriginalImage:image];
     self.headImgView.image = image;
+    _actionView.alpha = 0;
 }
 
-- (void)setShareBoardModel:(ConfShareBoardUserModel *)userModel {
-    
-}
-
-- (void)setShareScreenModel:(ConfShareScreenUserModel *)userModel {
+- (void)prepareForReuse {
+    [super prepareForReuse];
+    [_menuButton setSelected:false];
+    _actionView.hidden = true;
+    _actionView.alpha = 1;
     
 }
 
@@ -62,15 +72,15 @@
     }
 
     self.nameLabel.text = userModel.userName;
-    if(userModel.role == ConfRoleTypeHost) {
-        self.hostView.hidden = NO;
-        self.hostWConstraint.constant = 17;
-        self.shareLConstraint.constant = 3;
-    } else {
-        self.hostView.hidden = YES;
-        self.hostWConstraint.constant = 0;
-        self.shareLConstraint.constant = 0;
-    }
+//    if(userModel.role == ConfRoleTypeHost) {
+//        self.hostView.hidden = NO;
+//        self.hostWConstraint.constant = 17;
+//        self.shareLConstraint.constant = 3;
+//    } else {
+//        self.hostView.hidden = YES;
+//        self.hostWConstraint.constant = 0;
+//        self.shareLConstraint.constant = 0;
+//    }
 
     if(userModel.grantBoard || userModel.grantScreen) {
         self.shareView.hidden = NO;
@@ -95,10 +105,56 @@
     return _renderView;
 }
 
-+ (instancetype)instanceFromNib
-{
++ (instancetype)instanceFromNib {
     NSString *className = NSStringFromClass(VideoCell.class);
     return [[NSBundle mainBundle] loadNibNamed:className owner:self options:nil].firstObject;
+}
+
+- (void)setActionViewHidden:(BOOL)hidden {
+    if(hidden) {
+        [UIView animateWithDuration:0.25 animations:^{
+            self.actionView.alpha = 0;
+            [self.actionView layoutIfNeeded];
+        } completion:^(BOOL finished) {
+            self.actionView.hidden = true;
+        }];
+    }
+    else {
+        self.actionView.hidden = false;;
+        [UIView animateWithDuration:0.25 animations:^{
+            self.actionView.alpha = 1;
+            [self.actionView layoutIfNeeded];
+        }];
+    }
+}
+
+- (IBAction)buttonTap:(UIButton *)sender {
+    if(sender == _menuButton) {
+        [_menuButton setSelected:!_menuButton.isSelected];
+        BOOL isHidden = !_menuButton.isSelected;
+        [self setActionViewHidden:isHidden];
+    }
+    
+    VideoCellTapType tapType = VideoCellTapTypeSilence;
+    if(sender == _upButton) {
+        tapType = VideoCellTapTypeUpButton;
+    }
+    else if(sender == _actionButtonSlience)  {
+        tapType = VideoCellTapTypeSilence;
+    }
+    else if(sender == _actionButtonCloseVideo)  {
+        tapType = VideoCellTapTypeCloseVideo;
+    }
+    else if(sender == _actionButtonLeaveRoom)  {
+        tapType = VideoCellTapTypeLeaveRoom;
+    }
+    else {
+        tapType = VideoCellTapTypeSetHost;
+    }
+    
+    if([_delegate respondsToSelector:@selector(videoCell:didTapType:)]) {
+        [_delegate videoCell:self didTapType:tapType];
+    }
 }
 
 @end

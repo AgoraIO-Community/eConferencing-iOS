@@ -62,7 +62,7 @@ PODS:
   - YYModel (1.0.4)
 
 DEPENDENCIES:
-  - AFNetworking (= 4.0.1)
+  - AFNetworking
   - AgoraRte (from `/Users/zyp/Agora/common-scene-sdk/iOS/AgoraRte.podspec`)
   - AgoraRtm_iOS (= 1.4.2)
   - AliyunOSSiOS
@@ -107,6 +107,6 @@ SPEC CHECKSUMS:
   Whiteboard: 79ab8b3ba0a3bcd573c9a77a23da5ef07e7a0f5d
   YYModel: 2a7fdd96aaa4b86a824e26d0c517de8928c04b30
 
-PODFILE CHECKSUM: b35463c74c60b816bd9c2a45704e100910b290d5
+PODFILE CHECKSUM: 6d0923fd797d96c168b0d52a0f90e190a2a946e7
 
 COCOAPODS: 1.10.0

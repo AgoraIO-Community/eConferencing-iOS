@@ -18,6 +18,10 @@ NS_ASSUME_NONNULL_BEGIN
 //// For Agora Edu Cloud service，you can refer to [https://docs.agora.io/en/faq/restful_authentication]
 + (NSString *)authorization;
 
++ (NSString *)customerId;
+
++ (NSString *)customerCertificate;
+
 @end
 
 NS_ASSUME_NONNULL_END

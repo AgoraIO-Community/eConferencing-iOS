@@ -8,14 +8,12 @@
 
 #import "LoginVC.h"
 #import "LoginVM.h"
-#import "VCManager.h"
-#import "SetVC.h"
+#import "LoginInfo.h"
 #import "UserDefaults.h"
-#import "MeetingVC.h"
-#import "AgoraRoomManager.h"
 #import "MeetingVC2.h"
+#import "LoginVMDelegate.h"
 
-@interface LoginVC ()<UITextViewDelegate>
+@interface LoginVC ()<UITextViewDelegate, LoginVMDelegate>
 
 @property (weak, nonatomic) IBOutlet UIView *textFieldBgView;
 @property (weak, nonatomic) IBOutlet UISwitch *cameraSwitch;
@@ -28,15 +26,20 @@
 @property (weak, nonatomic) IBOutlet UIImageView *signalImgView;
 @property (strong, nonatomic) LoginVM *vm;
 
-
 @end
 
 @implementation LoginVC
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.view.backgroundColor = UIColor.whiteColor;
+    [self setup];
     [self initView];
+}
+
+- (void)setup {
+    self.view.backgroundColor = UIColor.whiteColor;
+    _vm = [LoginVM new];
+    _vm.delegate = self;
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -44,13 +47,6 @@
     self.cameraSwitch.on = [UserDefaults getOpenCamera];
     self.micSwitch.on = [UserDefaults getOpenMic];
     self.userName.text = [UserDefaults getUserName];
-
-    WEAK(self);
-    ConferenceManager *conferenceManager = AgoraRoomManager.shareManager.conferenceManager;
-    [conferenceManager netWorkProbeTestCompleteBlock:^(NetworkGrade grade) {
-        NSString *imgName = [LoginVM signalImageName:grade];
-        weakself.signalImgView.image = [UIImage imageNamed:imgName];
-    }];
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
@@ -69,8 +65,8 @@
     [self.view endEditing:YES];
     self.tipView.hidden = YES;
     
-    SetVC *vc = [[SetVC alloc] initWithNibName:@"SetVC" bundle:nil];
-    [VCManager pushToVC:vc];
+//    SetVC *vc = [[SetVC alloc] initWithNibName:@"SetVC" bundle:nil];
+//    [VCManager pushToVC:vc];
 }
 
 - (IBAction)onSwitchCamera:(id)sender {
@@ -94,40 +90,20 @@
     NSString *tipString = [LoginVM checkInputWithUserName:userName
                                                   roomPsd:roomPsd
                                                  roomName:roomName];
-    
     if (tipString != nil ) {
         [self showToast:tipString];
         return;
     }
     
-    ConferenceEntryParams *params = [ConferenceEntryParams new];
-    params.userName = userName;
-    params.userUuid = [UIDevice currentDevice].identifierForVendor.UUIDString;
-    params.roomName = roomName;
-    params.roomUuid = roomName;
-    params.password = roomPsd;
-    params.enableVideo = self.cameraSwitch.on;
-    params.enableAudio = self.micSwitch.on;
-    params.avatar = @"";
-    [self entryRoom:params];
-}
-
-- (void)entryRoom:(ConferenceEntryParams *)params{
     [self setLoadingVisible:YES];
-    WEAK(self);
-    ConferenceManager *conferenceManager = AgoraRoomManager.shareManager.conferenceManager;
-    [conferenceManager entryConfRoomWithParams:params successBolck:^{
-        [LoginVM saveEntryParamas:params];
-        [weakself setLoadingVisible:NO];
-        MeetingVC *vc = [[MeetingVC alloc] initWithNibName:@"MeetingVC" bundle:nil];
-        [VCManager pushToVC:vc];
-        [self showTipsTimeLimit];
-    } failBlock:^(NSError * _Nonnull error) {
-        [weakself setLoadingVisible:NO];
-        [weakself showToast:error.localizedDescription];
-    }];
+    LoginInfo *info = [[LoginInfo alloc] init];
+    info.userName = userName;
+    info.password = roomPsd;
+    info.roomName = roomName;
+    info.enableAudio = _micSwitch.on;
+    info.enableVideo = _cameraSwitch.on;
+    [_vm entryRoom:info];
 }
-
 
 - (void)setLoadingVisible:(BOOL)show {
     if(show) {
@@ -142,6 +118,7 @@
 - (IBAction)onClickTip:(id)sender {
     BOOL hidden = self.tipView.hidden;
     self.tipView.hidden = !hidden;
+    
     MeetingVC2 *vc = [MeetingVC2 new];
     [self.navigationController pushViewController:vc animated:true];
 }
@@ -159,5 +136,21 @@
 - (void)showTipsTimeLimit {
     [self showToast:@"本应用为测试产品，请勿商用。单次直播最长10分钟。"];
 }
+
+#pragma LoginVMDelegate
+
+- (void)LoginVMDidEndEntryRoomWithError:(NSError *)error {
+    [self setLoadingVisible:NO];
+    if (error != nil) {
+        [self setLoadingVisible:NO];
+        [self showToast:error.localizedDescription];
+        return;
+    }
+    
+    MeetingVC2 *vc = [MeetingVC2 new];
+    [self.navigationController pushViewController:vc animated:true];
+    [self showTipsTimeLimit];
+}
+
 
 @end

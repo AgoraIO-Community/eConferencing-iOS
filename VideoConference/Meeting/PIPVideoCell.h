@@ -7,7 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "AgoraRoomManager.h"
+#import "AgoraRoom/AgoraRoom.h"
 
 NS_ASSUME_NONNULL_BEGIN
 

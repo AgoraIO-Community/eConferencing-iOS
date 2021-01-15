@@ -9,11 +9,12 @@ target 'VideoConference' do
   pod 'YYModel'
   pod "IQKeyboardManager"
 #  pod 'AgoraRoom', :path => '/Users/zyp/Agora/AgoraRoom/AgoraRoom.podspec'
+  pod 'AgoraRte', :path => '/Users/zyp/Agora/common-scene-sdk/iOS/AgoraRte.podspec'
 end
 
 target 'AgoraRoom' do
   use_frameworks!
-  pod 'AFNetworking', '4.0.1'
+  pod 'AFNetworking'
   pod 'AgoraRtm_iOS', '1.4.2'
   pod 'CocoaLumberjack', '3.6.1'
   pod 'AliyunOSSiOS'
