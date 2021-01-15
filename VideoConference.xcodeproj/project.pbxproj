@@ -69,7 +69,6 @@
 		267C799425AC42C200D93422 /* HMMultiLanguageModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 267C799225AC42C200D93422 /* HMMultiLanguageModel.m */; };
 		267C799925AC47B500D93422 /* HMHttpResp.h in Headers */ = {isa = PBXBuildFile; fileRef = 267C799725AC47B500D93422 /* HMHttpResp.h */; };
 		267C799A25AC47B500D93422 /* HMHttpResp.m in Sources */ = {isa = PBXBuildFile; fileRef = 267C799825AC47B500D93422 /* HMHttpResp.m */; };
-		267C799F25AC515000D93422 /* HMMultiLanguageModel.h in Headers */ = {isa = PBXBuildFile; fileRef = 267C799E25AC514F00D93422 /* HMMultiLanguageModel.h */; };
 		267C79A625AC523E00D93422 /* HMRoomInfo.h in Headers */ = {isa = PBXBuildFile; fileRef = 267C79A425AC523E00D93422 /* HMRoomInfo.h */; };
 		267C79A725AC523E00D93422 /* HMRoomInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 267C79A525AC523E00D93422 /* HMRoomInfo.m */; };
 		267C79AB25AC547000D93422 /* HMEmtryParams.h in Headers */ = {isa = PBXBuildFile; fileRef = 267C79A925AC547000D93422 /* HMEmtryParams.h */; };
@@ -206,6 +205,7 @@
 		2650F68625AE997700F122AC /* StarView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = StarView.xib; sourceTree = "<group>"; };
 		2650F68925AE9EB000F122AC /* StarAlertVC.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = StarAlertVC.h; sourceTree = "<group>"; };
 		2650F68A25AE9EB000F122AC /* StarAlertVC.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = StarAlertVC.m; sourceTree = "<group>"; };
+		2650FA1A25B184D800F122AC /* HMMultiLanguageModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HMMultiLanguageModel.h; sourceTree = "<group>"; };
 		265FD4752599937900D761B7 /* VideoCellModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = VideoCellModel.h; sourceTree = "<group>"; };
 		265FD4762599937900D761B7 /* VideoCellModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = VideoCellModel.m; sourceTree = "<group>"; };
 		265FD47D2599AF8100D761B7 /* VideoCell+Extension.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "VideoCell+Extension.h"; sourceTree = "<group>"; };
@@ -274,7 +274,6 @@
 		267C799225AC42C200D93422 /* HMMultiLanguageModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HMMultiLanguageModel.m; sourceTree = "<group>"; };
 		267C799725AC47B500D93422 /* HMHttpResp.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HMHttpResp.h; sourceTree = "<group>"; };
 		267C799825AC47B500D93422 /* HMHttpResp.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HMHttpResp.m; sourceTree = "<group>"; };
-		267C799E25AC514F00D93422 /* HMMultiLanguageModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HMMultiLanguageModel.h; sourceTree = "<group>"; };
 		267C79A425AC523E00D93422 /* HMRoomInfo.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HMRoomInfo.h; sourceTree = "<group>"; };
 		267C79A525AC523E00D93422 /* HMRoomInfo.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HMRoomInfo.m; sourceTree = "<group>"; };
 		267C79A925AC547000D93422 /* HMEmtryParams.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HMEmtryParams.h; sourceTree = "<group>"; };
@@ -649,7 +648,7 @@
 				267C798825AC3B4800D93422 /* HMHttpHeader1.m */,
 				267C798C25AC422D00D93422 /* HMAppInfo.h */,
 				267C798D25AC422D00D93422 /* HMAppInfo.m */,
-				267C799E25AC514F00D93422 /* HMMultiLanguageModel.h */,
+				2650FA1A25B184D800F122AC /* HMMultiLanguageModel.h */,
 				267C799225AC42C200D93422 /* HMMultiLanguageModel.m */,
 				267C799725AC47B500D93422 /* HMHttpResp.h */,
 				267C799825AC47B500D93422 /* HMHttpResp.m */,
@@ -1199,7 +1198,6 @@
 				267C789E25A7165900D93422 /* ARError.h in Headers */,
 				267C78BB25A80C7300D93422 /* ConfShareScreenUserModel.h in Headers */,
 				267C787025A701FA00D93422 /* ARDataManager.h in Headers */,
-				267C799F25AC515000D93422 /* HMMultiLanguageModel.h in Headers */,
 				267C787B25A706FB00D93422 /* AgoraRteEngineConfig+Extension.h in Headers */,
 				267C786325A6FE4400D93422 /* ARConferenceEntryParams.h in Headers */,
 				267C796C25AC36AA00D93422 /* HttpManager.h in Headers */,
