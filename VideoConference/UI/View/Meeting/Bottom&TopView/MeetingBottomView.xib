@@ -88,8 +88,8 @@
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
             <connections>
                 <outlet property="audioItem" destination="IJf-lS-biW" id="mqB-Hg-Fu7"/>
-                <outlet property="imItem" destination="igZ-yJ-ual" id="bWN-Hq-Cb5"/>
-                <outlet property="memberItem" destination="XX4-Dw-cwJ" id="dhM-h8-d9i"/>
+                <outlet property="imItem" destination="XX4-Dw-cwJ" id="3QJ-Cm-B48"/>
+                <outlet property="memberItem" destination="igZ-yJ-ual" id="84H-Wd-lM9"/>
                 <outlet property="moreItem" destination="691-bP-h35" id="Pxm-gv-tAo"/>
                 <outlet property="videoItem" destination="we6-1J-ahA" id="gbJ-qo-xGS"/>
             </connections>

@@ -34,6 +34,7 @@
         self.circlrView.layer.borderWidth = 1;
         self.circlrView.layer.borderColor = UIColor.whiteColor.CGColor;
         [self.imageView setHidden:true];
+        [self enableTimeMode:false];
     }
     return self;
 }
@@ -58,6 +59,7 @@
     _tip = tip;
     self.tipText.text = tip;
 }
+
 - (void)setCount:(NSInteger)count {
     _count = count;
     if(count > 0){
@@ -69,14 +71,13 @@
 }
 
 - (void)enableTimeMode:(BOOL)enable {
-    [self.imageView setHidden:!enable];
+    [self.imageView setHidden:enable];
     [self.circlrView setHidden:!enable];
 }
 
 - (void)setTimeCount:(NSUInteger)count {
     self.numberLabel.text = [NSString stringWithFormat:@"%lu",(unsigned long)count];
 }
-
 
 - (IBAction)onSelectBar:(BottomItem *)sender {
     

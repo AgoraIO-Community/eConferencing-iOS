@@ -8,12 +8,25 @@
 
 #import <UIKit/UIKit.h>
 
+typedef NS_ENUM(NSUInteger, MeetingBottomViewButtonType) {
+    MeetingBottomViewButtonTypeMember,
+    MeetingBottomViewButtonTypeChat,
+    MeetingBottomViewButtonTypeMore,
+};
+
+@protocol MeetingBottomViewDelegate <NSObject>
+
+- (void)MeetingBottomViewDidTapButtonWithType:(MeetingBottomViewButtonType)type;
+
+@end
+
 NS_ASSUME_NONNULL_BEGIN
 
 @interface MeetingBottomView : UIView
 
-+ (instancetype)instanceFromNib;
+@property (nonatomic, weak)id<MeetingBottomViewDelegate> delegate;
 
++ (instancetype)instanceFromNib;
 @end
 
 NS_ASSUME_NONNULL_END

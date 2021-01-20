@@ -23,14 +23,12 @@
 @implementation MeetingBottomView
 
 
-- (void)awakeFromNib
-{
+- (void)awakeFromNib {
     [super awakeFromNib];
     [self initItem];
 }
 
-- (void)initItem
-{
+- (void)initItem {
     self.audioItem.imageName0 = @"bar-speaker0";
     self.audioItem.imageName1 = @"bar-speaker1";
     self.audioItem.tip = Localized(@"Audio");
@@ -51,10 +49,27 @@
     self.moreItem.imageName1 = @"bar_more1";
     self.moreItem.tip = Localized(@"More");
     
+    WEAK(self);
+    
+    self.memberItem.block = ^{
+        if([weakself.delegate respondsToSelector:@selector(MeetingBottomViewDidTapButtonWithType:)]) {
+            [weakself.delegate MeetingBottomViewDidTapButtonWithType:MeetingBottomViewButtonTypeMember];
+        }
+    };
+    self.imItem.block = ^{
+        if([weakself.delegate respondsToSelector:@selector(MeetingBottomViewDidTapButtonWithType:)]) {
+            [weakself.delegate MeetingBottomViewDidTapButtonWithType:MeetingBottomViewButtonTypeChat];
+        }
+    };
+    self.moreItem.block = ^{
+        if([weakself.delegate respondsToSelector:@selector(MeetingBottomViewDidTapButtonWithType:)]) {
+            [weakself.delegate MeetingBottomViewDidTapButtonWithType:MeetingBottomViewButtonTypeMore];
+        }
+    };
+    
 }
 
-+ (instancetype)instanceFromNib
-{
++ (instancetype)instanceFromNib {
     NSString *className = NSStringFromClass(MeetingBottomView.class);
     return [[NSBundle mainBundle] loadNibNamed:className owner:self options:nil].firstObject;
 }

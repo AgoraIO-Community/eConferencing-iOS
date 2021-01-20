@@ -15,7 +15,6 @@
 #import "UIView+Constraint.h"
 #import "AlertViewUtil.h"
 #import "UIView+Toast.h"
-#import "VCManager.h"
 
 #define kScreenHeight [UIScreen mainScreen].bounds.size.height
 #define kScreenWidth [UIScreen mainScreen].bounds.size.width

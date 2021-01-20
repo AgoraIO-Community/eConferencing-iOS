@@ -7,6 +7,7 @@
 //
 
 #import "BaseViewController.h"
+#import "VCManager.h"
 
 @interface BaseViewController ()
 
@@ -38,8 +39,8 @@
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-    self.navigationController.navigationBarHidden = YES;
-    [self.navigationController.navigationBar setTranslucent:NO];
+//    self.navigationController.navigationBarHidden = YES;
+//    [self.navigationController.navigationBar setTranslucent:NO];
     
 //    if #available(iOS 13.0, *) {
 //        UIApplication.shared.statusBarStyle = UIStatusBarStyle.darkContent

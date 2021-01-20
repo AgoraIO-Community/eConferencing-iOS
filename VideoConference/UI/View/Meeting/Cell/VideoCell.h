@@ -7,7 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "AgoraRoomManager.h"
+
 @class VideoCellModel, VideoCell;
 
 typedef NS_ENUM(NSUInteger, VideoCellTapType) {
