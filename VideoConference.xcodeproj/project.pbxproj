@@ -77,31 +77,16 @@
 		267C797D25AC384B00D93422 /* BaseModel.h in Headers */ = {isa = PBXBuildFile; fileRef = 267C797925AC384B00D93422 /* BaseModel.h */; };
 		267C797E25AC384B00D93422 /* BaseModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 267C797A25AC384B00D93422 /* BaseModel.m */; };
 		267C797F25AC384B00D93422 /* CommonModel.h in Headers */ = {isa = PBXBuildFile; fileRef = 267C797B25AC384B00D93422 /* CommonModel.h */; };
-		267C798325AC391900D93422 /* HttpClient.h in Headers */ = {isa = PBXBuildFile; fileRef = 267C798125AC391900D93422 /* HttpClient.h */; };
-		267C798425AC391900D93422 /* HttpClient.m in Sources */ = {isa = PBXBuildFile; fileRef = 267C798225AC391900D93422 /* HttpClient.m */; };
-		267C798925AC3B4800D93422 /* HMHttpHeader1.h in Headers */ = {isa = PBXBuildFile; fileRef = 267C798725AC3B4800D93422 /* HMHttpHeader1.h */; };
-		267C798A25AC3B4800D93422 /* HMHttpHeader1.m in Sources */ = {isa = PBXBuildFile; fileRef = 267C798825AC3B4800D93422 /* HMHttpHeader1.m */; };
-		267C798E25AC422D00D93422 /* HMAppInfo.h in Headers */ = {isa = PBXBuildFile; fileRef = 267C798C25AC422D00D93422 /* HMAppInfo.h */; };
-		267C798F25AC422D00D93422 /* HMAppInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 267C798D25AC422D00D93422 /* HMAppInfo.m */; };
-		267C799425AC42C200D93422 /* HMMultiLanguageModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 267C799225AC42C200D93422 /* HMMultiLanguageModel.m */; };
-		267C799925AC47B500D93422 /* HMHttpResp.h in Headers */ = {isa = PBXBuildFile; fileRef = 267C799725AC47B500D93422 /* HMHttpResp.h */; };
-		267C799A25AC47B500D93422 /* HMHttpResp.m in Sources */ = {isa = PBXBuildFile; fileRef = 267C799825AC47B500D93422 /* HMHttpResp.m */; };
-		267C79A625AC523E00D93422 /* HMRoomInfo.h in Headers */ = {isa = PBXBuildFile; fileRef = 267C79A425AC523E00D93422 /* HMRoomInfo.h */; };
-		267C79A725AC523E00D93422 /* HMRoomInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 267C79A525AC523E00D93422 /* HMRoomInfo.m */; };
-		267C79AB25AC547000D93422 /* HMEmtryParams.h in Headers */ = {isa = PBXBuildFile; fileRef = 267C79A925AC547000D93422 /* HMEmtryParams.h */; };
-		267C79AC25AC547000D93422 /* HMEmtryParams.m in Sources */ = {isa = PBXBuildFile; fileRef = 267C79AA25AC547000D93422 /* HMEmtryParams.m */; };
-		267C79B025AC5AFA00D93422 /* HMUsers.h in Headers */ = {isa = PBXBuildFile; fileRef = 267C79AE25AC5AFA00D93422 /* HMUsers.h */; };
-		267C79B125AC5AFA00D93422 /* HMUsers.m in Sources */ = {isa = PBXBuildFile; fileRef = 267C79AF25AC5AFA00D93422 /* HMUsers.m */; };
-		267C79CF25AC72FF00D93422 /* HMLogParams.h in Headers */ = {isa = PBXBuildFile; fileRef = 267C79CD25AC72FF00D93422 /* HMLogParams.h */; };
-		267C79D025AC72FF00D93422 /* HMLogParams.m in Sources */ = {isa = PBXBuildFile; fileRef = 267C79CE25AC72FF00D93422 /* HMLogParams.m */; };
-		267C79D625AC766C00D93422 /* HMWhiteInfo.h in Headers */ = {isa = PBXBuildFile; fileRef = 267C79D425AC766C00D93422 /* HMWhiteInfo.h */; };
-		267C79D725AC766C00D93422 /* HMWhiteInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 267C79D525AC766C00D93422 /* HMWhiteInfo.m */; };
 		269B7F5F25A438FA00C003FE /* AudioCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 269B7F5D25A438FA00C003FE /* AudioCell.m */; };
 		269B7F6025A438FA00C003FE /* AudioCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 269B7F5E25A438FA00C003FE /* AudioCell.xib */; };
 		269B7F6325A4611900C003FE /* MeetingFlowLayoutVideoScroll.m in Sources */ = {isa = PBXBuildFile; fileRef = 269B7F6225A4611900C003FE /* MeetingFlowLayoutVideoScroll.m */; };
 		269B7F6825A47D1B00C003FE /* MessageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 269B7F6725A47D1B00C003FE /* MessageView.m */; };
 		269B7F6B25A47D7700C003FE /* MeetingMessageCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 269B7F6A25A47D7700C003FE /* MeetingMessageCell.m */; };
 		269B7F6E25A562A000C003FE /* MeetingMessageModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 269B7F6D25A562A000C003FE /* MeetingMessageModel.m */; };
+		26A27D5325B92A2000A2D57D /* HMUserInfo.h in Headers */ = {isa = PBXBuildFile; fileRef = 26A27D5125B92A2000A2D57D /* HMUserInfo.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		26A27D5425B92A2000A2D57D /* HMUserInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 26A27D5225B92A2000A2D57D /* HMUserInfo.m */; };
+		26A27D5825B92A4A00A2D57D /* HMRoom.h in Headers */ = {isa = PBXBuildFile; fileRef = 26A27D5625B92A4A00A2D57D /* HMRoom.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		26A27D5925B92A4A00A2D57D /* HMRoom.m in Sources */ = {isa = PBXBuildFile; fileRef = 26A27D5725B92A4A00A2D57D /* HMRoom.m */; };
 		26C0F4FF259DB23B0032521E /* UIColor+AppColor.m in Sources */ = {isa = PBXBuildFile; fileRef = 26C0F4FE259DB23B0032521E /* UIColor+AppColor.m */; };
 		26C0F505259DDB3F0032521E /* MeetingFlowLayoutVideo.m in Sources */ = {isa = PBXBuildFile; fileRef = 26C0F504259DDB3F0032521E /* MeetingFlowLayoutVideo.m */; };
 		26C0F50925A2C4E90032521E /* MeetingFlowLayoutAudio.m in Sources */ = {isa = PBXBuildFile; fileRef = 26C0F50825A2C4E90032521E /* MeetingFlowLayoutAudio.m */; };
@@ -114,6 +99,18 @@
 		26DF8819259C304700286DFB /* PageCtrlView.m in Sources */ = {isa = PBXBuildFile; fileRef = 26DF8818259C304700286DFB /* PageCtrlView.m */; };
 		26DF881B259C305000286DFB /* PageCtrlView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 26DF881A259C305000286DFB /* PageCtrlView.xib */; };
 		26DF881F259C354B00286DFB /* VideoScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = 26DF881E259C354B00286DFB /* VideoScrollView.m */; };
+		26F799DB25B9329300389F64 /* HMStreamInfo.h in Headers */ = {isa = PBXBuildFile; fileRef = 26F799D925B9329300389F64 /* HMStreamInfo.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		26F799DC25B9329300389F64 /* HMStreamInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 26F799DA25B9329300389F64 /* HMStreamInfo.m */; };
+		26F799E725B9687800389F64 /* HttpManager+Url.h in Headers */ = {isa = PBXBuildFile; fileRef = 26F799E525B9687800389F64 /* HttpManager+Url.h */; };
+		26F799E825B9687800389F64 /* HttpManager+Url.m in Sources */ = {isa = PBXBuildFile; fileRef = 26F799E625B9687800389F64 /* HttpManager+Url.m */; };
+		26F799F925B9804C00389F64 /* HttpClient.h in Headers */ = {isa = PBXBuildFile; fileRef = 26F799F725B9804C00389F64 /* HttpClient.h */; };
+		26F799FA25B9804C00389F64 /* HttpClient.m in Sources */ = {isa = PBXBuildFile; fileRef = 26F799F825B9804C00389F64 /* HttpClient.m */; };
+		26F79A0525B983A700389F64 /* HMRequestParams.h in Headers */ = {isa = PBXBuildFile; fileRef = 26F79A0325B983A700389F64 /* HMRequestParams.h */; };
+		26F79A0625B983A700389F64 /* HMRequestParams.m in Sources */ = {isa = PBXBuildFile; fileRef = 26F79A0425B983A700389F64 /* HMRequestParams.m */; };
+		26F79A0A25B984C100389F64 /* HMResponeParams.h in Headers */ = {isa = PBXBuildFile; fileRef = 26F79A0825B984C100389F64 /* HMResponeParams.h */; };
+		26F79A0B25B984C100389F64 /* HMResponeParams.m in Sources */ = {isa = PBXBuildFile; fileRef = 26F79A0925B984C100389F64 /* HMResponeParams.m */; };
+		26F79A0F25B99DA000389F64 /* HMRespone.h in Headers */ = {isa = PBXBuildFile; fileRef = 26F79A0D25B99DA000389F64 /* HMRespone.h */; };
+		26F79A1025B99DA000389F64 /* HMRespone.m in Sources */ = {isa = PBXBuildFile; fileRef = 26F79A0E25B99DA000389F64 /* HMRespone.m */; };
 		780356112465706D001F9624 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 780356132465706D001F9624 /* Localizable.strings */; };
 		7808B29B2468449700B320EB /* SetLabelCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 7808B28A2468449700B320EB /* SetLabelCell.m */; };
 		7808B29C2468449700B320EB /* SetLabelCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7808B28C2468449700B320EB /* SetLabelCell.xib */; };
@@ -180,7 +177,6 @@
 		2650F68625AE997700F122AC /* StarView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = StarView.xib; sourceTree = "<group>"; };
 		2650F68925AE9EB000F122AC /* StarAlertVC.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = StarAlertVC.h; sourceTree = "<group>"; };
 		2650F68A25AE9EB000F122AC /* StarAlertVC.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = StarAlertVC.m; sourceTree = "<group>"; };
-		2650FA1A25B184D800F122AC /* HMMultiLanguageModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HMMultiLanguageModel.h; sourceTree = "<group>"; };
 		2650FA2425B188F100F122AC /* VCManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = VCManager.h; path = ../../../../.Trash/VCManager.h; sourceTree = "<group>"; };
 		2650FA2525B188F100F122AC /* VCManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = VCManager.m; path = ../../../../.Trash/VCManager.m; sourceTree = "<group>"; };
 		2650FA2D25B189CA00F122AC /* UIView+Constraint.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+Constraint.h"; sourceTree = "<group>"; };
@@ -267,25 +263,6 @@
 		267C797925AC384B00D93422 /* BaseModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BaseModel.h; sourceTree = "<group>"; };
 		267C797A25AC384B00D93422 /* BaseModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BaseModel.m; sourceTree = "<group>"; };
 		267C797B25AC384B00D93422 /* CommonModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CommonModel.h; sourceTree = "<group>"; };
-		267C798125AC391900D93422 /* HttpClient.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HttpClient.h; sourceTree = "<group>"; };
-		267C798225AC391900D93422 /* HttpClient.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HttpClient.m; sourceTree = "<group>"; };
-		267C798725AC3B4800D93422 /* HMHttpHeader1.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HMHttpHeader1.h; sourceTree = "<group>"; };
-		267C798825AC3B4800D93422 /* HMHttpHeader1.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HMHttpHeader1.m; sourceTree = "<group>"; };
-		267C798C25AC422D00D93422 /* HMAppInfo.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HMAppInfo.h; sourceTree = "<group>"; };
-		267C798D25AC422D00D93422 /* HMAppInfo.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HMAppInfo.m; sourceTree = "<group>"; };
-		267C799225AC42C200D93422 /* HMMultiLanguageModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HMMultiLanguageModel.m; sourceTree = "<group>"; };
-		267C799725AC47B500D93422 /* HMHttpResp.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HMHttpResp.h; sourceTree = "<group>"; };
-		267C799825AC47B500D93422 /* HMHttpResp.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HMHttpResp.m; sourceTree = "<group>"; };
-		267C79A425AC523E00D93422 /* HMRoomInfo.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HMRoomInfo.h; sourceTree = "<group>"; };
-		267C79A525AC523E00D93422 /* HMRoomInfo.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HMRoomInfo.m; sourceTree = "<group>"; };
-		267C79A925AC547000D93422 /* HMEmtryParams.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HMEmtryParams.h; sourceTree = "<group>"; };
-		267C79AA25AC547000D93422 /* HMEmtryParams.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HMEmtryParams.m; sourceTree = "<group>"; };
-		267C79AE25AC5AFA00D93422 /* HMUsers.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HMUsers.h; sourceTree = "<group>"; };
-		267C79AF25AC5AFA00D93422 /* HMUsers.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HMUsers.m; sourceTree = "<group>"; };
-		267C79CD25AC72FF00D93422 /* HMLogParams.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HMLogParams.h; sourceTree = "<group>"; };
-		267C79CE25AC72FF00D93422 /* HMLogParams.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HMLogParams.m; sourceTree = "<group>"; };
-		267C79D425AC766C00D93422 /* HMWhiteInfo.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HMWhiteInfo.h; sourceTree = "<group>"; };
-		267C79D525AC766C00D93422 /* HMWhiteInfo.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HMWhiteInfo.m; sourceTree = "<group>"; };
 		269B7F5C25A438FA00C003FE /* AudioCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AudioCell.h; sourceTree = "<group>"; };
 		269B7F5D25A438FA00C003FE /* AudioCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AudioCell.m; sourceTree = "<group>"; };
 		269B7F5E25A438FA00C003FE /* AudioCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AudioCell.xib; sourceTree = "<group>"; };
@@ -297,6 +274,10 @@
 		269B7F6A25A47D7700C003FE /* MeetingMessageCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MeetingMessageCell.m; sourceTree = "<group>"; };
 		269B7F6C25A562A000C003FE /* MeetingMessageModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MeetingMessageModel.h; sourceTree = "<group>"; };
 		269B7F6D25A562A000C003FE /* MeetingMessageModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MeetingMessageModel.m; sourceTree = "<group>"; };
+		26A27D5125B92A2000A2D57D /* HMUserInfo.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HMUserInfo.h; sourceTree = "<group>"; };
+		26A27D5225B92A2000A2D57D /* HMUserInfo.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HMUserInfo.m; sourceTree = "<group>"; };
+		26A27D5625B92A4A00A2D57D /* HMRoom.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HMRoom.h; sourceTree = "<group>"; };
+		26A27D5725B92A4A00A2D57D /* HMRoom.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HMRoom.m; sourceTree = "<group>"; };
 		26C0F4FD259DB23B0032521E /* UIColor+AppColor.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UIColor+AppColor.h"; sourceTree = "<group>"; };
 		26C0F4FE259DB23B0032521E /* UIColor+AppColor.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UIColor+AppColor.m"; sourceTree = "<group>"; };
 		26C0F503259DDB3F0032521E /* MeetingFlowLayoutVideo.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MeetingFlowLayoutVideo.h; sourceTree = "<group>"; };
@@ -320,6 +301,18 @@
 		26DF881A259C305000286DFB /* PageCtrlView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PageCtrlView.xib; sourceTree = "<group>"; };
 		26DF881D259C354B00286DFB /* VideoScrollView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = VideoScrollView.h; sourceTree = "<group>"; };
 		26DF881E259C354B00286DFB /* VideoScrollView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = VideoScrollView.m; sourceTree = "<group>"; };
+		26F799D925B9329300389F64 /* HMStreamInfo.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HMStreamInfo.h; sourceTree = "<group>"; };
+		26F799DA25B9329300389F64 /* HMStreamInfo.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HMStreamInfo.m; sourceTree = "<group>"; };
+		26F799E525B9687800389F64 /* HttpManager+Url.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "HttpManager+Url.h"; sourceTree = "<group>"; };
+		26F799E625B9687800389F64 /* HttpManager+Url.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "HttpManager+Url.m"; sourceTree = "<group>"; };
+		26F799F725B9804C00389F64 /* HttpClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HttpClient.h; sourceTree = "<group>"; };
+		26F799F825B9804C00389F64 /* HttpClient.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HttpClient.m; sourceTree = "<group>"; };
+		26F79A0325B983A700389F64 /* HMRequestParams.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HMRequestParams.h; sourceTree = "<group>"; };
+		26F79A0425B983A700389F64 /* HMRequestParams.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HMRequestParams.m; sourceTree = "<group>"; };
+		26F79A0825B984C100389F64 /* HMResponeParams.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HMResponeParams.h; sourceTree = "<group>"; };
+		26F79A0925B984C100389F64 /* HMResponeParams.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HMResponeParams.m; sourceTree = "<group>"; };
+		26F79A0D25B99DA000389F64 /* HMRespone.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HMRespone.h; sourceTree = "<group>"; };
+		26F79A0E25B99DA000389F64 /* HMRespone.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HMRespone.m; sourceTree = "<group>"; };
 		2BF2B739A0290A0F7F379176 /* Pods-AgoraRoom.devrelease.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AgoraRoom.devrelease.xcconfig"; path = "Target Support Files/Pods-AgoraRoom/Pods-AgoraRoom.devrelease.xcconfig"; sourceTree = "<group>"; };
 		3EB70FF205EADD5ED5215469 /* Pods-AgoraRoom.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AgoraRoom.debug.xcconfig"; path = "Target Support Files/Pods-AgoraRoom/Pods-AgoraRoom.debug.xcconfig"; sourceTree = "<group>"; };
 		5455F4C733D1B3E60E03C006 /* Pods_AgoraRoom.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_AgoraRoom.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -630,10 +623,12 @@
 		267C78EF25AC2C6F00D93422 /* HttpManager */ = {
 			isa = PBXGroup;
 			children = (
-				267C798125AC391900D93422 /* HttpClient.h */,
-				267C798225AC391900D93422 /* HttpClient.m */,
+				26F799F725B9804C00389F64 /* HttpClient.h */,
+				26F799F825B9804C00389F64 /* HttpClient.m */,
 				267C796A25AC36AA00D93422 /* HttpManager.h */,
 				267C796B25AC36AA00D93422 /* HttpManager.m */,
+				26F799E525B9687800389F64 /* HttpManager+Url.h */,
+				26F799E625B9687800389F64 /* HttpManager+Url.m */,
 				267C797125AC37C300D93422 /* HttpManager+Public.h */,
 				267C797225AC37C300D93422 /* HttpManager+Public.m */,
 				267C790825AC309D00D93422 /* URL.h */,
@@ -645,24 +640,18 @@
 		267C78F625AC2F7200D93422 /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				267C798725AC3B4800D93422 /* HMHttpHeader1.h */,
-				267C798825AC3B4800D93422 /* HMHttpHeader1.m */,
-				267C798C25AC422D00D93422 /* HMAppInfo.h */,
-				267C798D25AC422D00D93422 /* HMAppInfo.m */,
-				2650FA1A25B184D800F122AC /* HMMultiLanguageModel.h */,
-				267C799225AC42C200D93422 /* HMMultiLanguageModel.m */,
-				267C799725AC47B500D93422 /* HMHttpResp.h */,
-				267C799825AC47B500D93422 /* HMHttpResp.m */,
-				267C79A425AC523E00D93422 /* HMRoomInfo.h */,
-				267C79A525AC523E00D93422 /* HMRoomInfo.m */,
-				267C79A925AC547000D93422 /* HMEmtryParams.h */,
-				267C79AA25AC547000D93422 /* HMEmtryParams.m */,
-				267C79AE25AC5AFA00D93422 /* HMUsers.h */,
-				267C79AF25AC5AFA00D93422 /* HMUsers.m */,
-				267C79CD25AC72FF00D93422 /* HMLogParams.h */,
-				267C79CE25AC72FF00D93422 /* HMLogParams.m */,
-				267C79D425AC766C00D93422 /* HMWhiteInfo.h */,
-				267C79D525AC766C00D93422 /* HMWhiteInfo.m */,
+				26A27D5125B92A2000A2D57D /* HMUserInfo.h */,
+				26A27D5225B92A2000A2D57D /* HMUserInfo.m */,
+				26A27D5625B92A4A00A2D57D /* HMRoom.h */,
+				26A27D5725B92A4A00A2D57D /* HMRoom.m */,
+				26F799D925B9329300389F64 /* HMStreamInfo.h */,
+				26F799DA25B9329300389F64 /* HMStreamInfo.m */,
+				26F79A0325B983A700389F64 /* HMRequestParams.h */,
+				26F79A0425B983A700389F64 /* HMRequestParams.m */,
+				26F79A0825B984C100389F64 /* HMResponeParams.h */,
+				26F79A0925B984C100389F64 /* HMResponeParams.m */,
+				26F79A0D25B99DA000389F64 /* HMRespone.h */,
+				26F79A0E25B99DA000389F64 /* HMRespone.m */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -992,33 +981,32 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				26F799E725B9687800389F64 /* HttpManager+Url.h in Headers */,
 				267C789E25A7165900D93422 /* ARError.h in Headers */,
 				267C78BB25A80C7300D93422 /* ConfShareScreenUserModel.h in Headers */,
 				267C787025A701FA00D93422 /* ARDataManager.h in Headers */,
+				26F799DB25B9329300389F64 /* HMStreamInfo.h in Headers */,
 				267C787B25A706FB00D93422 /* AgoraRteEngineConfig+Extension.h in Headers */,
+				26A27D5825B92A4A00A2D57D /* HMRoom.h in Headers */,
 				267C786325A6FE4400D93422 /* ARConferenceEntryParams.h in Headers */,
 				267C796C25AC36AA00D93422 /* HttpManager.h in Headers */,
 				267C786B25A7019300D93422 /* ARBlockDefine.h in Headers */,
 				267C78D425AC076600D93422 /* AREnums.h in Headers */,
 				267C748625A6E45F00D93422 /* AgoraRoom.h in Headers */,
-				267C798925AC3B4800D93422 /* HMHttpHeader1.h in Headers */,
 				267C787425A7031000D93422 /* ARDefine.h in Headers */,
 				267C785C25A6FDB900D93422 /* ARConferenceManager.h in Headers */,
-				267C79A625AC523E00D93422 /* HMRoomInfo.h in Headers */,
-				267C79D625AC766C00D93422 /* HMWhiteInfo.h in Headers */,
 				267C78B425A80C3500D93422 /* ConfShareBoardUserModel.h in Headers */,
-				267C79AB25AC547000D93422 /* HMEmtryParams.h in Headers */,
-				267C79B025AC5AFA00D93422 /* HMUsers.h in Headers */,
 				267C790925AC309D00D93422 /* URL.h in Headers */,
-				267C799925AC47B500D93422 /* HMHttpResp.h in Headers */,
 				267C78AC25A80B7100D93422 /* ConfUserModel.h in Headers */,
-				267C79CF25AC72FF00D93422 /* HMLogParams.h in Headers */,
+				26F799F925B9804C00389F64 /* HttpClient.h in Headers */,
 				267C791925AC31BC00D93422 /* LogManager.h in Headers */,
+				26A27D5325B92A2000A2D57D /* HMUserInfo.h in Headers */,
+				26F79A0A25B984C100389F64 /* HMResponeParams.h in Headers */,
 				267C797D25AC384B00D93422 /* BaseModel.h in Headers */,
 				267C797F25AC384B00D93422 /* CommonModel.h in Headers */,
-				267C798325AC391900D93422 /* HttpClient.h in Headers */,
 				267C797325AC37C300D93422 /* HttpManager+Public.h in Headers */,
-				267C798E25AC422D00D93422 /* HMAppInfo.h in Headers */,
+				26F79A0525B983A700389F64 /* HMRequestParams.h in Headers */,
+				26F79A0F25B99DA000389F64 /* HMRespone.h in Headers */,
 				267C791E25AC325800D93422 /* OSSManager.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1209,29 +1197,27 @@
 			buildActionMask = 2147483647;
 			files = (
 				267C797425AC37C300D93422 /* HttpManager+Public.m in Sources */,
+				26F799FA25B9804C00389F64 /* HttpClient.m in Sources */,
 				267C791A25AC31BC00D93422 /* LogManager.m in Sources */,
 				267C787C25A706FB00D93422 /* AgoraRteEngineConfig+Extension.m in Sources */,
-				267C79AC25AC547000D93422 /* HMEmtryParams.m in Sources */,
-				267C79D025AC72FF00D93422 /* HMLogParams.m in Sources */,
 				267C796D25AC36AA00D93422 /* HttpManager.m in Sources */,
 				267C785D25A6FDB900D93422 /* ARConferenceManager.m in Sources */,
+				26F799E825B9687800389F64 /* HttpManager+Url.m in Sources */,
 				267C797C25AC384B00D93422 /* CommonModel.m in Sources */,
 				267C78AB25A80B7100D93422 /* ConfUserModel.m in Sources */,
-				267C798A25AC3B4800D93422 /* HMHttpHeader1.m in Sources */,
-				267C79A725AC523E00D93422 /* HMRoomInfo.m in Sources */,
+				26A27D5925B92A4A00A2D57D /* HMRoom.m in Sources */,
+				26A27D5425B92A2000A2D57D /* HMUserInfo.m in Sources */,
 				267C787125A701FA00D93422 /* ARDataManager.m in Sources */,
 				267C791F25AC325800D93422 /* OSSManager.m in Sources */,
-				267C799A25AC47B500D93422 /* HMHttpResp.m in Sources */,
-				267C79B125AC5AFA00D93422 /* HMUsers.m in Sources */,
-				267C799425AC42C200D93422 /* HMMultiLanguageModel.m in Sources */,
 				267C789F25A7165900D93422 /* ARError.m in Sources */,
 				267C797E25AC384B00D93422 /* BaseModel.m in Sources */,
-				267C79D725AC766C00D93422 /* HMWhiteInfo.m in Sources */,
-				267C798F25AC422D00D93422 /* HMAppInfo.m in Sources */,
 				267C786425A6FE4400D93422 /* ARConferenceEntryParams.m in Sources */,
-				267C798425AC391900D93422 /* HttpClient.m in Sources */,
+				26F799DC25B9329300389F64 /* HMStreamInfo.m in Sources */,
+				26F79A1025B99DA000389F64 /* HMRespone.m in Sources */,
 				267C78BA25A80C7300D93422 /* ConfShareScreenUserModel.m in Sources */,
+				26F79A0625B983A700389F64 /* HMRequestParams.m in Sources */,
 				267C78B525A80C3500D93422 /* ConfShareBoardUserModel.m in Sources */,
+				26F79A0B25B984C100389F64 /* HMResponeParams.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

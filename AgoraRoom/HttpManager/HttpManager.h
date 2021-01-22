@@ -7,7 +7,11 @@
 //
 
 #import <Foundation/Foundation.h>
-@class HMHttpHeader1;
+
+typedef void (^HMSuccessBlock)(id _Nullable);
+typedef void (^HMFailBlock)(NSError *_Nonnull);
+
+@class HMHttpHeader1, AFHTTPSessionManager;
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -16,23 +20,14 @@ NS_ASSUME_NONNULL_BEGIN
 + (void)get:(NSString *)url
      params:(NSDictionary * _Nullable) params
     headers:(NSDictionary<NSString*, NSString*> * _Nullable)headers
- apiVersion:(NSString *)apiVersion
-    success:(void (^)(id))success
-    failure:(void (^)(NSError *))failure;
+    success:(HMSuccessBlock _Nullable)success
+    failure:(HMFailBlock _Nullable)failure;
 
 + (void)post:(NSString *)url
       params:(NSDictionary * _Nullable)params
      headers:(NSDictionary<NSString*, NSString*> * _Nullable)headers
-  apiVersion:(NSString *)apiVersion
-     success:(void (^)(id responseObj))success
-     failure:(void (^)(NSError *error))failur;
-
-+ (NSDictionary *)httpHeader;
-+ (NSString *)appCode;
-
-+ (void)saveHttpHeader1:(HMHttpHeader1 *)header1;
-+ (void)saveHttpHeader2:(NSString *)auth;
-
+     success:(HMSuccessBlock _Nullable)success
+     failure:(HMFailBlock _Nullable)failure;
 
 @end
 

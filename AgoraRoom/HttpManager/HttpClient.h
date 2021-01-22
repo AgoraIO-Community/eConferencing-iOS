@@ -7,24 +7,16 @@
 //
 
 #import <Foundation/Foundation.h>
+@class AFHTTPSessionManager;
 
-#define NOTICE_USER_TOKEN_EXPIRED @"NOTICE_USER_TOKEN_EXPIRED"
 
 NS_ASSUME_NONNULL_BEGIN
 
 @interface HttpClient : NSObject
 
-+ (void)get:(NSString *)url
-     params:(NSDictionary *)params
-    headers:(NSDictionary<NSString*, NSString*> *)headers
-    success:(void (^)(id))success
-    failure:(void (^)(NSError *))failure;
+@property(nonatomic, strong)AFHTTPSessionManager *sessionManager;
 
-+ (void)post:(NSString *)url
-      params:(NSDictionary *)params
-     headers:(NSDictionary<NSString*, NSString*> *)headers
-     success:(void (^)(id responseObj))success
-     failure:(void (^)(NSError *error))failure;
++ (instancetype)share;
 
 @end
 

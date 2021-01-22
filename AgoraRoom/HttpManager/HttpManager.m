@@ -8,9 +8,9 @@
 
 #import "HttpManager.h"
 #import "AFNetworking.h"
-#import "HMHttpHeader1.h"
 #import "URL.h"
 #import "HttpClient.h"
+#import "LogManager.h"
 
 static HMHttpHeader1 *httpHeader1;
 static NSString *authorization;
@@ -20,73 +20,63 @@ static NSString *authorization;
 + (void)get:(NSString *)url
      params:(NSDictionary * _Nullable) params
     headers:(NSDictionary<NSString*, NSString*> * _Nullable)headers
- apiVersion:(NSString *)apiVersion
-    success:(void (^)(id))success
-    failure:(void (^)(NSError *))failure {
+    success:(HMSuccessBlock _Nullable)success
+    failure:(HMFailBlock _Nullable)failure {
     
-    // add header
-    NSMutableDictionary *_headers = [NSMutableDictionary dictionaryWithDictionary:[HttpManager httpHeader]];
-    if(headers != nil){
-        [_headers addEntriesFromDictionary:headers];
-    }
+    [self logWithUrl:url headers:headers params:params];
     
-    NSString *_url = [url stringByReplacingOccurrencesOfString:@"v1" withString:apiVersion];
-    _url = [_url stringByReplacingOccurrencesOfString:HTTP_EDU_HOST_URL withString:HTTP_MEET_HOST_URL];
-    [HttpClient get:_url params:params headers:_headers success:success failure:failure];
+    [HttpClient.share.sessionManager GET:url parameters:params headers:headers progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+        [self logWithUrl:url response:responseObject];
+        if(success) { success(responseObject); }
+    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        [self logWithUrl:url error:error];
+        if(failure) { failure(error); }
+    }];
 }
 
 
 + (void)post:(NSString *)url
       params:(NSDictionary * _Nullable)params
      headers:(NSDictionary<NSString*, NSString*> * _Nullable)headers
-  apiVersion:(NSString *)apiVersion
-     success:(void (^)(id responseObj))success
-     failure:(void (^)(NSError *error))failure {
+     success:(HMSuccessBlock _Nullable)success
+     failure:(HMFailBlock _Nullable)failure {
     
-    NSString *_url = [url stringByReplacingOccurrencesOfString:@"v1" withString:apiVersion];
-    _url = [_url stringByReplacingOccurrencesOfString:HTTP_EDU_HOST_URL withString:HTTP_MEET_HOST_URL];
+    [self logWithUrl:url headers:headers params:params];
     
-    // add header
-    NSMutableDictionary *_headers = [NSMutableDictionary dictionaryWithDictionary:[HttpManager httpHeader]];
-    if(headers != nil){
-        [_headers addEntriesFromDictionary:headers];
-    }
-    
-    [HttpClient post:_url params:params headers:_headers success:success failure:failure];
+    [HttpClient.share.sessionManager POST:url parameters:params headers:headers constructingBodyWithBlock:nil progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+        [self logWithUrl:url response:responseObject];
+        if(success) { success(responseObject); }
+    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        [self logWithUrl:url error:error];
+        if(failure) { failure(error); }
+    }];
 }
 
-
-
-+ (NSDictionary *)httpHeader {
-    NSMutableDictionary *headers = [NSMutableDictionary dictionary];
-    if(httpHeader1.userToken) {
-        headers[@"token"] = httpHeader1.userToken;
-    }
-    if(authorization != nil) {
-        NSString *auth = [authorization stringByReplacingOccurrencesOfString:@"Basic " withString:@""];
-        auth = [NSString stringWithFormat:@"Basic %@", auth];
-        headers[@"Authorization"] = auth;
-    } else {
-        if(httpHeader1.agoraToken) {
-            headers[@"x-agora-token"] = httpHeader1.agoraToken;
-        }
-        if(httpHeader1.agoraUId) {
-            headers[@"x-agora-uid"] = httpHeader1.agoraUId;
-        }
-    }
-    return headers;
++ (void)logWithUrl:(NSString *)url
+           headers:(NSDictionary<NSString*, NSString*> * _Nullable)headers
+            params:(NSDictionary * _Nullable) params  {
+    AgoraLogInfo(@"\n============>Get HTTP Start<============\n\
+                 \nurl==>\n%@\n\
+                 \nheaders==>\n%@\n\
+                 \nparams==>\n%@\n\
+                 ", url, headers, params);
 }
 
-+ (void)saveHttpHeader1:(HMHttpHeader1 *)header1 {
-    httpHeader1 = header1;
++ (void)logWithUrl:(NSString *)url
+          response:(id)responseObject {
+    AgoraLogInfo(@"\n============>Get HTTP Success<============\n\
+                 \nurl==>\n%@\n\
+                 \nResult==>\n%@\n\
+                 ", url, responseObject);
 }
 
-+ (void)saveHttpHeader2:(NSString *)auth {
-    authorization = auth;
++ (void)logWithUrl:(NSString *)url
+             error:(NSError *)error {
+    AgoraLogInfo(@"\n============>Get HTTP Error<============\n\
+                 \nurl==>\n%@\n\
+                 \nError==>\n%@\n\
+                 ", url, error.description);
 }
 
-+ (NSString *)appCode {
-    return @"conf-demo";
-}
 
 @end
