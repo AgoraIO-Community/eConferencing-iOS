@@ -87,6 +87,9 @@
 		26A27D5425B92A2000A2D57D /* HMUserInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 26A27D5225B92A2000A2D57D /* HMUserInfo.m */; };
 		26A27D5825B92A4A00A2D57D /* HMRoom.h in Headers */ = {isa = PBXBuildFile; fileRef = 26A27D5625B92A4A00A2D57D /* HMRoom.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		26A27D5925B92A4A00A2D57D /* HMRoom.m in Sources */ = {isa = PBXBuildFile; fileRef = 26A27D5725B92A4A00A2D57D /* HMRoom.m */; };
+		26AA836025BECA5100024C6C /* HMResponeParams.m in Sources */ = {isa = PBXBuildFile; fileRef = 26F79A0925B984C100389F64 /* HMResponeParams.m */; };
+		26AA836425BFB88100024C6C /* HMError.h in Headers */ = {isa = PBXBuildFile; fileRef = 26AA836225BFB88100024C6C /* HMError.h */; };
+		26AA836525BFB88100024C6C /* HMError.m in Sources */ = {isa = PBXBuildFile; fileRef = 26AA836325BFB88100024C6C /* HMError.m */; };
 		26C0F4FF259DB23B0032521E /* UIColor+AppColor.m in Sources */ = {isa = PBXBuildFile; fileRef = 26C0F4FE259DB23B0032521E /* UIColor+AppColor.m */; };
 		26C0F505259DDB3F0032521E /* MeetingFlowLayoutVideo.m in Sources */ = {isa = PBXBuildFile; fileRef = 26C0F504259DDB3F0032521E /* MeetingFlowLayoutVideo.m */; };
 		26C0F50925A2C4E90032521E /* MeetingFlowLayoutAudio.m in Sources */ = {isa = PBXBuildFile; fileRef = 26C0F50825A2C4E90032521E /* MeetingFlowLayoutAudio.m */; };
@@ -108,7 +111,6 @@
 		26F79A0525B983A700389F64 /* HMRequestParams.h in Headers */ = {isa = PBXBuildFile; fileRef = 26F79A0325B983A700389F64 /* HMRequestParams.h */; };
 		26F79A0625B983A700389F64 /* HMRequestParams.m in Sources */ = {isa = PBXBuildFile; fileRef = 26F79A0425B983A700389F64 /* HMRequestParams.m */; };
 		26F79A0A25B984C100389F64 /* HMResponeParams.h in Headers */ = {isa = PBXBuildFile; fileRef = 26F79A0825B984C100389F64 /* HMResponeParams.h */; };
-		26F79A0B25B984C100389F64 /* HMResponeParams.m in Sources */ = {isa = PBXBuildFile; fileRef = 26F79A0925B984C100389F64 /* HMResponeParams.m */; };
 		26F79A0F25B99DA000389F64 /* HMRespone.h in Headers */ = {isa = PBXBuildFile; fileRef = 26F79A0D25B99DA000389F64 /* HMRespone.h */; };
 		26F79A1025B99DA000389F64 /* HMRespone.m in Sources */ = {isa = PBXBuildFile; fileRef = 26F79A0E25B99DA000389F64 /* HMRespone.m */; };
 		780356112465706D001F9624 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 780356132465706D001F9624 /* Localizable.strings */; };
@@ -278,6 +280,8 @@
 		26A27D5225B92A2000A2D57D /* HMUserInfo.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HMUserInfo.m; sourceTree = "<group>"; };
 		26A27D5625B92A4A00A2D57D /* HMRoom.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HMRoom.h; sourceTree = "<group>"; };
 		26A27D5725B92A4A00A2D57D /* HMRoom.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HMRoom.m; sourceTree = "<group>"; };
+		26AA836225BFB88100024C6C /* HMError.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HMError.h; sourceTree = "<group>"; };
+		26AA836325BFB88100024C6C /* HMError.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HMError.m; sourceTree = "<group>"; };
 		26C0F4FD259DB23B0032521E /* UIColor+AppColor.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UIColor+AppColor.h"; sourceTree = "<group>"; };
 		26C0F4FE259DB23B0032521E /* UIColor+AppColor.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UIColor+AppColor.m"; sourceTree = "<group>"; };
 		26C0F503259DDB3F0032521E /* MeetingFlowLayoutVideo.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MeetingFlowLayoutVideo.h; sourceTree = "<group>"; };
@@ -652,6 +656,8 @@
 				26F79A0925B984C100389F64 /* HMResponeParams.m */,
 				26F79A0D25B99DA000389F64 /* HMRespone.h */,
 				26F79A0E25B99DA000389F64 /* HMRespone.m */,
+				26AA836225BFB88100024C6C /* HMError.h */,
+				26AA836325BFB88100024C6C /* HMError.m */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -995,6 +1001,7 @@
 				267C748625A6E45F00D93422 /* AgoraRoom.h in Headers */,
 				267C787425A7031000D93422 /* ARDefine.h in Headers */,
 				267C785C25A6FDB900D93422 /* ARConferenceManager.h in Headers */,
+				26AA836425BFB88100024C6C /* HMError.h in Headers */,
 				267C78B425A80C3500D93422 /* ConfShareBoardUserModel.h in Headers */,
 				267C790925AC309D00D93422 /* URL.h in Headers */,
 				267C78AC25A80B7100D93422 /* ConfUserModel.h in Headers */,
@@ -1197,6 +1204,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				267C797425AC37C300D93422 /* HttpManager+Public.m in Sources */,
+				26AA836025BECA5100024C6C /* HMResponeParams.m in Sources */,
 				26F799FA25B9804C00389F64 /* HttpClient.m in Sources */,
 				267C791A25AC31BC00D93422 /* LogManager.m in Sources */,
 				267C787C25A706FB00D93422 /* AgoraRteEngineConfig+Extension.m in Sources */,
@@ -1217,7 +1225,7 @@
 				267C78BA25A80C7300D93422 /* ConfShareScreenUserModel.m in Sources */,
 				26F79A0625B983A700389F64 /* HMRequestParams.m in Sources */,
 				267C78B525A80C3500D93422 /* ConfShareBoardUserModel.m in Sources */,
-				26F79A0B25B984C100389F64 /* HMResponeParams.m in Sources */,
+				26AA836525BFB88100024C6C /* HMError.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

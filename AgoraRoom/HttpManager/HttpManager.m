@@ -11,6 +11,8 @@
 #import "URL.h"
 #import "HttpClient.h"
 #import "LogManager.h"
+#import "HMRespone.h"
+#import "HMError.h"
 
 static HMHttpHeader1 *httpHeader1;
 static NSString *authorization;
@@ -78,5 +80,14 @@ static NSString *authorization;
                  ", url, error.description);
 }
 
+/// 检查返回是否合法
++ (BOOL)checkResp:(HMRespone * _Nonnull)resp failure:(HMFailBlock _Nullable)failure {
+    if(resp.code != 0) {
+        HMError *e = [HMError errorWithCodeType:HMErrorCodeTypeReqFaild extCode:resp.code msg:resp.msg];
+        if(failure) { failure(e); }
+        return false;
+    }
+    return true;
+}
 
 @end

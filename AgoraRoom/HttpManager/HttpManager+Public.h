@@ -10,15 +10,16 @@
 #import "HMResponeParams.h"
 #import "HMRequestParams.h"
 
-typedef void (^HMSuccessAddRoom)(HMResponeParamsAddRoom *_Nonnull);
+typedef void (^HMSuccessBlockAddRoom)(HMResponeParamsAddRoom *_Nonnull);
+typedef void (^HMSuccessBlockBool)(BOOL);
 
 
 NS_ASSUME_NONNULL_BEGIN
 
 @interface HttpManager (Public)
 
-+ (void)requestAddRoom:(HMRequestParamsAddRoom * _Nonnull)request
-               success:(HMSuccessAddRoom _Nullable)success
++ (void)requestAddRoom:(HMReqParamsAddRoom * _Nonnull)request
+               success:(HMSuccessBlockAddRoom _Nullable)success
                failure:(HMFailBlock _Nullable)failure;
 
 

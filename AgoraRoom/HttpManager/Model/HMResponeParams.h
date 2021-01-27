@@ -19,4 +19,17 @@ NS_ASSUME_NONNULL_BEGIN
 
 @end
 
+
+@interface HMResponeParamsBool : NSObject
+
+@property (nonatomic, assign)BOOL ok;
+
+@end
+
+/// 离开房间
+typedef HMResponeParamsBool HMResponeParamsLeaveRoom;
+/// 其他
+typedef HMResponeParamsBool HMResponeParamsUserPermissions;
+
+
 NS_ASSUME_NONNULL_END

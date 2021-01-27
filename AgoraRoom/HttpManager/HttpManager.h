@@ -11,7 +11,7 @@
 typedef void (^HMSuccessBlock)(id _Nullable);
 typedef void (^HMFailBlock)(NSError *_Nonnull);
 
-@class HMHttpHeader1, AFHTTPSessionManager;
+@class HMHttpHeader1, AFHTTPSessionManager, HMRespone;
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -28,6 +28,8 @@ NS_ASSUME_NONNULL_BEGIN
      headers:(NSDictionary<NSString*, NSString*> * _Nullable)headers
      success:(HMSuccessBlock _Nullable)success
      failure:(HMFailBlock _Nullable)failure;
+
++ (BOOL)checkResp:(HMRespone * _Nonnull)resp failure:(HMFailBlock _Nullable)failure;
 
 @end
 

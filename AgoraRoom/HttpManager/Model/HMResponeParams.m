@@ -10,3 +10,6 @@
 
 @implementation HMResponeParamsAddRoom
 @end
+
+@implementation HMResponeParamsBool
+@end

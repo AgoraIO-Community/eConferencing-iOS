@@ -8,6 +8,6 @@
 
 #import "HMRequestParams.h"
 
-@implementation HMRequestParamsAddRoom
+@implementation HMReqParamsAddRoom
 
 @end
