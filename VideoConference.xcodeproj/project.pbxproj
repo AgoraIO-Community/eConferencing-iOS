@@ -7,11 +7,22 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		264B3EF425D0DDA600D9FE39 /* ARConferenceManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 264B3EF025D0DDA600D9FE39 /* ARConferenceManager.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		264B3EF525D0DDA600D9FE39 /* ARConferenceManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 264B3EF125D0DDA600D9FE39 /* ARConferenceManager.m */; };
+		264B3EF625D0DDA600D9FE39 /* ARDataManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 264B3EF225D0DDA600D9FE39 /* ARDataManager.m */; };
+		264B3EF725D0DDA600D9FE39 /* ARDataManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 264B3EF325D0DDA600D9FE39 /* ARDataManager.h */; };
+		264B3EFB25D0DDB800D9FE39 /* ARConferenceEntryParams.m in Sources */ = {isa = PBXBuildFile; fileRef = 264B3EF925D0DDB800D9FE39 /* ARConferenceEntryParams.m */; };
+		264B3EFC25D0DDB800D9FE39 /* ARConferenceEntryParams.h in Headers */ = {isa = PBXBuildFile; fileRef = 264B3EFA25D0DDB800D9FE39 /* ARConferenceEntryParams.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		264B3F0025D0DDD100D9FE39 /* ARError.h in Headers */ = {isa = PBXBuildFile; fileRef = 264B3EFE25D0DDD100D9FE39 /* ARError.h */; };
+		264B3F0125D0DDD100D9FE39 /* ARError.m in Sources */ = {isa = PBXBuildFile; fileRef = 264B3EFF25D0DDD100D9FE39 /* ARError.m */; };
+		264B3F0725D0E7C300D9FE39 /* HMRequestParams+Category.h in Headers */ = {isa = PBXBuildFile; fileRef = 264B3F0525D0E7C300D9FE39 /* HMRequestParams+Category.h */; };
+		264B3F0825D0E7C300D9FE39 /* HMRequestParams+Category.m in Sources */ = {isa = PBXBuildFile; fileRef = 264B3F0625D0E7C300D9FE39 /* HMRequestParams+Category.m */; };
+		264B3F0C25D1187B00D9FE39 /* AgoraRteEngineConfig+Extension.m in Sources */ = {isa = PBXBuildFile; fileRef = 264B3F0A25D1187B00D9FE39 /* AgoraRteEngineConfig+Extension.m */; };
+		264B3F0D25D1187B00D9FE39 /* AgoraRteEngineConfig+Extension.h in Headers */ = {isa = PBXBuildFile; fileRef = 264B3F0B25D1187B00D9FE39 /* AgoraRteEngineConfig+Extension.h */; };
 		2650F66C25AD53A800F122AC /* MeetingVM.m in Sources */ = {isa = PBXBuildFile; fileRef = 2650F66B25AD53A800F122AC /* MeetingVM.m */; };
 		2650F68325AE996F00F122AC /* StarView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2650F68225AE996F00F122AC /* StarView.m */; };
 		2650F68725AE997700F122AC /* StarView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2650F68625AE997700F122AC /* StarView.xib */; };
 		2650F68B25AE9EB000F122AC /* StarAlertVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 2650F68A25AE9EB000F122AC /* StarAlertVC.m */; };
-		2650FA2625B188F100F122AC /* VCManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 2650FA2525B188F100F122AC /* VCManager.m */; };
 		2650FA2F25B189CA00F122AC /* UIView+Constraint.m in Sources */ = {isa = PBXBuildFile; fileRef = 2650FA2E25B189CA00F122AC /* UIView+Constraint.m */; };
 		2650FA3125B189EC00F122AC /* UIColor+Addition.m in Sources */ = {isa = PBXBuildFile; fileRef = 784D22622464187B0065985A /* UIColor+Addition.m */; };
 		2650FA3725B18C4100F122AC /* SetTextFieldCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2650FA3425B18C4100F122AC /* SetTextFieldCell.xib */; };
@@ -31,8 +42,13 @@
 		265FD4772599937900D761B7 /* VideoCellModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 265FD4762599937900D761B7 /* VideoCellModel.m */; };
 		265FD4872599C17C00D761B7 /* MeetingTopView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 265FD4842599C17C00D761B7 /* MeetingTopView.xib */; };
 		265FD4882599C17C00D761B7 /* MeetingTopView.m in Sources */ = {isa = PBXBuildFile; fileRef = 265FD4862599C17C00D761B7 /* MeetingTopView.m */; };
-		265FD48E2599D00C00D761B7 /* MeetingVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 265FD48D2599D00C00D761B7 /* MeetingVC.m */; };
 		265FD4912599D1CF00D761B7 /* MeetingView.m in Sources */ = {isa = PBXBuildFile; fileRef = 265FD4902599D1CF00D761B7 /* MeetingView.m */; };
+		26742FDA25CBE9AF00B552A1 /* VCManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 26742FD925CBE9AF00B552A1 /* VCManager.m */; };
+		26742FE825CBF10E00B552A1 /* BaseVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26742FE725CBF10E00B552A1 /* BaseVC.swift */; };
+		26742FEA25CBF5E000B552A1 /* LoginVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 78F69102246E71FC000A0E71 /* LoginVC.m */; };
+		26742FEF25CBF61200B552A1 /* MeetingVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 265FD48D2599D00C00D761B7 /* MeetingVC.m */; };
+		26742FF525CBF95700B552A1 /* UIScreen+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26742FF425CBF95700B552A1 /* UIScreen+Extension.swift */; };
+		26742FFE25CCEABE00B552A1 /* DebugVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26742FFD25CCEABE00B552A1 /* DebugVC.swift */; };
 		267C748625A6E45F00D93422 /* AgoraRoom.h in Headers */ = {isa = PBXBuildFile; fileRef = 267C748425A6E45F00D93422 /* AgoraRoom.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		267C748925A6E45F00D93422 /* AgoraRoom.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 267C748225A6E45F00D93422 /* AgoraRoom.framework */; };
 		267C748A25A6E45F00D93422 /* AgoraRoom.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 267C748225A6E45F00D93422 /* AgoraRoom.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
@@ -44,18 +60,8 @@
 		267C774025A6F37000D93422 /* CoreTelephony.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 267C773F25A6F37000D93422 /* CoreTelephony.framework */; };
 		267C774225A6F37600D93422 /* VideoToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 267C774125A6F37600D93422 /* VideoToolbox.framework */; };
 		267C774425A6F37E00D93422 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 267C774325A6F37E00D93422 /* SystemConfiguration.framework */; };
-		267C785C25A6FDB900D93422 /* ARConferenceManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 267C785A25A6FDB900D93422 /* ARConferenceManager.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		267C785D25A6FDB900D93422 /* ARConferenceManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 267C785B25A6FDB900D93422 /* ARConferenceManager.m */; };
-		267C786325A6FE4400D93422 /* ARConferenceEntryParams.h in Headers */ = {isa = PBXBuildFile; fileRef = 267C786125A6FE4400D93422 /* ARConferenceEntryParams.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		267C786425A6FE4400D93422 /* ARConferenceEntryParams.m in Sources */ = {isa = PBXBuildFile; fileRef = 267C786225A6FE4400D93422 /* ARConferenceEntryParams.m */; };
 		267C786B25A7019300D93422 /* ARBlockDefine.h in Headers */ = {isa = PBXBuildFile; fileRef = 267C786925A6FFAE00D93422 /* ARBlockDefine.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		267C787025A701FA00D93422 /* ARDataManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 267C786E25A701FA00D93422 /* ARDataManager.h */; };
-		267C787125A701FA00D93422 /* ARDataManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 267C786F25A701FA00D93422 /* ARDataManager.m */; };
 		267C787425A7031000D93422 /* ARDefine.h in Headers */ = {isa = PBXBuildFile; fileRef = 267C787325A7030900D93422 /* ARDefine.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		267C787B25A706FB00D93422 /* AgoraRteEngineConfig+Extension.h in Headers */ = {isa = PBXBuildFile; fileRef = 267C787925A706FB00D93422 /* AgoraRteEngineConfig+Extension.h */; };
-		267C787C25A706FB00D93422 /* AgoraRteEngineConfig+Extension.m in Sources */ = {isa = PBXBuildFile; fileRef = 267C787A25A706FB00D93422 /* AgoraRteEngineConfig+Extension.m */; };
-		267C789E25A7165900D93422 /* ARError.h in Headers */ = {isa = PBXBuildFile; fileRef = 267C789C25A7165900D93422 /* ARError.h */; };
-		267C789F25A7165900D93422 /* ARError.m in Sources */ = {isa = PBXBuildFile; fileRef = 267C789D25A7165900D93422 /* ARError.m */; };
 		267C78AB25A80B7100D93422 /* ConfUserModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 267C78A925A80B7100D93422 /* ConfUserModel.m */; };
 		267C78AC25A80B7100D93422 /* ConfUserModel.h in Headers */ = {isa = PBXBuildFile; fileRef = 267C78AA25A80B7100D93422 /* ConfUserModel.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		267C78B425A80C3500D93422 /* ConfShareBoardUserModel.h in Headers */ = {isa = PBXBuildFile; fileRef = 267C78B225A80C3500D93422 /* ConfShareBoardUserModel.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -69,9 +75,9 @@
 		267C791A25AC31BC00D93422 /* LogManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 267C791825AC31BC00D93422 /* LogManager.m */; };
 		267C791E25AC325800D93422 /* OSSManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 267C791C25AC325800D93422 /* OSSManager.h */; };
 		267C791F25AC325800D93422 /* OSSManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 267C791D25AC325800D93422 /* OSSManager.m */; };
-		267C796C25AC36AA00D93422 /* HttpManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 267C796A25AC36AA00D93422 /* HttpManager.h */; };
+		267C796C25AC36AA00D93422 /* HttpManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 267C796A25AC36AA00D93422 /* HttpManager.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		267C796D25AC36AA00D93422 /* HttpManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 267C796B25AC36AA00D93422 /* HttpManager.m */; };
-		267C797325AC37C300D93422 /* HttpManager+Public.h in Headers */ = {isa = PBXBuildFile; fileRef = 267C797125AC37C300D93422 /* HttpManager+Public.h */; };
+		267C797325AC37C300D93422 /* HttpManager+Public.h in Headers */ = {isa = PBXBuildFile; fileRef = 267C797125AC37C300D93422 /* HttpManager+Public.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		267C797425AC37C300D93422 /* HttpManager+Public.m in Sources */ = {isa = PBXBuildFile; fileRef = 267C797225AC37C300D93422 /* HttpManager+Public.m */; };
 		267C797C25AC384B00D93422 /* CommonModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 267C797825AC384B00D93422 /* CommonModel.m */; };
 		267C797D25AC384B00D93422 /* BaseModel.h in Headers */ = {isa = PBXBuildFile; fileRef = 267C797925AC384B00D93422 /* BaseModel.h */; };
@@ -104,13 +110,13 @@
 		26DF881F259C354B00286DFB /* VideoScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = 26DF881E259C354B00286DFB /* VideoScrollView.m */; };
 		26F799DB25B9329300389F64 /* HMStreamInfo.h in Headers */ = {isa = PBXBuildFile; fileRef = 26F799D925B9329300389F64 /* HMStreamInfo.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		26F799DC25B9329300389F64 /* HMStreamInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 26F799DA25B9329300389F64 /* HMStreamInfo.m */; };
-		26F799E725B9687800389F64 /* HttpManager+Url.h in Headers */ = {isa = PBXBuildFile; fileRef = 26F799E525B9687800389F64 /* HttpManager+Url.h */; };
+		26F799E725B9687800389F64 /* HttpManager+Url.h in Headers */ = {isa = PBXBuildFile; fileRef = 26F799E525B9687800389F64 /* HttpManager+Url.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		26F799E825B9687800389F64 /* HttpManager+Url.m in Sources */ = {isa = PBXBuildFile; fileRef = 26F799E625B9687800389F64 /* HttpManager+Url.m */; };
 		26F799F925B9804C00389F64 /* HttpClient.h in Headers */ = {isa = PBXBuildFile; fileRef = 26F799F725B9804C00389F64 /* HttpClient.h */; };
 		26F799FA25B9804C00389F64 /* HttpClient.m in Sources */ = {isa = PBXBuildFile; fileRef = 26F799F825B9804C00389F64 /* HttpClient.m */; };
-		26F79A0525B983A700389F64 /* HMRequestParams.h in Headers */ = {isa = PBXBuildFile; fileRef = 26F79A0325B983A700389F64 /* HMRequestParams.h */; };
+		26F79A0525B983A700389F64 /* HMRequestParams.h in Headers */ = {isa = PBXBuildFile; fileRef = 26F79A0325B983A700389F64 /* HMRequestParams.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		26F79A0625B983A700389F64 /* HMRequestParams.m in Sources */ = {isa = PBXBuildFile; fileRef = 26F79A0425B983A700389F64 /* HMRequestParams.m */; };
-		26F79A0A25B984C100389F64 /* HMResponeParams.h in Headers */ = {isa = PBXBuildFile; fileRef = 26F79A0825B984C100389F64 /* HMResponeParams.h */; };
+		26F79A0A25B984C100389F64 /* HMResponeParams.h in Headers */ = {isa = PBXBuildFile; fileRef = 26F79A0825B984C100389F64 /* HMResponeParams.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		26F79A0F25B99DA000389F64 /* HMRespone.h in Headers */ = {isa = PBXBuildFile; fileRef = 26F79A0D25B99DA000389F64 /* HMRespone.h */; };
 		26F79A1025B99DA000389F64 /* HMRespone.m in Sources */ = {isa = PBXBuildFile; fileRef = 26F79A0E25B99DA000389F64 /* HMRespone.m */; };
 		780356112465706D001F9624 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 780356132465706D001F9624 /* Localizable.strings */; };
@@ -132,7 +138,6 @@
 		784D22B724655BFA0065985A /* BottomItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 784D22B624655BFA0065985A /* BottomItem.m */; };
 		784D22B924655C040065985A /* BottomItem.xib in Resources */ = {isa = PBXBuildFile; fileRef = 784D22B824655C040065985A /* BottomItem.xib */; };
 		7878493D246D770100455FA2 /* UIImage+Circle.m in Sources */ = {isa = PBXBuildFile; fileRef = 7878493C246D770100455FA2 /* UIImage+Circle.m */; };
-		78F69108246E71FC000A0E71 /* LoginVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 78F69102246E71FC000A0E71 /* LoginVC.m */; };
 		78F69112246E7212000A0E71 /* UserDefaults.m in Sources */ = {isa = PBXBuildFile; fileRef = 78F6910D246E7212000A0E71 /* UserDefaults.m */; };
 		78F69128246E886F000A0E71 /* VideoCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 78F69126246E886F000A0E71 /* VideoCell.m */; };
 		78F69129246E886F000A0E71 /* VideoCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 78F69127246E886F000A0E71 /* VideoCell.xib */; };
@@ -172,6 +177,19 @@
 		02C7D0B714940660B0FA0E15 /* Pods-AgoraRoom.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AgoraRoom.release.xcconfig"; path = "Target Support Files/Pods-AgoraRoom/Pods-AgoraRoom.release.xcconfig"; sourceTree = "<group>"; };
 		0BC5E4E14A0F3AD5CA151FEA /* Pods_VideoConference.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_VideoConference.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		2617487A25A5D04D00EC6473 /* BottomItem.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BottomItem.h; sourceTree = "<group>"; };
+		264B3EF025D0DDA600D9FE39 /* ARConferenceManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ARConferenceManager.h; sourceTree = "<group>"; };
+		264B3EF125D0DDA600D9FE39 /* ARConferenceManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ARConferenceManager.m; sourceTree = "<group>"; };
+		264B3EF225D0DDA600D9FE39 /* ARDataManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ARDataManager.m; sourceTree = "<group>"; };
+		264B3EF325D0DDA600D9FE39 /* ARDataManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ARDataManager.h; sourceTree = "<group>"; };
+		264B3EF925D0DDB800D9FE39 /* ARConferenceEntryParams.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ARConferenceEntryParams.m; sourceTree = "<group>"; };
+		264B3EFA25D0DDB800D9FE39 /* ARConferenceEntryParams.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ARConferenceEntryParams.h; sourceTree = "<group>"; };
+		264B3EFE25D0DDD100D9FE39 /* ARError.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ARError.h; sourceTree = "<group>"; };
+		264B3EFF25D0DDD100D9FE39 /* ARError.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ARError.m; sourceTree = "<group>"; };
+		264B3F0525D0E7C300D9FE39 /* HMRequestParams+Category.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "HMRequestParams+Category.h"; sourceTree = "<group>"; };
+		264B3F0625D0E7C300D9FE39 /* HMRequestParams+Category.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "HMRequestParams+Category.m"; sourceTree = "<group>"; };
+		264B3F0A25D1187B00D9FE39 /* AgoraRteEngineConfig+Extension.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "AgoraRteEngineConfig+Extension.m"; sourceTree = "<group>"; };
+		264B3F0B25D1187B00D9FE39 /* AgoraRteEngineConfig+Extension.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "AgoraRteEngineConfig+Extension.h"; sourceTree = "<group>"; };
+		264B3F0F25D11F6A00D9FE39 /* MeetingVMDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MeetingVMDelegate.h; sourceTree = "<group>"; };
 		2650F66A25AD53A800F122AC /* MeetingVM.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MeetingVM.h; sourceTree = "<group>"; };
 		2650F66B25AD53A800F122AC /* MeetingVM.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MeetingVM.m; sourceTree = "<group>"; };
 		2650F68125AE996F00F122AC /* StarView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = StarView.h; sourceTree = "<group>"; };
@@ -179,8 +197,6 @@
 		2650F68625AE997700F122AC /* StarView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = StarView.xib; sourceTree = "<group>"; };
 		2650F68925AE9EB000F122AC /* StarAlertVC.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = StarAlertVC.h; sourceTree = "<group>"; };
 		2650F68A25AE9EB000F122AC /* StarAlertVC.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = StarAlertVC.m; sourceTree = "<group>"; };
-		2650FA2425B188F100F122AC /* VCManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = VCManager.h; path = ../../../../.Trash/VCManager.h; sourceTree = "<group>"; };
-		2650FA2525B188F100F122AC /* VCManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = VCManager.m; path = ../../../../.Trash/VCManager.m; sourceTree = "<group>"; };
 		2650FA2D25B189CA00F122AC /* UIView+Constraint.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+Constraint.h"; sourceTree = "<group>"; };
 		2650FA2E25B189CA00F122AC /* UIView+Constraint.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+Constraint.m"; sourceTree = "<group>"; };
 		2650FA3425B18C4100F122AC /* SetTextFieldCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SetTextFieldCell.xib; sourceTree = "<group>"; };
@@ -220,6 +236,14 @@
 		265FD48D2599D00C00D761B7 /* MeetingVC.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MeetingVC.m; sourceTree = "<group>"; };
 		265FD48F2599D1CF00D761B7 /* MeetingView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MeetingView.h; sourceTree = "<group>"; };
 		265FD4902599D1CF00D761B7 /* MeetingView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MeetingView.m; sourceTree = "<group>"; };
+		26742FD825CBE9AF00B552A1 /* VCManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VCManager.h; sourceTree = "<group>"; };
+		26742FD925CBE9AF00B552A1 /* VCManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VCManager.m; sourceTree = "<group>"; };
+		26742FDD25CBEB9600B552A1 /* VideoConference-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "VideoConference-Bridging-Header.h"; sourceTree = "<group>"; };
+		26742FDE25CBEB9600B552A1 /* MeetingVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeetingVC.swift; sourceTree = "<group>"; };
+		26742FE225CBF0C400B552A1 /* LoginVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginVC.swift; sourceTree = "<group>"; };
+		26742FE725CBF10E00B552A1 /* BaseVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseVC.swift; sourceTree = "<group>"; };
+		26742FF425CBF95700B552A1 /* UIScreen+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIScreen+Extension.swift"; sourceTree = "<group>"; };
+		26742FFD25CCEABE00B552A1 /* DebugVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DebugVC.swift; sourceTree = "<group>"; };
 		267C748225A6E45F00D93422 /* AgoraRoom.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = AgoraRoom.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		267C748425A6E45F00D93422 /* AgoraRoom.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AgoraRoom.h; sourceTree = "<group>"; };
 		267C748525A6E45F00D93422 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -231,18 +255,8 @@
 		267C773F25A6F37000D93422 /* CoreTelephony.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreTelephony.framework; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX11.1.sdk/System/Library/Frameworks/CoreTelephony.framework; sourceTree = DEVELOPER_DIR; };
 		267C774125A6F37600D93422 /* VideoToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = VideoToolbox.framework; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX11.1.sdk/System/Library/Frameworks/VideoToolbox.framework; sourceTree = DEVELOPER_DIR; };
 		267C774325A6F37E00D93422 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX11.1.sdk/System/Library/Frameworks/SystemConfiguration.framework; sourceTree = DEVELOPER_DIR; };
-		267C785A25A6FDB900D93422 /* ARConferenceManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ARConferenceManager.h; sourceTree = "<group>"; };
-		267C785B25A6FDB900D93422 /* ARConferenceManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ARConferenceManager.m; sourceTree = "<group>"; };
-		267C786125A6FE4400D93422 /* ARConferenceEntryParams.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ARConferenceEntryParams.h; sourceTree = "<group>"; };
-		267C786225A6FE4400D93422 /* ARConferenceEntryParams.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ARConferenceEntryParams.m; sourceTree = "<group>"; };
 		267C786925A6FFAE00D93422 /* ARBlockDefine.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ARBlockDefine.h; sourceTree = "<group>"; };
-		267C786E25A701FA00D93422 /* ARDataManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ARDataManager.h; sourceTree = "<group>"; };
-		267C786F25A701FA00D93422 /* ARDataManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ARDataManager.m; sourceTree = "<group>"; };
 		267C787325A7030900D93422 /* ARDefine.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ARDefine.h; sourceTree = "<group>"; };
-		267C787925A706FB00D93422 /* AgoraRteEngineConfig+Extension.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "AgoraRteEngineConfig+Extension.h"; sourceTree = "<group>"; };
-		267C787A25A706FB00D93422 /* AgoraRteEngineConfig+Extension.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "AgoraRteEngineConfig+Extension.m"; sourceTree = "<group>"; };
-		267C789C25A7165900D93422 /* ARError.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ARError.h; sourceTree = "<group>"; };
-		267C789D25A7165900D93422 /* ARError.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ARError.m; sourceTree = "<group>"; };
 		267C78A925A80B7100D93422 /* ConfUserModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ConfUserModel.m; sourceTree = "<group>"; };
 		267C78AA25A80B7100D93422 /* ConfUserModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ConfUserModel.h; sourceTree = "<group>"; };
 		267C78B225A80C3500D93422 /* ConfShareBoardUserModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ConfShareBoardUserModel.h; sourceTree = "<group>"; };
@@ -461,6 +475,7 @@
 		2650FA4C25B18DEF00F122AC /* VC */ = {
 			isa = PBXGroup;
 			children = (
+				26742FF825CCEA7600B552A1 /* Debug */,
 				2650FA6D25B5B21700F122AC /* Menmber */,
 				2650FA4E25B18E4500F122AC /* Set */,
 				78F69104246E71FC000A0E71 /* Meeting */,
@@ -501,6 +516,7 @@
 		265FD473259990D200D761B7 /* UI */ = {
 			isa = PBXGroup;
 			children = (
+				26742FE625CBF0E700B552A1 /* Base */,
 				26C0F4FC259DB20B0032521E /* Category */,
 				265FD4832599C16600D761B7 /* View */,
 				265FD4742599936200D761B7 /* Model */,
@@ -550,6 +566,30 @@
 			path = View;
 			sourceTree = "<group>";
 		};
+		26742FE625CBF0E700B552A1 /* Base */ = {
+			isa = PBXGroup;
+			children = (
+				26742FE725CBF10E00B552A1 /* BaseVC.swift */,
+			);
+			path = Base;
+			sourceTree = "<group>";
+		};
+		26742FF325CBF93F00B552A1 /* Extension */ = {
+			isa = PBXGroup;
+			children = (
+				26742FF425CBF95700B552A1 /* UIScreen+Extension.swift */,
+			);
+			path = Extension;
+			sourceTree = "<group>";
+		};
+		26742FF825CCEA7600B552A1 /* Debug */ = {
+			isa = PBXGroup;
+			children = (
+				26742FFD25CCEABE00B552A1 /* DebugVC.swift */,
+			);
+			path = Debug;
+			sourceTree = "<group>";
+		};
 		267C748325A6E45F00D93422 /* AgoraRoom */ = {
 			isa = PBXGroup;
 			children = (
@@ -568,10 +608,10 @@
 		267C785F25A6FE0400D93422 /* Main */ = {
 			isa = PBXGroup;
 			children = (
-				267C785A25A6FDB900D93422 /* ARConferenceManager.h */,
-				267C785B25A6FDB900D93422 /* ARConferenceManager.m */,
-				267C786E25A701FA00D93422 /* ARDataManager.h */,
-				267C786F25A701FA00D93422 /* ARDataManager.m */,
+				264B3EF025D0DDA600D9FE39 /* ARConferenceManager.h */,
+				264B3EF125D0DDA600D9FE39 /* ARConferenceManager.m */,
+				264B3EF325D0DDA600D9FE39 /* ARDataManager.h */,
+				264B3EF225D0DDA600D9FE39 /* ARDataManager.m */,
 			);
 			path = Main;
 			sourceTree = "<group>";
@@ -583,11 +623,11 @@
 				267C797A25AC384B00D93422 /* BaseModel.m */,
 				267C797B25AC384B00D93422 /* CommonModel.h */,
 				267C797825AC384B00D93422 /* CommonModel.m */,
+				264B3EFA25D0DDB800D9FE39 /* ARConferenceEntryParams.h */,
+				264B3EF925D0DDB800D9FE39 /* ARConferenceEntryParams.m */,
+				264B3EFE25D0DDD100D9FE39 /* ARError.h */,
+				264B3EFF25D0DDD100D9FE39 /* ARError.m */,
 				267C78AF25A80C2200D93422 /* Dispatch */,
-				267C786125A6FE4400D93422 /* ARConferenceEntryParams.h */,
-				267C786225A6FE4400D93422 /* ARConferenceEntryParams.m */,
-				267C789C25A7165900D93422 /* ARError.h */,
-				267C789D25A7165900D93422 /* ARError.m */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -605,8 +645,10 @@
 		267C787825A706E200D93422 /* Extension */ = {
 			isa = PBXGroup;
 			children = (
-				267C787925A706FB00D93422 /* AgoraRteEngineConfig+Extension.h */,
-				267C787A25A706FB00D93422 /* AgoraRteEngineConfig+Extension.m */,
+				264B3F0525D0E7C300D9FE39 /* HMRequestParams+Category.h */,
+				264B3F0625D0E7C300D9FE39 /* HMRequestParams+Category.m */,
+				264B3F0B25D1187B00D9FE39 /* AgoraRteEngineConfig+Extension.h */,
+				264B3F0A25D1187B00D9FE39 /* AgoraRteEngineConfig+Extension.m */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -669,16 +711,8 @@
 				267C791825AC31BC00D93422 /* LogManager.m */,
 				267C791C25AC325800D93422 /* OSSManager.h */,
 				267C791D25AC325800D93422 /* OSSManager.m */,
-				267C797625AC37F200D93422 /* Model */,
 			);
 			path = Log;
-			sourceTree = "<group>";
-		};
-		267C797625AC37F200D93422 /* Model */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Model;
 			sourceTree = "<group>";
 		};
 		269B7F6425A4769200C003FE /* Layout */ = {
@@ -809,8 +843,10 @@
 		784D209B2463EB810065985A /* VideoConference */ = {
 			isa = PBXGroup;
 			children = (
+				26742FDD25CBEB9600B552A1 /* VideoConference-Bridging-Header.h */,
 				784D22462464159D0065985A /* AppDelegate.h */,
 				784D22482464159D0065985A /* AppDelegate.m */,
+				26742FF325CBF93F00B552A1 /* Extension */,
 				2650FA4C25B18DEF00F122AC /* VC */,
 				265FD4782599AEE600D761B7 /* Category */,
 				265FD473259990D200D761B7 /* UI */,
@@ -910,6 +946,7 @@
 				84D1F32C258B3470006D57CA /* LoginVMDelegate.h */,
 				267C78C525A83B6000D93422 /* LoginInfo.h */,
 				267C78C625A83B6000D93422 /* LoginInfo.m */,
+				26742FE225CBF0C400B552A1 /* LoginVC.swift */,
 			);
 			path = Login;
 			sourceTree = "<group>";
@@ -921,6 +958,8 @@
 				265FD48D2599D00C00D761B7 /* MeetingVC.m */,
 				2650F66A25AD53A800F122AC /* MeetingVM.h */,
 				2650F66B25AD53A800F122AC /* MeetingVM.m */,
+				264B3F0F25D11F6A00D9FE39 /* MeetingVMDelegate.h */,
+				26742FDE25CBEB9600B552A1 /* MeetingVC.swift */,
 			);
 			path = Meeting;
 			sourceTree = "<group>";
@@ -930,8 +969,8 @@
 			children = (
 				78F69110246E7212000A0E71 /* UserDefaults.h */,
 				78F6910D246E7212000A0E71 /* UserDefaults.m */,
-				2650FA2425B188F100F122AC /* VCManager.h */,
-				2650FA2525B188F100F122AC /* VCManager.m */,
+				26742FD825CBE9AF00B552A1 /* VCManager.h */,
+				26742FD925CBE9AF00B552A1 /* VCManager.m */,
 			);
 			path = Manager;
 			sourceTree = "<group>";
@@ -988,20 +1027,18 @@
 			buildActionMask = 2147483647;
 			files = (
 				26F799E725B9687800389F64 /* HttpManager+Url.h in Headers */,
-				267C789E25A7165900D93422 /* ARError.h in Headers */,
 				267C78BB25A80C7300D93422 /* ConfShareScreenUserModel.h in Headers */,
-				267C787025A701FA00D93422 /* ARDataManager.h in Headers */,
 				26F799DB25B9329300389F64 /* HMStreamInfo.h in Headers */,
-				267C787B25A706FB00D93422 /* AgoraRteEngineConfig+Extension.h in Headers */,
+				264B3F0725D0E7C300D9FE39 /* HMRequestParams+Category.h in Headers */,
 				26A27D5825B92A4A00A2D57D /* HMRoom.h in Headers */,
-				267C786325A6FE4400D93422 /* ARConferenceEntryParams.h in Headers */,
 				267C796C25AC36AA00D93422 /* HttpManager.h in Headers */,
 				267C786B25A7019300D93422 /* ARBlockDefine.h in Headers */,
 				267C78D425AC076600D93422 /* AREnums.h in Headers */,
 				267C748625A6E45F00D93422 /* AgoraRoom.h in Headers */,
 				267C787425A7031000D93422 /* ARDefine.h in Headers */,
-				267C785C25A6FDB900D93422 /* ARConferenceManager.h in Headers */,
+				264B3F0025D0DDD100D9FE39 /* ARError.h in Headers */,
 				26AA836425BFB88100024C6C /* HMError.h in Headers */,
+				264B3EF725D0DDA600D9FE39 /* ARDataManager.h in Headers */,
 				267C78B425A80C3500D93422 /* ConfShareBoardUserModel.h in Headers */,
 				267C790925AC309D00D93422 /* URL.h in Headers */,
 				267C78AC25A80B7100D93422 /* ConfUserModel.h in Headers */,
@@ -1009,11 +1046,14 @@
 				267C791925AC31BC00D93422 /* LogManager.h in Headers */,
 				26A27D5325B92A2000A2D57D /* HMUserInfo.h in Headers */,
 				26F79A0A25B984C100389F64 /* HMResponeParams.h in Headers */,
+				264B3F0D25D1187B00D9FE39 /* AgoraRteEngineConfig+Extension.h in Headers */,
+				264B3EF425D0DDA600D9FE39 /* ARConferenceManager.h in Headers */,
 				267C797D25AC384B00D93422 /* BaseModel.h in Headers */,
 				267C797F25AC384B00D93422 /* CommonModel.h in Headers */,
 				267C797325AC37C300D93422 /* HttpManager+Public.h in Headers */,
 				26F79A0525B983A700389F64 /* HMRequestParams.h in Headers */,
 				26F79A0F25B99DA000389F64 /* HMRespone.h in Headers */,
+				264B3EFC25D0DDB800D9FE39 /* ARConferenceEntryParams.h in Headers */,
 				267C791E25AC325800D93422 /* OSSManager.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1072,9 +1112,11 @@
 				TargetAttributes = {
 					267C748125A6E45F00D93422 = {
 						CreatedOnToolsVersion = 12.3;
+						LastSwiftMigration = 1240;
 					};
 					784D20982463EB810065985A = {
 						CreatedOnToolsVersion = 11.2.1;
+						LastSwiftMigration = 1240;
 					};
 				};
 			};
@@ -1207,21 +1249,22 @@
 				26AA836025BECA5100024C6C /* HMResponeParams.m in Sources */,
 				26F799FA25B9804C00389F64 /* HttpClient.m in Sources */,
 				267C791A25AC31BC00D93422 /* LogManager.m in Sources */,
-				267C787C25A706FB00D93422 /* AgoraRteEngineConfig+Extension.m in Sources */,
 				267C796D25AC36AA00D93422 /* HttpManager.m in Sources */,
-				267C785D25A6FDB900D93422 /* ARConferenceManager.m in Sources */,
 				26F799E825B9687800389F64 /* HttpManager+Url.m in Sources */,
 				267C797C25AC384B00D93422 /* CommonModel.m in Sources */,
+				264B3F0125D0DDD100D9FE39 /* ARError.m in Sources */,
+				264B3F0C25D1187B00D9FE39 /* AgoraRteEngineConfig+Extension.m in Sources */,
 				267C78AB25A80B7100D93422 /* ConfUserModel.m in Sources */,
 				26A27D5925B92A4A00A2D57D /* HMRoom.m in Sources */,
+				264B3EFB25D0DDB800D9FE39 /* ARConferenceEntryParams.m in Sources */,
 				26A27D5425B92A2000A2D57D /* HMUserInfo.m in Sources */,
-				267C787125A701FA00D93422 /* ARDataManager.m in Sources */,
+				264B3F0825D0E7C300D9FE39 /* HMRequestParams+Category.m in Sources */,
+				264B3EF625D0DDA600D9FE39 /* ARDataManager.m in Sources */,
 				267C791F25AC325800D93422 /* OSSManager.m in Sources */,
-				267C789F25A7165900D93422 /* ARError.m in Sources */,
 				267C797E25AC384B00D93422 /* BaseModel.m in Sources */,
-				267C786425A6FE4400D93422 /* ARConferenceEntryParams.m in Sources */,
 				26F799DC25B9329300389F64 /* HMStreamInfo.m in Sources */,
 				26F79A1025B99DA000389F64 /* HMRespone.m in Sources */,
+				264B3EF525D0DDA600D9FE39 /* ARConferenceManager.m in Sources */,
 				267C78BA25A80C7300D93422 /* ConfShareScreenUserModel.m in Sources */,
 				26F79A0625B983A700389F64 /* HMRequestParams.m in Sources */,
 				267C78B525A80C3500D93422 /* ConfShareBoardUserModel.m in Sources */,
@@ -1233,24 +1276,26 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				265FD48E2599D00C00D761B7 /* MeetingVC.m in Sources */,
 				26DF880F259C257A00286DFB /* SpeakerLeftItem.m in Sources */,
+				26742FE825CBF10E00B552A1 /* BaseVC.swift in Sources */,
 				78F6912D246EC17E000A0E71 /* PaddingLabel.m in Sources */,
 				2650FA7025B5B24A00F122AC /* MemberVC.m in Sources */,
 				2650FA4A25B18DC900F122AC /* SetImageCell.m in Sources */,
+				26742FFE25CCEABE00B552A1 /* DebugVC.swift in Sources */,
 				2650FA2F25B189CA00F122AC /* UIView+Constraint.m in Sources */,
 				2650FA5125B18E8000F122AC /* LoginSetVC.m in Sources */,
 				2650FA3825B18C4100F122AC /* SetTextFieldCell.m in Sources */,
 				78F69128246E886F000A0E71 /* VideoCell.m in Sources */,
 				784D22772464187B0065985A /* UIView+EEBadge.m in Sources */,
-				78F69108246E71FC000A0E71 /* LoginVC.m in Sources */,
 				2650FA4425B18D4700F122AC /* SetSwitchCell.m in Sources */,
 				7808B29B2468449700B320EB /* SetLabelCell.m in Sources */,
 				2650FA3125B189EC00F122AC /* UIColor+Addition.m in Sources */,
+				26742FEA25CBF5E000B552A1 /* LoginVC.m in Sources */,
 				2650F66C25AD53A800F122AC /* MeetingVM.m in Sources */,
 				26DF8807259B316F00286DFB /* UIScreen+Extension.m in Sources */,
 				26C0F4FF259DB23B0032521E /* UIColor+AppColor.m in Sources */,
 				784936E82469351600DE15AB /* SetArrowCell.m in Sources */,
+				26742FEF25CBF61200B552A1 /* MeetingVC.m in Sources */,
 				784D22B724655BFA0065985A /* BottomItem.m in Sources */,
 				784D20B72463EC090065985A /* BaseViewController.m in Sources */,
 				784D20AF2463EB820065985A /* main.m in Sources */,
@@ -1265,6 +1310,7 @@
 				26DF880A259B349900286DFB /* SpeakerView.m in Sources */,
 				784D22742464187B0065985A /* NSArray+Copy.m in Sources */,
 				784D224B2464159D0065985A /* AppDelegate.m in Sources */,
+				26742FF525CBF95700B552A1 /* UIScreen+Extension.swift in Sources */,
 				26DF8800259B282000286DFB /* MeetingBottomView.m in Sources */,
 				26C0F505259DDB3F0032521E /* MeetingFlowLayoutVideo.m in Sources */,
 				26DF8819259C304700286DFB /* PageCtrlView.m in Sources */,
@@ -1272,10 +1318,10 @@
 				2650FA5F25B53C3800F122AC /* NavigationController.m in Sources */,
 				269B7F5F25A438FA00C003FE /* AudioCell.m in Sources */,
 				78F69112246E7212000A0E71 /* UserDefaults.m in Sources */,
-				2650FA2625B188F100F122AC /* VCManager.m in Sources */,
 				2650FA3D25B18CEA00F122AC /* SetCenterTextCell.m in Sources */,
 				2650FA6425B5702F00F122AC /* SetVC.m in Sources */,
 				269B7F6825A47D1B00C003FE /* MessageView.m in Sources */,
+				26742FDA25CBE9AF00B552A1 /* VCManager.m in Sources */,
 				26C0F50925A2C4E90032521E /* MeetingFlowLayoutAudio.m in Sources */,
 				2650F68325AE996F00F122AC /* StarView.m in Sources */,
 				2650F68B25AE9EB000F122AC /* StarAlertVC.m in Sources */,
@@ -1331,6 +1377,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 3EB70FF205EADD5ED5215469 /* Pods-AgoraRoom.debug.xcconfig */;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
 				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
@@ -1359,7 +1406,7 @@
 				);
 				INFOPLIST_FILE = AgoraRoom/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 14.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.4;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -1368,6 +1415,8 @@
 				PRODUCT_BUNDLE_IDENTIFIER = Agora.AgoraRoom;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
@@ -1378,6 +1427,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 02C7D0B714940660B0FA0E15 /* Pods-AgoraRoom.release.xcconfig */;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
 				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
@@ -1406,7 +1456,7 @@
 				);
 				INFOPLIST_FILE = AgoraRoom/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 14.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.4;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -1415,6 +1465,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = Agora.AgoraRoom;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
@@ -1425,6 +1476,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 2BF2B739A0290A0F7F379176 /* Pods-AgoraRoom.devrelease.xcconfig */;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
 				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
@@ -1453,7 +1505,7 @@
 				);
 				INFOPLIST_FILE = AgoraRoom/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 14.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.4;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -1462,6 +1514,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = Agora.AgoraRoom;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
@@ -1472,6 +1525,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = D76BCC8F50408C534FF7C485 /* Pods-AgoraRoom.qarelease.xcconfig */;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
 				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
@@ -1500,7 +1554,7 @@
 				);
 				INFOPLIST_FILE = AgoraRoom/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 14.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.4;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -1509,6 +1563,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = Agora.AgoraRoom;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
@@ -1571,7 +1626,7 @@
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
-				SWIFT_VERSION = 4.2;
+				SWIFT_VERSION = 5.0;
 			};
 			name = Debug;
 		};
@@ -1624,7 +1679,7 @@
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
-				SWIFT_VERSION = 4.2;
+				SWIFT_VERSION = 5.0;
 				VALIDATE_PRODUCT = YES;
 			};
 			name = Release;
@@ -1634,6 +1689,7 @@
 			baseConfigurationReference = E518D6B1D22836E711436D1A /* Pods-VideoConference.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 16;
@@ -1663,6 +1719,9 @@
 				PRODUCT_BUNDLE_IDENTIFIER = ZYP.test;
 				PRODUCT_NAME = "Agora Meeting";
 				PROVISIONING_PROFILE_SPECIFIER = "";
+				SWIFT_OBJC_BRIDGING_HEADER = "VideoConference/VideoConference-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
@@ -1672,6 +1731,7 @@
 			baseConfigurationReference = FEC05613756A2D985355EFEC /* Pods-VideoConference.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 16;
@@ -1701,6 +1761,8 @@
 				PRODUCT_BUNDLE_IDENTIFIER = ZYP.test;
 				PRODUCT_NAME = "Agora Meeting";
 				PROVISIONING_PROFILE_SPECIFIER = "";
+				SWIFT_OBJC_BRIDGING_HEADER = "VideoConference/VideoConference-Bridging-Header.h";
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
@@ -1754,7 +1816,7 @@
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
-				SWIFT_VERSION = 4.2;
+				SWIFT_VERSION = 5.0;
 				VALIDATE_PRODUCT = YES;
 			};
 			name = QARelease;
@@ -1764,6 +1826,7 @@
 			baseConfigurationReference = EE07238783FA1EC3CA49D426 /* Pods-VideoConference.qarelease.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 16;
@@ -1793,6 +1856,8 @@
 				PRODUCT_BUNDLE_IDENTIFIER = ZYP.test;
 				PRODUCT_NAME = "Agora Meeting";
 				PROVISIONING_PROFILE_SPECIFIER = "";
+				SWIFT_OBJC_BRIDGING_HEADER = "VideoConference/VideoConference-Bridging-Header.h";
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = QARelease;
@@ -1846,7 +1911,7 @@
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
-				SWIFT_VERSION = 4.2;
+				SWIFT_VERSION = 5.0;
 				VALIDATE_PRODUCT = YES;
 			};
 			name = DevRelease;
@@ -1856,6 +1921,7 @@
 			baseConfigurationReference = A3AA1CDDED4E961CF4E62543 /* Pods-VideoConference.devrelease.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 16;
@@ -1885,6 +1951,8 @@
 				PRODUCT_BUNDLE_IDENTIFIER = ZYP.test;
 				PRODUCT_NAME = "Agora Meeting";
 				PROVISIONING_PROFILE_SPECIFIER = "";
+				SWIFT_OBJC_BRIDGING_HEADER = "VideoConference/VideoConference-Bridging-Header.h";
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = DevRelease;

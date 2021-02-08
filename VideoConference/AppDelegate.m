@@ -8,6 +8,8 @@
 
 #import "AppDelegate.h"
 #import <IQKeyboardManager/IQKeyboardManager.h>
+#import <AgoraRoom/AgoraRoom.h>
+#import "KeyCenter.h"
 
 @interface AppDelegate ()
 
@@ -19,6 +21,7 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
 
 //    IQKeyboardManager.sharedManager.enableAutoToolbar = NO;
+    [HttpManager setAppId: [KeyCenter agoraAppid]];
     IQKeyboardManager.sharedManager.shouldResignOnTouchOutside = YES;
     
     return YES;

@@ -36,6 +36,7 @@ PODS:
   - dsBridge (3.0.6)
   - IQKeyboardManager (6.5.6)
   - SSZipArchive (2.2.3)
+  - SVProgressHUD (2.2.5)
   - Whiteboard (2.6.4):
     - Whiteboard/Base (= 2.6.4)
     - Whiteboard/Converter (= 2.6.4)
@@ -68,6 +69,7 @@ DEPENDENCIES:
   - AliyunOSSiOS
   - CocoaLumberjack (= 3.6.1)
   - IQKeyboardManager
+  - SVProgressHUD
   - Whiteboard (= 2.6.4)
   - YYModel
 
@@ -84,6 +86,7 @@ SPEC REPOS:
     - dsBridge
     - IQKeyboardManager
     - SSZipArchive
+    - SVProgressHUD
     - Whiteboard
     - YYModel
 
@@ -104,9 +107,10 @@ SPEC CHECKSUMS:
   dsBridge: 48b62ee8a411ad601a88d6f6c8cf6cb634b206b7
   IQKeyboardManager: 2a6e97afdafc7becf0cb17a9a8d795e3a980717f
   SSZipArchive: 62d4947b08730e4cda640473b0066d209ff033c9
+  SVProgressHUD: 1428aafac632c1f86f62aa4243ec12008d7a51d6
   Whiteboard: 79ab8b3ba0a3bcd573c9a77a23da5ef07e7a0f5d
   YYModel: 2a7fdd96aaa4b86a824e26d0c517de8928c04b30
 
-PODFILE CHECKSUM: 6d0923fd797d96c168b0d52a0f90e190a2a946e7
+PODFILE CHECKSUM: 85159367220a0a492c36bd8384afff7267602999
 
 COCOAPODS: 1.10.0

@@ -22,8 +22,9 @@
 #import "MeetingBottomView.h"
 #import "MemberVC.h"
 #import "SetVC.h"
+#import <AgoraRoom/AgoraRoom.h>
 
-@interface MeetingVC ()<UICollectionViewDelegate, UICollectionViewDataSource, MeetingViewDelegate, MeetingTopViewDelegate, VideoCellDelegate, MeetingBottomViewDelegate>
+@interface MeetingVC ()<UICollectionViewDelegate, UICollectionViewDataSource, MeetingViewDelegate, MeetingTopViewDelegate, VideoCellDelegate, MeetingBottomViewDelegate, MeetingVMDelegate>
 
 @property (nonatomic, strong)MeetingView *mainView;
 @property (nonatomic, strong)MeetingVM *vm;
@@ -40,6 +41,10 @@
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     [self.navigationController setNavigationBarHidden:true animated:animated];
+}
+
+- (void)dealloc {
+    NSLog(@"dealloc");
 }
 
 - (void)setup {
@@ -65,6 +70,7 @@
     [_mainView.collectionView registerNib:audioNib forCellWithReuseIdentifier:audioIdf];
     
     _vm = [MeetingVM new];
+    _vm.delegate = self;
     [_vm start];
 }
 
@@ -181,7 +187,7 @@
 #pragma MeetingTopViewDelegate
 
 - (void)MeetingTopViewDidTapLeaveButton {
-    [self dismissViewControllerAnimated:true completion:nil];
+    [self.vm leave];
 }
 
 #pragma VideoCellDelegate
@@ -202,6 +208,16 @@
     if(type == MeetingBottomViewButtonTypeMore) {
         [self showMoreAlert];
     }
+}
+
+#pragma MeetingVMDelegate
+
+- (void)meetingVMDidLeaveRoom {
+    [self dismissViewControllerAnimated:true completion:nil];
+}
+
+- (void)meetingVMLeaveRoomErrorWithTips:(NSString *)tips {
+    [self showToast:tips];
 }
 
 @end

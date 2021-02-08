@@ -14,33 +14,91 @@
 #import "AgoraRteEngineConfig+Extension.h"
 #import "ARError.h"
 #import <AgoraRte/AgoraRteObjects.h>
+#import "HttpManager+Public.h"
+#import "HMRequestParams+Category.h"
+#import "HMResponeParams.h"
+
 
 @implementation ARConferenceManager
 
+/// jion or create a room
 + (void)entryRoomWithParams:(ARConferenceEntryParams *)params
                successBlock:(ARVoidBlock)successBlock
                   failBlock:(ARErrorBlock)failBlock {
-    
-    ARDataManager.share.entryParams = params;
-    AgoraRteEngineConfig *config = [AgoraRteEngineConfig instanceWithEntryparams:params];
-    
-    [AgoraRteEngine createWithConfig:config success:^(AgoraRteEngine *engine) {
-        AgoraRteSceneConfig *sceneConfig = [[AgoraRteSceneConfig alloc] initWithSceneId:params.roomUuid];
-        AgoraRteScene *scene = [engine createAgoraRteScene:sceneConfig];
+    dispatch_queue_t queue = ARDataManager.share.requsetQueue;
+    dispatch_async(queue, ^{
+        dispatch_semaphore_t semp = dispatch_semaphore_create(0);
+        __block NSError *error;
+        __block HMResponeParamsAddRoom *resp;
+        __block AgoraRteEngine *rteEngine;
+        __block AgoraRteLocalUser *localUser;
         
-        AgoraRteSceneJoinOptions *joinOptions = [[AgoraRteSceneJoinOptions alloc] initWithUserName:params.userName userRole:@""];
-        [scene joinWithOptions:joinOptions success:^(AgoraRteLocalUser *user) {
-            ARDataManager.share.rteEngine = engine;
-            ARDataManager.share.scene = scene;
-            successBlock();
-        } fail:^(AgoraRteError *error) {
-            ARError *arError = [ARError errorWithRteError:error];
-            failBlock(arError);
+        // 1. server join
+        HMReqParamsAddRoom *reqParams = [HMReqParamsAddRoom instanceWithEntryParams:params];
+        [HttpManager requestAddRoom:reqParams success:^(HMResponeParamsAddRoom *addRoomResp) {
+             resp = addRoomResp;
+            dispatch_semaphore_signal(semp);
+        } failure:^(NSError *e) {
+            error = e;
+            dispatch_semaphore_signal(semp);
         }];
-    } fail:^(AgoraRteError *error) {
-        ARError *arError = [ARError errorWithRteError:error];
-        failBlock(arError);
-    }];
+        dispatch_semaphore_wait(semp, -1);
+        if(error != nil) {
+            dispatch_sync(dispatch_get_main_queue(), ^{
+                failBlock(error);
+            });
+            return;
+        }
+        
+        // 2. create RteEngine
+        ARDataManager.share.entryParams = params;
+        AgoraRteEngineConfig *config = [AgoraRteEngineConfig instanceWithEntryparams:params];
+        [AgoraRteEngine createWithConfig:config success:^(AgoraRteEngine *engine) {
+            rteEngine = engine;
+            dispatch_semaphore_signal(semp);
+        } fail:^(AgoraRteError *e) {
+            ARError *arError = [ARError errorWithRteError:e];
+            error = arError;
+            dispatch_semaphore_signal(semp);
+        }];
+        dispatch_semaphore_wait(semp, -1);
+        if(error != nil) {
+            dispatch_sync(dispatch_get_main_queue(), ^{
+                failBlock(error);
+            });
+            return;
+        }
+        
+        // 3. rte join
+        AgoraRteSceneConfig *sceneConfig = [[AgoraRteSceneConfig alloc] initWithSceneId:params.roomUuid];
+        AgoraRteScene *scene = [rteEngine createAgoraRteScene:sceneConfig];
+        AgoraRteSceneJoinOptions *joinOptions = [[AgoraRteSceneJoinOptions alloc] initWithUserName:params.userName userRole:resp.userRole];
+        
+        [scene joinWithOptions:joinOptions success:^(AgoraRteLocalUser *user) {
+            localUser = user;
+            dispatch_semaphore_signal(semp);
+        } fail:^(AgoraRteError *e) {
+            ARError *arError = [ARError errorWithRteError:e];
+            error = arError;
+            dispatch_semaphore_signal(semp);
+        }];
+        dispatch_semaphore_wait(semp, -1);
+        if(error != nil) {
+            dispatch_sync(dispatch_get_main_queue(), ^{
+                failBlock(error);
+            });
+            return;
+        }
+        
+        dispatch_sync(dispatch_get_main_queue(), ^{
+            ARDataManager.share.rteEngine = rteEngine;
+            ARDataManager.share.scene = scene;
+            ARDataManager.share.localuser = localUser;
+            ARDataManager.share.entryParams = params;
+            successBlock();
+        });
+    });
+    
 }
 
 + (AgoraRteEngine *)getRteEngine {
@@ -58,6 +116,7 @@
 + (AgoraRteLocalUser *)getLocalUser {
     return ARDataManager.share.localuser;
 }
+
 
 
 @end

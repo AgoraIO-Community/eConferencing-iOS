@@ -117,6 +117,7 @@
     params.enableVideo = info.enableVideo;
     params.userUuid = info.userName;
     params.roomUuid = info.roomName;
+    params.password = info.password;
     params.appId = [KeyCenter agoraAppid];
     params.customerId = [KeyCenter customerId];
     params.customerCertificate = [KeyCenter customerCertificate];

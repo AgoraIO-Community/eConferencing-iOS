@@ -17,6 +17,7 @@
 #import "SetVC.h"
 #import "MemberVC.h"
 #import "NavigationController.h"
+#import "Agora_Meeting-Swift.h"
 
 @interface LoginVC ()<UITextViewDelegate, LoginVMDelegate>
 
@@ -45,6 +46,11 @@
     self.view.backgroundColor = UIColor.whiteColor;
     _vm = [LoginVM new];
     _vm.delegate = self;
+#ifdef DEBUG
+    _roomName.text = @"testios1";
+    _userName.text = @"zyp";
+    
+#endif
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -96,9 +102,6 @@
     [self.view endEditing:YES];
     self.tipView.hidden = YES;
     
-    [self showMeetingVC];
-    return;
-    
     NSString *userName = self.userName.text;
     NSString *roomPsd = self.roomPsd.text;
     NSString *roomName = self.roomName.text;
@@ -106,7 +109,7 @@
     NSString *tipString = [LoginVM checkInputWithUserName:userName
                                                   roomPsd:roomPsd
                                                  roomName:roomName];
-    if (tipString != nil ) {
+    if (tipString != nil) {
         [self showToast:tipString];
         return;
     }
@@ -138,6 +141,11 @@
 
 - (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {
     self.tipView.hidden = YES;
+    
+#ifdef DEBUG
+    DebugVC *vc = [DebugVC new];
+    [self.navigationController pushViewController:vc animated: true];
+#endif
 }
 
 - (BOOL)textViewShouldBeginEditing:(UITextView *)textView {
@@ -156,6 +164,8 @@
     nvc.modalPresentationStyle = UIModalPresentationFullScreen;
     [self presentViewController:nvc animated:true completion:nil];
 }
+
+
 
 #pragma LoginVMDelegate
 

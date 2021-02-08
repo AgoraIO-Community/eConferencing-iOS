@@ -7,16 +7,20 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "MeetingVMDelegate.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
 @interface MeetingVM : NSObject
+
+@property (nonatomic, weak)id<MeetingVMDelegate> delegate;
 
 - (void)start;
 - (void)openVideoTrack;
 - (void)closeVideoTrack;
 - (void)openAudioTrack;
 - (void)closeAudioTrack;
+- (void)leave;
 
 @end
 

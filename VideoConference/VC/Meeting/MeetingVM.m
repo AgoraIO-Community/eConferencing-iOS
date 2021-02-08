@@ -9,6 +9,7 @@
 #import "MeetingVM.h"
 #import <AgoraRoom/AgoraRoom.h>
 #import <AgoraRte/AgoraRteEngine.h>
+#import "MeetingVMDelegate.h"
 
 @interface MeetingVM ()<AgoraRteLocalUserDelegate, AgoraRteMediaStreamDelegate>
 
@@ -68,6 +69,19 @@
 - (void)closeAudioTrack {
     [_audioTrack stop];
     _audioTrack = nil;
+}
+
+- (void)leave {
+    ARConferenceEntryParams *entryParams  = [ARConferenceManager getEntryParams];
+    [HttpManager requestLeaveRoomWithRoomId:entryParams.roomUuid userId:entryParams.userUuid success:^{
+        if ([self.delegate respondsToSelector:@selector(meetingVMDidLeaveRoom)]) {
+            [self.delegate meetingVMDidLeaveRoom];
+        }
+    } faulure:^(NSError * error) {
+        if ([self.delegate respondsToSelector:@selector(meetingVMLeaveRoomErrorWithTips:)]) {
+            [self.delegate meetingVMLeaveRoomErrorWithTips: error.localizedDescription];
+        }
+    }];
 }
 
 #pragma AgoraRteLocalUserDelegate

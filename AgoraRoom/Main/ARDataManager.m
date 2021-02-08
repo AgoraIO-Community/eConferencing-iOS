@@ -17,6 +17,7 @@ static ARDataManager *manager = nil;
         static dispatch_once_t onceToken;
         dispatch_once(&onceToken, ^{
             manager = [ARDataManager new];
+            manager.requsetQueue = dispatch_queue_create("com.agore.room.conferenceManager", DISPATCH_QUEUE_SERIAL);
         });
     }
     return manager;

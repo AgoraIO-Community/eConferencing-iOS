@@ -36,7 +36,7 @@
 /// 离开房间
 + (void)requestLeaveRoomWithRoomId:(NSString *)roomId
                             userId:(NSString *)userId
-                           success:(HMSuccessBlockBool _Nullable)success
+                           success:(HMSuccessBlockVoid _Nullable)success
                            faulure:(HMFailBlock _Nullable)failure {
     NSString *url = [HttpManager urlLeaveRoomWitthRoomId:roomId userId:userId];
     NSDictionary *params = @{@"roomId": roomId,
@@ -44,8 +44,7 @@
     [HttpManager post:url params:params headers:nil success:^(id responeObj) {
         HMRespone *resp = [HMRespone yy_modelWithDictionary:responeObj];
         if(![self checkResp:resp failure:failure]) { return; }
-        HMResponeParamsBool *respParams  = [HMResponeParamsBool yy_modelWithDictionary:responeObj];
-        if(success) { success(respParams.ok); }
+        if(success) { success(); }
     } failure:^(NSError * error) {
         if(error) { failure(error); }
     }];

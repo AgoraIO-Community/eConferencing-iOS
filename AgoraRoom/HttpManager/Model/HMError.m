@@ -12,8 +12,13 @@
 
 + (instancetype)errorWithCodeType:(HMErrorCodeType)type
                           extCode:(NSInteger)extCode
-                              msg:(NSString *)msg {
-    NSString *desc = [NSString stringWithFormat:@"%@（%ld）", msg, extCode];
+                              msg:(NSString *)msg
+                             data:(nullable id)data {
+    NSString *str = @"";
+    if (data != nil) {
+        str = (NSString *)data;
+    }
+    NSString *desc = [NSString stringWithFormat:@"%@（%ld）: %@", msg, extCode, str];
     NSDictionary *userInfo = @{NSLocalizedDescriptionKey: desc};
     return [[HMError alloc] initWithDomain:@"com.agora.meeting.hmerror" code:type userInfo:userInfo];
 }

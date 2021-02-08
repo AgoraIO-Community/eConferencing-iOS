@@ -20,7 +20,7 @@ NS_ASSUME_NONNULL_BEGIN
 /// code 类型
 @property(nonatomic, assign)HMErrorCodeType type;
 
-+ (instancetype)errorWithCodeType:(HMErrorCodeType)type extCode:(NSInteger)extCode msg:(NSString *)msg;
++ (instancetype)errorWithCodeType:(HMErrorCodeType)type extCode:(NSInteger)extCode msg:(NSString *)msg data:(nullable id)data;
 - (instancetype)initWithDomain:(NSErrorDomain)domain code:(NSInteger)code userInfo:(nullable NSDictionary<NSErrorUserInfoKey, id> *)dict NS_UNAVAILABLE;
 + (instancetype)errorWithDomain:(NSErrorDomain)domain code:(NSInteger)code userInfo:(nullable NSDictionary<NSErrorUserInfoKey, id> *)dict NS_UNAVAILABLE;
 

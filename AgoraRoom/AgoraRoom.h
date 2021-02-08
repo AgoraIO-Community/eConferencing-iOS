@@ -13,8 +13,11 @@
 #import <AgoraRoom/ConfShareBoardUserModel.h>
 #import <AgoraRoom/ConfShareScreenUserModel.h>
 #import <AgoraRoom/AREnums.h>
-
-
+#import <AgoraRoom/HMRequestParams.h>
+#import <AgoraRoom/HttpManager+Public.h>
+#import <AgoraRoom/HttpManager+Url.h>
+#import <AgoraRoom/HMResponeParams.h>
+#import <AgoraRoom/HttpManager+Url.h>
 
 //! Project version number for AgoraRoom.
 FOUNDATION_EXPORT double AgoraRoomVersionNumber;

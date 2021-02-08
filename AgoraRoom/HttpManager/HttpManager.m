@@ -45,7 +45,7 @@ static NSString *authorization;
     
     [self logWithUrl:url headers:headers params:params];
     
-    [HttpClient.share.sessionManager POST:url parameters:params headers:headers constructingBodyWithBlock:nil progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+    [HttpClient.share.sessionManager POST:url parameters:params headers:headers progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
         [self logWithUrl:url response:responseObject];
         if(success) { success(responseObject); }
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
@@ -83,7 +83,7 @@ static NSString *authorization;
 /// 检查返回是否合法
 + (BOOL)checkResp:(HMRespone * _Nonnull)resp failure:(HMFailBlock _Nullable)failure {
     if(resp.code != 0) {
-        HMError *e = [HMError errorWithCodeType:HMErrorCodeTypeReqFaild extCode:resp.code msg:resp.msg];
+        HMError *e = [HMError errorWithCodeType:HMErrorCodeTypeReqFaild extCode:resp.code msg:resp.msg data:resp.data];
         if(failure) { failure(e); }
         return false;
     }

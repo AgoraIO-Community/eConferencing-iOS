@@ -25,6 +25,8 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, strong)AgoraRteCameraVideoTrack *cameraVideoTrack;
 @property (nonatomic, strong)AgoraRteMicrophoneAudioTrack *microphoneAudioTrack;
 
+@property (nonatomic, strong)dispatch_queue_t requsetQueue;
+
 
 @end
 

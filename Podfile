@@ -10,6 +10,7 @@ target 'VideoConference' do
   pod "IQKeyboardManager"
 #  pod 'AgoraRoom', :path => '/Users/zyp/Agora/AgoraRoom/AgoraRoom.podspec'
   pod 'AgoraRte', :path => '/Users/zyp/Agora/common-scene-sdk/iOS/AgoraRte.podspec'
+  pod 'SVProgressHUD'
 end
 
 target 'AgoraRoom' do
@@ -35,4 +36,3 @@ end
 target "ReplayKitUIModule" do
   project 'Modules/ReplayKitUIModule/ReplayKitUIModule.xcodeproj'
 end
-
