@@ -95,6 +95,7 @@
             ARDataManager.share.scene = scene;
             ARDataManager.share.localuser = localUser;
             ARDataManager.share.entryParams = params;
+            ARDataManager.share.addRoomResp = resp;
             successBlock();
         });
     });
@@ -117,6 +118,8 @@
     return ARDataManager.share.localuser;
 }
 
-
++ (HMResponeParamsAddRoom *)getAddRoomResp {
+    return ARDataManager.share.addRoomResp;
+}
 
 @end

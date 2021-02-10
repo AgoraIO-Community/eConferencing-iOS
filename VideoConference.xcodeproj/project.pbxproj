@@ -19,7 +19,9 @@
 		264B3F0825D0E7C300D9FE39 /* HMRequestParams+Category.m in Sources */ = {isa = PBXBuildFile; fileRef = 264B3F0625D0E7C300D9FE39 /* HMRequestParams+Category.m */; };
 		264B3F0C25D1187B00D9FE39 /* AgoraRteEngineConfig+Extension.m in Sources */ = {isa = PBXBuildFile; fileRef = 264B3F0A25D1187B00D9FE39 /* AgoraRteEngineConfig+Extension.m */; };
 		264B3F0D25D1187B00D9FE39 /* AgoraRteEngineConfig+Extension.h in Headers */ = {isa = PBXBuildFile; fileRef = 264B3F0B25D1187B00D9FE39 /* AgoraRteEngineConfig+Extension.h */; };
-		2650F66C25AD53A800F122AC /* MeetingVM.m in Sources */ = {isa = PBXBuildFile; fileRef = 2650F66B25AD53A800F122AC /* MeetingVM.m */; };
+		264B3F1125D127FD00D9FE39 /* MeetingVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26742FDE25CBEB9600B552A1 /* MeetingVC.swift */; };
+		264B3F1425D12FE000D9FE39 /* MeetingVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 264B3F1325D12FE000D9FE39 /* MeetingVM.swift */; };
+		264B3F1725D22AFB00D9FE39 /* MeetingVMProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 264B3F1625D22AFB00D9FE39 /* MeetingVMProtocol.swift */; };
 		2650F68325AE996F00F122AC /* StarView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2650F68225AE996F00F122AC /* StarView.m */; };
 		2650F68725AE997700F122AC /* StarView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2650F68625AE997700F122AC /* StarView.xib */; };
 		2650F68B25AE9EB000F122AC /* StarAlertVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 2650F68A25AE9EB000F122AC /* StarAlertVC.m */; };
@@ -46,7 +48,6 @@
 		26742FDA25CBE9AF00B552A1 /* VCManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 26742FD925CBE9AF00B552A1 /* VCManager.m */; };
 		26742FE825CBF10E00B552A1 /* BaseVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26742FE725CBF10E00B552A1 /* BaseVC.swift */; };
 		26742FEA25CBF5E000B552A1 /* LoginVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 78F69102246E71FC000A0E71 /* LoginVC.m */; };
-		26742FEF25CBF61200B552A1 /* MeetingVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 265FD48D2599D00C00D761B7 /* MeetingVC.m */; };
 		26742FF525CBF95700B552A1 /* UIScreen+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26742FF425CBF95700B552A1 /* UIScreen+Extension.swift */; };
 		26742FFE25CCEABE00B552A1 /* DebugVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26742FFD25CCEABE00B552A1 /* DebugVC.swift */; };
 		267C748625A6E45F00D93422 /* AgoraRoom.h in Headers */ = {isa = PBXBuildFile; fileRef = 267C748425A6E45F00D93422 /* AgoraRoom.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -189,9 +190,8 @@
 		264B3F0625D0E7C300D9FE39 /* HMRequestParams+Category.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "HMRequestParams+Category.m"; sourceTree = "<group>"; };
 		264B3F0A25D1187B00D9FE39 /* AgoraRteEngineConfig+Extension.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "AgoraRteEngineConfig+Extension.m"; sourceTree = "<group>"; };
 		264B3F0B25D1187B00D9FE39 /* AgoraRteEngineConfig+Extension.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "AgoraRteEngineConfig+Extension.h"; sourceTree = "<group>"; };
-		264B3F0F25D11F6A00D9FE39 /* MeetingVMDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MeetingVMDelegate.h; sourceTree = "<group>"; };
-		2650F66A25AD53A800F122AC /* MeetingVM.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MeetingVM.h; sourceTree = "<group>"; };
-		2650F66B25AD53A800F122AC /* MeetingVM.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MeetingVM.m; sourceTree = "<group>"; };
+		264B3F1325D12FE000D9FE39 /* MeetingVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeetingVM.swift; sourceTree = "<group>"; };
+		264B3F1625D22AFB00D9FE39 /* MeetingVMProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeetingVMProtocol.swift; sourceTree = "<group>"; };
 		2650F68125AE996F00F122AC /* StarView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = StarView.h; sourceTree = "<group>"; };
 		2650F68225AE996F00F122AC /* StarView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = StarView.m; sourceTree = "<group>"; };
 		2650F68625AE997700F122AC /* StarView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = StarView.xib; sourceTree = "<group>"; };
@@ -232,8 +232,6 @@
 		265FD4852599C17C00D761B7 /* MeetingTopView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MeetingTopView.h; sourceTree = "<group>"; };
 		265FD4862599C17C00D761B7 /* MeetingTopView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MeetingTopView.m; sourceTree = "<group>"; };
 		265FD4892599C49C00D761B7 /* MeetingTopViewDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MeetingTopViewDelegate.h; sourceTree = "<group>"; };
-		265FD48C2599D00C00D761B7 /* MeetingVC.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MeetingVC.h; sourceTree = "<group>"; };
-		265FD48D2599D00C00D761B7 /* MeetingVC.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MeetingVC.m; sourceTree = "<group>"; };
 		265FD48F2599D1CF00D761B7 /* MeetingView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MeetingView.h; sourceTree = "<group>"; };
 		265FD4902599D1CF00D761B7 /* MeetingView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MeetingView.m; sourceTree = "<group>"; };
 		26742FD825CBE9AF00B552A1 /* VCManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VCManager.h; sourceTree = "<group>"; };
@@ -954,12 +952,9 @@
 		78F69104246E71FC000A0E71 /* Meeting */ = {
 			isa = PBXGroup;
 			children = (
-				265FD48C2599D00C00D761B7 /* MeetingVC.h */,
-				265FD48D2599D00C00D761B7 /* MeetingVC.m */,
-				2650F66A25AD53A800F122AC /* MeetingVM.h */,
-				2650F66B25AD53A800F122AC /* MeetingVM.m */,
-				264B3F0F25D11F6A00D9FE39 /* MeetingVMDelegate.h */,
 				26742FDE25CBEB9600B552A1 /* MeetingVC.swift */,
+				264B3F1325D12FE000D9FE39 /* MeetingVM.swift */,
+				264B3F1625D22AFB00D9FE39 /* MeetingVMProtocol.swift */,
 			);
 			path = Meeting;
 			sourceTree = "<group>";
@@ -1284,6 +1279,7 @@
 				26742FFE25CCEABE00B552A1 /* DebugVC.swift in Sources */,
 				2650FA2F25B189CA00F122AC /* UIView+Constraint.m in Sources */,
 				2650FA5125B18E8000F122AC /* LoginSetVC.m in Sources */,
+				264B3F1725D22AFB00D9FE39 /* MeetingVMProtocol.swift in Sources */,
 				2650FA3825B18C4100F122AC /* SetTextFieldCell.m in Sources */,
 				78F69128246E886F000A0E71 /* VideoCell.m in Sources */,
 				784D22772464187B0065985A /* UIView+EEBadge.m in Sources */,
@@ -1291,11 +1287,10 @@
 				7808B29B2468449700B320EB /* SetLabelCell.m in Sources */,
 				2650FA3125B189EC00F122AC /* UIColor+Addition.m in Sources */,
 				26742FEA25CBF5E000B552A1 /* LoginVC.m in Sources */,
-				2650F66C25AD53A800F122AC /* MeetingVM.m in Sources */,
 				26DF8807259B316F00286DFB /* UIScreen+Extension.m in Sources */,
 				26C0F4FF259DB23B0032521E /* UIColor+AppColor.m in Sources */,
 				784936E82469351600DE15AB /* SetArrowCell.m in Sources */,
-				26742FEF25CBF61200B552A1 /* MeetingVC.m in Sources */,
+				264B3F1125D127FD00D9FE39 /* MeetingVC.swift in Sources */,
 				784D22B724655BFA0065985A /* BottomItem.m in Sources */,
 				784D20B72463EC090065985A /* BaseViewController.m in Sources */,
 				784D20AF2463EB820065985A /* main.m in Sources */,
@@ -1319,6 +1314,7 @@
 				269B7F5F25A438FA00C003FE /* AudioCell.m in Sources */,
 				78F69112246E7212000A0E71 /* UserDefaults.m in Sources */,
 				2650FA3D25B18CEA00F122AC /* SetCenterTextCell.m in Sources */,
+				264B3F1425D12FE000D9FE39 /* MeetingVM.swift in Sources */,
 				2650FA6425B5702F00F122AC /* SetVC.m in Sources */,
 				269B7F6825A47D1B00C003FE /* MessageView.m in Sources */,
 				26742FDA25CBE9AF00B552A1 /* VCManager.m in Sources */,

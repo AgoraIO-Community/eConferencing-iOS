@@ -11,7 +11,7 @@
 @implementation KeyCenter
 
 + (NSString *)agoraAppid {
-    return @"d8e1a9cb336449cfb8a7149b019342d7";
+    return @"f488493d1886435f963dfb3d95984fd4";
 }
 
 + (NSString *)authorization {

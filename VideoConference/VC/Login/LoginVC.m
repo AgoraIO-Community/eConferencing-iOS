@@ -10,7 +10,6 @@
 #import "LoginVM.h"
 #import "LoginInfo.h"
 #import "UserDefaults.h"
-#import "MeetingVC.h"
 #import "LoginVMDelegate.h"
 #import "LoginSetVC.h"
 #import "VCManager.h"
@@ -49,7 +48,6 @@
 #ifdef DEBUG
     _roomName.text = @"testios1";
     _userName.text = @"zyp";
-    
 #endif
 }
 
@@ -81,7 +79,6 @@
     
 //    LoginSetVC *vc = [LoginSetVC new];
 //    [self.navigationController pushViewController:vc animated:true];
-    
 //    SetVC *vc = [SetVC new];
     
     MemberVC *vc = [MemberVC new];

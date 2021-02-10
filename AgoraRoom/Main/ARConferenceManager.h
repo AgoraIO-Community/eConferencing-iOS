@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import "ARBlockDefine.h"
-@class AgoraRteEngine, AgoraRteScene, AgoraRteLocalUser;
+@class AgoraRteEngine, AgoraRteScene, AgoraRteLocalUser, HMResponeParamsAddRoom;
 
 /** Network type. */
 typedef NS_ENUM(NSInteger, NetworkGrade) {
@@ -32,6 +32,7 @@ NS_ASSUME_NONNULL_BEGIN
 + (AgoraRteScene *)getScene;
 + (ARConferenceEntryParams *)getEntryParams;
 + (AgoraRteLocalUser *)getLocalUser;
++ (HMResponeParamsAddRoom *)getAddRoomResp;
 
 @end
 

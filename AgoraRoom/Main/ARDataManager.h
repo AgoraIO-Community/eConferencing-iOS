@@ -10,7 +10,7 @@
 @class ARConferenceEntryParams;
 @class AgoraRteEngine, AgoraRteScene;
 @class AgoraRteCameraVideoTrack, AgoraRteMicrophoneAudioTrack;
-@class AgoraRteLocalUser;
+@class AgoraRteLocalUser, HMResponeParamsAddRoom;
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -24,6 +24,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, strong)AgoraRteLocalUser *localuser;
 @property (nonatomic, strong)AgoraRteCameraVideoTrack *cameraVideoTrack;
 @property (nonatomic, strong)AgoraRteMicrophoneAudioTrack *microphoneAudioTrack;
+@property (nonatomic, strong)HMResponeParamsAddRoom *addRoomResp;
 
 @property (nonatomic, strong)dispatch_queue_t requsetQueue;
 
